@@ -11,7 +11,7 @@ interface FormFieldProps {
   className?: string;
   error?: string;
   isLoading?: boolean;
-  status?: 'idle' | 'checking' | 'available' | 'unavailable';
+  status?: 'idle' | 'checking' | 'available' | 'unavailable' | 'error';
 }
 
 export const FormField: React.FC<FormFieldProps> = ({

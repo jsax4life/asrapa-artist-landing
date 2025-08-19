@@ -40,8 +40,8 @@ export const SignUpForm: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isCheckingEmail, setIsCheckingEmail] = useState(false);
   const [isCheckingStageName, setIsCheckingStageName] = useState(false);
-  const [emailStatus, setEmailStatus] = useState<'idle' | 'checking' | 'available' | 'unavailable'>('idle');
-  const [stageNameStatus, setStageNameStatus] = useState<'idle' | 'checking' | 'available' | 'unavailable'>('idle');
+  const [emailStatus, setEmailStatus] = useState<'idle' | 'checking' | 'available' | 'unavailable' | 'error'>('idle');
+  const [stageNameStatus, setStageNameStatus] = useState<'idle' | 'checking' | 'available' | 'unavailable' | 'error'>('idle');
   
   const { signup, isSigningUp, checkEmailAvailability, checkStageNameAvailability } = useArtistSignup();
   const { toast } = useToast();
@@ -149,6 +149,16 @@ export const SignUpForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Ensure no availability checks are pending and no errors exist before submitting
+    if (isCheckingEmail || isCheckingStageName || emailStatus === 'error' || stageNameStatus === 'error') {
+      toast({
+        title: "Validation Error",
+        description: "Please wait for availability checks to complete or resolve any network issues.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     if (await validateForm()) {
       const { confirmPassword, ...signupData } = formData;
       signup(signupData);
@@ -188,7 +198,14 @@ export const SignUpForm: React.FC = () => {
           }
         } catch (error) {
           console.error('Error checking email:', error);
-          setEmailStatus('idle');
+          // Show a toast message for network error
+          toast({
+            title: "Network Error",
+            description: "Could not verify email availability. Please check your internet connection.",
+            variant: "destructive",
+          });
+          setEmailStatus('error'); // Set status to error
+          setErrors(prev => ({ ...prev, email: 'Could not verify email. Please try again.' }));
         } finally {
           setIsCheckingEmail(false);
         }
@@ -211,13 +228,20 @@ export const SignUpForm: React.FC = () => {
           }
         } catch (error) {
           console.error('Error checking stage name:', error);
-          setStageNameStatus('idle');
+          // Show a toast message for network error
+          toast({
+            title: "Network Error",
+            description: "Could not verify stage name availability. Please check your internet connection.",
+            variant: "destructive",
+          });
+          setStageNameStatus('error'); // Set status to error
+          setErrors(prev => ({ ...prev, stageName: 'Could not verify stage name. Please try again.' }));
         } finally {
           setIsCheckingStageName(false);
         }
       }
     }, 3000);
-  }, [checkEmailAvailability, checkStageNameAvailability]);
+  }, [checkEmailAvailability, checkStageNameAvailability, toast]); // Added toast as a dependency
 
   // Debounce utility function (cancels previous timer)
   function debounce<T extends (...args: unknown[]) => unknown>(
@@ -261,7 +285,13 @@ export const SignUpForm: React.FC = () => {
         }
       } catch (error) {
         console.error('Error checking email:', error);
-        setEmailStatus('idle');
+        toast({
+          title: "Network Error",
+          description: "Could not verify email availability. Please check your internet connection.",
+          variant: "destructive",
+        });
+        setEmailStatus('error'); // Set status to error
+        setErrors(prev => ({ ...prev, email: 'Could not verify email. Please try again.' }));
       } finally {
         setIsCheckingEmail(false);
       }
@@ -284,7 +314,13 @@ export const SignUpForm: React.FC = () => {
         }
       } catch (error) {
         console.error('Error checking stage name:', error);
-        setStageNameStatus('idle');
+        toast({
+          title: "Network Error",
+          description: "Could not verify stage name availability. Please check your internet connection.",
+          variant: "destructive",
+        });
+        setStageNameStatus('error'); // Set status to error
+        setErrors(prev => ({ ...prev, stageName: 'Could not verify stage name. Please try again.' }));
       } finally {
         setIsCheckingStageName(false);
       }
@@ -451,7 +487,7 @@ export const SignUpForm: React.FC = () => {
                 ? 'bg-green-600 hover:bg-green-700 shadow-lg'
                 : 'bg-[#C40505] hover:bg-[#E60606] disabled:opacity-50 disabled:cursor-not-allowed'
             }`}
-            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable'}
+            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
           >
             {isSigningUp ? (
               <div className="flex items-center gap-2">
