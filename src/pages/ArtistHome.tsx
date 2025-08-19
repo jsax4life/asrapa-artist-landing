@@ -1,7 +1,7 @@
 import React from 'react';
 import HeroSection from '../components/artist-home'
 
-const Index = () => {
+const ArtistHome = () => {
   return (
     <>
     <HeroSection/>
@@ -10,4 +10,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default ArtistHome;

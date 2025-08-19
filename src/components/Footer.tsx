@@ -22,7 +22,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[rgba(18,18,18,1)] flex min-h-[487px] w-full flex-col items-center justify-center mt-[191px] px-2.5 py-[104px] max-md:max-w-full max-md:mt-10 max-md:pb-[100px]">
+    <footer className="bg-[rgba(18,18,18,1)] flex min-h-[487px] w-full flex-col items-center justify-center  px-2.5 py-[104px] max-md:max-w-full max-md:mt-10 max-md:pb-[100px]">
       <div className="flex w-[1344px] max-w-full gap-[40px_100px] justify-between flex-wrap">
         <img
           src="https://api.builder.io/api/v1/image/assets/e4fe701087e74a95b6a29ed12c1bd7bc/83099d7d05c878480fcc6c2e375526e518037144?placeholderIfAbsent=true"

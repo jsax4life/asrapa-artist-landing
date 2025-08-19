@@ -1,26 +1,35 @@
 import React, { useState } from 'react';
 import { Menu } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { ROUTES } from '@/constants/routes';
 
 const Header = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const location = useLocation();
 
   const navigationItems = [
-    { label: 'About Us', href: '#about' },
-    { label: 'Artist Home', href: '#artist-home' },
-    { label: 'Prices', href: '#prices' },
-    { label: 'Registration', href: '#registration' },
-    { label: 'Artist Guide', href: '#artist-guide', active: true },
+    { label: 'About Us', href: ROUTES.ABOUT_US },
+    { label: 'Artist Home', href: ROUTES.ARTIST_HOME },
+    { label: 'Prices', href: ROUTES.PRICES },
+    { label: 'Registration', href: ROUTES.REGISTRATION },
+    { label: 'Artist Guide', href: ROUTES.ARTIST_GUIDE },
   ];
+
+  const isActiveRoute = (path: string) => {
+    return location.pathname === path;
+  };
 
   return (
     <header className="relative justify-center items-center bg-black flex w-full flex-col text-white tracking-[0.13px] leading-none px-2.5 py-12 max-md:max-w-full">
       <div className="flex w-[1347px] max-w-full items-center gap-[40px_100px] justify-between flex-wrap">
-        <img
-          src="https://api.builder.io/api/v1/image/assets/e4fe701087e74a95b6a29ed12c1bd7bc/d50da8f68aa81220b0540b60ce82e3761263eff4?placeholderIfAbsent=true"
-          alt="AsraMusic Logo"
-          className="aspect-[4.59] object-contain w-[165px] self-stretch shrink-0 my-auto"
-        />
+        <Link to={ROUTES.HOME}>
+          <img
+            src="https://api.builder.io/api/v1/image/assets/e4fe701087e74a95b6a29ed12c1bd7bc/d50da8f68aa81220b0540b60ce82e3761263eff4?placeholderIfAbsent=true"
+            alt="AsraMusic Logo"
+            className="aspect-[4.59] object-contain w-[165px] self-stretch shrink-0 my-auto cursor-pointer hover:opacity-80 transition-opacity"
+          />
+        </Link>
         
         {/* Desktop Navigation */}
         <nav className="self-stretch hidden lg:flex min-w-60 flex-col items-center justify-center my-auto max-md:max-w-full">
@@ -40,15 +49,15 @@ const Header = () => {
               />
             </div>
             {navigationItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.href}
                 className={`self-stretch flex items-center gap-2.5 my-auto p-2.5 text-xl font-bold transition-colors hover:text-[#F6C874] ${
-                  item.active ? 'border-b-2 border-b-white border-solid' : ''
+                  isActiveRoute(item.href) ? 'border-b-2 border-b-white border-solid' : ''
                 }`}
               >
                 <span className="self-stretch my-auto">{item.label}</span>
-              </a>
+              </Link>
             ))}
           </div>
         </nav>
@@ -85,15 +94,15 @@ const Header = () => {
                 {/* Navigation Items */}
                 <nav className="flex flex-col gap-4">
                   {navigationItems.map((item) => (
-                    <a
+                    <Link
                       key={item.label}
-                      href={item.href}
+                      to={item.href}
                       className={`block p-3 text-xl font-bold text-white transition-colors hover:text-[#F6C874] ${
-                        item.active ? 'border-l-4 border-white bg-gray-900' : ''
+                        isActiveRoute(item.href) ? 'border-l-4 border-white bg-gray-900' : ''
                       }`}
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   ))}
                 </nav>
               </div>
