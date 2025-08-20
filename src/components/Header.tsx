@@ -3,6 +3,7 @@ import { Menu } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ROUTES } from '@/constants/routes';
+import logo from '../assets/images/asrapa-logo-white.png';
 
 const Header = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('English');
@@ -10,7 +11,7 @@ const Header = () => {
 
   const navigationItems = [
     { label: 'About Us', href: ROUTES.ABOUT_US },
-    { label: 'Artist Home', href: ROUTES.ARTIST_HOME },
+    // { label: 'Artist Home', href: ROUTES.ARTIST_HOME },
     { label: 'Prices', href: ROUTES.PRICES },
     { label: 'Registration', href: ROUTES.REGISTRATION },
     { label: 'Artist Guide', href: ROUTES.ARTIST_GUIDE },
@@ -25,9 +26,9 @@ const Header = () => {
       <div className="flex w-[1347px] max-w-full items-center gap-[40px_100px] justify-between flex-wrap">
         <Link to={ROUTES.HOME}>
           <img
-            src="https://api.builder.io/api/v1/image/assets/e4fe701087e74a95b6a29ed12c1bd7bc/d50da8f68aa81220b0540b60ce82e3761263eff4?placeholderIfAbsent=true"
+            src={logo}
             alt="AsraMusic Logo"
-            className="aspect-[4.59] object-contain w-[165px] self-stretch shrink-0 my-auto cursor-pointer hover:opacity-80 transition-opacity"
+            className="aspect-[4.59] object-contain w-[200px] self-stretch shrink-0 my-auto cursor-pointer hover:opacity-80 transition-opacity"
           />
         </Link>
         
