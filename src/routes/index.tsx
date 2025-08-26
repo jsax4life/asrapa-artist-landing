@@ -15,6 +15,8 @@ const Registration = lazy(() => import('@/pages/Registration'));
 const ArtistGuide = lazy(() => import('@/pages/ArtistGuide'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Login = lazy(() => import('@/pages/Login'));
+const Analytics = lazy(() => import('@/pages/Analytics')); // Added Analytics page
+const MusicLibrary = lazy(() => import('@/pages/MusicLibrary')); // Added MusicLibrary page
 
 // Route configuration with proper typing
 export interface RouteConfig {
@@ -57,6 +59,14 @@ const routes: RouteConfig[] = [
   {
     path: ROUTES.LOGIN,
     element: Login,
+  },
+  {
+    path: ROUTES.ANALYTICS, // Added Analytics route
+    element: Analytics,
+  },
+  {
+    path: ROUTES.MUSIC_LIBRARY, // Added Music Library route
+    element: MusicLibrary,
   },
   {
     path: ROUTES.NOT_FOUND,
@@ -142,6 +152,26 @@ export const router = createBrowserRouter([
       <Suspense fallback={<LoadingSpinner />}>
         <RequireAuth>
           <Dashboard />
+        </RequireAuth>
+      </Suspense>
+    ),
+  },
+  {
+    path: ROUTES.ANALYTICS, // Added Analytics route with RequireAuth
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <RequireAuth>
+          <Analytics />
+        </RequireAuth>
+      </Suspense>
+    ),
+  },
+  {
+    path: ROUTES.MUSIC_LIBRARY, // Added Music Library route with RequireAuth
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <RequireAuth>
+          <MusicLibrary />
         </RequireAuth>
       </Suspense>
     ),

@@ -29,9 +29,9 @@ import { ROUTES } from "@/constants/routes";
 import { useToast } from "@/hooks/use-toast";
 
 const mainItems = [
-  { title: "Dashboard", url: "/dashboard", icon: Home },
-  { title: "Analytics", url: "/dashboard/analytics", icon: BarChart3 },
-  { title: "Music Library", url: "/dashboard/music", icon: Music },
+  { title: "Dashboard", url: ROUTES.DASHBOARD, icon: Home },
+  { title: "Analytics", url: ROUTES.ANALYTICS, icon: BarChart3 },
+  { title: "Music Library", url: ROUTES.MUSIC_LIBRARY, icon: Music },
   { title: "Audience", url: "/dashboard/audience", icon: Users },
 ];
 
@@ -140,28 +140,17 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Settings and Logout */}
-        <SidebarGroup className="mt-auto">
+        {/* Settings */}
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-sidebar-foreground/60 font-medium mb-2">
+            Settings
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <NavLink 
-                    to="/dashboard/settings" 
-                    className={getNavCls}
-                  >
-                    <Settings className={`h-4 w-4 ${collapsed ? "mx-auto" : "mr-3"}`} />
-                    {!collapsed && <span>Settings</span>}
-                  </NavLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton 
-                  onClick={handleLogout}
-                  className="hover:bg-red-500/10 hover:text-red-500 text-sidebar-foreground"
-                >
-                  <LogOut className={`h-4 w-4 ${collapsed ? "mx-auto" : "mr-3"}`} />
-                  {!collapsed && <span>Logout</span>}
+                <SidebarMenuButton onClick={handleLogout}>
+                  <LogOut className="h-4 w-4 mr-3" />
+                  {!collapsed && <span>Log Out</span>}
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

@@ -9,6 +9,8 @@ export const ROUTES = {
   ARTIST_GUIDE: '/artist-guide',
   DASHBOARD: '/dashboard',
   LOGIN: '/login',
+  ANALYTICS: '/analytics',
+  MUSIC_LIBRARY: '/dashboard/music',
 } as const;
 
 // Type for route paths
