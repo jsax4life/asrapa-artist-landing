@@ -11,6 +11,11 @@ export const ROUTES = {
   LOGIN: '/login',
   ANALYTICS: '/analytics',
   MUSIC_LIBRARY: '/dashboard/music',
+  AUDIENCE: '/dashboard/audience',
+  UPLOAD: '/dashboard/upload',
+  RELEASES: '/dashboard/releases',
+  TRENDS: '/dashboard/trends',
+  EVENTS: '/dashboard/events',
 } as const;
 
 // Type for route paths

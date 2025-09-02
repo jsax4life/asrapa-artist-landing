@@ -32,14 +32,14 @@ const mainItems = [
   { title: "Dashboard", url: ROUTES.DASHBOARD, icon: Home },
   { title: "Analytics", url: ROUTES.ANALYTICS, icon: BarChart3 },
   { title: "Music Library", url: ROUTES.MUSIC_LIBRARY, icon: Music },
-  { title: "Audience", url: "/dashboard/audience", icon: Users },
+  { title: "Audience", url: ROUTES.AUDIENCE, icon: Users },
 ];
 
 const contentItems = [
-  { title: "Upload", url: "/dashboard/upload", icon: Upload },
-  { title: "Releases", url: "/dashboard/releases", icon: PlayCircle },
-  { title: "Trends", url: "/dashboard/trends", icon: TrendingUp },
-  { title: "Events", url: "/dashboard/events", icon: Calendar },
+  { title: "Upload", url: ROUTES.UPLOAD, icon: Upload },
+  { title: "Releases", url: ROUTES.RELEASES, icon: PlayCircle },
+  { title: "Trends", url: ROUTES.TRENDS, icon: TrendingUp },
+  { title: "Events", url: ROUTES.EVENTS, icon: Calendar },
 ];
 
 export function AppSidebar() {

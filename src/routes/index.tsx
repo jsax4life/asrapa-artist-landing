@@ -17,6 +17,11 @@ const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Login = lazy(() => import('@/pages/Login'));
 const Analytics = lazy(() => import('@/pages/Analytics')); // Added Analytics page
 const MusicLibrary = lazy(() => import('@/pages/MusicLibrary')); // Added MusicLibrary page
+const Audience = lazy(() => import('@/pages/Audience')); // Added Audience page
+const Upload = lazy(() => import('@/pages/Upload')); // Added Upload page
+const Releases = lazy(() => import('@/pages/Releases')); // Added Releases page
+const Trends = lazy(() => import('@/pages/Trends')); // Added Trends page
+const Events = lazy(() => import('@/pages/Events')); // Added Events page
 
 // Route configuration with proper typing
 export interface RouteConfig {
@@ -67,6 +72,26 @@ const routes: RouteConfig[] = [
   {
     path: ROUTES.MUSIC_LIBRARY, // Added Music Library route
     element: MusicLibrary,
+  },
+  {
+    path: ROUTES.AUDIENCE, // Added Audience route
+    element: Audience,
+  },
+  {
+    path: ROUTES.UPLOAD, // Added Upload route
+    element: Upload,
+  },
+  {
+    path: ROUTES.RELEASES, // Added Releases route
+    element: Releases,
+  },
+  {
+    path: ROUTES.TRENDS, // Added Trends route
+    element: Trends,
+  },
+  {
+    path: ROUTES.EVENTS, // Added Events route
+    element: Events,
   },
   {
     path: ROUTES.NOT_FOUND,
@@ -172,6 +197,56 @@ export const router = createBrowserRouter([
       <Suspense fallback={<LoadingSpinner />}>
         <RequireAuth>
           <MusicLibrary />
+        </RequireAuth>
+      </Suspense>
+    ),
+  },
+  {
+    path: ROUTES.AUDIENCE, // Added Audience route with RequireAuth
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <RequireAuth>
+          <Audience />
+        </RequireAuth>
+      </Suspense>
+    ),
+  },
+  {
+    path: ROUTES.UPLOAD, // Added Upload route with RequireAuth
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <RequireAuth>
+          <Upload />
+        </RequireAuth>
+      </Suspense>
+    ),
+  },
+  {
+    path: ROUTES.RELEASES, // Added Releases route with RequireAuth
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <RequireAuth>
+          <Releases />
+        </RequireAuth>
+      </Suspense>
+    ),
+  },
+  {
+    path: ROUTES.TRENDS, // Added Trends route with RequireAuth
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <RequireAuth>
+          <Trends />
+        </RequireAuth>
+      </Suspense>
+    ),
+  },
+  {
+    path: ROUTES.EVENTS, // Added Events route with RequireAuth
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <RequireAuth>
+          <Events />
         </RequireAuth>
       </Suspense>
     ),
