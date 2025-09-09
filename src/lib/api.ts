@@ -70,6 +70,78 @@ export interface ArtistSignupResponse {
   followers?: any[];
 }
 
+export interface SongUploadResponse {
+  song: {
+    _id: string;
+    title: string;
+    duration: number;
+    album?: string;
+    artist: string;
+    genre: string;
+    songUrl: string;
+    coverPhotoUrl: string;
+    collaborators?: string[];
+    isExplicit: boolean;
+    createdAt: string;
+  };
+}
+
+export interface AlbumUploadResponse {
+  album: {
+    _id: string;
+    title: string;
+    releaseDate: string;
+    explicit: boolean;
+    genre: string;
+    caption: string;
+    coverPhotoUrl: string;
+    artist: string;
+    status: string;
+    songs: string[];
+    createdAt: string;
+  };
+}
+
+export interface Artist {
+  _id: string;
+  stageName: string;
+  fullName: string;
+  bio: string;
+  genre: string;
+  followers: Array<{
+    _id: string;
+    username: string;
+  }>;
+  likes: Array<{
+    _id: string;
+    username: string;
+  }>;
+  createdAt: string;
+  __v: number;
+}
+
+export interface Genre {
+  _id: string;
+  name: string;
+  __v: number;
+}
+
+export interface ArtistsResponse {
+  status: string;
+  results: number;
+  data: {
+    artists: Artist[];
+  };
+}
+
+export interface GenresResponse {
+  status: string;
+  results: number;
+  data: {
+    genres: Genre[];
+  };
+}
+
 export class ApiError extends Error {
   constructor(
     message: string,
@@ -209,6 +281,74 @@ export const api = {
       }
       throw new ApiError(
         'Network error occurred. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async uploadSingleSong(formData: FormData): Promise<ApiResponse<SongUploadResponse>> {
+    try {
+      const response: AxiosResponse<ApiResponse<SongUploadResponse>> = await apiClient.post('/artist/upload-songs', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred during song upload. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async getAllArtists(): Promise<ArtistsResponse> {
+    try {
+      const response: AxiosResponse<ArtistsResponse> = await apiClient.get('/artist');
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred while fetching artists. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async getAllGenres(): Promise<GenresResponse> {
+    try {
+      const response: AxiosResponse<GenresResponse> = await apiClient.get('/genres');
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred while fetching genres. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async uploadAlbum(formData: FormData): Promise<ApiResponse<AlbumUploadResponse>> {
+    try {
+      const response: AxiosResponse<ApiResponse<AlbumUploadResponse>> = await apiClient.post('/artist/create-album', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred during album upload. Please check your connection.',
         0
       );
     }
