@@ -13,7 +13,6 @@ export const ROUTES = {
   MUSIC_LIBRARY: '/dashboard/music',
   AUDIENCE: '/dashboard/audience',
   UPLOAD: '/dashboard/upload',
-  RELEASES: '/dashboard/releases',
   TRENDS: '/dashboard/trends',
   EVENTS: '/dashboard/events',
 } as const;

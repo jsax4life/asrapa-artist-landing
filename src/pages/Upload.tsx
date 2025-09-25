@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { UploadCloud, CheckCircle, XCircle, FileText, ChevronDown, X, Music, Disc } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast"; // Added useToast
-import { api, ApiError, Artist, Genre } from "@/lib/api"; // Import api, ApiError, Artist, and Genre
+import { api, ApiError, Artist, Genre, UploadedSong } from "@/lib/api"; // Import api, ApiError, Artist, Genre, and UploadedSong
 import { useAuth } from "@/contexts/AuthContext"; // Import useAuth to get current user
 
 interface UploadFormData {
@@ -31,7 +31,7 @@ interface AlbumFormData {
   explicit: boolean;
   genreId: string;
   caption?: string;
-  existingSongIds?: string; // Comma-separated string of existing song IDs
+  existingSongIds: string[]; // Array of selected song IDs
   newSongs: Array<{
     title: string;
     duration: number;
@@ -60,9 +60,11 @@ const Upload = () => {
   const [uploadComplete, setUploadComplete] = useState(false);
   const [artists, setArtists] = useState<Artist[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
+  const [uploadedSongs, setUploadedSongs] = useState<UploadedSong[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [genreOpen, setGenreOpen] = useState(false);
   const [collaboratorsOpen, setCollaboratorsOpen] = useState(false);
+  const [existingSongsOpen, setExistingSongsOpen] = useState(false);
   const [formData, setFormData] = useState<UploadFormData>({
     title: '',
     duration: 0,
@@ -77,7 +79,7 @@ const Upload = () => {
     explicit: false,
     genreId: '',
     caption: '',
-    existingSongIds: '',
+    existingSongIds: [],
     newSongs: [],
   });
   const { toast } = useToast(); // Added useToast
@@ -88,9 +90,10 @@ const Upload = () => {
     const fetchData = async () => {
       try {
         setIsLoadingData(true);
-        const [artistsResponse, genresResponse] = await Promise.all([
+        const [artistsResponse, genresResponse, uploadedSongsResponse] = await Promise.all([
           api.getAllArtists(),
-          api.getAllGenres()
+          api.getAllGenres(),
+          api.getUploadedSongs(1, 100) // Fetch up to 100 songs for the dropdown
         ]);
         
         if (artistsResponse.status === 'success' && artistsResponse.data) {
@@ -99,6 +102,10 @@ const Upload = () => {
         
         if (genresResponse.status === 'success' && genresResponse.data) {
           setGenres(genresResponse.data.genres);
+        }
+        
+        if (uploadedSongsResponse.status === 'success' && uploadedSongsResponse.data) {
+          setUploadedSongs(uploadedSongsResponse.data.songs);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -275,33 +282,40 @@ const Upload = () => {
     formDataToSend.append('explicit', albumFormData.explicit.toString());
     formDataToSend.append('genreId', albumFormData.genreId);
     if (albumFormData.caption) formDataToSend.append('caption', albumFormData.caption);
-    if (albumFormData.existingSongIds) formDataToSend.append('existingSongIds', albumFormData.existingSongIds);
+    if (albumFormData.existingSongIds.length > 0) formDataToSend.append('existingSongIds', albumFormData.existingSongIds.join(','));
     
-    // Add new songs metadata as JSON
-    if (newSongFiles.length > 0) {
-      const newSongsMetadata = newSongFiles.map((file, index) => ({
-        title: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension
-        duration: 0, // This would need to be calculated or provided by user
-        collaborators: [],
-        isExplicit: albumFormData.explicit,
-        lyrics: ""
-      }));
-      formDataToSend.append('newSongs', JSON.stringify(newSongsMetadata));
-    }
+    // Add new songs metadata as JSON (always send, even if empty array)
+    const newSongsMetadata = newSongFiles.map((file, index) => ({
+      title: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension
+      duration: 0, // This would need to be calculated or provided by user
+      collaborators: [],
+      isExplicit: albumFormData.explicit,
+      lyrics: ""
+    }));
+    formDataToSend.append('newSongs', JSON.stringify(newSongsMetadata));
     
     formDataToSend.append('coverPhoto', albumCoverPhotoFile);
     
-    // Add new song files
-    newSongFiles.forEach((file, index) => {
-      formDataToSend.append(`songFile${index}`, file);
-    });
+    // Add new song files as an array (only if there are files)
+    if (newSongFiles.length > 0) {
+      newSongFiles.forEach((file) => {
+        formDataToSend.append('songFiles', file);
+      });
+    }
 
     try {
-      await api.uploadAlbum(formDataToSend);
+      console.log('Sending album data:', formDataToSend);
+      console.log('FormData entries before sending:');
+      for (const [key, value] of formDataToSend.entries()) {
+        console.log(`${key}:`, value);
+      }
+      console.log('About to call api.uploadAlbum...');
+      const response = await api.uploadAlbum(formDataToSend);
+      console.log('Album upload response:', response);
       setUploadComplete(true);
       toast({
         title: "Album Created Successfully",
-        description: "Your album has been created and is pending review!",
+        description: response.message || "Your album has been created and is pending review!",
       });
       
       // Reset form and files for next upload
@@ -313,7 +327,7 @@ const Upload = () => {
         explicit: false,
         genreId: '',
         caption: '',
-        existingSongIds: '',
+        existingSongIds: [],
         newSongs: [],
       });
     } catch (error) {
@@ -801,14 +815,84 @@ const Upload = () => {
                         </div>
                         <div className="space-y-2 md:col-span-2">
                           <Label htmlFor="existing-songs">Existing Songs (Optional)</Label>
-                          <Input 
-                            id="existing-songs" 
-                            value={albumFormData.existingSongIds || ''} 
-                            onChange={(e) => setAlbumFormData(prev => ({ ...prev, existingSongIds: e.target.value }))} 
-                            placeholder="Comma-separated song IDs (e.g., 68afb9446a763e7b7e5ed716, 68afdfd76a763e7b7e5ed90d)"
-                          />
+                          <Popover open={existingSongsOpen} onOpenChange={setExistingSongsOpen}>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={existingSongsOpen}
+                                className="w-full justify-between"
+                                disabled={isLoadingData || uploadedSongs.length === 0}
+                              >
+                                {albumFormData.existingSongIds.length > 0
+                                  ? `${albumFormData.existingSongIds.length} song(s) selected`
+                                  : uploadedSongs.length === 0 
+                                    ? "No uploaded songs available"
+                                    : "Select existing songs..."}
+                                <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-full p-0">
+                              <Command>
+                                <CommandInput placeholder="Search songs..." />
+                                <CommandList>
+                                  <CommandEmpty>No songs found.</CommandEmpty>
+                                  <CommandGroup>
+                                    {uploadedSongs.map((song) => {
+                                      const isSelected = albumFormData.existingSongIds.includes(song.id);
+                                      return (
+                                        <CommandItem
+                                          key={song.id}
+                                          value={`${song.title} ${song.genre.name}`}
+                                          onSelect={() => {
+                                            setAlbumFormData(prev => ({
+                                              ...prev,
+                                              existingSongIds: isSelected
+                                                ? prev.existingSongIds.filter(id => id !== song.id)
+                                                : [...prev.existingSongIds, song.id]
+                                            }));
+                                          }}
+                                        >
+                                          <div className="flex items-center justify-between w-full">
+                                            <div>
+                                              <div className="font-medium">{song.title}</div>
+                                              <div className="text-sm text-muted-foreground">
+                                                {song.genre.name} • {Math.floor(song.duration / 60)}:{(song.duration % 60).toString().padStart(2, '0')}
+                                              </div>
+                                            </div>
+                                            {isSelected && <CheckCircle className="h-4 w-4 text-primary" />}
+                                          </div>
+                                        </CommandItem>
+                                      );
+                                    })}
+                                  </CommandGroup>
+                                </CommandList>
+                              </Command>
+                            </PopoverContent>
+                          </Popover>
+                          {albumFormData.existingSongIds.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mt-2">
+                              {albumFormData.existingSongIds.map((songId) => {
+                                const song = uploadedSongs.find(s => s.id === songId);
+                                return song ? (
+                                  <div key={songId} className="flex items-center gap-1 bg-primary/10 text-primary px-2 py-1 rounded-md text-sm">
+                                    {song.title}
+                                    <X 
+                                      className="h-3 w-3 cursor-pointer hover:text-destructive" 
+                                      onClick={() => {
+                                        setAlbumFormData(prev => ({
+                                          ...prev,
+                                          existingSongIds: prev.existingSongIds.filter(id => id !== songId)
+                                        }));
+                                      }}
+                                    />
+                                  </div>
+                                ) : null;
+                              })}
+                            </div>
+                          )}
                           <p className="text-xs text-muted-foreground">
-                            Enter the IDs of songs you've already uploaded that you want to include in this album
+                            Select songs you've already uploaded that you want to include in this album
                           </p>
                         </div>
                       </div>

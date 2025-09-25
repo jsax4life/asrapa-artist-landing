@@ -15,7 +15,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10 second timeout
+  timeout: 60000, // 60 second timeout for file uploads
 });
 
 // Request interceptor for logging and adding auth token
@@ -49,12 +49,17 @@ export interface ArtistSignupData {
 }
 
 export interface ApiResponse<T> {
-  expiresIn: number;
-  newAccessToken: any;
-  success: boolean;
-  data?: T & { artist?: any };
-  message?: string;
-  error?: string;
+  status: string;
+  message: string;
+  data?: T;
+  expiresIn?: number;
+  newAccessToken?: any;
+  success?: boolean;
+  error?: string | {
+    statusCode: number;
+    status: string;
+    isOperational: boolean;
+  };
 }
 
 export interface ArtistSignupResponse {
@@ -99,6 +104,78 @@ export interface AlbumUploadResponse {
     status: string;
     songs: string[];
     createdAt: string;
+  };
+}
+
+export interface UploadedSong {
+  id: string;
+  title: string;
+  duration: number;
+  album?: {
+    title: string;
+  };
+  genre: {
+    name: string;
+  };
+  songUrl: string;
+  coverPhotoUrl: string;
+  downloads: number;
+  streams: number;
+  explicit: boolean;
+  createdAt: string;
+}
+
+export interface UploadedSongsResponse {
+  status: string;
+  results: number;
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalSongs: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+    limit: number;
+  };
+  data: {
+    songs: UploadedSong[];
+  };
+}
+
+export interface UploadedAlbum {
+  _id: string;
+  title: string;
+  releaseDate: string;
+  coverPhotoUrl: string;
+  genre: {
+    name: string;
+  };
+  caption: string;
+  status: string;
+  scheduling: {
+    releaseStatus: string;
+  };
+  isDeleted: boolean;
+  moderation: {
+    moderationStatus: string;
+  };
+  likesCount: number;
+  songsCount: number;
+  createdAt: string;
+}
+
+export interface UploadedAlbumsResponse {
+  status: string;
+  results: number;
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalAlbums: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+    limit: number;
+  };
+  data: {
+    albums: UploadedAlbum[];
   };
 }
 
@@ -175,19 +252,31 @@ apiClient.interceptors.response.use(
       
       // Handle authentication errors
       if (status === 401) {
-        // Token is invalid or expired
-        authService.clearAuthData();
+        // Check if this is a login attempt (incorrect credentials)
+        const isLoginAttempt = error.config?.url?.includes('/auth/login');
         
-        // Redirect to login page if not already there
-        if (window.location.pathname !== '/login' && window.location.pathname !== '/') {
-          window.location.href = '/';
+        if (isLoginAttempt) {
+          // For login attempts, return the actual error message from backend
+          throw new ApiError(
+            (errorData?.message as string) || 'Incorrect email/stage name or password',
+            status,
+            errorData
+          );
+        } else {
+          // For other 401 errors, treat as session expired
+          authService.clearAuthData();
+          
+          // Redirect to login page if not already there
+          if (window.location.pathname !== '/login' && window.location.pathname !== '/') {
+            window.location.href = '/';
+          }
+          
+          throw new ApiError(
+            'Your session has expired. Please log in again.',
+            status,
+            errorData
+          );
         }
-        
-        throw new ApiError(
-          'Your session has expired. Please log in again.',
-          status,
-          errorData
-        );
       }
       
       // Handle forbidden errors
@@ -206,6 +295,7 @@ apiClient.interceptors.response.use(
         errorData
       );
     } else if (error.request) {
+      console.error('Network error:', error.request);
       // Network error
       throw new ApiError(
         'Network error occurred. Please check your connection.',
@@ -337,10 +427,56 @@ export const api = {
 
   async uploadAlbum(formData: FormData): Promise<ApiResponse<AlbumUploadResponse>> {
     try {
+      console.log('Uploading album with FormData:', formData);
+      console.log('FormData entries:');
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+      
       const response: AxiosResponse<ApiResponse<AlbumUploadResponse>> = await apiClient.post('/artist/create-album', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+      });
+      console.log('Album upload response:', response);
+      return response.data;
+    } catch (error: any) {
+      console.error('Album upload error:', error);
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      if (error.response) {
+        console.error('Response error:', error.response.data);
+        throw new ApiError(
+          error.response.data?.message || 'Album upload failed',
+          error.response.status
+        );
+      } else if (error.request) {
+        console.error('Network error:', error.request);
+        throw new ApiError(
+          'Network error occurred during album upload. Please check your connection.',
+          0
+        );
+      } else if (error.code === 'ECONNABORTED') {
+        console.error('Request timeout:', error.message);
+        throw new ApiError(
+          'Album upload timed out. Please try again with smaller files or check your connection.',
+          0
+        );
+      } else {
+        console.error('Unexpected error:', error.message);
+        throw new ApiError(
+          'An unexpected error occurred during album upload.',
+          0
+        );
+      }
+    }
+  },
+
+  async getUploadedSongs(page: number = 1, limit: number = 20, sort: string = 'createdAt', order: string = 'desc'): Promise<UploadedSongsResponse> {
+    try {
+      const response: AxiosResponse<UploadedSongsResponse> = await apiClient.get('/artist/uploaded-songs', {
+        params: { page, limit, sort, order }
       });
       return response.data;
     } catch (error) {
@@ -348,7 +484,54 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred during album upload. Please check your connection.',
+        'Network error occurred while fetching uploaded songs. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async getUploadedAlbums(page: number = 1, limit: number = 20, sort: string = 'createdAt', order: string = 'desc'): Promise<UploadedAlbumsResponse> {
+    try {
+      const response: AxiosResponse<UploadedAlbumsResponse> = await apiClient.get('/artist/uploaded-albums', {
+        params: { page, limit, sort, order }
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred while fetching uploaded albums. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async deleteSong(songId: string): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.delete(`/artist/songs/${songId}`);
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred while deleting song. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async deleteAlbum(albumId: string): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.delete(`/artist/albums/${albumId}`);
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred while deleting album. Please check your connection.',
         0
       );
     }

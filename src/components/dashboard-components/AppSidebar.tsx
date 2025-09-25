@@ -37,7 +37,6 @@ const mainItems = [
 
 const contentItems = [
   { title: "Upload", url: ROUTES.UPLOAD, icon: Upload },
-  { title: "Releases", url: ROUTES.RELEASES, icon: PlayCircle },
   { title: "Trends", url: ROUTES.TRENDS, icon: TrendingUp },
   { title: "Events", url: ROUTES.EVENTS, icon: Calendar },
 ];

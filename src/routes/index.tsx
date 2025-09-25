@@ -19,7 +19,6 @@ const Analytics = lazy(() => import('@/pages/Analytics')); // Added Analytics pa
 const MusicLibrary = lazy(() => import('@/pages/MusicLibrary')); // Added MusicLibrary page
 const Audience = lazy(() => import('@/pages/Audience')); // Added Audience page
 const Upload = lazy(() => import('@/pages/Upload')); // Added Upload page
-const Releases = lazy(() => import('@/pages/Releases')); // Added Releases page
 const Trends = lazy(() => import('@/pages/Trends')); // Added Trends page
 const Events = lazy(() => import('@/pages/Events')); // Added Events page
 
@@ -80,10 +79,6 @@ const routes: RouteConfig[] = [
   {
     path: ROUTES.UPLOAD, // Added Upload route
     element: Upload,
-  },
-  {
-    path: ROUTES.RELEASES, // Added Releases route
-    element: Releases,
   },
   {
     path: ROUTES.TRENDS, // Added Trends route
@@ -217,16 +212,6 @@ export const router = createBrowserRouter([
       <Suspense fallback={<LoadingSpinner />}>
         <RequireAuth>
           <Upload />
-        </RequireAuth>
-      </Suspense>
-    ),
-  },
-  {
-    path: ROUTES.RELEASES, // Added Releases route with RequireAuth
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <RequireAuth>
-          <Releases />
         </RequireAuth>
       </Suspense>
     ),
