@@ -531,7 +531,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred while deleting album. Please check your connection.',
+        'Network error occurred while deleting album. Please check your connection and retry.',
         0
       );
     }
