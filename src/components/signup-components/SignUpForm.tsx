@@ -332,7 +332,7 @@ export const SignUpForm: React.FC = () => {
       <header className="flex flex-col items-center text-center mb-8">
         <h1 className="text-white text-2xl sm:text-3xl lg:text-[40px] font-bold leading-[1.1]">
           <span style={{ color: 'rgba(210,216,218,1)' }}>Join</span>{' '}
-          <span style={{ color: 'rgba(196,5,5,1)' }}>AsraMusic</span>
+          <span style={{ color: 'rgba(196,5,5,1)' }}>AsrapaMusic</span>
         </h1>
         <p className="text-[#D2D8DA] text-sm sm:text-base font-medium mt-4 px-4">
           Sell Your Music Worldwide & Keep 100% Ownership

@@ -11,7 +11,7 @@ const DownloadButtons: React.FC = () => {
       <button 
         onClick={handleDownloadClick}
         className="flex items-center gap-3 border cursor-pointer transition-all duration-[0.3s] ease-[ease] px-4 py-2 rounded-[50px] border-solid border-white hover:bg-white hover:text-black max-sm:w-full max-sm:justify-center"
-        aria-label="Download the Asra Music app"
+        aria-label="Download the Asrapa Music app"
       >
         <span className="text-white text-base font-bold leading-6 tracking-[0.16px] uppercase m-0 hover:text-black transition-colors">
           Download The App

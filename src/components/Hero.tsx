@@ -10,7 +10,7 @@ const Hero = () => {
       />
       <div className="relative text-[#F6C874] leading-6 mb-[-29px] ml-[131px] mt-[141px] max-md:ml-2.5 max-md:mt-10 max-md:mb-2.5">
         <h1 className="text-[40px] leading-[44px] mb-2">
-          Asramusic
+          AsrapaMusic
         </h1>
         <h2 className="text-[48px] leading-[52px]">
           ARTIST GUIDE

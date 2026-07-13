@@ -18,7 +18,7 @@ export const HeroSection: React.FC = () => {
               Why choose{' '}
             </span>
             <span className="font-normal text-2xl xs:text-xl sm:text-3xl md:text-5xl text-[rgba(196,5,5,1)]">
-              Asra Music Artists
+              Asrapa Music Artists
             </span>
             <span className="font-normal text-2xl xs:text-xl sm:text-3xl md:text-5xl text-white">
               ?
@@ -41,7 +41,7 @@ export const HeroSection: React.FC = () => {
               Keep 100% of your income
             </h2>
             <p className="font-normal text-[rgba(210,216,218,1)] text-sm sm:text-base">
-              Asra Music for artists never takes commission on your streaming and download revenues from the Chadian digital platform Asra Music: you pocket what you generate.
+              Asrapa Music for artists never takes commission on your streaming and download revenues from the Chadian digital platform Asrapa Music: you pocket what you generate.
             </p>
           </section>
           

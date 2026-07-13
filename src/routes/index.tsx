@@ -13,6 +13,7 @@ const ArtistHome = lazy(() => import('@/pages/ArtistHome'));
 const Prices = lazy(() => import('@/pages/Prices'));
 const Registration = lazy(() => import('@/pages/Registration'));
 const ArtistGuide = lazy(() => import('@/pages/ArtistGuide'));
+const Advertising = lazy(() => import('@/pages/Advertising'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Login = lazy(() => import('@/pages/Login'));
 const Analytics = lazy(() => import('@/pages/Analytics')); // Added Analytics page
@@ -55,6 +56,10 @@ const routes: RouteConfig[] = [
   {
     path: ROUTES.ARTIST_GUIDE,
     element: ArtistGuide,
+  },
+  {
+    path: ROUTES.ADVERTISING,
+    element: Advertising,
   },
   {
     path: ROUTES.DASHBOARD,
@@ -162,6 +167,16 @@ export const router = createBrowserRouter([
       <Layout>
         <Suspense fallback={<LoadingSpinner />}>
           <ArtistGuide />
+        </Suspense>
+      </Layout>
+    ),
+  },
+  {
+    path: ROUTES.ADVERTISING,
+    element: (
+      <Layout>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Advertising />
         </Suspense>
       </Layout>
     ),

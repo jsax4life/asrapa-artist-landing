@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { ROUTES } from '@/constants/routes';
 
 const Footer = () => {
   const companyLinks = [
@@ -10,7 +12,7 @@ const Footer = () => {
   const communityLinks = [
     { label: 'For Artists', href: '#artists' },
     { label: 'Developers', href: '#developers' },
-    { label: 'Advertising', href: '#advertising' },
+    { label: 'Advertising', href: ROUTES.ADVERTISING, isRoute: true },
     { label: 'Investors', href: '#investors' },
     { label: 'Vendors', href: '#vendors' },
   ];
@@ -26,7 +28,7 @@ const Footer = () => {
       <div className="flex w-[1344px] max-w-full gap-[40px_100px] justify-between flex-wrap">
         <img
           src="https://api.builder.io/api/v1/image/assets/e4fe701087e74a95b6a29ed12c1bd7bc/83099d7d05c878480fcc6c2e375526e518037144?placeholderIfAbsent=true"
-          alt="AsraMusic Logo"
+          alt="AsrapaMusic Logo"
           className="aspect-[4.46] object-contain w-[161px] shrink-0"
         />
         
@@ -55,13 +57,23 @@ const Footer = () => {
             <ul className="space-y-8">
               {communityLinks.map((link) => (
                 <li key={link.label}>
-                  <a 
-                    href={link.href} 
-                    className="hover:text-[#F6C874] transition-colors"
-                    aria-label={`Navigate to ${link.label}`}
-                  >
-                    {link.label}
-                  </a>
+                  {'isRoute' in link && link.isRoute ? (
+                    <Link
+                      to={link.href}
+                      className="hover:text-[#F6C874] transition-colors"
+                      aria-label={`Navigate to ${link.label}`}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="hover:text-[#F6C874] transition-colors"
+                      aria-label={`Navigate to ${link.label}`}
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>

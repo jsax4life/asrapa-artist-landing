@@ -2,8 +2,8 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { authService } from './auth';
 
-// API service for AsraMusic backen
-// For production, set VITE_API_BASE_URL in your environment to 'https://api.asramusic.com/api/v1'
+// API service for AsrapaMusic backend
+// For production, set VITE_API_BASE_URL in your environment to 'https://api.asrapa.com/api'
 // For local development, it defaults to 'http://localhost:4000/api/v1'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api/v1';
 

@@ -19,7 +19,7 @@ export const useArtistSignup = () => {
     onSuccess: (response) => {
       toast({
         title: "Account Created Successfully!",
-        description: "Welcome to AsraMusic! You can now start uploading your music.",
+        description: "Welcome to AsrapaMusic! You can now start uploading your music.",
         variant: "default",
       });
       

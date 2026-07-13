@@ -18,7 +18,7 @@ const AboutHeroSection: React.FC = () => {
       <div className="text-center">
         <h1 className="text-5xl md:text-6xl lg:text-6xl font-bold mb-4">
           <span className="text-white">Discover a world of Music with </span>
-          <span className="text-red-500">AsraMusic</span>
+          <span className="text-red-500">AsrapaMusic</span>
         </h1>
       </div>
     </div>
@@ -28,7 +28,7 @@ const AboutHeroSection: React.FC = () => {
         <article className="flex flex-col items-start gap-[34px] w-[702px] max-md:w-full max-md:max-w-[600px] max-md:items-center max-md:text-center">
           <header>
             <h1 className="text-white text-5xl font-bold leading-[52px] m-0 max-md:text-4xl max-md:leading-10 max-sm:text-[28px] max-sm:leading-8">
-              Welcome to Asra Music,
+              Welcome to Asrapa Music,
             </h1>
           </header>
           <p className="w-[702px] text-white text-[28px] font-bold leading-8 m-0 max-md:w-full max-md:text-[22px] max-md:leading-7 max-sm:text-lg max-sm:leading-6">
@@ -41,7 +41,7 @@ const AboutHeroSection: React.FC = () => {
             <div className="text-white text-base font-normal leading-5 tracking-[0.16px] m-0">
               517.69 million+
               <br />
-              AsraMusic users worldwide
+              AsrapaMusic users worldwide
             </div>
           </div>
           <DownloadButtons />

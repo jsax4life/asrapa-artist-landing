@@ -38,7 +38,7 @@ export const TermsCheckbox: React.FC<TermsCheckboxProps> = ({
         <div className='flex justify-between gap-x-6'>
         <div className="flex-1  gap-x-6 min-w-0 text-[#D2D8DA]">
           <span className=" text-sm font-normal">
-            I Agree to the AsraMusic
+            I Agree to the AsrapaMusic
           </span>
           <button
             type="button"

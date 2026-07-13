@@ -13,7 +13,7 @@ const Registration = () => {
         <aside className="w-full lg:w-[46%] lg:ml-5 order-first lg:order-last" aria-label="Promotional image">
           <img
             src={promoImage}
-            alt="AsraMusic promotional image showing musicians and music equipment"
+            alt="AsrapaMusic promotional image showing musicians and music equipment"
             className="aspect-[0.64] lg:aspect-[0.64] object-cover lg:object-contain w-full h-48 sm:h-64 lg:h-full"
           />
         </aside>

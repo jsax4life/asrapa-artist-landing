@@ -55,7 +55,7 @@ const Index = () => {
             Enhance Your Music Journey with Premium
           </h1>
           <p className="text-[#CCC] text-center text-xl font-bold leading-[30px] max-md:text-lg max-sm:text-base">
-            Upgrade to Asra Music Premium and take your music journey to the
+            Upgrade to Asrapa Music Premium and take your music journey to the
             next level. Enjoy uninterrupted music playback, even in offline
             mode. Say goodbye to those pesky ads, and indulge in high-quality
             audio for a truly immersive experience.
@@ -82,7 +82,7 @@ const Index = () => {
             Pick Your Premium
           </h2>
           <p className="text-[#CCC] text-center text-base font-bold leading-6 max-sm:text-base">
-            Upgrade to Asra Music Premium and take your music journey to the
+            Upgrade to Asrapa Music Premium and take your music journey to the
             next level. Enjoy uninterrupted music playback, even in offline mode
           </p>
           <PaymentIcons />

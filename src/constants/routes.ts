@@ -7,6 +7,7 @@ export const ROUTES = {
   PRICES: '/prices',
   REGISTRATION: '/registration',
   ARTIST_GUIDE: '/artist-guide',
+  ADVERTISING: '/advertising',
   DASHBOARD: '/dashboard',
   LOGIN: '/login',
   ANALYTICS: '/analytics',

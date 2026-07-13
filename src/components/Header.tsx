@@ -15,6 +15,7 @@ const Header = () => {
     { label: 'Prices', href: ROUTES.PRICES },
     { label: 'Registration', href: ROUTES.REGISTRATION },
     { label: 'Artist Guide', href: ROUTES.ARTIST_GUIDE },
+    { label: 'Advertising', href: ROUTES.ADVERTISING },
   ];
 
   const isActiveRoute = (path: string) => {
@@ -27,7 +28,7 @@ const Header = () => {
         <Link to={ROUTES.HOME}>
           <img
             src={logo}
-            alt="AsraMusic Logo"
+            alt="AsrapaMusic Logo"
             className="aspect-[4.59] object-contain w-[200px] self-stretch shrink-0 my-auto cursor-pointer hover:opacity-80 transition-opacity"
           />
         </Link>
@@ -54,7 +55,9 @@ const Header = () => {
                 key={item.label}
                 to={item.href}
                 className={`self-stretch flex items-center gap-2.5 my-auto p-2.5 text-xl font-bold transition-colors hover:text-[#F6C874] ${
-                  isActiveRoute(item.href) ? 'border-b-2 border-b-white border-solid' : ''
+                  isActiveRoute(item.href)
+                    ? 'border-b-2 border-b-[#C40505] border-solid text-white'
+                    : ''
                 }`}
               >
                 <span className="self-stretch my-auto">{item.label}</span>
@@ -99,7 +102,7 @@ const Header = () => {
                       key={item.label}
                       to={item.href}
                       className={`block p-3 text-xl font-bold text-white transition-colors hover:text-[#F6C874] ${
-                        isActiveRoute(item.href) ? 'border-l-4 border-white bg-gray-900' : ''
+                        isActiveRoute(item.href) ? 'border-l-4 border-[#C40505] bg-gray-900' : ''
                       }`}
                     >
                       {item.label}

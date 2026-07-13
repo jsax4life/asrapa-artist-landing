@@ -19,7 +19,7 @@ const Index = () => {
           Sell your music to the whole world
         </h1>
         <p className="text-white text-base sm:text-lg md:text-xl font-normal mb-8 max-w-2xl mx-auto drop-shadow">
-          Share your sound with fans everywhere. Asra Music empowers artists to distribute their music globally, reach new audiences, and keep 100% of their earnings. Join our community and let your music be heard across the world.
+          Share your sound with fans everywhere. Asrapa Music empowers artists to distribute their music globally, reach new audiences, and keep 100% of their earnings. Join our community and let your music be heard across the world.
         </p>
         <a
           href="/registration"

@@ -38,7 +38,7 @@ const Login: React.FC = () => {
         <div className="w-full max-w-md bg-[rgba(210,216,218,0.08)] rounded-xl p-6 shadow-card">
           <header className="text-center mb-6">
             <h1 className="text-white text-3xl font-bold">
-              Welcome to <span className="text-[#C40505]">AsraMusic</span>
+              Welcome to <span className="text-[#C40505]">AsrapaMusic</span>
             </h1>
             <p className="text-[#D2D8DA] mt-2">Log in to your artist dashboard</p>
           </header>
