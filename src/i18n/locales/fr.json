@@ -1,0 +1,287 @@
+{
+  "brand": "Asrapa",
+  "language": {
+    "english": "English",
+    "french": "Français",
+    "switch": "Changer de langue"
+  },
+  "nav": {
+    "aboutUs": "À propos",
+    "prices": "Tarifs",
+    "registration": "Inscription",
+    "artistGuide": "Guide de l'artiste",
+    "advertising": "Publicité"
+  },
+  "footer": {
+    "company": "Entreprise",
+    "community": "Communauté",
+    "usefulLinks": "Liens utiles",
+    "about": "À propos",
+    "jobs": "Emplois",
+    "forTheRecord": "Pour les archives",
+    "forArtists": "Pour les artistes",
+    "developers": "Développeurs",
+    "investors": "Investisseurs",
+    "vendors": "Fournisseurs",
+    "support": "Assistance",
+    "webPlayer": "Lecteur web",
+    "freeMobileApp": "Application mobile gratuite",
+    "logoAlt": "Logo {{brand}}"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "submit": "Envoyer",
+    "getStarted": "Commencer",
+    "downloadApp": "Télécharger l'application",
+    "unexpectedError": "Une erreur inattendue s'est produite."
+  },
+  "sidebar": {
+    "main": "Principal",
+    "content": "Contenu",
+    "settings": "Paramètres",
+    "dashboard": "Tableau de bord",
+    "analytics": "Analytique",
+    "musicLibrary": "Bibliothèque musicale",
+    "audience": "Audience",
+    "upload": "Téléverser",
+    "trends": "Tendances",
+    "events": "Événements",
+    "genres": "Genres",
+    "logOut": "Se déconnecter",
+    "musicArtist": "Artiste musical"
+  },
+  "genres": {
+    "title": "Gestion des genres",
+    "addNew": "Ajouter un genre",
+    "addNewDesc": "Créez un genre que les artistes peuvent attribuer à leurs téléversements.",
+    "existing": "Genres existants",
+    "existingDesc": "Modifiez ou supprimez des genres. Les changements s'appliquent sur toute la plateforme.",
+    "nameLabel": "Nom du genre",
+    "namePlaceholder": "ex. Afrobeats, Hip Hop, Gospel",
+    "addButton": "Ajouter le genre",
+    "empty": "Aucun genre pour le moment. Ajoutez votre premier genre ci-dessus.",
+    "editTitle": "Modifier le genre",
+    "editButton": "Modifier {{name}}",
+    "deleteButton": "Supprimer {{name}}",
+    "deleteConfirmTitle": "Supprimer le genre ?",
+    "deleteConfirmDesc": "Êtes-vous sûr de vouloir supprimer « {{name}} » ? Cette action est irréversible.",
+    "loadError": "Échec du chargement des genres",
+    "addSuccess": "Genre ajouté",
+    "addSuccessDesc": "« {{name}} » a été créé.",
+    "addError": "Échec de l'ajout du genre",
+    "editSuccess": "Genre mis à jour",
+    "editSuccessDesc": "« {{name}} » a été enregistré.",
+    "editError": "Échec de la mise à jour du genre",
+    "missingIdError": "Ce genre n'a pas d'identifiant valide. Actualisez la page — seuls les genres que vous avez créés peuvent être modifiés ici.",
+    "deleteSuccess": "Genre supprimé",
+    "deleteSuccessDesc": "« {{name}} » a été supprimé.",
+    "deleteError": "Échec de la suppression du genre"
+  },
+  "home": {
+    "sellWorldwide": "Vendez votre musique dans le monde entier",
+    "heroDesc": "Partagez votre son avec des fans partout. {{brand}} permet aux artistes de distribuer leur musique mondialement, d'atteindre de nouveaux publics et de conserver 100 % de leurs revenus. Rejoignez notre communauté et faites entendre votre musique dans le monde entier.",
+    "getStarted": "Commencer"
+  },
+  "artistHome": {
+    "whyChoose": "Pourquoi choisir",
+    "artists": "Artistes {{brand}}",
+    "unlimitedTitle": "Distribution illimitée dans le monde",
+    "unlimitedDesc": "Distribuez votre musique sur plus de 150 plateformes numériques et sur les réseaux sociaux dans plus de 200 pays.",
+    "incomeTitle": "Conservez 100 % de vos revenus",
+    "incomeDesc": "{{brand}} pour les artistes ne prend jamais de commission sur vos revenus de streaming et de téléchargement sur la plateforme numérique tchadienne {{brand}} : vous gardez ce que vous générez.",
+    "reportsTitle": "Rapports de ventes détaillés",
+    "reportsDesc": "Découvrez où vos fans téléchargent et écoutent votre musique pour cibler votre marketing et planifier vos tournées en conséquence."
+  },
+  "about": {
+    "discover": "Découvrez un monde de musique avec",
+    "welcome": "Bienvenue sur {{brand}},",
+    "tagline": "Là où la musique prend vie. Découvrez un univers de mélodies infinies, de playlists sélectionnées et de recommandations personnalisées rien que pour vous.",
+    "usersWorldwide": "utilisateurs {{brand}} dans le monde",
+    "scanDownload": "Scannez pour télécharger l'application {{brand}}",
+    "iphoneAlt": "iPhone affichant l'interface de l'application {{brand}}",
+    "qrAlt": "Code QR pour télécharger l'application {{brand}}",
+    "downloadAppAria": "Télécharger l'application {{brand}}"
+  },
+  "premium": {
+    "enhance": "Améliorez votre expérience musicale avec Premium",
+    "upgradeDesc": "Passez à {{brand}} Premium et élevez votre expérience musicale. Profitez d'une lecture ininterrompue, même hors ligne. Dites adieu aux publicités et savourez un audio de haute qualité pour une expérience immersive.",
+    "pickPremium": "Choisissez votre Premium",
+    "pickDesc": "Passez à {{brand}} Premium et élevez votre expérience musicale. Profitez d'une lecture ininterrompue, même hors ligne"
+  },
+  "login": {
+    "welcome": "Bienvenue sur",
+    "subtitle": "Connectez-vous à votre tableau de bord artiste",
+    "emailOrStage": "E-mail ou nom de scène",
+    "emailOrStagePlaceholder": "Entrez votre e-mail ou nom de scène",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "submit": "Se connecter",
+    "submitting": "Connexion...",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "signUp": "S'inscrire"
+  },
+  "signup": {
+    "join": "Rejoindre",
+    "tagline": "Vendez votre musique dans le monde entier et conservez 100 % de vos droits",
+    "agreeTerms": "J'accepte les conditions de {{brand}}",
+    "termsLink": "Conditions générales",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "logIn": "Se connecter",
+    "form": {
+      "fullName": "Nom complet",
+      "fullNamePlaceholder": "Votre nom complet",
+      "stageName": "Nom de scène",
+      "stageNamePlaceholder": "Votre nom de scène",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "Votre adresse e-mail",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "continue": "Continuer",
+      "creatingAccount": "Création du compte...",
+      "readyToCreate": "Prêt à créer le compte",
+      "passwordsMatch": "Les mots de passe correspondent",
+      "passwordsNoMatch": "Les mots de passe ne correspondent pas",
+      "chars8": "8+ caractères",
+      "uppercase": "Majuscule",
+      "number": "Chiffre",
+      "specialChar": "Caractère spécial"
+    },
+    "welcomeToast": "Bienvenue sur {{brand}} ! Vous pouvez maintenant téléverser votre musique.",
+    "promoAlt": "Image promotionnelle {{brand}} montrant des musiciens et du matériel musical"
+  },
+  "community": {
+    "title": "Notre communauté d'artistes"
+  },
+  "artistGuide": {
+    "title": "GUIDE DE L'ARTISTE"
+  },
+  "advertising": {
+    "heroTitle": "Partagez l'histoire de votre marque et touchez un public mondial",
+    "whyTitle": "Pourquoi faire de la publicité sur {{brand}} ?",
+    "whyDesc": "{{brand}} propose des solutions publicitaires innovantes qui connectent votre marque à un public passionné de musique. Touchez des millions d'auditeurs actifs dans le monde et engagez-les avec des expériences publicitaires audio et visuelles adaptées à leurs habitudes d'écoute. Que vous lanciez un nouveau produit ou renforciez votre notoriété, {{brand}} place votre message devant les bonnes personnes au bon moment.",
+    "placementTitle": "Emplacements publicitaires",
+    "placementDesc": "Touchez votre audience là où elle écoute. {{brand}} propose plusieurs formats publicitaires — des spots vidéo et audio plein écran aux placements dans le fil et la recherche — pour que votre marque reste visible tout au long de l'expérience d'écoute.",
+    "formatVideo": "Publicité vidéo plein écran",
+    "formatStory": "Publicité story",
+    "formatInFeed": "Publicité in-feed",
+    "formatSearch": "Publicité recherche",
+    "caseStudies": "Études de cas",
+    "getStarted": "Commencer",
+    "thankYou": "Merci pour votre intérêt !",
+    "teamReachOut": "Notre équipe publicitaire vous contactera sous peu.",
+    "colgateTitle": "Souriez au rythme de votre musique préférée.",
+    "colgateDesc": "Colgate s'est associé à {{brand}} pour lancer une campagne reliant les soins bucco-dentaires à la joie de la musique. En diffusant des publicités audio pendant les sessions de playlists matinales, Colgate a touché des auditeurs soucieux de leur santé et a enregistré une augmentation de 34 % du rappel de marque chez les 18-34 ans.",
+    "cocaColaTitle": "Coca-Cola : la bande-son parfaite de votre parcours musical",
+    "cocaColaDesc": "Coca-Cola a utilisé les formats publicitaires in-feed et plein écran de {{brand}} pour promouvoir sa campagne « Share a Coke ». En ciblant les auditeurs lors de playlists sociales et de fête, la marque a obtenu une augmentation de 28 % de l'intention d'achat et plus de 2 millions d'impressions publicitaires le premier mois.",
+    "form": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "E-mail",
+      "workEmail": "E-mail professionnel",
+      "phone": "Numéro de téléphone",
+      "website": "Site web de l'entreprise",
+      "industry": "Secteur",
+      "role": "Rôle"
+    }
+  },
+  "terms": {
+    "backToRegistration": "← Retour à l'inscription",
+    "title": "CONDITIONS GÉNÉRALES D'UTILISATION ET DE VENTE",
+    "subtitle": "Pour la plateforme de streaming {{brand}}",
+    "preamble": {
+      "title": "Préambule",
+      "p1": "Les présentes Conditions Générales d'Utilisation et de Vente (CGUV) régissent la relation entre {{brand}} et les Artistes utilisant la Plateforme dans le but de rendre leurs œuvres musicales disponibles en streaming.",
+      "p2": "L'utilisation de la Plateforme implique l'acceptation pleine et entière des présentes conditions, conformément aux dispositions de l'Accord de Bangui révisé de l'OAPI et à la Loi tchadienne n° 2003-05 du 15 janvier 2003 relative à la protection du droit d'auteur et des droits voisins."
+    },
+    "article1": {
+      "title": "Article 1 : Objet",
+      "p1": "Les présentes Conditions Générales ont pour objet de définir les conditions dans lesquelles la Plateforme permet aux Artistes de rendre leurs œuvres musicales accessibles au public par le biais de services de streaming à la demande et de téléchargement temporaire."
+    },
+    "article2": {
+      "title": "Article 2 : Inscription et compte Artiste",
+      "s1": "Pour accéder aux services de distribution, l'Artiste doit créer un compte en fournissant des informations exactes et complètes (identité, coordonnées, etc.).",
+      "s2": "L'Artiste déclare et garantit être majeur et avoir la capacité juridique de conclure les présentes Conditions Générales."
+    },
+    "article3": {
+      "title": "Article 3 : Soumission et mise à disposition des œuvres",
+      "s1": "L'Artiste accorde à la Plateforme une licence non exclusive de distribution de ses œuvres sur le territoire des États membres de l'OAPI, et plus particulièrement au Tchad, pour la durée de son abonnement ou de son utilisation de la Plateforme.",
+      "s2Intro": "L'Artiste est seul responsable du contenu qu'il téléverse et déclare et garantit que :",
+      "s2Items": [
+        "Il détient ou possède l'ensemble des droits patrimoniaux sur les œuvres téléversées, y compris le droit d'auteur et les droits voisins.",
+        "Il a obtenu toutes les autorisations nécessaires de tout co-auteur, interprète ou producteur.",
+        "Ses œuvres ne portent atteinte aux droits d'aucun tiers."
+      ],
+      "s3": "L'Artiste s'engage à fournir des métadonnées complètes et exactes pour ses œuvres."
+    },
+    "article4": {
+      "title": "Article 4 : Services et rémunération",
+      "s1Intro": "La Plateforme fournit les services suivants :",
+      "s1Items": [
+        {
+          "label": "Streaming à la demande (VOD) :",
+          "text": "Écoute individuelle d'une œuvre par les utilisateurs."
+        },
+        {
+          "label": "Téléchargement temporaire :",
+          "text": "Mise en cache du contenu pour une écoute hors ligne, dans les limites de l'abonnement de l'utilisateur."
+        }
+      ],
+      "s2Intro": "En contrepartie de la licence accordée, l'Artiste percevra une rémunération calculée selon le modèle économique en vigueur sur la Plateforme :",
+      "s2Items": [
+        {
+          "label": "Option A (Au prorata) :",
+          "text": "Un pourcentage du revenu net total de la Plateforme, proportionnel au nombre total de streams des œuvres de l'Artiste."
+        },
+        {
+          "label": "Option B (Par stream) :",
+          "text": "Un montant fixe pour chaque stream complet d'une œuvre."
+        }
+      ],
+      "s3": "Les revenus seront calculés et versés périodiquement, chaque trimestre, sous réserve que l'Artiste atteigne le seuil minimum de paiement."
+    },
+    "article5": {
+      "title": "Article 5 : Obligations de la Plateforme",
+      "intro": "La Plateforme s'engage à :",
+      "items": [
+        "Mettre en œuvre les mesures techniques nécessaires pour garantir que les œuvres sont mises à disposition dans des conditions appropriées.",
+        "Fournir à l'Artiste l'accès à un espace sécurisé pour suivre ses statistiques de distribution.",
+        "Assurer la protection des œuvres contre toute utilisation non autorisée, dans les limites des technologies disponibles.",
+        "Fournir à l'Artiste un relevé de l'exploitation de ses œuvres et des revenus générés."
+      ]
+    },
+    "article6": {
+      "title": "Article 6 : Obligations de l'Artiste",
+      "intro": "L'Artiste s'engage à :",
+      "items": [
+        "Maintenir à jour ses informations personnelles et ses œuvres.",
+        "Ne pas téléverser d'œuvres contrefaites ou illicites portant atteinte aux droits d'autrui.",
+        "Ne pas tenter de manipuler ou d'interférer frauduleusement avec le système de comptage des streams.",
+        "Informer ses organismes de gestion collective (OGC) de la disponibilité de ses œuvres sur la Plateforme pour la perception des droits non couverts par la licence directe."
+      ]
+    },
+    "article7": {
+      "title": "Article 7 : Propriété intellectuelle",
+      "s1": "La Plateforme est protégée par les lois relatives à la propriété intellectuelle. Toute reproduction ou représentation non autorisée est interdite.",
+      "s2": "Les œuvres musicales téléversées restent la propriété exclusive de l'Artiste. La Plateforme n'acquiert aucun droit de propriété sur les œuvres, mais uniquement une licence d'exploitation dans les conditions définies par les présentes Conditions Générales."
+    },
+    "article8": {
+      "title": "Article 8 : Durée et résiliation",
+      "s1": "L'Artiste peut résilier son compte à tout moment, gratuitement.",
+      "s2": "La Plateforme se réserve le droit de suspendre ou de résilier le compte d'un Artiste en cas de manquement grave à ses obligations, tel qu'une violation du droit d'auteur ou une fraude, après une mise en demeure restée sans effet."
+    },
+    "article9": {
+      "title": "Article 9 : Protection des données personnelles",
+      "p1": "La Plateforme collecte et traite les données personnelles des Artistes conformément aux lois et réglementations applicables, aux fins de la gestion de leurs comptes et de la distribution de leurs revenus."
+    },
+    "article10": {
+      "title": "Article 10 : Droit applicable et litiges",
+      "s1": "Les présentes Conditions Générales sont régies par le droit tchadien et les dispositions de l'Accord de Bangui de l'OAPI.",
+      "s2": "Tout litige relatif à l'interprétation ou à l'exécution des présentes Conditions Générales relève de la compétence des tribunaux du Tchad."
+    }
+  }
+}

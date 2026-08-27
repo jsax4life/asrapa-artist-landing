@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { UploadCloud, CheckCircle, XCircle, FileText, ChevronDown, X, Music, Disc } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast"; // Added useToast
-import { api, ApiError, Artist, Genre, UploadedSong } from "@/lib/api"; // Import api, ApiError, Artist, Genre, and UploadedSong
+import { api, ApiError, Artist, Genre, UploadedSong, getGenreId } from "@/lib/api"; // Import api, ApiError, Artist, Genre, and UploadedSong
 import { useAuth } from "@/contexts/AuthContext"; // Import useAuth to get current user
 
 interface UploadFormData {
@@ -92,7 +92,7 @@ const Upload = () => {
         setIsLoadingData(true);
         const [artistsResponse, genresResponse, uploadedSongsResponse] = await Promise.all([
           api.getAllArtists(),
-          api.getAllGenres(),
+          api.getPlatformGenres(),
           api.getUploadedSongs(1, 100) // Fetch up to 100 songs for the dropdown
         ]);
         
@@ -528,7 +528,7 @@ const Upload = () => {
                             disabled={isLoadingData}
                           >
                             {formData.genreId
-                              ? genres.find((genre) => genre._id === formData.genreId)?.name
+                              ? genres.find((genre) => getGenreId(genre) === formData.genreId)?.name
                               : "Select genre..."}
                             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
@@ -541,10 +541,10 @@ const Upload = () => {
                               <CommandGroup>
                                 {genres.map((genre) => (
                                   <CommandItem
-                                    key={genre._id}
+                                    key={getGenreId(genre)}
                                     value={genre.name}
                                     onSelect={() => {
-                                      setFormData(prev => ({ ...prev, genreId: genre._id }));
+                                      setFormData(prev => ({ ...prev, genreId: getGenreId(genre) }));
                                       setGenreOpen(false);
                                     }}
                                   >
@@ -763,7 +763,7 @@ const Upload = () => {
                                 disabled={isLoadingData}
                               >
                                 {albumFormData.genreId
-                                  ? genres.find((genre) => genre._id === albumFormData.genreId)?.name
+                                  ? genres.find((genre) => getGenreId(genre) === albumFormData.genreId)?.name
                                   : "Select genre..."}
                                 <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                               </Button>
@@ -776,10 +776,10 @@ const Upload = () => {
                                   <CommandGroup>
                                     {genres.map((genre) => (
                                       <CommandItem
-                                        key={genre._id}
+                                        key={getGenreId(genre)}
                                         value={genre.name}
                                         onSelect={() => {
-                                          setAlbumFormData(prev => ({ ...prev, genreId: genre._id }));
+                                          setAlbumFormData(prev => ({ ...prev, genreId: getGenreId(genre) }));
                                           setGenreOpen(false);
                                         }}
                                       >

@@ -1,6 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Hero = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="flex flex-col relative min-h-[502px] w-full items-stretch text-xl font-bold pb-36 max-md:max-w-full max-md:pb-[100px]">
       <img
@@ -10,10 +13,10 @@ const Hero = () => {
       />
       <div className="relative text-[#F6C874] leading-6 mb-[-29px] ml-[131px] mt-[141px] max-md:ml-2.5 max-md:mt-10 max-md:mb-2.5">
         <h1 className="text-[40px] leading-[44px] mb-2">
-          AsrapaMusic
+          {t('brand')}
         </h1>
         <h2 className="text-[48px] leading-[52px]">
-          ARTIST GUIDE
+          {t('artistGuide.title')}
         </h2>
       </div>
     </section>

@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FormField } from './FormField';
 import { PasswordField } from './PasswordField';
 import { CountrySelect } from './CountrySelect';
@@ -27,6 +28,8 @@ interface FormErrors {
 }
 
 export const SignUpForm: React.FC = () => {
+  const { t } = useTranslation();
+  const brand = t('brand');
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     stageName: '',
@@ -331,18 +334,19 @@ export const SignUpForm: React.FC = () => {
     <div className="flex w-full flex-col items-center max-w-4xl mx-auto px-4 sm:px-6">
       <header className="flex flex-col items-center text-center mb-8">
         <h1 className="text-white text-2xl sm:text-3xl lg:text-[40px] font-bold leading-[1.1]">
-          <span style={{ color: 'rgba(210,216,218,1)' }}>Join</span>{' '}
-          <span style={{ color: 'rgba(196,5,5,1)' }}>AsrapaMusic</span>
+          <span style={{ color: 'rgba(210,216,218,1)' }}>{t('signup.join')}</span>{' '}
+          <span style={{ color: 'rgba(196,5,5,1)' }}>{brand}</span>
         </h1>
         <p className="text-[#D2D8DA] text-sm sm:text-base font-medium mt-4 px-4">
-          Sell Your Music Worldwide & Keep 100% Ownership
+          {t('signup.tagline')}
         </p>
       </header>
 
-      <form onSubmit={handleSubmit} className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+      <div className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+      <form id="artist-signup-form" onSubmit={handleSubmit} className="contents">
         <FormField
-          label="Full Name"
-          placeholder="Your full name"
+          label={t('signup.form.fullName')}
+          placeholder={t('signup.form.fullNamePlaceholder')}
           value={formData.fullName}
           onChange={updateFormData('fullName')}
           required
@@ -350,8 +354,8 @@ export const SignUpForm: React.FC = () => {
         />
 
         <FormField
-          label="Stage Name"
-          placeholder="Your stage name"
+          label={t('signup.form.stageName')}
+          placeholder={t('signup.form.stageNamePlaceholder')}
           value={formData.stageName}
           onChange={updateFormData('stageName')}
           onBlur={handleStageNameBlur}
@@ -362,9 +366,9 @@ export const SignUpForm: React.FC = () => {
         />
 
         <FormField
-          label="Email address"
+          label={t('signup.form.email')}
           type="email"
-          placeholder="Your email address"
+          placeholder={t('signup.form.emailPlaceholder')}
           value={formData.email}
           onChange={updateFormData('email')}
           onBlur={handleEmailBlur}
@@ -376,8 +380,8 @@ export const SignUpForm: React.FC = () => {
 
         <div className="flex flex-col w-full">
           <PasswordField
-            label="Password"
-            placeholder="Password"
+            label={t('signup.form.password')}
+            placeholder={t('signup.form.passwordPlaceholder')}
             value={formData.password}
             onChange={updateFormData('password')}
             required
@@ -404,19 +408,19 @@ export const SignUpForm: React.FC = () => {
               <div className="grid grid-cols-2 gap-1 text-xs text-gray-400">
                 <div className={`flex items-center gap-1 ${formData.password.length >= 8 ? 'text-green-500' : ''}`}>
                   <span>{formData.password.length >= 8 ? '✓' : '○'}</span>
-                  <span>8+ characters</span>
+                  <span>{t('signup.form.chars8')}</span>
                 </div>
                 <div className={`flex items-center gap-1 ${/[A-Z]/.test(formData.password) ? 'text-green-500' : ''}`}>
                   <span>{/[A-Z]/.test(formData.password) ? '✓' : '○'}</span>
-                  <span>Uppercase</span>
+                  <span>{t('signup.form.uppercase')}</span>
                 </div>
                 <div className={`flex items-center gap-1 ${/\d/.test(formData.password) ? 'text-green-500' : ''}`}>
                   <span>{/\d/.test(formData.password) ? '✓' : '○'}</span>
-                  <span>Number</span>
+                  <span>{t('signup.form.number')}</span>
                 </div>
                 <div className={`flex items-center gap-1 ${/[@$!%*?&]/.test(formData.password) ? 'text-green-500' : ''}`}>
                   <span>{/[@$!%*?&]/.test(formData.password) ? '✓' : '○'}</span>
-                  <span>Special char</span>
+                  <span>{t('signup.form.specialChar')}</span>
                 </div>
               </div>
             </div>
@@ -425,8 +429,8 @@ export const SignUpForm: React.FC = () => {
 
         <div className="flex flex-col w-full">
           <PasswordField
-            label="Confirm Password"
-            placeholder="Password"
+            label={t('signup.form.confirmPassword')}
+            placeholder={t('signup.form.passwordPlaceholder')}
             value={formData.confirmPassword}
             onChange={updateFormData('confirmPassword')}
             required
@@ -444,8 +448,8 @@ export const SignUpForm: React.FC = () => {
                 </span>
                 <span>
                   {formData.password === formData.confirmPassword 
-                    ? 'Passwords match' 
-                    : 'Passwords do not match'
+                    ? t('signup.form.passwordsMatch')
+                    : t('signup.form.passwordsNoMatch')
                   }
                 </span>
               </div>
@@ -459,7 +463,9 @@ export const SignUpForm: React.FC = () => {
           error={errors.country}
         />
 
-        <div className="md:col-span-2">
+      </form>
+
+        <div className="md:col-span-2 relative z-10">
           <TermsCheckbox
             checked={formData.agreeToTerms}
             onChange={updateFormData('agreeToTerms')}
@@ -470,6 +476,7 @@ export const SignUpForm: React.FC = () => {
         <div className="md:col-span-2 flex justify-center mt-4">
           <button
             type="submit"
+            form="artist-signup-form"
             className={`w-full sm:w-auto min-w-[280px] max-w-[328px] min-h-12 px-8 py-3 text-sm sm:text-base text-white font-semibold rounded-full transition-all duration-300 ${
               isSigningUp 
                 ? 'bg-gray-500 cursor-not-allowed' 
@@ -492,7 +499,7 @@ export const SignUpForm: React.FC = () => {
             {isSigningUp ? (
               <div className="flex items-center gap-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                Creating Account...
+                {t('signup.form.creatingAccount')}
               </div>
             ) : formData.agreeToTerms && 
                 formData.fullName && 
@@ -509,14 +516,14 @@ export const SignUpForm: React.FC = () => {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Ready to Create Account
+                {t('signup.form.readyToCreate')}
               </div>
             ) : (
-              'Continue'
+              t('signup.form.continue')
             )}
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useArtistLogin } from '@/hooks/use-artist-login';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
 
 const Login: React.FC = () => {
+  const { t } = useTranslation();
+  const brand = t('brand');
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -38,14 +41,14 @@ const Login: React.FC = () => {
         <div className="w-full max-w-md bg-[rgba(210,216,218,0.08)] rounded-xl p-6 shadow-card">
           <header className="text-center mb-6">
             <h1 className="text-white text-3xl font-bold">
-              Welcome to <span className="text-[#C40505]">AsrapaMusic</span>
+              {t('login.welcome')} <span className="text-[#C40505]">{brand}</span>
             </h1>
-            <p className="text-[#D2D8DA] mt-2">Log in to your artist dashboard</p>
+            <p className="text-[#D2D8DA] mt-2">{t('login.subtitle')}</p>
           </header>
           
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col">
-              <label className="text-white font-bold text-sm mb-2">Email or Stage name</label>
+              <label className="text-white font-bold text-sm mb-2">{t('login.emailOrStage')}</label>
               <input
                 type="text"
                 value={identifier}
@@ -54,15 +57,15 @@ const Login: React.FC = () => {
                   if (errors.identifier) setErrors((p) => ({ ...p, identifier: undefined }));
                 }}
                 className={`min-h-12 rounded-lg px-4 py-3 bg-[rgba(210,216,218,0.16)] text-[#D2D8DA] placeholder:text-[#D2D8DA] outline-none border ${errors.identifier ? 'border-red-500' : 'border-transparent'}`}
-                placeholder="Enter your email or stage name"
-                aria-label="Email or Stage name"
+                placeholder={t('login.emailOrStagePlaceholder')}
+                aria-label={t('login.emailOrStage')}
                 disabled={isLoggingIn}
               />
               {errors.identifier && <span className="text-xs text-red-500 mt-1">{errors.identifier}</span>}
             </div>
 
             <div className="flex flex-col">
-              <label className="text-white font-bold text-sm mb-2">Password</label>
+              <label className="text-white font-bold text-sm mb-2">{t('login.password')}</label>
               <div className={`flex items-center min-h-12 rounded-lg px-4 py-3 bg-[rgba(210,216,218,0.16)] border ${errors.password ? 'border-red-500' : 'border-transparent'}`}>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -72,8 +75,8 @@ const Login: React.FC = () => {
                     if (errors.password) setErrors((p) => ({ ...p, password: undefined }));
                   }}
                   className="flex-1 bg-transparent text-[#D2D8DA] placeholder:text-[#D2D8DA] outline-none"
-                  placeholder="Enter your password"
-                  aria-label="Password"
+                  placeholder={t('login.passwordPlaceholder')}
+                  aria-label={t('login.password')}
                   disabled={isLoggingIn}
                 />
                 <button
@@ -94,13 +97,13 @@ const Login: React.FC = () => {
                 isLoggingIn ? 'bg-gray-500 cursor-not-allowed' : 'bg-[#C40505] hover:bg-[#E60606]'
               }`}
             >
-              {isLoggingIn ? 'Signing in...' : 'Sign In'}
+              {isLoggingIn ? t('login.submitting', 'Signing in...') : t('login.submit')}
             </button>
 
             <div className="text-center text-sm text-[#D2D8DA]">
-              Don’t have an account?{' '}
+              {t('login.noAccount')}{' '}
               <Link to={ROUTES.REGISTRATION} className="text-[#F6C874] hover:underline">
-                Create one
+                {t('login.signUp')}
               </Link>
             </div>
           </form>

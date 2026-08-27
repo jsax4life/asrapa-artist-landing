@@ -8,6 +8,8 @@ export const ROUTES = {
   REGISTRATION: '/registration',
   ARTIST_GUIDE: '/artist-guide',
   ADVERTISING: '/advertising',
+  TERMS: '/terms',
+  GENRES: '/dashboard/genres',
   DASHBOARD: '/dashboard',
   LOGIN: '/login',
   ANALYTICS: '/analytics',

@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { api, ArtistSignupData, ApiError } from '@/lib/api';
 import { authService, AuthToken, UserData } from '@/lib/auth';
 import { useAuth } from '@/contexts/AuthContext';
+import i18n from '@/i18n';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
@@ -19,7 +20,7 @@ export const useArtistSignup = () => {
     onSuccess: (response) => {
       toast({
         title: "Account Created Successfully!",
-        description: "Welcome to AsrapaMusic! You can now start uploading your music.",
+        description: i18n.t('signup.welcomeToast', { brand: i18n.t('brand') }),
         variant: "default",
       });
       

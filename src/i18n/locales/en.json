@@ -1,0 +1,287 @@
+{
+  "brand": "Asrapa",
+  "language": {
+    "english": "English",
+    "french": "Français",
+    "switch": "Switch language"
+  },
+  "nav": {
+    "aboutUs": "About Us",
+    "prices": "Prices",
+    "registration": "Registration",
+    "artistGuide": "Artist Guide",
+    "advertising": "Advertising"
+  },
+  "footer": {
+    "company": "Company",
+    "community": "Community",
+    "usefulLinks": "Useful Links",
+    "about": "About",
+    "jobs": "Jobs",
+    "forTheRecord": "For the record",
+    "forArtists": "For Artists",
+    "developers": "Developers",
+    "investors": "Investors",
+    "vendors": "Vendors",
+    "support": "Support",
+    "webPlayer": "Web Player",
+    "freeMobileApp": "Free Mobile App",
+    "logoAlt": "{{brand}} Logo"
+  },
+  "common": {
+    "loading": "Loading...",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "getStarted": "Get Started",
+    "downloadApp": "Download The App",
+    "unexpectedError": "An unexpected error occurred."
+  },
+  "sidebar": {
+    "main": "Main",
+    "content": "Content",
+    "settings": "Settings",
+    "dashboard": "Dashboard",
+    "analytics": "Analytics",
+    "musicLibrary": "Music Library",
+    "audience": "Audience",
+    "upload": "Upload",
+    "trends": "Trends",
+    "events": "Events",
+    "genres": "Genres",
+    "logOut": "Log Out",
+    "musicArtist": "Music Artist"
+  },
+  "genres": {
+    "title": "Genre Management",
+    "addNew": "Add New Genre",
+    "addNewDesc": "Create a genre that artists can assign to their uploads.",
+    "existing": "Existing Genres",
+    "existingDesc": "Edit or remove genres. Changes apply across the platform.",
+    "nameLabel": "Genre name",
+    "namePlaceholder": "e.g. Afrobeats, Hip Hop, Gospel",
+    "addButton": "Add Genre",
+    "empty": "No genres yet. Add your first genre above.",
+    "editTitle": "Edit Genre",
+    "editButton": "Edit {{name}}",
+    "deleteButton": "Delete {{name}}",
+    "deleteConfirmTitle": "Delete genre?",
+    "deleteConfirmDesc": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "loadError": "Failed to load genres",
+    "addSuccess": "Genre added",
+    "addSuccessDesc": "\"{{name}}\" has been created.",
+    "addError": "Failed to add genre",
+    "editSuccess": "Genre updated",
+    "editSuccessDesc": "\"{{name}}\" has been saved.",
+    "editError": "Failed to update genre",
+    "missingIdError": "This genre has no valid ID. Refresh the page — only genres you created can be edited here.",
+    "deleteSuccess": "Genre deleted",
+    "deleteSuccessDesc": "\"{{name}}\" has been removed.",
+    "deleteError": "Failed to delete genre"
+  },
+  "home": {
+    "sellWorldwide": "Sell your music to the whole world",
+    "heroDesc": "Share your sound with fans everywhere. {{brand}} empowers artists to distribute their music globally, reach new audiences, and keep 100% of their earnings. Join our community and let your music be heard across the world.",
+    "getStarted": "Get Started"
+  },
+  "artistHome": {
+    "whyChoose": "Why choose",
+    "artists": "{{brand}} Artists",
+    "unlimitedTitle": "Unlimited distribution worldwide",
+    "unlimitedDesc": "Distribute your music on more than 150 digital platforms and on social networks in more than 200 countries.",
+    "incomeTitle": "Keep 100% of your income",
+    "incomeDesc": "{{brand}} for artists never takes commission on your streaming and download revenues from the Chadian digital platform {{brand}}: you pocket what you generate.",
+    "reportsTitle": "Detailed sales reports",
+    "reportsDesc": "Find out where your fans download and listen to your music to target your marketing and plan your tours accordingly."
+  },
+  "about": {
+    "discover": "Discover a world of Music with",
+    "welcome": "Welcome to {{brand}},",
+    "tagline": "Where music comes alive. Experience a universe of endless tunes, handpicked playlists, and personalized recommendations just for you.",
+    "usersWorldwide": "{{brand}} users worldwide",
+    "scanDownload": "Scan To Download {{brand}} App",
+    "iphoneAlt": "iPhone showing {{brand}} app interface",
+    "qrAlt": "QR Code to download {{brand}} app",
+    "downloadAppAria": "Download the {{brand}} app"
+  },
+  "premium": {
+    "enhance": "Enhance Your Music Journey with Premium",
+    "upgradeDesc": "Upgrade to {{brand}} Premium and take your music journey to the next level. Enjoy uninterrupted music playback, even in offline mode. Say goodbye to those pesky ads, and indulge in high-quality audio for a truly immersive experience.",
+    "pickPremium": "Pick Your Premium",
+    "pickDesc": "Upgrade to {{brand}} Premium and take your music journey to the next level. Enjoy uninterrupted music playback, even in offline mode"
+  },
+  "advertising": {
+    "heroTitle": "Share your brand story and reach a global audience",
+    "whyTitle": "Why Advertise your Brand on {{brand}}?",
+    "whyDesc": "{{brand}} offers innovative advertising solutions that connect your brand with a passionate, music-loving audience. Reach millions of active listeners across the globe and engage them with immersive audio and visual ad experiences tailored to their listening habits. Whether you're launching a new product or building brand awareness, {{brand}} puts your message in front of the right people at the right moment.",
+    "placementTitle": "Ad Placement",
+    "placementDesc": "Reach your audience where they listen. {{brand}} offers multiple ad formats — from full-screen video and audio spots to in-feed and search placements — so your brand stays visible throughout the listening experience.",
+    "formatVideo": "Full-screen video ad",
+    "formatStory": "Story ad",
+    "formatInFeed": "In-feed ad",
+    "formatSearch": "Search ad",
+    "caseStudies": "Case studies",
+    "getStarted": "Get Started",
+    "thankYou": "Thank you for your interest!",
+    "teamReachOut": "Our advertising team will reach out to you shortly.",
+    "colgateTitle": "Smile to the beat of your favorite music.",
+    "colgateDesc": "Colgate partnered with {{brand}} to launch a campaign that connected oral care with the joy of music. By placing audio ads during morning playlist sessions, Colgate reached health-conscious listeners and saw a 34% increase in brand recall among 18–34 year-olds.",
+    "cocaColaTitle": "Coca-Cola: The perfect soundtrack for your music journey",
+    "cocaColaDesc": "Coca-Cola leveraged {{brand}}'s in-feed and full-screen ad formats to promote its \"Share a Coke\" campaign. Targeting listeners during social and party playlists, the brand achieved a 28% lift in purchase intent and over 2 million ad impressions in the first month.",
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "workEmail": "Work email",
+      "phone": "Phone number",
+      "website": "Company Website",
+      "industry": "Industry",
+      "role": "Role"
+    }
+  },
+  "login": {
+    "welcome": "Welcome to",
+    "subtitle": "Log in to your artist dashboard",
+    "emailOrStage": "Email or Stage name",
+    "emailOrStagePlaceholder": "Enter your email or stage name",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "submit": "Log in",
+    "submitting": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
+  },
+  "signup": {
+    "join": "Join",
+    "tagline": "Sell Your Music Worldwide & Keep 100% Ownership",
+    "agreeTerms": "I Agree to the {{brand}}",
+    "termsLink": "Terms & Conditions",
+    "alreadyHaveAccount": "Already have an account?",
+    "logIn": "Log in",
+    "form": {
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Your full name",
+      "stageName": "Stage Name",
+      "stageNamePlaceholder": "Your stage name",
+      "email": "Email address",
+      "emailPlaceholder": "Your email address",
+      "password": "Password",
+      "passwordPlaceholder": "Password",
+      "confirmPassword": "Confirm Password",
+      "continue": "Continue",
+      "creatingAccount": "Creating Account...",
+      "readyToCreate": "Ready to Create Account",
+      "passwordsMatch": "Passwords match",
+      "passwordsNoMatch": "Passwords do not match",
+      "chars8": "8+ characters",
+      "uppercase": "Uppercase",
+      "number": "Number",
+      "specialChar": "Special char"
+    },
+    "welcomeToast": "Welcome to {{brand}}! You can now start uploading your music.",
+    "promoAlt": "{{brand}} promotional image showing musicians and music equipment"
+  },
+  "community": {
+    "title": "Our community of artists"
+  },
+  "artistGuide": {
+    "title": "ARTIST GUIDE"
+  },
+  "terms": {
+    "backToRegistration": "← Back to Registration",
+    "title": "GENERAL TERMS OF USE AND SALE",
+    "subtitle": "For the {{brand}} Streaming Platform",
+    "preamble": {
+      "title": "Preamble",
+      "p1": "These General Terms of Use and Sale (GTUS) govern the relationship between {{brand}} and the Artists using the Platform for the purpose of making their musical works available for streaming.",
+      "p2": "Use of the Platform implies full and unconditional acceptance of these terms and conditions, in accordance with the provisions of the revised Bangui Agreement of OAPI and Chadian Law No. 2003-05 of January 15, 2003, concerning the protection of copyright and related rights."
+    },
+    "article1": {
+      "title": "Article 1: Purpose",
+      "p1": "The purpose of these Terms and Conditions is to define the conditions under which the Platform enables Artists to make their musical works available to the public through on-demand streaming and temporary download services."
+    },
+    "article2": {
+      "title": "Article 2: Registration and Artist Account",
+      "s1": "To access the distribution services, the Artist must create an account by providing accurate and complete information (identity, contact details, etc.).",
+      "s2": "The Artist represents and warrants that they are of legal age and have the legal capacity to enter into these Terms and Conditions."
+    },
+    "article3": {
+      "title": "Article 3: Submission and Availability of Works",
+      "s1": "The Artist grants the Platform a non-exclusive license to distribute their works within the territory of the member states of OAPI, and more particularly in Chad, for the duration of their subscription or use of the Platform.",
+      "s2Intro": "The Artist is solely responsible for the content they upload and represents and warrants that:",
+      "s2Items": [
+        "They own or hold all economic rights in the uploaded works, including copyright and related rights.",
+        "They have obtained all necessary authorizations from any co-authors, performers, or producers.",
+        "Their works do not infringe upon the rights of any third party."
+      ],
+      "s3": "The Artist agrees to provide complete and accurate metadata for their works."
+    },
+    "article4": {
+      "title": "Article 4: Services and Remuneration",
+      "s1Intro": "The Platform provides the following services:",
+      "s1Items": [
+        {
+          "label": "On-demand streaming (VOD):",
+          "text": "Individual listening to a work by users."
+        },
+        {
+          "label": "Temporary download:",
+          "text": "Caching of content for offline listening, subject to the limits of the user's subscription."
+        }
+      ],
+      "s2Intro": "In consideration for the license granted, the Artist shall receive remuneration calculated according to the economic model in force on the Platform:",
+      "s2Items": [
+        {
+          "label": "Option A (Pro Rata):",
+          "text": "A percentage of the Platform's total net revenue, proportional to the total number of streams of the Artist's works."
+        },
+        {
+          "label": "Option B (Per Stream):",
+          "text": "A fixed amount for each complete stream of a work."
+        }
+      ],
+      "s3": "Revenue shall be calculated and paid periodically, every quarter, subject to the Artist reaching the minimum payment threshold."
+    },
+    "article5": {
+      "title": "Article 5: Obligations of the Platform",
+      "intro": "The Platform undertakes to:",
+      "items": [
+        "Implement the necessary technical measures to ensure that works are made available under appropriate conditions.",
+        "Provide the Artist with access to a secure area for monitoring their distribution statistics.",
+        "Ensure the protection of works against unauthorized use, within the limits of available technologies.",
+        "Provide the Artist with an account of the exploitation of their works and the revenue generated."
+      ]
+    },
+    "article6": {
+      "title": "Article 6: Obligations of the Artist",
+      "intro": "The Artist undertakes to:",
+      "items": [
+        "Keep their personal information and works up to date.",
+        "Not upload counterfeit or infringing works that violate the rights of others.",
+        "Not attempt to manipulate or fraudulently interfere with the system used to count streams.",
+        "Inform their collective management organizations (CMOs) about the availability of their works on the Platform for the collection of rights not covered by the direct license."
+      ]
+    },
+    "article7": {
+      "title": "Article 7: Intellectual Property",
+      "s1": "The Platform is protected by intellectual property laws. Any unauthorized reproduction or representation is prohibited.",
+      "s2": "The uploaded musical works shall remain the exclusive property of the Artist. The Platform does not acquire any ownership rights over the works, but only a license to exploit them under the conditions defined in these Terms and Conditions."
+    },
+    "article8": {
+      "title": "Article 8: Duration and Termination",
+      "s1": "The Artist may terminate their account at any time, free of charge.",
+      "s2": "The Platform reserves the right to suspend or terminate an Artist's account in the event of a serious breach of their obligations, such as copyright infringement or fraud, following a formal notice that remains ineffective."
+    },
+    "article9": {
+      "title": "Article 9: Protection of Personal Data",
+      "p1": "The Platform collects and processes Artists' personal data in accordance with applicable laws and regulations for the purpose of managing their accounts and distributing their earnings."
+    },
+    "article10": {
+      "title": "Article 10: Applicable Law and Disputes",
+      "s1": "These Terms and Conditions shall be governed by Chadian law and the provisions of the Bangui Agreement of OAPI.",
+      "s2": "Any dispute relating to the interpretation or performance of these Terms and Conditions shall be subject to the jurisdiction of the courts of Chad."
+    }
+  }
+}

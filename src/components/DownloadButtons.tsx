@@ -1,8 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const DownloadButtons: React.FC = () => {
+  const { t } = useTranslation();
+  const brand = t('brand');
+
   const handleDownloadClick = () => {
-    // Add download functionality here
     console.log('Download app clicked');
   };
 
@@ -11,10 +14,10 @@ const DownloadButtons: React.FC = () => {
       <button 
         onClick={handleDownloadClick}
         className="flex items-center gap-3 border cursor-pointer transition-all duration-[0.3s] ease-[ease] px-4 py-2 rounded-[50px] border-solid border-white hover:bg-white hover:text-black max-sm:w-full max-sm:justify-center"
-        aria-label="Download the Asrapa Music app"
+        aria-label={t('about.downloadAppAria', { brand })}
       >
         <span className="text-white text-base font-bold leading-6 tracking-[0.16px] uppercase m-0 hover:text-black transition-colors">
-          Download The App
+          {t('common.downloadApp')}
         </span>
         <div>
           <div

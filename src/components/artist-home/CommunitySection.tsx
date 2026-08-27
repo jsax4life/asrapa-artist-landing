@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ArtistCard } from './ArtistCard';
 
 const artists = [
@@ -47,6 +48,7 @@ const artists = [
 ];
 
 export const CommunitySection: React.FC = () => {
+  const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = 2;
 
@@ -58,7 +60,7 @@ export const CommunitySection: React.FC = () => {
     <section className="w-full max-w-[1482px] min-h-[523px] shrink-0 relative mt-[10px] mb-8 lg:mb-20 mx-auto px-2 sm:px-4">
       <header className="w-full flex justify-center items-center pt-4 pb-2">
         <h2 className="font-bold text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight tracking-tight text-center max-w-full">
-          Our community of artists
+          {t('community.title')}
         </h2>
       </header>
       

@@ -1,8 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const phoneMockups = [
   {
-    label: 'Full-screen video ad',
+    labelKey: 'advertising.formatVideo',
     content: (
       <div className="h-full bg-gradient-to-b from-[#1a1a2e] to-[#16213e] flex flex-col items-center justify-center p-2">
         <div className="w-full h-[70%] bg-[#C40505]/30 rounded-lg flex items-center justify-center">
@@ -13,7 +14,7 @@ const phoneMockups = [
     ),
   },
   {
-    label: 'Story ad',
+    labelKey: 'advertising.formatStory',
     content: (
       <div className="h-full bg-black flex flex-col">
         <div className="flex-1 bg-gradient-to-br from-purple-900 to-[#C40505] flex items-end p-2">
@@ -25,7 +26,7 @@ const phoneMockups = [
     ),
   },
   {
-    label: 'In-feed ad',
+    labelKey: 'advertising.formatInFeed',
     content: (
       <div className="h-full bg-[#121212] p-2 flex flex-col gap-1">
         <div className="text-white text-[8px] font-bold mb-1">Home</div>
@@ -47,7 +48,7 @@ const phoneMockups = [
     ),
   },
   {
-    label: 'Search ad',
+    labelKey: 'advertising.formatSearch',
     content: (
       <div className="h-full bg-[#121212] p-2 flex flex-col gap-1">
         <div className="bg-[#2a2a2a] rounded px-2 py-1 text-[#888] text-[7px]">Search...</div>
@@ -64,24 +65,25 @@ const phoneMockups = [
 ];
 
 const AdPlacementSection: React.FC = () => {
+  const { t } = useTranslation();
+  const brand = t('brand');
+
   return (
     <section className="w-full max-w-6xl mx-auto px-6 py-16">
       <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-6">
-        Ad Placement
+        {t('advertising.placementTitle')}
       </h2>
       <p className="text-[#D2D8DA] text-center text-base md:text-lg mb-12 max-w-3xl mx-auto">
-        Reach your audience where they listen. AsrapaMusic offers multiple ad formats — from
-        full-screen video and audio spots to in-feed and search placements — so your brand
-        stays visible throughout the listening experience.
+        {t('advertising.placementDesc', { brand })}
       </p>
 
       <div className="flex flex-wrap justify-center gap-6 md:gap-8">
         {phoneMockups.map((mockup) => (
-          <div key={mockup.label} className="flex flex-col items-center gap-3">
+          <div key={mockup.labelKey} className="flex flex-col items-center gap-3">
             <div className="w-[140px] sm:w-[160px] h-[280px] sm:h-[320px] bg-black rounded-[24px] border-4 border-[#333] overflow-hidden shadow-xl">
               <div className="w-full h-full">{mockup.content}</div>
             </div>
-            <span className="text-[#888] text-sm">{mockup.label}</span>
+            <span className="text-[#888] text-sm">{t(mockup.labelKey)}</span>
           </div>
         ))}
       </div>

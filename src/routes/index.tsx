@@ -14,6 +14,8 @@ const Prices = lazy(() => import('@/pages/Prices'));
 const Registration = lazy(() => import('@/pages/Registration'));
 const ArtistGuide = lazy(() => import('@/pages/ArtistGuide'));
 const Advertising = lazy(() => import('@/pages/Advertising'));
+const Terms = lazy(() => import('@/pages/Terms'));
+const GenreManagement = lazy(() => import('@/pages/GenreManagement'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Login = lazy(() => import('@/pages/Login'));
 const Analytics = lazy(() => import('@/pages/Analytics')); // Added Analytics page
@@ -60,6 +62,10 @@ const routes: RouteConfig[] = [
   {
     path: ROUTES.ADVERTISING,
     element: Advertising,
+  },
+  {
+    path: ROUTES.GENRES,
+    element: GenreManagement,
   },
   {
     path: ROUTES.DASHBOARD,
@@ -179,6 +185,26 @@ export const router = createBrowserRouter([
           <Advertising />
         </Suspense>
       </Layout>
+    ),
+  },
+  {
+    path: ROUTES.TERMS,
+    element: (
+      <Layout>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Terms />
+        </Suspense>
+      </Layout>
+    ),
+  },
+  {
+    path: ROUTES.GENRES,
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <RequireAuth>
+          <GenreManagement />
+        </RequireAuth>
+      </Suspense>
     ),
   },
   {

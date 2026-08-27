@@ -2,8 +2,8 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { authService } from './auth';
 
-// API service for AsrapaMusic backend
-// For production, set VITE_API_BASE_URL in your environment to 'https://api.asrapa.com/api'
+// API service for Asrapa backend
+// For production, set VITE_API_BASE_URL in your environment to 'https://api.asrapa.com/api/v1'
 // For local development, it defaults to 'http://localhost:4000/api/v1'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api/v1';
 
@@ -198,10 +198,106 @@ export interface Artist {
 }
 
 export interface Genre {
-  _id: string;
+  _id?: string;
+  id?: string;
+  genreId?: string;
   name: string;
-  __v: number;
+  description?: string;
+  createdBy?: string;
+  isActive?: boolean;
+  __v?: number;
 }
+
+const extractIdValue = (value: unknown): string | undefined => {
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : undefined;
+  }
+  if (value && typeof value === 'object') {
+    const obj = value as Record<string, unknown>;
+    if (typeof obj.$oid === 'string') return obj.$oid.trim();
+    if (typeof obj._id === 'string') return obj._id.trim();
+    if (typeof obj.id === 'string') return obj.id.trim();
+  }
+  return undefined;
+};
+
+export const extractGenreId = (raw: unknown): string => {
+  if (typeof raw === 'string') return raw.trim();
+  if (!raw || typeof raw !== 'object') return '';
+
+  const record = raw as Record<string, unknown>;
+  const source =
+    record.genre && typeof record.genre === 'object'
+      ? (record.genre as Record<string, unknown>)
+      : record;
+
+  return (
+    extractIdValue(source._id) ??
+    extractIdValue(source.id) ??
+    extractIdValue(source.genreId) ??
+    ''
+  );
+};
+
+export const getGenreId = (genre: Genre): string => extractGenreId(genre);
+
+const normalizeGenre = (raw: unknown): Genre => {
+  const id = extractGenreId(raw);
+  const record =
+    raw && typeof raw === 'object'
+      ? ((raw as Record<string, unknown>).genre ?? raw) as Record<string, unknown>
+      : {};
+
+  return {
+    _id: id || undefined,
+    id: id || undefined,
+    genreId: id || undefined,
+    name: typeof record.name === 'string' ? record.name : '',
+    description: typeof record.description === 'string' ? record.description : undefined,
+    createdBy: typeof record.createdBy === 'string' ? record.createdBy : undefined,
+    isActive: typeof record.isActive === 'boolean' ? record.isActive : undefined,
+    __v: typeof record.__v === 'number' ? record.__v : undefined,
+  };
+};
+
+const parseGenresPayload = (payload: unknown): Genre[] => {
+  if (!payload || typeof payload !== 'object') return [];
+
+  const root = payload as Record<string, unknown>;
+  const data = root.data;
+
+  if (Array.isArray(data)) {
+    return data.map(normalizeGenre).filter((genre) => genre.name);
+  }
+
+  if (data && typeof data === 'object') {
+    const dataRecord = data as Record<string, unknown>;
+    const collections = [dataRecord.genres, dataRecord.genre];
+    for (const collection of collections) {
+      if (Array.isArray(collection)) {
+        return collection.map(normalizeGenre).filter((genre) => genre.name);
+      }
+    }
+  }
+
+  if (Array.isArray(root.genres)) {
+    return root.genres.map(normalizeGenre).filter((genre) => genre.name);
+  }
+
+  return [];
+};
+
+const assertGenreId = (genreId: string): string => {
+  const id = genreId.trim();
+  if (!id || id === 'genres' || id === 'undefined' || id === 'null') {
+    throw new ApiError(
+      'Genre ID is missing or invalid. Please refresh the page and try again.',
+      400
+    );
+  }
+  return id;
+};
 
 export interface ArtistsResponse {
   status: string;
@@ -410,16 +506,103 @@ export const api = {
     }
   },
 
-  async getAllGenres(): Promise<GenresResponse> {
+  async getArtistGenres(): Promise<GenresResponse> {
     try {
-      const response: AxiosResponse<GenresResponse> = await apiClient.get('/genres');
-      return response.data;
+      const response: AxiosResponse<GenresResponse> = await apiClient.get('/artist/genres');
+      const genres = parseGenresPayload(response.data);
+      return {
+        ...response.data,
+        results: genres.length,
+        data: { genres },
+      };
     } catch (error) {
       if (error instanceof ApiError) {
         throw error;
       }
       throw new ApiError(
         'Network error occurred while fetching genres. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async getPlatformGenres(): Promise<GenresResponse> {
+    try {
+      const response: AxiosResponse<GenresResponse> = await apiClient.get('/genres');
+      const genres = parseGenresPayload(response.data);
+      return {
+        ...response.data,
+        results: genres.length,
+        data: { genres },
+      };
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred while fetching genres. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async getAllGenres(): Promise<GenresResponse> {
+    return this.getPlatformGenres();
+  },
+
+  async createGenre(name: string, description?: string): Promise<ApiResponse<{ genre: Genre }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ genre: Genre }>> = await apiClient.post('/artist/genres', {
+        name,
+        ...(description ? { description } : {}),
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred while creating genre. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async updateGenre(
+    genreId: string,
+    data: { name?: string; description?: string }
+  ): Promise<ApiResponse<{ genre: Genre }>> {
+    try {
+      const id = assertGenreId(genreId);
+      const response: AxiosResponse<ApiResponse<{ genre: Genre }>> = await apiClient.patch(
+        `/artist/genres/${id}`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred while updating genre. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async deleteGenre(genreId: string): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const id = assertGenreId(genreId);
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.delete(
+        `/artist/genres/${id}`
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred while deleting genre. Please check your connection.',
         0
       );
     }

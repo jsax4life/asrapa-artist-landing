@@ -1,26 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/constants/routes';
 
 const Footer = () => {
+  const { t } = useTranslation();
+  const brand = t('brand');
+
   const companyLinks = [
-    { label: 'About', href: '#about' },
-    { label: 'Jobs', href: '#jobs' },
-    { label: 'For the record', href: '#record' },
+    { labelKey: 'footer.about', href: '#about' },
+    { labelKey: 'footer.jobs', href: '#jobs' },
+    { labelKey: 'footer.forTheRecord', href: '#record' },
   ];
 
   const communityLinks = [
-    { label: 'For Artists', href: '#artists' },
-    { label: 'Developers', href: '#developers' },
-    { label: 'Advertising', href: ROUTES.ADVERTISING, isRoute: true },
-    { label: 'Investors', href: '#investors' },
-    { label: 'Vendors', href: '#vendors' },
+    { labelKey: 'footer.forArtists', href: '#artists' },
+    { labelKey: 'footer.developers', href: '#developers' },
+    { labelKey: 'nav.advertising', href: ROUTES.ADVERTISING, isRoute: true },
+    { labelKey: 'footer.investors', href: '#investors' },
+    { labelKey: 'footer.vendors', href: '#vendors' },
   ];
 
   const usefulLinks = [
-    { label: 'Support', href: '#support' },
-    { label: 'Web Player', href: '#web-player' },
-    { label: 'Free Mobile App', href: '#mobile-app' },
+    { labelKey: 'footer.support', href: '#support' },
+    { labelKey: 'footer.webPlayer', href: '#web-player' },
+    { labelKey: 'footer.freeMobileApp', href: '#mobile-app' },
   ];
 
   return (
@@ -28,22 +32,22 @@ const Footer = () => {
       <div className="flex w-[1344px] max-w-full gap-[40px_100px] justify-between flex-wrap">
         <img
           src="https://api.builder.io/api/v1/image/assets/e4fe701087e74a95b6a29ed12c1bd7bc/83099d7d05c878480fcc6c2e375526e518037144?placeholderIfAbsent=true"
-          alt="AsrapaMusic Logo"
+          alt={t('footer.logoAlt', { brand })}
           className="aspect-[4.46] object-contain w-[161px] shrink-0"
         />
         
         <div className="text-base text-white font-bold tracking-[0.13px] leading-none w-[135px]">
-          <h4 className="text-[rgba(204,204,204,1)] mb-8">Company</h4>
+          <h4 className="text-[rgba(204,204,204,1)] mb-8">{t('footer.company')}</h4>
           <nav>
             <ul className="space-y-8">
               {companyLinks.map((link) => (
-                <li key={link.label}>
+                <li key={link.labelKey}>
                   <a 
                     href={link.href} 
                     className="hover:text-[#F6C874] transition-colors"
-                    aria-label={`Navigate to ${link.label}`}
+                    aria-label={t(link.labelKey)}
                   >
-                    {link.label}
+                    {t(link.labelKey)}
                   </a>
                 </li>
               ))}
@@ -52,26 +56,26 @@ const Footer = () => {
         </div>
 
         <div className="text-base text-white font-bold tracking-[0.13px] leading-none w-[135px]">
-          <h4 className="text-[rgba(204,204,204,1)] mb-8">Community</h4>
+          <h4 className="text-[rgba(204,204,204,1)] mb-8">{t('footer.community')}</h4>
           <nav>
             <ul className="space-y-8">
               {communityLinks.map((link) => (
-                <li key={link.label}>
+                <li key={link.labelKey}>
                   {'isRoute' in link && link.isRoute ? (
                     <Link
                       to={link.href}
                       className="hover:text-[#F6C874] transition-colors"
-                      aria-label={`Navigate to ${link.label}`}
+                      aria-label={t(link.labelKey)}
                     >
-                      {link.label}
+                      {t(link.labelKey)}
                     </Link>
                   ) : (
                     <a
                       href={link.href}
                       className="hover:text-[#F6C874] transition-colors"
-                      aria-label={`Navigate to ${link.label}`}
+                      aria-label={t(link.labelKey)}
                     >
-                      {link.label}
+                      {t(link.labelKey)}
                     </a>
                   )}
                 </li>
@@ -81,17 +85,17 @@ const Footer = () => {
         </div>
 
         <div className="text-base text-white font-bold tracking-[0.13px] leading-none w-[135px]">
-          <h4 className="text-[rgba(204,204,204,1)] mb-8">Useful Links</h4>
+          <h4 className="text-[rgba(204,204,204,1)] mb-8">{t('footer.usefulLinks')}</h4>
           <nav>
             <ul className="space-y-8">
               {usefulLinks.map((link) => (
-                <li key={link.label}>
+                <li key={link.labelKey}>
                   <a 
                     href={link.href} 
                     className="hover:text-[#F6C874] transition-colors"
-                    aria-label={`Navigate to ${link.label}`}
+                    aria-label={t(link.labelKey)}
                   >
-                    {link.label}
+                    {t(link.labelKey)}
                   </a>
                 </li>
               ))}

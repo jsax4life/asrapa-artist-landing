@@ -3,9 +3,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
+import { I18nextProvider } from "react-i18next";
 import { router } from "./routes";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { AuthProvider } from "@/contexts/AuthContext";
+import i18n from "@/i18n";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,17 +19,19 @@ const queryClient = new QueryClient({
 });
 
 const App = () => (
-  <ErrorBoundary>
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <RouterProvider router={router} />
-        </TooltipProvider>
-      </QueryClientProvider>
-    </AuthProvider>
-  </ErrorBoundary>
+  <I18nextProvider i18n={i18n}>
+    <ErrorBoundary>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <RouterProvider router={router} />
+          </TooltipProvider>
+        </QueryClientProvider>
+      </AuthProvider>
+    </ErrorBoundary>
+  </I18nextProvider>
 );
 
 export default App;

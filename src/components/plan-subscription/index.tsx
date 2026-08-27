@@ -1,9 +1,12 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { FeatureCard } from './FeatureCard';
 import { PricingCard } from './PricingCard';
 import { PaymentIcons } from './PaymentIcons';
 
 const Index = () => {
+  const { t } = useTranslation();
+  const brand = t('brand');
   const featureCards = [
     {
       icon: `<svg id="813:22521" width="174" height="174" viewBox="0 0 174 174" fill="none" xmlns="http://www.w3.org/2000/svg" class="feature-icon" style="width: 124px; height: 124px; border-radius: 62px; background: #121212; box-shadow: 0 6px 25px 0 rgba(196, 5, 5, 0.08)"> <g filter="url(#filter0_d_813_22521)"> <rect x="25" y="19" width="124" height="124" rx="62" fill="#121212"></rect> <path d="M61.272 52.7264L115.272 106.726C115.975 107.429 115.975 108.569 115.272 109.272C114.569 109.975 113.429 109.975 112.726 109.272L108.163 104.708C106.74 105.651 105.033 106.199 103.199 106.199H70.7992C65.8287 106.199 61.7992 102.17 61.7992 97.1992V64.7992C61.7992 62.9649 62.348 61.2587 63.2903 59.8359L58.7264 55.272C58.0235 54.5691 58.0235 53.4294 58.7264 52.7264C59.4294 52.0235 60.5691 52.0235 61.272 52.7264ZM103.944 100.489L90.5992 87.1448V89.9992C90.5992 90.9932 89.7932 91.7992 88.7992 91.7992H74.3992C73.4051 91.7992 72.5992 90.9932 72.5992 89.9992V75.5992C72.5992 74.6051 73.4051 73.7992 74.3992 73.7992H77.2536L73.6536 70.1992H67.1992V96.2992C67.1992 98.7847 69.2139 100.799 71.6992 100.799H102.299C102.88 100.799 103.434 100.689 103.944 100.489ZM80.8536 77.3992H76.1992V88.1992H86.9992V83.5448L80.8536 77.3992ZM106.799 93.1625V70.1992H83.8361L69.5255 55.8887C69.9416 55.8297 70.3668 55.7992 70.7992 55.7992H103.199C108.17 55.7992 112.199 59.8287 112.199 64.7992V97.1992C112.199 97.6316 112.169 98.0567 112.11 98.4729L106.799 93.1625Z" fill="white"></path> </g> <defs> <filter id="filter0_d_813_22521" x="0" y="0" width="174" height="174" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"></feColorMatrix> <feOffset dy="6"></feOffset> <feGaussianBlur stdDeviation="12.5"></feGaussianBlur> <feComposite in2="hardAlpha" operator="out"></feComposite> <feColorMatrix type="matrix" values="0 0 0 0 0.768627 0 0 0 0 0.0196078 0 0 0 0 0.0196078 0 0 0 0.08 0"></feColorMatrix> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_813_22521"></feBlend> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_813_22521" result="shape"></feBlend> </filter> </defs> </svg>`,
@@ -52,13 +55,10 @@ const Index = () => {
         {/* Hero Section */}
         <section className="flex flex-col items-center gap-6 w-full max-w-[1116px]">
           <h1 className="text-white text-center text-7xl font-bold leading-[82.8px] tracking-[0.72px] max-md:text-5xl max-md:leading-[57.6px] max-sm:text-[32px] max-sm:leading-10">
-            Enhance Your Music Journey with Premium
+            {t('premium.enhance')}
           </h1>
           <p className="text-[#CCC] text-center text-xl font-bold leading-[30px] max-md:text-lg max-sm:text-base">
-            Upgrade to Asrapa Music Premium and take your music journey to the
-            next level. Enjoy uninterrupted music playback, even in offline
-            mode. Say goodbye to those pesky ads, and indulge in high-quality
-            audio for a truly immersive experience.
+            {t('premium.upgradeDesc', { brand })}
           </p>
         </section>
 
@@ -79,11 +79,10 @@ const Index = () => {
       <section className="flex flex-col items-center  w-full max-w-[1116px]">
         <div className="flex flex-col items-center gap-6 w-full">
           <h2 className="text-white text-center text-7xl font-bold leading-[82.8px] tracking-[0.72px] max-md:text-5xl max-md:leading-[57.6px] max-sm:text-[32px] max-sm:leading-10">
-            Pick Your Premium
+            {t('premium.pickPremium')}
           </h2>
           <p className="text-[#CCC] text-center text-base font-bold leading-6 max-sm:text-base">
-            Upgrade to Asrapa Music Premium and take your music journey to the
-            next level. Enjoy uninterrupted music playback, even in offline mode
+            {t('premium.pickDesc', { brand })}
           </p>
           <PaymentIcons />
         </div>

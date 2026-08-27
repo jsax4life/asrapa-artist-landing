@@ -1,15 +1,15 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { 
   Home, 
   BarChart3, 
   Music, 
   Users, 
   Upload, 
-  Settings,
-  PlayCircle,
   TrendingUp,
   Calendar,
-  LogOut
+  LogOut,
+  Tags
 } from "lucide-react";
 
 import {
@@ -23,25 +23,13 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/dashboard-sidebar";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
 import { useToast } from "@/hooks/use-toast";
 
-const mainItems = [
-  { title: "Dashboard", url: ROUTES.DASHBOARD, icon: Home },
-  { title: "Analytics", url: ROUTES.ANALYTICS, icon: BarChart3 },
-  { title: "Music Library", url: ROUTES.MUSIC_LIBRARY, icon: Music },
-  { title: "Audience", url: ROUTES.AUDIENCE, icon: Users },
-];
-
-const contentItems = [
-  { title: "Upload", url: ROUTES.UPLOAD, icon: Upload },
-  { title: "Trends", url: ROUTES.TRENDS, icon: TrendingUp },
-  { title: "Events", url: ROUTES.EVENTS, icon: Calendar },
-];
-
 export function AppSidebar() {
+  const { t } = useTranslation();
   const { state } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
@@ -50,7 +38,23 @@ export function AppSidebar() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const isActive = (path: string) => currentPath === path;
+  const mainItems = [
+    { titleKey: "sidebar.dashboard", url: ROUTES.DASHBOARD, icon: Home },
+    { titleKey: "sidebar.analytics", url: ROUTES.ANALYTICS, icon: BarChart3 },
+    { titleKey: "sidebar.musicLibrary", url: ROUTES.MUSIC_LIBRARY, icon: Music },
+    { titleKey: "sidebar.audience", url: ROUTES.AUDIENCE, icon: Users },
+  ];
+
+  const contentItems = [
+    { titleKey: "sidebar.upload", url: ROUTES.UPLOAD, icon: Upload },
+    { titleKey: "sidebar.trends", url: ROUTES.TRENDS, icon: TrendingUp },
+    { titleKey: "sidebar.events", url: ROUTES.EVENTS, icon: Calendar },
+  ];
+
+  const settingsItems = [
+    { titleKey: "sidebar.genres", url: ROUTES.GENRES, icon: Tags },
+  ];
+
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive 
       ? "bg-sidebar-accent text-sidebar-primary font-medium border-r-2 border-sidebar-primary" 
@@ -73,7 +77,6 @@ export function AppSidebar() {
       collapsible="icon"
     >
       <SidebarContent className="p-4">
-        {/* Artist Profile Section */}
         <div className={`mb-6 ${collapsed ? "hidden" : "block"}`}>
           <div className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-primary">
             <div className="w-10 h-10 rounded-full bg-primary-glow flex items-center justify-center">
@@ -84,29 +87,24 @@ export function AppSidebar() {
                 {user?.fullName || user?.stageName || 'Artist'}
               </h3>
               <p className="text-sm text-primary-foreground/80">
-                {user?.stageName ? user.stageName : 'Music Artist'}
+                {user?.stageName ? user.stageName : t('sidebar.musicArtist')}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Main Navigation */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground/60 font-medium mb-2">
-            Main
+            {t('sidebar.main')}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {mainItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.titleKey}>
                   <SidebarMenuButton asChild>
-                    <NavLink 
-                      to={item.url} 
-                      end 
-                      className={getNavCls}
-                    >
+                    <NavLink to={item.url} end className={getNavCls}>
                       <item.icon className={`h-4 w-4 ${collapsed ? "mx-auto" : "mr-3"}`} />
-                      {!collapsed && <span>{item.title}</span>}
+                      {!collapsed && <span>{t(item.titleKey)}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -115,22 +113,18 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Content Management */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground/60 font-medium mb-2">
-            Content
+            {t('sidebar.content')}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {contentItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.titleKey}>
                   <SidebarMenuButton asChild>
-                    <NavLink 
-                      to={item.url} 
-                      className={getNavCls}
-                    >
+                    <NavLink to={item.url} className={getNavCls}>
                       <item.icon className={`h-4 w-4 ${collapsed ? "mx-auto" : "mr-3"}`} />
-                      {!collapsed && <span>{item.title}</span>}
+                      {!collapsed && <span>{t(item.titleKey)}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -139,17 +133,33 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Settings */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground/60 font-medium mb-2">
-            Settings
+            {t('sidebar.settings')}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              {settingsItems.map((item) => (
+                <SidebarMenuItem key={item.titleKey}>
+                  <SidebarMenuButton asChild>
+                    <NavLink to={item.url} className={getNavCls}>
+                      <item.icon className={`h-4 w-4 ${collapsed ? "mx-auto" : "mr-3"}`} />
+                      {!collapsed && <span>{t(item.titleKey)}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+              {!collapsed && (
+                <SidebarMenuItem>
+                  <div className="px-3 py-2">
+                    <LanguageSwitcher variant="compact" />
+                  </div>
+                </SidebarMenuItem>
+              )}
               <SidebarMenuItem>
                 <SidebarMenuButton onClick={handleLogout}>
                   <LogOut className="h-4 w-4 mr-3" />
-                  {!collapsed && <span>Log Out</span>}
+                  {!collapsed && <span>{t('sidebar.logOut')}</span>}
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
