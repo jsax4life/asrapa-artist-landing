@@ -27,8 +27,6 @@ const Login: React.FC = () => {
     return Object.keys(nextErrors).length === 0;
   };
 
-  console.log(identifier.trim(), password)
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
