@@ -11,13 +11,15 @@ const Hero = () => {
         alt="Hero background"
         className="absolute h-full w-full object-cover inset-0"
       />
-      <div className="relative text-[#F6C874] leading-6 mb-[-29px] ml-[131px] mt-[141px] max-md:ml-2.5 max-md:mt-10 max-md:mb-2.5">
-        <h1 className="text-[40px] leading-[44px] mb-2">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+      <div className="relative ml-[131px] mt-[141px] max-md:ml-2.5 max-md:mt-10">
+        <p className="mb-3 flex items-center gap-2 text-xs font-semibold tracking-[0.35em] text-[#F6C874] uppercase">
+          <span className="h-px w-8 bg-[#F6C874]" />
           {t('brand')}
-        </h1>
-        <h2 className="text-[48px] leading-[52px]">
+        </p>
+        <h1 className="bg-gradient-to-r from-[#F6C874] to-[#c99a3f] bg-clip-text text-[42px] leading-[1.05] font-black tracking-tight text-transparent sm:text-[56px] sm:leading-[1.02]">
           {t('artistGuide.title')}
-        </h2>
+        </h1>
       </div>
     </section>
   );

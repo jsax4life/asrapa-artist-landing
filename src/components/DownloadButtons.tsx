@@ -1,17 +1,26 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.asrapa.music';
+const APP_STORE_URL = 'https://apps.apple.com/app/asrapa-music';
+
+function getStoreUrl(userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '') {
+  const ua = userAgent.toLowerCase();
+  if (/iphone|ipad|ipod|mac os x|macintosh/.test(ua)) return APP_STORE_URL;
+  return PLAY_STORE_URL;
+}
+
 const DownloadButtons: React.FC = () => {
   const { t } = useTranslation();
   const brand = t('brand');
 
   const handleDownloadClick = () => {
-    console.log('Download app clicked');
+    window.open(getStoreUrl(), '_blank', 'noopener,noreferrer');
   };
 
   return (
     <div className="flex items-start gap-[34px] max-md:flex-col max-md:gap-6 max-md:items-center max-sm:w-full">
-      <button 
+      <button
         onClick={handleDownloadClick}
         className="flex items-center gap-3 border cursor-pointer transition-all duration-[0.3s] ease-[ease] px-4 py-2 rounded-[50px] border-solid border-white hover:bg-white hover:text-black max-sm:w-full max-sm:justify-center"
         aria-label={t('about.downloadAppAria', { brand })}
@@ -29,8 +38,10 @@ const DownloadButtons: React.FC = () => {
         </div>
       </button>
       <div className="flex items-start gap-[13.719px] max-md:flex-col max-md:gap-4">
-        <button
-          onClick={handleDownloadClick}
+        <a
+          href={PLAY_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="border-0 bg-transparent p-0 cursor-pointer"
           aria-label="Get it on Google Play"
         >
@@ -39,9 +50,11 @@ const DownloadButtons: React.FC = () => {
             alt="Get it on Google Play"
             className="w-[189px] h-[55px] border cursor-pointer transition-all duration-[0.3s] ease-[ease] rounded-[8.733px] border-solid border-white hover:opacity-80 max-sm:w-full max-sm:max-w-[250px]"
           />
-        </button>
-        <button
-          onClick={handleDownloadClick}
+        </a>
+        <a
+          href={APP_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="border-0 bg-transparent p-0 cursor-pointer"
           aria-label="Download on the App Store"
         >
@@ -50,7 +63,7 @@ const DownloadButtons: React.FC = () => {
             alt="Download on the App Store"
             className="w-[189px] h-[55px] border cursor-pointer transition-all duration-[0.3s] ease-[ease] rounded-[8.733px] border-solid border-white hover:opacity-80 max-sm:w-full max-sm:max-w-[250px]"
           />
-        </button>
+        </a>
       </div>
     </div>
   );

@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SpotifyIcon from './SpotifyIcon';
+import { useToast } from '@/hooks/use-toast';
 
 const QRCodeSection: React.FC = () => {
   const { t } = useTranslation();
   const brand = t('brand');
   const [email, setEmail] = useState('');
+  const { toast } = useToast();
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Email submitted:', email);
-    // Add email submission logic here
+    if (!email.trim()) return;
+    // Note: no backend endpoint exists yet to persist this signup.
+    toast({
+      title: 'Merci !',
+      description: `On vous préviendra dès le lancement de ${brand}.`,
+    });
+    setEmail('');
   };
 
   return (

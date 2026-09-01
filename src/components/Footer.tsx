@@ -126,14 +126,24 @@ const Footer = () => {
           </div>
           
           <div className="flex gap-2.5">
-            <a href="#app-store" aria-label="Download from App Store">
+            <a
+              href="https://apps.apple.com/app/asrapa-music"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download from App Store"
+            >
               <img
                 src="https://api.builder.io/api/v1/image/assets/e4fe701087e74a95b6a29ed12c1bd7bc/e31ccb7066e64a27a7cbfa183960fcb5791da114?placeholderIfAbsent=true"
                 alt="Download on App Store"
                 className="aspect-[3.44] object-contain w-[134px] shrink-0 rounded-md hover:opacity-80 transition-opacity"
               />
             </a>
-            <a href="#google-play" aria-label="Download from Google Play">
+            <a
+              href="https://play.google.com/store/apps/details?id=com.asrapa.music"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download from Google Play"
+            >
               <img
                 src="https://api.builder.io/api/v1/image/assets/e4fe701087e74a95b6a29ed12c1bd7bc/963e7ad2396dcc3cf3f719aca69e1dfe2b36f109?placeholderIfAbsent=true"
                 alt="Get it on Google Play"
