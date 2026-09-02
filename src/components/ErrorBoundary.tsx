@@ -37,7 +37,7 @@ class ErrorBoundary extends Component<Props, State> {
 export const ErrorFallback: React.FC<{ error?: Error | null }> = ({ error }) => {
   const routeError = useRouteError();
 
-  let errorMessage = 'Something went wrong';
+  let errorMessage = 'Une erreur est survenue';
   let errorDetails = '';
 
   if (isRouteErrorResponse(routeError)) {

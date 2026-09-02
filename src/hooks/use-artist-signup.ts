@@ -58,7 +58,7 @@ export const useArtistSignup = () => {
       } else if (error.status === 400) {
         errorMessage = error.message || 'Please check your input and try again.';
       } else if (error.status === 0) {
-        errorMessage = 'Network error. Please check your connection and try again.';
+        errorMessage = 'Erreur réseau. Vérifiez votre connexion et réessayez.';
       }
       
       toast({

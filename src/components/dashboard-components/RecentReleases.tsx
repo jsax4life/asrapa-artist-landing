@@ -5,34 +5,34 @@ import { Play, MoreHorizontal } from "lucide-react";
 const releases = [
   {
     id: 1,
-    title: "Neon Dreams",
+    title: "Dounia",
     type: "Single",
     streams: "1.2M",
-    date: "2024-07-15",
+    date: "2026-07-15",
     image: "🎵"
   },
   {
     id: 2,
-    title: "Electric Pulse",
-    type: "Single", 
+    title: "N'Djamena la nuit",
+    type: "Single",
     streams: "890K",
-    date: "2024-06-20",
+    date: "2026-06-20",
     image: "🎶"
   },
   {
     id: 3,
-    title: "Midnight Frequencies",
+    title: "Terre du Tchad",
     type: "EP",
     streams: "2.1M",
-    date: "2024-05-10",
+    date: "2026-05-10",
     image: "🎼"
   },
   {
     id: 4,
-    title: "Digital Horizon",
+    title: "Racines",
     type: "Single",
     streams: "654K",
-    date: "2024-04-25",
+    date: "2026-04-25",
     image: "🎹"
   }
 ];
@@ -41,7 +41,7 @@ export function RecentReleases() {
   return (
     <Card className="bg-card border-border shadow-card animate-fade-in">
       <CardHeader>
-        <CardTitle className="text-xl font-bold text-foreground">Recent Releases</CardTitle>
+        <CardTitle className="text-xl font-bold text-foreground">Sorties récentes</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -56,9 +56,9 @@ export function RecentReleases() {
                   <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                     <span>{release.type}</span>
                     <span>•</span>
-                    <span>{release.streams} streams</span>
+                    <span>{release.streams} écoutes</span>
                     <span>•</span>
-                    <span>{new Date(release.date).toLocaleDateString()}</span>
+                    <span>{new Date(release.date).toLocaleDateString('fr-FR')}</span>
                   </div>
                 </div>
               </div>

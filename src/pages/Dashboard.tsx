@@ -21,7 +21,7 @@ const Dashboard = () => {
                 <div className="flex-1 flex flex-col">
                     <header className="h-16 flex items-center border-b border-border bg-card px-6">
                         <SidebarTrigger className="mr-4" />
-                        <h2 className="text-lg font-semibold text-foreground">Artist Dashboard</h2>
+                        <h2 className="text-lg font-semibold text-foreground">Tableau de bord artiste</h2>
                     </header>
 
 
@@ -34,21 +34,21 @@ const Dashboard = () => {
           <div className="flex flex-col sm:flex-row items-center sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 p-4 sm:p-6 rounded-xl bg-gradient-hero shadow-glow animate-fade-in">
             <img 
               src={artistProfile} 
-              alt="Artist Profile" 
+              alt="Photo de profil de l'artiste"
               className="w-16 h-16 sm:w-24 sm:h-24 rounded-full border-4 border-primary-foreground/20 shadow-accent"
             />
             <div className="text-primary-foreground text-center sm:text-left">
               <h1 className="text-2xl sm:text-4xl font-bold mb-1 sm:mb-2">
-                Welcome back, {user?.fullName || user?.stageName || 'Artist'}
+                Bon retour, {user?.fullName || user?.stageName || 'Artiste'}
               </h1>
               <p className="text-lg sm:text-xl opacity-90">
-                {user?.stageName ? `${user.stageName} - ` : ''}Music Artist
+                {user?.stageName ? `${user.stageName} - ` : ''}Artiste musical
               </p>
               <p className="text-xs sm:text-sm opacity-70 mt-1">
-                Member since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long' 
-                }) : 'Recently'}
+                Membre depuis {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('fr-FR', {
+                  year: 'numeric',
+                  month: 'long'
+                }) : 'récemment'}
               </p>
             </div>
           </div>
@@ -56,30 +56,30 @@ const Dashboard = () => {
                             {/* Stats Overview */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                 <StatsCard
-                                    title="Total Streams"
+                                    title="Écoutes totales"
                                     value="2.4M"
-                                    change="+12.5% from last month"
+                                    change="+12,5 % vs mois dernier"
                                     icon={Play}
                                     trend="up"
                                 />
                                 <StatsCard
-                                    title="Monthly Listeners"
+                                    title="Auditeurs mensuels"
                                     value="145K"
-                                    change="+8.2% from last month"
+                                    change="+8,2 % vs mois dernier"
                                     icon={Users}
                                     trend="up"
                                 />
                                 <StatsCard
-                                    title="Track Releases"
+                                    title="Titres sortis"
                                     value="24"
-                                    change="3 new this month"
+                                    change="3 nouveaux ce mois-ci"
                                     icon={Music}
                                     trend="up"
                                 />
                                 <StatsCard
-                                    title="Growth Rate"
-                                    value="18.7%"
-                                    change="+2.1% improvement"
+                                    title="Taux de croissance"
+                                    value="18,7 %"
+                                    change="+2,1 % d'amélioration"
                                     icon={TrendingUp}
                                     trend="up"
                                 />
@@ -97,12 +97,12 @@ const Dashboard = () => {
                                     <QuickActions />
                                 </div>
                             </div>
+
+                            {/* Recent Releases */}
+                            <RecentReleases />
                         </div>
                     </main>
                 </div>
-
-                {/* Recent Releases */}
-                <RecentReleases />
             </SidebarInset>
         </SidebarProvider>
     );

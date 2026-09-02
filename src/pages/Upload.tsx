@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { UploadCloud, CheckCircle, XCircle, FileText, ChevronDown, X, Music, Disc } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast"; // Added useToast
-import { api, ApiError, Artist, Genre, UploadedSong, getGenreId } from "@/lib/api"; // Import api, ApiError, Artist, Genre, and UploadedSong
+import { api, ApiError, Artist, Genre, UploadedSong, UploadedAlbum, getGenreId } from "@/lib/api"; // Import api, ApiError, Artist, Genre, UploadedSong, and UploadedAlbum
 import { useAuth } from "@/contexts/AuthContext"; // Import useAuth to get current user
 
 interface UploadFormData {
@@ -43,12 +43,6 @@ interface AlbumFormData {
 
 type UploadType = 'single' | 'album';
 
-
-const dummyAlbums = [
-  { id: "66e84ba1a215fec521fab949", title: "My First Album" },
-  { id: "66e84ba1a215fec521fab950", title: "Summer Hits EP" },
-];
-
 const Upload = () => {
   const [uploadType, setUploadType] = useState<UploadType>('single');
   const [songFile, setSongFile] = useState<File | null>(null);
@@ -61,6 +55,7 @@ const Upload = () => {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [uploadedSongs, setUploadedSongs] = useState<UploadedSong[]>([]);
+  const [albums, setAlbums] = useState<UploadedAlbum[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [genreOpen, setGenreOpen] = useState(false);
   const [collaboratorsOpen, setCollaboratorsOpen] = useState(false);
@@ -90,28 +85,33 @@ const Upload = () => {
     const fetchData = async () => {
       try {
         setIsLoadingData(true);
-        const [artistsResponse, genresResponse, uploadedSongsResponse] = await Promise.all([
+        const [artistsResponse, genresResponse, uploadedSongsResponse, uploadedAlbumsResponse] = await Promise.all([
           api.getAllArtists(),
           api.getPlatformGenres(),
-          api.getUploadedSongs(1, 100) // Fetch up to 100 songs for the dropdown
+          api.getUploadedSongs(1, 100), // Fetch up to 100 songs for the dropdown
+          api.getUploadedAlbums(1, 100) // Fetch up to 100 albums for the dropdown
         ]);
-        
+
         if (artistsResponse.status === 'success' && artistsResponse.data) {
           setArtists(artistsResponse.data.artists);
         }
-        
+
         if (genresResponse.status === 'success' && genresResponse.data) {
           setGenres(genresResponse.data.genres);
         }
-        
+
         if (uploadedSongsResponse.status === 'success' && uploadedSongsResponse.data) {
           setUploadedSongs(uploadedSongsResponse.data.songs);
+        }
+
+        if (uploadedAlbumsResponse.status === 'success' && uploadedAlbumsResponse.data) {
+          setAlbums(uploadedAlbumsResponse.data.albums);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
         toast({
-          title: "Error Loading Data",
-          description: "Failed to load artists and genres. Please refresh the page.",
+          title: "Erreur de chargement",
+          description: "Impossible de charger les artistes et les genres. Actualisez la page.",
           variant: "destructive",
         });
       } finally {
@@ -127,8 +127,8 @@ const Upload = () => {
       const file = event.target.files[0];
       if (!file.type.startsWith('audio/')) {
         toast({
-          title: "Invalid File Type",
-          description: "Please select an audio file (MP3, WAV, FLAC).",
+          title: "Type de fichier invalide",
+          description: "Sélectionnez un fichier audio (MP3, WAV, FLAC).",
           variant: "destructive",
         });
         setSongFile(null);
@@ -145,8 +145,8 @@ const Upload = () => {
       const file = event.target.files[0];
       if (!file.type.startsWith('image/')) {
         toast({
-          title: "Invalid File Type",
-          description: "Please select an image file (JPEG, PNG, WebP).",
+          title: "Type de fichier invalide",
+          description: "Sélectionnez un fichier image (JPEG, PNG, WebP).",
           variant: "destructive",
         });
         setCoverPhotoFile(null);
@@ -172,8 +172,8 @@ const Upload = () => {
         setCoverPhotoFile(droppedFile);
       } else {
         toast({
-          title: "Unsupported File Type",
-          description: "Please drag and drop an audio or image file.",
+          title: "Type de fichier non pris en charge",
+          description: "Déposez un fichier audio ou image.",
           variant: "destructive",
         });
       }
@@ -193,16 +193,16 @@ const Upload = () => {
     event.preventDefault();
     if (!songFile) {
       toast({
-        title: "Missing Audio File",
-        description: "Please select an audio file to upload.",
+        title: "Fichier audio manquant",
+        description: "Sélectionnez un fichier audio à téléverser.",
         variant: "destructive",
       });
       return;
     }
     if (!coverPhotoFile) {
       toast({
-        title: "Missing Cover Photo",
-        description: "Please select a cover photo for your song.",
+        title: "Photo de couverture manquante",
+        description: "Sélectionnez une photo de couverture pour votre titre.",
         variant: "destructive",
       });
       return;
@@ -226,8 +226,8 @@ const Upload = () => {
       await api.uploadSingleSong(formDataToSend);
       setUploadComplete(true);
       toast({
-        title: "Upload Successful",
-        description: "Your song has been uploaded successfully!",
+        title: "Téléversement réussi",
+        description: "Votre titre a été téléversé avec succès !",
       });
       // Reset form and files for next upload
       setSongFile(null);
@@ -242,9 +242,9 @@ const Upload = () => {
       });
     } catch (error) {
       console.error("Upload error:", error);
-      const errorMessage = error instanceof ApiError ? error.message : "An unexpected error occurred during upload.";
+      const errorMessage = error instanceof ApiError ? error.message : "Une erreur inattendue s'est produite pendant le téléversement.";
       toast({
-        title: "Upload Failed",
+        title: "Échec du téléversement",
         description: errorMessage,
         variant: "destructive",
       });
@@ -257,8 +257,8 @@ const Upload = () => {
   const handleAlbumSubmit = useCallback(async () => {
     if (!albumCoverPhotoFile) {
       toast({
-        title: "Missing Album Cover",
-        description: "Please select a cover photo for your album.",
+        title: "Photo de couverture manquante",
+        description: "Sélectionnez une photo de couverture pour votre album.",
         variant: "destructive",
       });
       return;
@@ -266,8 +266,8 @@ const Upload = () => {
 
     if (!albumFormData.title || !albumFormData.releaseDate || !albumFormData.genreId) {
       toast({
-        title: "Missing Required Fields",
-        description: "Please fill in all required fields (title, release date, genre).",
+        title: "Champs obligatoires manquants",
+        description: "Remplissez tous les champs requis (titre, date de sortie, genre).",
         variant: "destructive",
       });
       return;
@@ -304,18 +304,11 @@ const Upload = () => {
     }
 
     try {
-      console.log('Sending album data:', formDataToSend);
-      console.log('FormData entries before sending:');
-      for (const [key, value] of formDataToSend.entries()) {
-        console.log(`${key}:`, value);
-      }
-      console.log('About to call api.uploadAlbum...');
       const response = await api.uploadAlbum(formDataToSend);
-      console.log('Album upload response:', response);
       setUploadComplete(true);
       toast({
-        title: "Album Created Successfully",
-        description: response.message || "Your album has been created and is pending review!",
+        title: "Album créé avec succès",
+        description: response.message || "Votre album a été créé et est en attente de validation !",
       });
       
       // Reset form and files for next upload
@@ -332,9 +325,9 @@ const Upload = () => {
       });
     } catch (error) {
       console.error("Album upload error:", error);
-      const errorMessage = error instanceof ApiError ? error.message : "An unexpected error occurred during album creation.";
+      const errorMessage = error instanceof ApiError ? error.message : "Une erreur inattendue s'est produite pendant la création de l'album.";
       toast({
-        title: "Album Creation Failed",
+        title: "Échec de la création de l'album",
         description: errorMessage,
         variant: "destructive",
       });
@@ -351,7 +344,7 @@ const Upload = () => {
         <div className="flex-1 flex flex-col">
           <header className="h-16 flex items-center border-b border-border bg-card px-6">
             <SidebarTrigger className="mr-4" />
-            <h2 className="text-lg font-semibold text-foreground">Upload New Music</h2>
+            <h2 className="text-lg font-semibold text-foreground">Téléverser de la musique</h2>
           </header>
 
           <main className="flex-1 overflow-auto">
@@ -360,9 +353,9 @@ const Upload = () => {
               {/* Upload Type Selection */}
               <Card className="bg-card border-border shadow-card animate-fade-in p-6">
                 <CardHeader className="px-0 pt-0">
-                  <CardTitle className="text-xl font-bold text-foreground">Upload Type</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">Type de téléversement</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Choose whether you want to upload a single song or create an album
+                    Choisissez si vous voulez téléverser un titre seul ou créer un album
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="px-0">
@@ -375,8 +368,8 @@ const Upload = () => {
                       onClick={() => setUploadType('single')}
                     >
                       <Music className="h-6 w-6" />
-                      <span className="font-medium">Single Upload</span>
-                      <span className="text-xs opacity-80">Upload one song</span>
+                      <span className="font-medium">Titre unique</span>
+                      <span className="text-xs opacity-80">Téléverser un seul titre</span>
                     </Button>
                     <Button
                       variant={uploadType === 'album' ? 'default' : 'outline'}
@@ -386,8 +379,8 @@ const Upload = () => {
                       onClick={() => setUploadType('album')}
                     >
                       <Disc className="h-6 w-6" />
-                      <span className="font-medium">Album Upload</span>
-                      <span className="text-xs opacity-80">Create an album with multiple songs</span>
+                      <span className="font-medium">Album</span>
+                      <span className="text-xs opacity-80">Créer un album avec plusieurs titres</span>
                     </Button>
                   </div>
                 </CardContent>
@@ -399,9 +392,9 @@ const Upload = () => {
                   {/* Audio File Upload Area */}
                   <Card className="bg-card border-border shadow-card animate-fade-in p-6">
                 <CardHeader className="px-0 pt-0">
-                  <CardTitle className="text-xl font-bold text-foreground">Audio File Upload</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">Fichier audio</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Drag & drop your audio file here, or click to browse. Supported formats: MP3, WAV, FLAC (Max size: 50MB)
+                    Glissez-déposez votre fichier audio ici, ou cliquez pour parcourir. Formats acceptés : MP3, WAV, FLAC (taille max. 50 Mo)
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="px-0">
@@ -419,20 +412,20 @@ const Upload = () => {
                         {isUploading && (
                           <div className="w-full mt-4">
                             <Progress value={uploadProgress} className="w-full" />
-                            <p className="text-sm text-muted-foreground mt-2">Uploading... {uploadProgress}%</p>
+                            <p className="text-sm text-muted-foreground mt-2">Téléversement... {uploadProgress}%</p>
                           </div>
                         )}
                         {uploadComplete && (
-                          <p className="text-green-500 text-sm mt-2 flex items-center gap-1">
-                            <CheckCircle className="h-4 w-4" /> Upload Complete!
+                          <p className="text-primary text-sm mt-2 flex items-center gap-1">
+                            <CheckCircle className="h-4 w-4" /> Téléversement terminé !
                           </p>
                         )}
                       </div>
                     ) : (
                       <div className="flex flex-col items-center">
                         <UploadCloud className="h-12 w-12 text-muted-foreground mb-3" />
-                        <p className="text-foreground font-medium">Drag & Drop Song File or Click to Upload</p>
-                        <p className="text-muted-foreground text-sm mt-1">Supported formats: MP3, WAV, FLAC</p>
+                        <p className="text-foreground font-medium">Glissez-déposez votre titre ou cliquez pour téléverser</p>
+                        <p className="text-muted-foreground text-sm mt-1">Formats acceptés : MP3, WAV, FLAC</p>
                       </div>
                     )}
                     <input 
@@ -449,9 +442,9 @@ const Upload = () => {
               {/* Cover Photo Upload Area */}
               <Card className="bg-card border-border shadow-card animate-fade-in p-6">
                 <CardHeader className="px-0 pt-0">
-                  <CardTitle className="text-xl font-bold text-foreground">Cover Photo Upload</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">Photo de couverture</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Drag & drop your cover photo here, or click to browse. Supported formats: JPEG, PNG, WebP (Max size: 5MB)
+                    Glissez-déposez votre photo de couverture ici, ou cliquez pour parcourir. Formats acceptés : JPEG, PNG, WebP (taille max. 5 Mo)
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="px-0">
@@ -470,8 +463,8 @@ const Upload = () => {
                     ) : (
                       <div className="flex flex-col items-center">
                         <UploadCloud className="h-12 w-12 text-muted-foreground mb-3" />
-                        <p className="text-foreground font-medium">Drag & Drop Cover Photo or Click to Upload</p>
-                        <p className="text-muted-foreground text-sm mt-1">Supported formats: JPEG, PNG, WebP</p>
+                        <p className="text-foreground font-medium">Glissez-déposez votre photo ou cliquez pour téléverser</p>
+                        <p className="text-muted-foreground text-sm mt-1">Formats acceptés : JPEG, PNG, WebP</p>
                       </div>
                     )}
                     <input 
@@ -488,30 +481,30 @@ const Upload = () => {
               {/* Metadata Form */}
               <Card className="bg-card border-border shadow-card animate-fade-in p-6">
                 <CardHeader className="px-0 pt-0">
-                  <CardTitle className="text-xl font-bold text-foreground">Track Details</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">Détails du titre</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Provide information about your track. This helps listeners find your music.
+                    Renseignez les informations sur votre titre. Cela aide les auditeurs à trouver votre musique.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="px-0">
                   <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="title">Title</Label>
-                      <Input id="title" name="title" value={formData.title} onChange={handleFormChange} placeholder="Track Title" required />
+                      <Label htmlFor="title">Titre</Label>
+                      <Input id="title" name="title" value={formData.title} onChange={handleFormChange} placeholder="Titre du morceau" required />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="duration">Duration (seconds)</Label>
-                      <Input id="duration" name="duration" type="number" value={formData.duration === 0 ? '' : formData.duration} onChange={handleFormChange} placeholder="e.g., 233" required min="1" max="3600" />
+                      <Label htmlFor="duration">Durée (secondes)</Label>
+                      <Input id="duration" name="duration" type="number" value={formData.duration === 0 ? '' : formData.duration} onChange={handleFormChange} placeholder="ex. 233" required min="1" max="3600" />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="albumId">Album (Optional)</Label>
+                      <Label htmlFor="albumId">Album (optionnel)</Label>
                       <Select name="albumId" value={formData.albumId || ''} onValueChange={(value) => handleSelectChange('albumId', value)}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select an album" />
+                          <SelectValue placeholder="Sélectionner un album" />
                         </SelectTrigger>
                         <SelectContent>
-                          {dummyAlbums.map((album) => (
-                            <SelectItem key={album.id} value={album.id}>{album.title}</SelectItem>
+                          {albums.map((album) => (
+                            <SelectItem key={album._id} value={album._id}>{album.title}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
@@ -529,15 +522,15 @@ const Upload = () => {
                           >
                             {formData.genreId
                               ? genres.find((genre) => getGenreId(genre) === formData.genreId)?.name
-                              : "Select genre..."}
+                              : "Sélectionner un genre..."}
                             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-full p-0">
                           <Command>
-                            <CommandInput placeholder="Search genres..." />
+                            <CommandInput placeholder="Rechercher un genre..." />
                             <CommandList>
-                              <CommandEmpty>No genre found.</CommandEmpty>
+                              <CommandEmpty>Aucun genre trouvé.</CommandEmpty>
                               <CommandGroup>
                                 {genres.map((genre) => (
                                   <CommandItem
@@ -558,7 +551,7 @@ const Upload = () => {
                       </Popover>
                     </div>
                     <div className="space-y-2 md:col-span-2">
-                      <Label htmlFor="collaborators">Collaborators (Optional)</Label>
+                      <Label htmlFor="collaborators">Collaborateurs (optionnel)</Label>
                       <Popover open={collaboratorsOpen} onOpenChange={setCollaboratorsOpen}>
                         <PopoverTrigger asChild>
                           <Button
@@ -569,16 +562,16 @@ const Upload = () => {
                             disabled={isLoadingData}
                           >
                             {formData.collaborators.length > 0 
-                              ? `${formData.collaborators.length} collaborator(s) selected`
-                              : "Select collaborators..."}
+                              ? `${formData.collaborators.length} collaborateur(s) sélectionné(s)`
+                              : "Sélectionner des collaborateurs..."}
                             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-full p-0">
                           <Command>
-                            <CommandInput placeholder="Search artists..." />
+                            <CommandInput placeholder="Rechercher un artiste..." />
                             <CommandList>
-                              <CommandEmpty>No artist found.</CommandEmpty>
+                              <CommandEmpty>Aucun artiste trouvé.</CommandEmpty>
                               <CommandGroup>
                                 {artists
                                   .filter((artist) => artist._id !== user?.id) // Filter out current user
@@ -643,23 +636,23 @@ const Upload = () => {
                         onChange={(e) => handleSelectChange('isExplicit', e.target.checked)}
                         className="h-4 w-4"
                       />
-                      <Label htmlFor="isExplicit">Explicit Content</Label>
+                      <Label htmlFor="isExplicit">Contenu explicite</Label>
                     </div>
                     <div className="space-y-2 md:col-span-2">
-                      <Label htmlFor="lyrics">Lyrics (Optional, Max 10,000 characters)</Label>
+                      <Label htmlFor="lyrics">Paroles (optionnel, 10 000 caractères max.)</Label>
                       <Textarea 
                         id="lyrics" 
                         name="lyrics" 
                         value={formData.lyrics || ''} 
                         onChange={handleFormChange} 
-                        placeholder="Enter song lyrics here..." 
+                        placeholder="Saisissez les paroles ici..." 
                         rows={6} 
                         maxLength={10000}
                       />
                     </div>
                     <div className="md:col-span-2 flex justify-end">
                       <Button type="submit" disabled={!songFile || !coverPhotoFile || isUploading} className="bg-primary hover:bg-primary-dark text-primary-foreground flex items-center gap-2">
-                        {isUploading ? 'Uploading...' : 'Submit Track'}
+                        {isUploading ? 'Téléversement...' : 'Publier le titre'}
                       </Button>
                     </div>
                   </form>
@@ -674,9 +667,9 @@ const Upload = () => {
                   {/* Album Cover Photo Upload */}
                   <Card className="bg-card border-border shadow-card animate-fade-in p-6">
                     <CardHeader className="px-0 pt-0">
-                      <CardTitle className="text-xl font-bold text-foreground">Album Cover Photo</CardTitle>
+                      <CardTitle className="text-xl font-bold text-foreground">Photo de couverture de l'album</CardTitle>
                       <CardDescription className="text-muted-foreground">
-                        Upload a cover photo for your album. Supported formats: JPEG, PNG, WebP (Max size: 5MB)
+                        Téléversez une photo de couverture pour votre album. Formats acceptés : JPEG, PNG, WebP (taille max. 5 Mo)
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="px-0">
@@ -693,8 +686,8 @@ const Upload = () => {
                         ) : (
                           <div className="flex flex-col items-center">
                             <UploadCloud className="h-12 w-12 text-muted-foreground mb-3" />
-                            <p className="text-foreground font-medium">Click to Upload Album Cover</p>
-                            <p className="text-muted-foreground text-sm mt-1">Supported formats: JPEG, PNG, WebP</p>
+                            <p className="text-foreground font-medium">Cliquez pour téléverser la couverture</p>
+                            <p className="text-muted-foreground text-sm mt-1">Formats acceptés : JPEG, PNG, WebP</p>
                           </div>
                         )}
                         <input 
@@ -707,8 +700,8 @@ const Upload = () => {
                               const file = e.target.files[0];
                               if (!file.type.startsWith('image/')) {
                                 toast({
-                                  title: "Invalid File Type",
-                                  description: "Please select an image file (JPEG, PNG, WebP).",
+                                  title: "Type de fichier invalide",
+                                  description: "Sélectionnez un fichier image (JPEG, PNG, WebP).",
                                   variant: "destructive",
                                 });
                                 return;
@@ -724,25 +717,25 @@ const Upload = () => {
                   {/* Album Details Form */}
                   <Card className="bg-card border-border shadow-card animate-fade-in p-6">
                     <CardHeader className="px-0 pt-0">
-                      <CardTitle className="text-xl font-bold text-foreground">Album Details</CardTitle>
+                      <CardTitle className="text-xl font-bold text-foreground">Détails de l'album</CardTitle>
                       <CardDescription className="text-muted-foreground">
-                        Provide information about your album
+                        Renseignez les informations sur votre album
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="px-0">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="album-title">Album Title</Label>
+                          <Label htmlFor="album-title">Titre de l'album</Label>
                           <Input 
                             id="album-title" 
                             value={albumFormData.title} 
                             onChange={(e) => setAlbumFormData(prev => ({ ...prev, title: e.target.value }))} 
-                            placeholder="Album Title" 
+                            placeholder="Titre de l'album" 
                             required 
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="release-date">Release Date</Label>
+                          <Label htmlFor="release-date">Date de sortie</Label>
                           <Input 
                             id="release-date" 
                             type="date" 
@@ -764,15 +757,15 @@ const Upload = () => {
                               >
                                 {albumFormData.genreId
                                   ? genres.find((genre) => getGenreId(genre) === albumFormData.genreId)?.name
-                                  : "Select genre..."}
+                                  : "Sélectionner un genre..."}
                                 <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-full p-0">
                               <Command>
-                                <CommandInput placeholder="Search genres..." />
+                                <CommandInput placeholder="Rechercher un genre..." />
                                 <CommandList>
-                                  <CommandEmpty>No genre found.</CommandEmpty>
+                                  <CommandEmpty>Aucun genre trouvé.</CommandEmpty>
                                   <CommandGroup>
                                     {genres.map((genre) => (
                                       <CommandItem
@@ -800,21 +793,21 @@ const Upload = () => {
                             onChange={(e) => setAlbumFormData(prev => ({ ...prev, explicit: e.target.checked }))}
                             className="h-4 w-4"
                           />
-                          <Label htmlFor="album-explicit">Explicit Content</Label>
+                          <Label htmlFor="album-explicit">Contenu explicite</Label>
                         </div>
                         <div className="space-y-2 md:col-span-2">
-                          <Label htmlFor="album-caption">Caption (Optional)</Label>
+                          <Label htmlFor="album-caption">Légende (optionnel)</Label>
                           <Textarea 
                             id="album-caption" 
                             value={albumFormData.caption || ''} 
                             onChange={(e) => setAlbumFormData(prev => ({ ...prev, caption: e.target.value }))} 
-                            placeholder="Describe your album..." 
+                            placeholder="Décrivez votre album..." 
                             rows={3} 
                             maxLength={500}
                           />
                         </div>
                         <div className="space-y-2 md:col-span-2">
-                          <Label htmlFor="existing-songs">Existing Songs (Optional)</Label>
+                          <Label htmlFor="existing-songs">Titres existants (optionnel)</Label>
                           <Popover open={existingSongsOpen} onOpenChange={setExistingSongsOpen}>
                             <PopoverTrigger asChild>
                               <Button
@@ -825,18 +818,18 @@ const Upload = () => {
                                 disabled={isLoadingData || uploadedSongs.length === 0}
                               >
                                 {albumFormData.existingSongIds.length > 0
-                                  ? `${albumFormData.existingSongIds.length} song(s) selected`
+                                  ? `${albumFormData.existingSongIds.length} titre(s) sélectionné(s)`
                                   : uploadedSongs.length === 0 
-                                    ? "No uploaded songs available"
-                                    : "Select existing songs..."}
+                                    ? "Aucun titre téléversé disponible"
+                                    : "Sélectionner des titres existants..."}
                                 <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-full p-0">
                               <Command>
-                                <CommandInput placeholder="Search songs..." />
+                                <CommandInput placeholder="Rechercher un titre..." />
                                 <CommandList>
-                                  <CommandEmpty>No songs found.</CommandEmpty>
+                                  <CommandEmpty>Aucun titre trouvé.</CommandEmpty>
                                   <CommandGroup>
                                     {uploadedSongs.map((song) => {
                                       const isSelected = albumFormData.existingSongIds.includes(song.id);
@@ -892,7 +885,7 @@ const Upload = () => {
                             </div>
                           )}
                           <p className="text-xs text-muted-foreground">
-                            Select songs you've already uploaded that you want to include in this album
+                            Sélectionnez des titres déjà téléversés à inclure dans cet album
                           </p>
                         </div>
                       </div>
@@ -902,9 +895,9 @@ const Upload = () => {
                   {/* New Songs Upload */}
                   <Card className="bg-card border-border shadow-card animate-fade-in p-6">
                     <CardHeader className="px-0 pt-0">
-                      <CardTitle className="text-xl font-bold text-foreground">New Songs</CardTitle>
+                      <CardTitle className="text-xl font-bold text-foreground">Nouveaux titres</CardTitle>
                       <CardDescription className="text-muted-foreground">
-                        Upload new songs for your album. You can upload multiple audio files at once.
+                        Téléversez de nouveaux titres pour votre album. Vous pouvez téléverser plusieurs fichiers audio à la fois.
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="px-0">
@@ -915,7 +908,7 @@ const Upload = () => {
                         {newSongFiles.length > 0 ? (
                           <div className="flex flex-col items-center">
                             <FileText className="h-12 w-12 text-primary mb-3" />
-                            <p className="text-foreground font-medium">{newSongFiles.length} song(s) selected</p>
+                            <p className="text-foreground font-medium">{newSongFiles.length} titre(s) sélectionné(s)</p>
                             <div className="mt-2 space-y-1">
                               {newSongFiles.map((file, index) => (
                                 <p key={index} className="text-sm text-muted-foreground">{file.name}</p>
@@ -925,8 +918,8 @@ const Upload = () => {
                         ) : (
                           <div className="flex flex-col items-center">
                             <UploadCloud className="h-12 w-12 text-muted-foreground mb-3" />
-                            <p className="text-foreground font-medium">Click to Upload New Songs</p>
-                            <p className="text-muted-foreground text-sm mt-1">Supported formats: MP3, WAV, FLAC</p>
+                            <p className="text-foreground font-medium">Cliquez pour téléverser de nouveaux titres</p>
+                            <p className="text-muted-foreground text-sm mt-1">Formats acceptés : MP3, WAV, FLAC</p>
                           </div>
                         )}
                         <input 
@@ -941,8 +934,8 @@ const Upload = () => {
                               const validFiles = files.filter(file => file.type.startsWith('audio/'));
                               if (validFiles.length !== files.length) {
                                 toast({
-                                  title: "Invalid File Type",
-                                  description: "Some files were not audio files and were skipped.",
+                                  title: "Type de fichier invalide",
+                                  description: "Certains fichiers n'étaient pas des fichiers audio et ont été ignorés.",
                                   variant: "destructive",
                                 });
                               }
@@ -961,7 +954,7 @@ const Upload = () => {
                       disabled={!albumCoverPhotoFile || !albumFormData.title || !albumFormData.releaseDate || !albumFormData.genreId || isUploading}
                       className="bg-primary hover:bg-primary-dark text-primary-foreground flex items-center gap-2"
                     >
-                      {isUploading ? 'Creating Album...' : 'Create Album'}
+                      {isUploading ? "Création de l'album..." : "Créer l'album"}
                     </Button>
                   </div>
                 </>
