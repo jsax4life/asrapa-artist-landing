@@ -25,6 +25,7 @@ const Audience = lazy(() => import('@/pages/Audience')); // Added Audience page
 const Upload = lazy(() => import('@/pages/Upload')); // Added Upload page
 const Trends = lazy(() => import('@/pages/Trends')); // Added Trends page
 const Events = lazy(() => import('@/pages/Events')); // Added Events page
+const Settings = lazy(() => import('@/pages/Settings'));
 
 // Route configuration with proper typing
 export interface RouteConfig {
@@ -103,6 +104,10 @@ const routes: RouteConfig[] = [
   {
     path: ROUTES.EVENTS, // Added Events route
     element: Events,
+  },
+  {
+    path: ROUTES.SETTINGS,
+    element: Settings,
   },
   {
     path: ROUTES.NOT_FOUND,
@@ -288,6 +293,16 @@ export const router = createBrowserRouter([
       <Suspense fallback={<LoadingSpinner />}>
         <RequireAuth>
           <Events />
+        </RequireAuth>
+      </Suspense>
+    ),
+  },
+  {
+    path: ROUTES.SETTINGS,
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <RequireAuth>
+          <Settings />
         </RequireAuth>
       </Suspense>
     ),
