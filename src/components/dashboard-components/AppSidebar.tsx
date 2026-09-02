@@ -1,15 +1,14 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { 
-  Home, 
-  BarChart3, 
-  Music, 
-  Users, 
-  Upload, 
+import {
+  Home,
+  BarChart3,
+  Music,
+  Users,
+  Upload,
   TrendingUp,
   Calendar,
   LogOut,
-  Tags
 } from "lucide-react";
 
 import {
@@ -49,10 +48,6 @@ export function AppSidebar() {
     { titleKey: "sidebar.upload", url: ROUTES.UPLOAD, icon: Upload },
     { titleKey: "sidebar.trends", url: ROUTES.TRENDS, icon: TrendingUp },
     { titleKey: "sidebar.events", url: ROUTES.EVENTS, icon: Calendar },
-  ];
-
-  const settingsItems = [
-    { titleKey: "sidebar.genres", url: ROUTES.GENRES, icon: Tags },
   ];
 
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
@@ -139,16 +134,6 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {settingsItems.map((item) => (
-                <SidebarMenuItem key={item.titleKey}>
-                  <SidebarMenuButton asChild>
-                    <NavLink to={item.url} className={getNavCls}>
-                      <item.icon className={`h-4 w-4 ${collapsed ? "mx-auto" : "mr-3"}`} />
-                      {!collapsed && <span>{t(item.titleKey)}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
               {!collapsed && (
                 <SidebarMenuItem>
                   <div className="px-3 py-2">

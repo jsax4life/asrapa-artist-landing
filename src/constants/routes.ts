@@ -10,7 +10,6 @@ export const ROUTES = {
   ARTIST_GUIDE: '/artist-guide',
   ADVERTISING: '/advertising',
   TERMS: '/terms',
-  GENRES: '/dashboard/genres',
   DASHBOARD: '/dashboard',
   LOGIN: '/login',
   FORGOT_PASSWORD: '/forgot-password',
