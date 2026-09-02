@@ -89,12 +89,32 @@
   "artistHome": {
     "whyChoose": "Pourquoi choisir",
     "artists": "Artistes {{brand}}",
-    "unlimitedTitle": "Distribution illimitée dans le monde",
-    "unlimitedDesc": "Distribuez votre musique sur plus de 150 plateformes numériques et sur les réseaux sociaux dans plus de 200 pays.",
-    "incomeTitle": "Conservez 100 % de vos revenus",
-    "incomeDesc": "{{brand}} pour les artistes ne prend jamais de commission sur vos revenus de streaming et de téléchargement sur la plateforme numérique tchadienne {{brand}} : vous gardez ce que vous générez.",
-    "reportsTitle": "Rapports de ventes détaillés",
-    "reportsDesc": "Découvrez où vos fans téléchargent et écoutent votre musique pour cibler votre marketing et planifier vos tournées en conséquence."
+    "reasons": [
+      {
+        "title": "Expérience culturelle",
+        "body": "Dans nos traditions africaines, la mémoire culturelle a toujours été orale. Elle se transmet de génération en génération."
+      },
+      {
+        "title": "Soutenir les artistes indépendants",
+        "body": "Une plus grande part de chaque écoute va directement au créateur."
+      },
+      {
+        "title": "Streaming rapide",
+        "body": "Une diffusion pensée pour les réseaux africains : la lecture démarre immédiatement."
+      },
+      {
+        "title": "Interface soignée",
+        "body": "Conçue pour la musique d'abord, pour que l'art reste au premier plan."
+      },
+      {
+        "title": "Portée par la communauté",
+        "body": "Playlists, commentaires et soutien des fans intégrés au parcours d'écoute."
+      },
+      {
+        "title": "Un écosystème qui grandit",
+        "body": "Fans, artistes et agents grandissent ensemble sur une seule plateforme."
+      }
+    ]
   },
   "about": {
     "discover": "Découvrez un monde de musique avec",
