@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { FormField } from './FormField';
 import { PasswordField } from './PasswordField';
 import { CountrySelect } from './CountrySelect';
+import { CitySelect } from './CitySelect';
 import { TermsCheckbox } from './TermsCheckbox';
+import { SocialAuthButtons } from './SocialAuthButtons';
 import { useArtistSignup } from '@/hooks/use-artist-signup';
 import { useToast } from '@/hooks/use-toast';
 
@@ -14,6 +16,7 @@ interface FormData {
   password: string;
   confirmPassword: string;
   country: string;
+  city: string;
   agreeToTerms: boolean;
 }
 
@@ -24,6 +27,7 @@ interface FormErrors {
   password?: string;
   confirmPassword?: string;
   country?: string;
+  city?: string;
   agreeToTerms?: string;
 }
 
@@ -37,6 +41,7 @@ export const SignUpForm: React.FC = () => {
     password: '',
     confirmPassword: '',
     country: '',
+    city: '',
     agreeToTerms: false
   });
 
@@ -141,6 +146,10 @@ export const SignUpForm: React.FC = () => {
       newErrors.country = 'Please select a country';
     }
 
+    if (formData.country === 'Tchad' && !formData.city) {
+      newErrors.city = 'Please select your city';
+    }
+
     if (!formData.agreeToTerms) {
       newErrors.agreeToTerms = 'You must agree to the terms and conditions';
     }
@@ -163,18 +172,29 @@ export const SignUpForm: React.FC = () => {
     }
     
     if (await validateForm()) {
-      const { confirmPassword, ...signupData } = formData;
+      const { confirmPassword, city, country, ...rest } = formData;
+      const signupData = {
+        ...rest,
+        country,
+        // On ne joint la ville que pour le Tchad, elle n'a pas de sens ailleurs.
+        ...(country === 'Tchad' && city ? { city } : {}),
+      };
       signup(signupData);
     }
   };
 
   const updateFormData = (field: keyof FormData) => (value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [field]: value,
+      // Une ville choisie pour le Tchad ne veut plus rien dire si on change de pays.
+      ...(field === 'country' && value !== 'Tchad' ? { city: '' } : {}),
+    }));
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
-    
+
     // Reset status when user starts typing
     if (field === 'email') {
       setEmailStatus('idle');
@@ -330,6 +350,9 @@ export const SignUpForm: React.FC = () => {
     }
   };
 
+  // La ville n'est exigée que pour le Tchad ; pour tout autre pays, elle est sans objet.
+  const cityOk = formData.country !== 'Tchad' || Boolean(formData.city);
+
   return (
     <div className="flex w-full flex-col items-center max-w-4xl mx-auto px-4 sm:px-6">
       <header className="flex flex-col items-center text-center mb-8">
@@ -341,6 +364,10 @@ export const SignUpForm: React.FC = () => {
           {t('signup.tagline')}
         </p>
       </header>
+
+      <div className="w-full max-w-2xl">
+        <SocialAuthButtons />
+      </div>
 
       <div className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
       <form id="artist-signup-form" onSubmit={handleSubmit} className="contents">
@@ -463,6 +490,14 @@ export const SignUpForm: React.FC = () => {
           error={errors.country}
         />
 
+        {formData.country === 'Tchad' && (
+          <CitySelect
+            value={formData.city}
+            onChange={updateFormData('city')}
+            error={errors.city}
+          />
+        )}
+
       </form>
 
         <div className="md:col-span-2 relative z-10">
@@ -487,6 +522,7 @@ export const SignUpForm: React.FC = () => {
                   formData.password && 
                   formData.confirmPassword && 
                   formData.country &&
+                  cityOk &&
                   emailStatus === 'available' &&
                   stageNameStatus === 'available' &&
                   formData.password === formData.confirmPassword &&
@@ -494,7 +530,7 @@ export const SignUpForm: React.FC = () => {
                 ? 'bg-green-600 hover:bg-green-700 shadow-lg'
                 : 'bg-[#C40505] hover:bg-[#E60606] disabled:opacity-50 disabled:cursor-not-allowed'
             }`}
-            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
+            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !cityOk || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
           >
             {isSigningUp ? (
               <div className="flex items-center gap-2">
@@ -508,6 +544,7 @@ export const SignUpForm: React.FC = () => {
                 formData.password && 
                 formData.confirmPassword && 
                 formData.country &&
+                  cityOk &&
                 emailStatus === 'available' &&
                 stageNameStatus === 'available' &&
                 formData.password === formData.confirmPassword &&

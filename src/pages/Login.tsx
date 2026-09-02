@@ -4,6 +4,7 @@ import { useArtistLogin } from '@/hooks/use-artist-login';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
+import { SocialAuthButtons } from '@/components/signup-components/SocialAuthButtons';
 
 const Login: React.FC = () => {
   const { t } = useTranslation();
@@ -44,6 +45,8 @@ const Login: React.FC = () => {
             <p className="text-[#D2D8DA] mt-2">{t('login.subtitle')}</p>
           </header>
           
+          <SocialAuthButtons className="mb-2" />
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col">
               <label className="text-white font-bold text-sm mb-2">{t('login.emailOrStage')}</label>
@@ -86,6 +89,11 @@ const Login: React.FC = () => {
                 </button>
               </div>
               {errors.password && <span className="text-xs text-red-500 mt-1">{errors.password}</span>}
+              <div className="mt-2 text-right">
+                <Link to={ROUTES.FORGOT_PASSWORD} className="text-xs font-semibold text-[#F6C874] hover:underline">
+                  {t('login.forgotPassword')}
+                </Link>
+              </div>
             </div>
 
             <button

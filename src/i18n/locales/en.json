@@ -171,7 +171,18 @@
     "submit": "Log in",
     "submitting": "Signing in...",
     "noAccount": "Don't have an account?",
-    "signUp": "Sign up"
+    "signUp": "Sign up",
+    "forgotPassword": "Forgot password?"
+  },
+  "forgotPassword": {
+    "title": "Reset your password on",
+    "subtitle": "Enter your email, we'll send you a link to create a new password.",
+    "invalidEmail": "Please enter a valid email address.",
+    "submit": "Send reset link",
+    "sending": "Sending...",
+    "sentTitle": "Email sent",
+    "sentBody": "If an account exists for {{email}}, you'll receive a reset link in a few minutes.",
+    "backToLogin": "Back to login"
   },
   "signup": {
     "join": "Join",
@@ -198,7 +209,20 @@
       "chars8": "8+ characters",
       "uppercase": "Uppercase",
       "number": "Number",
-      "specialChar": "Special char"
+      "specialChar": "Special char",
+      "country": "Country",
+      "countryPlaceholder": "Choose your country",
+      "countrySearch": "Search a country...",
+      "countryNoResults": "No country found.",
+      "city": "City",
+      "cityPlaceholder": "Choose your city"
+    },
+    "social": {
+      "google": "Continue with Google",
+      "facebook": "Continue with Facebook",
+      "divider": "or with email",
+      "comingSoonTitle": "Coming soon",
+      "comingSoonBody": "{{provider}} sign-in is launching very soon. Please use the form below for now."
     },
     "welcomeToast": "Welcome to {{brand}}! You can now start uploading your music.",
     "promoAlt": "{{brand}} promotional image showing musicians and music equipment"

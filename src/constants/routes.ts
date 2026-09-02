@@ -6,6 +6,7 @@ export const ROUTES = {
   ARTIST_HOME: '/artist-home',
   PRICES: '/prices',
   REGISTRATION: '/registration',
+  FORGOT_PASSWORD: '/mot-de-passe-oublie',
   ARTIST_GUIDE: '/artist-guide',
   ADVERTISING: '/advertising',
   TERMS: '/terms',

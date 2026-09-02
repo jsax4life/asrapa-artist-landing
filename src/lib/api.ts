@@ -45,6 +45,8 @@ export interface ArtistSignupData {
   email: string;
   password: string;
   country: string;
+  /** Ville au Tchad, pour le ciblage marketing local (Moundou, Sarh, Bongor, etc.). */
+  city?: string;
   agreeToTerms: boolean;
 }
 
@@ -452,6 +454,21 @@ export const api = {
         'Network error occurred. Please check your connection.',
         0
       );
+    }
+  },
+
+  async requestPasswordReset(email: string): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.post(
+        '/artist/auth/forgot-password',
+        { email }
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError('Network error occurred. Please check your connection.', 0);
     }
   },
 
