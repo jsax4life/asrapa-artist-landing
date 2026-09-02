@@ -56,7 +56,7 @@ export const CountrySelect: React.FC<CountrySelectProps> = ({
         </button>
 
         {isOpen && (
-          <div className="absolute top-full left-0 right-0 z-20 mt-1 rounded-lg border border-[rgba(210,216,218,0.16)] bg-[#1a1717] shadow-xl">
+          <div className="absolute top-full left-0 right-0 z-20 mt-1 rounded-lg border border-[rgba(210,216,218,0.16)] bg-black shadow-xl">
             <div className="flex items-center gap-2 border-b border-[rgba(210,216,218,0.16)] px-3 py-2">
               <Search className="size-4 shrink-0 text-[#D2D8DA]/60" />
               <input

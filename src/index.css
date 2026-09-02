@@ -10,15 +10,15 @@ All colors MUST be HSL.
 
 :root {
   /* Core Colors - Black & Red Music Theme */
-  --background: 0 0% 4%;
+  --background: 0 0% 0%;
   --foreground: 0 0% 96%;
   /* --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%; */
 
-  --card: 0 0% 8%;
+  --card: 0 0% 3%;
   --card-foreground: 0 0% 96%;
 
-  --popover: 0 0% 8%;
+  --popover: 0 0% 3%;
   --popover-foreground: 0 0% 96%;
 
   /* Primary - Vibrant Red */
@@ -26,12 +26,12 @@ All colors MUST be HSL.
   --primary-foreground: 0 0% 96%;
   --primary-glow: 0 100% 70%;
 
-  /* Secondary - Deep Charcoal */
-  --secondary: 0 0% 15%;
+  /* Secondary - Near Black */
+  --secondary: 0 0% 6%;
   --secondary-foreground: 0 0% 96%;
 
-  /* Muted - Dark Gray */
-  --muted: 0 0% 12%;
+  /* Muted - Near Black */
+  --muted: 0 0% 5%;
   --muted-foreground: 0 0% 65%;
 
   /* Accent - Electric Purple */
@@ -49,8 +49,8 @@ All colors MUST be HSL.
   --destructive: 0 84% 60%;
   --destructive-foreground: 240 5% 95%;
 
-  --border: 0 0% 20%;
-  --input: 0 0% 20%;
+  --border: 0 0% 12%;
+  --input: 0 0% 12%;
   --ring: 0 85% 60%;
 
   /* Black & Red Music Industry Gradients */
@@ -67,13 +67,13 @@ All colors MUST be HSL.
   --radius: 0.5rem;
 
   /* Sidebar Colors */
-  --sidebar-background: 0 0% 6%;
+  --sidebar-background: 0 0% 2%;
   --sidebar-foreground: 0 0% 90%;
   --sidebar-primary: 0 85% 60%;
   --sidebar-primary-foreground: 0 0% 96%;
-  --sidebar-accent: 0 0% 12%;
+  --sidebar-accent: 0 0% 6%;
   --sidebar-accent-foreground: 0 0% 90%;
-  --sidebar-border: 0 0% 20%;
+  --sidebar-border: 0 0% 12%;
   --sidebar-ring: 0 85% 60%;
 
   

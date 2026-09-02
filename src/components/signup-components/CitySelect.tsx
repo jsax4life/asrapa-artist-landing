@@ -29,11 +29,11 @@ export const CitySelect: React.FC<CitySelectProps> = ({
         className={`bg-[rgba(210,216,218,0.16)] min-h-12 w-full appearance-none text-[#D2D8DA] font-normal tracking-[-0.15px] px-4 py-3 rounded-lg outline-none ${error ? 'border-2 border-red-500' : ''}`}
         aria-label={t('signup.form.city')}
       >
-        <option value="" className="bg-[#1a1717]">
+        <option value="" className="bg-black">
           {t('signup.form.cityPlaceholder')}
         </option>
         {CHAD_CITIES.map((city) => (
-          <option key={city} value={city} className="bg-[#1a1717]">
+          <option key={city} value={city} className="bg-black">
             {city}
           </option>
         ))}

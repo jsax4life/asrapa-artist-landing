@@ -66,7 +66,7 @@ const Header = () => {
                 <Menu size={24} />
               </button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] bg-black border-gray-800">
+            <SheetContent side="right" className="w-[300px] bg-black border-white/10">
               <div className="flex flex-col gap-6 mt-8">
                 <nav className="flex flex-col gap-4">
                   {navigationItems.map((item) => (
@@ -74,7 +74,7 @@ const Header = () => {
                       key={item.labelKey}
                       to={item.href}
                       className={`block p-3 text-xl font-bold text-white transition-colors hover:text-[#F6C874] ${
-                        isActiveRoute(item.href) ? 'border-l-4 border-[#C40505] bg-gray-900' : ''
+                        isActiveRoute(item.href) ? 'border-l-4 border-[#C40505] bg-white/5' : ''
                       }`}
                     >
                       {t(item.labelKey)}

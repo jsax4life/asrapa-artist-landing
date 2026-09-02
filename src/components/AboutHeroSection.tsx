@@ -10,7 +10,7 @@ const AboutHeroSection: React.FC = () => {
   const brand = t('brand');
 
   return (
-    <div className="w-full min-h-screen relative overflow-x-hidden bg-[#131313]">
+    <div className="w-full min-h-screen relative overflow-x-hidden bg-black">
       <div className="h-[80vh] min-h-[480px] w-full">
         <img
           src={artistPageHero}
@@ -19,7 +19,7 @@ const AboutHeroSection: React.FC = () => {
           style={{ objectPosition: '38% 68%' }}
         />
       </div>
-      <section className="w-full h-[821px] relative flex items-center justify-between box-border bg-[#131313] px-[110px] py-0 max-md:h-auto max-md:flex-col max-md:gap-[60px] max-md:px-10 max-md:py-[60px] max-sm:gap-10 max-sm:px-5 max-sm:py-10">
+      <section className="w-full h-[821px] relative flex items-center justify-between box-border bg-black px-[110px] py-0 max-md:h-auto max-md:flex-col max-md:gap-[60px] max-md:px-10 max-md:py-[60px] max-sm:gap-10 max-sm:px-5 max-sm:py-10">
         <div className="flex items-start gap-[81px] w-full max-w-[1292px] relative z-[2] max-md:flex-col max-md:gap-[60px] max-md:w-full max-md:max-w-none max-sm:gap-10">
           <article className="flex flex-col items-start gap-[34px] w-[702px] max-md:w-full max-md:max-w-[600px] max-md:items-center max-md:text-center">
             <header>

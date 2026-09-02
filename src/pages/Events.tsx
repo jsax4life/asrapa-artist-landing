@@ -112,7 +112,7 @@ const Events = () => {
                             <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full mt-1 inline-block ${
                                 event.status === 'Upcoming' ? 'bg-blue-500/20 text-blue-400' :
                                 event.status === 'Live' ? 'bg-green-500/20 text-green-400' :
-                                event.status === 'Past' ? 'bg-gray-500/20 text-gray-400' :
+                                event.status === 'Past' ? 'bg-white/10 text-white/50' :
                                 'bg-red-500/20 text-red-400'
                             }`}>
                               {event.status}

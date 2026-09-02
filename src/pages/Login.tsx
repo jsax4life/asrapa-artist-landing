@@ -100,7 +100,7 @@ const Login: React.FC = () => {
               type="submit"
               disabled={isLoggingIn}
               className={`w-full min-h-12 rounded-full px-6 py-3 text-white font-semibold transition-colors ${
-                isLoggingIn ? 'bg-gray-500 cursor-not-allowed' : 'bg-[#C40505] hover:bg-[#E60606]'
+                isLoggingIn ? 'bg-[#C40505]/30 text-white/50 cursor-not-allowed' : 'bg-[#C40505] hover:bg-[#E60606]'
               }`}
             >
               {isLoggingIn ? t('login.submitting', 'Signing in...') : t('login.submit')}

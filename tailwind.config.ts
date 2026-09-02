@@ -10,6 +10,9 @@ export default {
 	],
 	prefix: "",
 	theme: {
+		fontFamily: {
+			sans: ['Roboto', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+		},
 		container: {
 			center: true,
 			padding: '2rem',
