@@ -515,34 +515,21 @@ export const SignUpForm: React.FC = () => {
             className={`w-full sm:w-auto min-w-[280px] max-w-[328px] min-h-12 px-8 py-3 text-sm sm:text-base text-white font-semibold rounded-full transition-all duration-300 ${
               isSigningUp
                 ? 'bg-[#C40505]/30 text-white/50 cursor-not-allowed'
-                : formData.agreeToTerms && 
-                  formData.fullName && 
-                  formData.stageName && 
-                  formData.email && 
-                  formData.password && 
-                  formData.confirmPassword && 
-                  formData.country &&
-                  cityOk &&
-                  emailStatus === 'available' &&
-                  stageNameStatus === 'available' &&
-                  formData.password === formData.confirmPassword &&
-                  validatePassword(formData.password)
-                ? 'bg-green-600 hover:bg-green-700 shadow-lg'
                 : 'bg-[#C40505] hover:bg-[#E60606] disabled:opacity-50 disabled:cursor-not-allowed'
             }`}
-            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !cityOk || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
+            disabled={isSigningUp || isCheckingEmail || isCheckingStageName || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
           >
             {isSigningUp ? (
               <div className="flex items-center gap-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                 {t('signup.form.creatingAccount')}
               </div>
-            ) : formData.agreeToTerms && 
-                formData.fullName && 
-                formData.stageName && 
-                formData.email && 
-                formData.password && 
-                formData.confirmPassword && 
+            ) : formData.agreeToTerms &&
+                formData.fullName &&
+                formData.stageName &&
+                formData.email &&
+                formData.password &&
+                formData.confirmPassword &&
                 formData.country &&
                   cityOk &&
                 emailStatus === 'available' &&
