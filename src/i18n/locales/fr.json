@@ -121,6 +121,7 @@
     "welcome": "Bienvenue sur {{brand}},",
     "tagline": "Là où la musique prend vie. Découvrez un univers de mélodies infinies, de playlists sélectionnées et de recommandations personnalisées rien que pour vous.",
     "usersWorldwide": "utilisateurs {{brand}} dans le monde",
+    "highlight": "100 % dédié à la musique tchadienne, au pays comme dans la diaspora.",
     "scanDownload": "Scannez pour télécharger l'application {{brand}}",
     "iphoneAlt": "iPhone affichant l'interface de l'application {{brand}}",
     "qrAlt": "Code QR pour télécharger l'application {{brand}}",
@@ -157,7 +158,7 @@
   },
   "signup": {
     "join": "Rejoindre",
-    "tagline": "Vendez votre musique dans le monde entier et conservez 100 % de vos droits",
+    "tagline": "Vendez votre musique dans le monde entier et conservez 100 % de vos droits.",
     "agreeTerms": "J'accepte les conditions de {{brand}}",
     "termsLink": "Conditions générales",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
