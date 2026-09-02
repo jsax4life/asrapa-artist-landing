@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/constants/routes';
+import asraPaLogo from '@/assets/images/asrapa-logo-white.png';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -31,9 +32,9 @@ const Footer = () => {
     <footer className="bg-[rgba(18,18,18,1)] flex min-h-[487px] w-full flex-col items-center justify-center  px-2.5 py-[104px] max-md:max-w-full max-md:mt-10 max-md:pb-[100px]">
       <div className="flex w-[1344px] max-w-full gap-[40px_100px] justify-between flex-wrap">
         <img
-          src="https://api.builder.io/api/v1/image/assets/e4fe701087e74a95b6a29ed12c1bd7bc/83099d7d05c878480fcc6c2e375526e518037144?placeholderIfAbsent=true"
+          src={asraPaLogo}
           alt={t('footer.logoAlt', { brand })}
-          className="aspect-[4.46] object-contain w-[161px] shrink-0"
+          className="object-contain w-[161px] shrink-0"
         />
         
         <div className="text-base text-white font-bold tracking-[0.13px] leading-none w-[135px]">
