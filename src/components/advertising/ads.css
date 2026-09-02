@@ -611,7 +611,7 @@ a:focus-visible {
 .solution-photo-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.93)), url('assets/asrapa-ads-hero.png') center/cover;
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.93)), url('./assets/asrapa-ads-hero.png') center/cover;
   filter: saturate(0.65);
 }
 
