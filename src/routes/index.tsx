@@ -15,7 +15,6 @@ const Registration = lazy(() => import('@/pages/Registration'));
 const ArtistGuide = lazy(() => import('@/pages/ArtistGuide'));
 const Advertising = lazy(() => import('@/pages/Advertising'));
 const Terms = lazy(() => import('@/pages/Terms'));
-const GenreManagement = lazy(() => import('@/pages/GenreManagement'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Login = lazy(() => import('@/pages/Login'));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
@@ -64,10 +63,6 @@ const routes: RouteConfig[] = [
   {
     path: ROUTES.ADVERTISING,
     element: Advertising,
-  },
-  {
-    path: ROUTES.GENRES,
-    element: GenreManagement,
   },
   {
     path: ROUTES.DASHBOARD,
@@ -225,16 +220,6 @@ export const router = createBrowserRouter([
           <Terms />
         </Suspense>
       </Layout>
-    ),
-  },
-  {
-    path: ROUTES.GENRES,
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <RequireAuth>
-          <GenreManagement />
-        </RequireAuth>
-      </Suspense>
     ),
   },
   {
