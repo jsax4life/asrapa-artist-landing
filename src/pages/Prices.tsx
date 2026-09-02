@@ -27,9 +27,9 @@ const musicTiers: MusicTier[] = [
       { label: 'Album', price: '100 000 FCFA' },
     ],
     steps: [
-      'Créez votre compte artiste',
-      'Choisissez le format à publier (titre, EP ou album)',
-      'Réglez le tarif correspondant et envoyez vos fichiers',
+      'Créez votre compte artiste.',
+      'Choisissez le format à publier (titre, EP ou album).',
+      'Réglez le tarif correspondant et envoyez vos fichiers.',
     ],
   },
   {
@@ -43,9 +43,9 @@ const musicTiers: MusicTier[] = [
       { label: 'Album', price: '25 000 FCFA / an' },
     ],
     steps: [
-      'Créez votre compte artiste (au nom du label ou du titulaire des droits)',
-      'Renseignez les informations de votre label',
-      'Réglez le tarif correspondant et envoyez vos fichiers',
+      'Créez votre compte artiste (au nom du label ou du titulaire des droits).',
+      'Renseignez les informations de votre label.',
+      'Réglez le tarif correspondant et envoyez vos fichiers.',
     ],
   },
 ];
@@ -57,7 +57,11 @@ const contentPlans = [
     name: 'Émissions radio',
     price: 'Sur devis',
     detail: 'Abonnement sur mesure',
-    steps: ['Contactez-nous par WhatsApp', 'Décrivez votre émission et sa fréquence', 'Recevez votre devis personnalisé'],
+    steps: [
+      'Contactez-nous par WhatsApp.',
+      'Décrivez votre émission et sa fréquence.',
+      'Recevez votre devis personnalisé.',
+    ],
     cta: { label: 'Demander un devis', href: WHATSAPP_URL, external: true },
   },
   {
@@ -66,7 +70,7 @@ const contentPlans = [
     name: 'Podcast audio',
     price: '10 000 FCFA',
     detail: 'par épisode',
-    steps: ['Créez votre compte créateur', 'Téléversez votre épisode', 'Réglez et publiez'],
+    steps: ['Créez votre compte créateur.', 'Téléversez votre épisode.', 'Réglez et publiez.'],
     cta: { label: 'Créer mon compte', href: ROUTES.REGISTRATION, external: false },
   },
   {
@@ -75,7 +79,7 @@ const contentPlans = [
     name: 'Sketchs',
     price: '10 000 FCFA',
     detail: 'par épisode',
-    steps: ['Créez votre compte créateur', 'Téléversez votre épisode', 'Réglez et publiez'],
+    steps: ['Créez votre compte créateur.', 'Téléversez votre épisode.', 'Réglez et publiez.'],
     cta: { label: 'Créer mon compte', href: ROUTES.REGISTRATION, external: false },
   },
 ];
@@ -87,9 +91,9 @@ const Prices = () => {
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
         <header className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C40505]">Tarifs</p>
+          <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#C40505]">Tarifs</p>
           <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">
-            Diffusez votre contenu sur AsraPa
+            Diffusez votre contenu sur AsraPa.
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-white/60">
             Un tarif simple selon votre statut et votre contenu. Pas d'abonnement caché, pas de
