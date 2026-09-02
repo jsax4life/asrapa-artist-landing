@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ProfilePhotoUploader } from "@/components/dashboard-components/ProfilePhotoUploader";
+import { BannerImageUploader } from "@/components/dashboard-components/BannerImageUploader";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { api, ApiError } from "@/lib/api";
@@ -147,6 +148,19 @@ const Settings = () => {
 
           <main className="flex-1 overflow-auto">
             <div className="min-h-screen p-3 sm:p-6 space-y-4 sm:space-y-6 bg-background max-w-3xl">
+
+              {/* Bannière de profil */}
+              <Card className="bg-card border-border shadow-card animate-fade-in">
+                <CardHeader>
+                  <CardTitle className="text-xl font-bold text-foreground">Bannière de profil</CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    Affichée en haut de votre profil public, derrière votre photo.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <BannerImageUploader />
+                </CardContent>
+              </Card>
 
               {/* Photo de profil */}
               <Card className="bg-card border-border shadow-card animate-fade-in">

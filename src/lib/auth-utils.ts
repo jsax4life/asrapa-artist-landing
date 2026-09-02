@@ -9,6 +9,7 @@ export const mapArtistToUserData = (artist: Record<string, unknown>): UserData =
   country: String(artist.country ?? ''),
   createdAt: String(artist.createdAt ?? new Date().toISOString()),
   ...(artist.profilePicture ? { profilePhotoUrl: String(artist.profilePicture) } : {}),
+  ...(artist.bannerImage ? { bannerImageUrl: String(artist.bannerImage) } : {}),
   ...(artist.bio ? { bio: String(artist.bio) } : {}),
   ...(artist.city ? { city: String(artist.city) } : {}),
 });
