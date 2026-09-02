@@ -294,7 +294,7 @@ const assertGenreId = (genreId: string): string => {
   const id = genreId.trim();
   if (!id || id === 'genres' || id === 'undefined' || id === 'null') {
     throw new ApiError(
-      'Genre ID is missing or invalid. Please refresh the page and try again.',
+      'Identifiant de genre manquant ou invalide. Actualisez la page et réessayez.',
       400
     );
   }
@@ -356,7 +356,7 @@ apiClient.interceptors.response.use(
         if (isLoginAttempt) {
           // For login attempts, return the actual error message from backend
           throw new ApiError(
-            (errorData?.message as string) || 'Incorrect email/stage name or password',
+            (errorData?.message as string) || 'E-mail/nom de scène ou mot de passe incorrect',
             status,
             errorData
           );
@@ -370,7 +370,7 @@ apiClient.interceptors.response.use(
           }
           
           throw new ApiError(
-            'Your session has expired. Please log in again.',
+            'Votre session a expiré. Veuillez vous reconnecter.',
             status,
             errorData
           );
@@ -396,13 +396,13 @@ apiClient.interceptors.response.use(
       console.error('Network error:', error.request);
       // Network error
       throw new ApiError(
-        'Network error occurred. Please check your connection.',
+        'Erreur réseau. Vérifiez votre connexion.',
         0
       );
     } else {
       // Other error
       throw new ApiError(
-        'An unexpected error occurred.',
+        'Une erreur inattendue s\'est produite.',
         0
       );
     }
@@ -419,7 +419,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred. Please check your connection.',
+        'Erreur réseau. Vérifiez votre connexion.',
         0
       );
     }
@@ -434,7 +434,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred. Please check your connection.',
+        'Erreur réseau. Vérifiez votre connexion.',
         0
       );
     }
@@ -451,7 +451,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred. Please check your connection.',
+        'Erreur réseau. Vérifiez votre connexion.',
         0
       );
     }
@@ -468,7 +468,7 @@ export const api = {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError('Network error occurred. Please check your connection.', 0);
+      throw new ApiError('Erreur réseau. Vérifiez votre connexion.', 0);
     }
   },
 
@@ -483,7 +483,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred. Please check your connection.',
+        'Erreur réseau. Vérifiez votre connexion.',
         0
       );
     }
@@ -502,7 +502,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred during song upload. Please check your connection.',
+        'Erreur réseau pendant le téléversement du titre. Vérifiez votre connexion.',
         0
       );
     }
@@ -517,7 +517,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred while fetching artists. Please check your connection.',
+        'Erreur réseau lors du chargement des artistes. Vérifiez votre connexion.',
         0
       );
     }
@@ -537,7 +537,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred while fetching genres. Please check your connection.',
+        'Erreur réseau lors du chargement des genres. Vérifiez votre connexion.',
         0
       );
     }
@@ -557,7 +557,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred while fetching genres. Please check your connection.',
+        'Erreur réseau lors du chargement des genres. Vérifiez votre connexion.',
         0
       );
     }
@@ -579,7 +579,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred while creating genre. Please check your connection.',
+        'Erreur réseau lors de la création du genre. Vérifiez votre connexion.',
         0
       );
     }
@@ -601,7 +601,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred while updating genre. Please check your connection.',
+        'Erreur réseau lors de la modification du genre. Vérifiez votre connexion.',
         0
       );
     }
@@ -619,7 +619,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred while deleting genre. Please check your connection.',
+        'Erreur réseau lors de la suppression du genre. Vérifiez votre connexion.',
         0
       );
     }
@@ -648,25 +648,25 @@ export const api = {
       if (error.response) {
         console.error('Response error:', error.response.data);
         throw new ApiError(
-          error.response.data?.message || 'Album upload failed',
+          error.response.data?.message || 'Échec du téléversement de l\'album',
           error.response.status
         );
       } else if (error.request) {
         console.error('Network error:', error.request);
         throw new ApiError(
-          'Network error occurred during album upload. Please check your connection.',
+          'Erreur réseau pendant le téléversement de l\'album. Vérifiez votre connexion.',
           0
         );
       } else if (error.code === 'ECONNABORTED') {
         console.error('Request timeout:', error.message);
         throw new ApiError(
-          'Album upload timed out. Please try again with smaller files or check your connection.',
+          'Le téléversement de l\'album a expiré. Réessayez avec des fichiers plus légers ou vérifiez votre connexion.',
           0
         );
       } else {
         console.error('Unexpected error:', error.message);
         throw new ApiError(
-          'An unexpected error occurred during album upload.',
+          'Une erreur inattendue s\'est produite pendant le téléversement de l\'album.',
           0
         );
       }
@@ -684,7 +684,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred while fetching uploaded songs. Please check your connection.',
+        'Erreur réseau lors du chargement de vos titres. Vérifiez votre connexion.',
         0
       );
     }
@@ -701,7 +701,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred while fetching uploaded albums. Please check your connection.',
+        'Erreur réseau lors du chargement de vos albums. Vérifiez votre connexion.',
         0
       );
     }
@@ -716,7 +716,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred while deleting song. Please check your connection.',
+        'Erreur réseau lors de la suppression du titre. Vérifiez votre connexion.',
         0
       );
     }
@@ -731,7 +731,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred while deleting album. Please check your connection and retry.',
+        'Erreur réseau lors de la suppression de l\'album. Vérifiez votre connexion et réessayez.',
         0
       );
     }

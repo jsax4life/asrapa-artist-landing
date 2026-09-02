@@ -92,10 +92,10 @@ const MusicLibrary = () => {
       setAlbums(albumsData);
     } catch (error) {
       console.error('Error refreshing data:', error);
-      const errorMessage = error instanceof ApiError ? error.message : 'Failed to load music library';
+      const errorMessage = error instanceof ApiError ? error.message : 'Impossible de charger la bibliothèque musicale';
       setError(errorMessage);
       toast({
-        title: "Error Loading Music Library",
+        title: "Erreur de chargement",
         description: errorMessage,
         variant: "destructive",
       });
@@ -114,12 +114,12 @@ const MusicLibrary = () => {
       case 'active':
       case 'distributed':
       case 'published':
-        return 'bg-green-500/20 text-green-400';
+        return 'bg-primary text-primary-foreground';
       case 'pending':
       case 'under review':
-        return 'bg-yellow-500/20 text-yellow-400';
+        return 'bg-white/15 text-white/80';
       case 'upcoming':
-        return 'bg-blue-500/20 text-blue-400';
+        return 'bg-primary/20 text-primary';
       case 'archived':
       case 'draft':
         return 'bg-white/10 text-white/50';
@@ -128,8 +128,28 @@ const MusicLibrary = () => {
     }
   };
 
+  const translateStatus = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'active':
+      case 'distributed':
+      case 'published':
+        return 'Actif';
+      case 'pending':
+      case 'under review':
+        return 'En attente';
+      case 'upcoming':
+        return 'À venir';
+      case 'archived':
+        return 'Archivé';
+      case 'draft':
+        return 'Brouillon';
+      default:
+        return status;
+    }
+  };
+
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString('fr-FR', {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
@@ -144,16 +164,16 @@ const MusicLibrary = () => {
   const handleEditRelease = (release: CombinedRelease) => {
     // TODO: Implement edit functionality
     toast({
-      title: "Edit Feature Coming Soon",
-      description: "The edit functionality will be available in a future update.",
+      title: "Fonctionnalité bientôt disponible",
+      description: "La modification sera disponible dans une prochaine mise à jour.",
     });
   };
 
   const handleAnalyticsRelease = (release: CombinedRelease) => {
     // TODO: Navigate to analytics page with release filter
     toast({
-      title: "Analytics Feature Coming Soon",
-      description: "Detailed analytics for individual releases will be available soon.",
+      title: "Fonctionnalité bientôt disponible",
+      description: "Les statistiques détaillées par titre seront bientôt disponibles.",
     });
   };
 
@@ -170,14 +190,14 @@ const MusicLibrary = () => {
       }
 
       toast({
-        title: "Release Deleted",
-        description: `${release.title} has been successfully deleted.`,
+        title: "Sortie supprimée",
+        description: `« ${release.title} » a été supprimé avec succès.`,
       });
     } catch (error) {
       console.error('Error deleting release:', error);
-      const errorMessage = error instanceof ApiError ? error.message : 'Failed to delete release';
+      const errorMessage = error instanceof ApiError ? error.message : 'Échec de la suppression';
       toast({
-        title: "Delete Failed",
+        title: "Échec de la suppression",
         description: errorMessage,
         variant: "destructive",
       });
@@ -191,14 +211,14 @@ const MusicLibrary = () => {
       return (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           {emptyIcon}
-          <h3 className="text-lg font-medium text-foreground mb-2 mt-4">No music yet</h3>
+          <h3 className="text-lg font-medium text-foreground mb-2 mt-4">Aucune musique pour le moment</h3>
           <p className="text-muted-foreground mb-4">
             {emptyMessage}
           </p>
           <Link to="/upload">
             <Button className="bg-primary hover:bg-primary-dark text-primary-foreground">
               <Upload className="h-4 w-4 mr-2" />
-              Upload Music
+              Téléverser de la musique
             </Button>
           </Link>
         </div>
@@ -220,7 +240,7 @@ const MusicLibrary = () => {
                   <span className="text-sm text-muted-foreground ml-1">({release.type})</span>
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  {release.genre} • Released: {formatDate(release.releaseDate)}
+                  {release.genre} • Sortie le {formatDate(release.releaseDate)}
                 </p>
                 {release.caption && (
                   <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
@@ -229,26 +249,26 @@ const MusicLibrary = () => {
                 )}
                 <div className="flex items-center gap-2 mt-1">
                   <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full inline-block ${getStatusColor(release.status)}`}>
-                    {release.status}
+                    {translateStatus(release.status)}
                   </span>
                   {release.songsCount && (
                     <span className="text-xs text-muted-foreground">
-                      {release.songsCount} song{release.songsCount !== 1 ? 's' : ''}
+                      {release.songsCount} titre{release.songsCount !== 1 ? 's' : ''}
                     </span>
                   )}
                   {release.downloads && (
                     <span className="text-xs text-muted-foreground">
-                      {release.downloads} downloads
+                      {release.downloads} téléchargements
                     </span>
                   )}
                   {release.streams && (
                     <span className="text-xs text-muted-foreground">
-                      {release.streams} streams
+                      {release.streams} écoutes
                     </span>
                   )}
                   {release.likesCount && (
                     <span className="text-xs text-muted-foreground">
-                      {release.likesCount} likes
+                      {release.likesCount} mentions J'aime
                     </span>
                   )}
                 </div>
@@ -276,20 +296,20 @@ const MusicLibrary = () => {
                         {release.title}
                       </DialogTitle>
                       <DialogDescription>
-                        {release.type} • {release.genre} • Released {formatDate(release.releaseDate)}
+                        {release.type === 'Single' ? 'Single' : 'Album'} • {release.genre} • Sorti le {formatDate(release.releaseDate)}
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <h4 className="font-medium text-sm text-muted-foreground">Status</h4>
+                          <h4 className="font-medium text-sm text-muted-foreground">Statut</h4>
                           <span className={`text-sm font-semibold px-2 py-1 rounded-full inline-block ${getStatusColor(release.status)}`}>
-                            {release.status}
+                            {translateStatus(release.status)}
                           </span>
                         </div>
                         <div>
                           <h4 className="font-medium text-sm text-muted-foreground">Type</h4>
-                          <p className="text-sm">{release.type}</p>
+                          <p className="text-sm">{release.type === 'Single' ? 'Single' : 'Album'}</p>
                         </div>
                       </div>
                       {release.caption && (
@@ -301,25 +321,25 @@ const MusicLibrary = () => {
                       <div className="grid grid-cols-2 gap-4">
                         {release.downloads && (
                           <div>
-                            <h4 className="font-medium text-sm text-muted-foreground">Downloads</h4>
+                            <h4 className="font-medium text-sm text-muted-foreground">Téléchargements</h4>
                             <p className="text-sm font-medium">{release.downloads.toLocaleString()}</p>
                           </div>
                         )}
                         {release.streams && (
                           <div>
-                            <h4 className="font-medium text-sm text-muted-foreground">Streams</h4>
+                            <h4 className="font-medium text-sm text-muted-foreground">Écoutes</h4>
                             <p className="text-sm font-medium">{release.streams.toLocaleString()}</p>
                           </div>
                         )}
                         {release.songsCount && (
                           <div>
-                            <h4 className="font-medium text-sm text-muted-foreground">Songs</h4>
+                            <h4 className="font-medium text-sm text-muted-foreground">Titres</h4>
                             <p className="text-sm font-medium">{release.songsCount}</p>
                           </div>
                         )}
                         {release.likesCount && (
                           <div>
-                            <h4 className="font-medium text-sm text-muted-foreground">Likes</h4>
+                            <h4 className="font-medium text-sm text-muted-foreground">Mentions J'aime</h4>
                             <p className="text-sm font-medium">{release.likesCount}</p>
                           </div>
                         )}
@@ -329,20 +349,20 @@ const MusicLibrary = () => {
                 </Dialog>
 
                 {/* Edit Button */}
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="text-muted-foreground hover:text-green-500"
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-foreground"
                   onClick={() => handleEditRelease(release)}
                 >
                   <Edit className="h-4 w-4" />
                 </Button>
 
                 {/* Analytics Button */}
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="text-muted-foreground hover:text-blue-500"
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-primary"
                   onClick={() => handleAnalyticsRelease(release)}
                 >
                   <BarChart2 className="h-4 w-4" />
@@ -362,30 +382,30 @@ const MusicLibrary = () => {
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Delete {release.type}</AlertDialogTitle>
+                      <AlertDialogTitle>Supprimer {release.type === 'Single' ? 'ce single' : 'cet album'}</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Are you sure you want to delete "{release.title}"? This action cannot be undone.
+                        Êtes-vous sûr de vouloir supprimer « {release.title} » ? Cette action est irréversible.
                         {release.type === 'Album' && release.songsCount && (
-                          <span className="block mt-2 text-red-600 font-medium">
-                            This will also delete all {release.songsCount} song{release.songsCount !== 1 ? 's' : ''} in this album.
+                          <span className="block mt-2 text-primary font-medium">
+                            Cela supprimera également les {release.songsCount} titre{release.songsCount !== 1 ? 's' : ''} de cet album.
                           </span>
                         )}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel>Annuler</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={() => handleDeleteRelease(release)}
-                        className="bg-red-600 hover:bg-red-700"
+                        className="bg-destructive hover:bg-destructive/90"
                         disabled={isDeleting}
                       >
                         {isDeleting ? (
                           <>
                             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            Deleting...
+                            Suppression...
                           </>
                         ) : (
-                          'Delete'
+                          'Supprimer'
                         )}
                       </AlertDialogAction>
                     </AlertDialogFooter>
@@ -407,12 +427,12 @@ const MusicLibrary = () => {
           <div className="flex-1 flex flex-col">
             <header className="h-16 flex items-center border-b border-border bg-card px-6">
               <SidebarTrigger className="mr-4" />
-              <h2 className="text-lg font-semibold text-foreground">Music Library</h2>
+              <h2 className="text-lg font-semibold text-foreground">Bibliothèque musicale</h2>
             </header>
             <main className="flex-1 flex items-center justify-center">
               <div className="flex flex-col items-center gap-4">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="text-muted-foreground">Loading your music library...</p>
+                <p className="text-muted-foreground">Chargement de votre bibliothèque musicale...</p>
               </div>
             </main>
           </div>
@@ -429,14 +449,14 @@ const MusicLibrary = () => {
           <div className="flex-1 flex flex-col">
             <header className="h-16 flex items-center border-b border-border bg-card px-6">
               <SidebarTrigger className="mr-4" />
-              <h2 className="text-lg font-semibold text-foreground">Music Library</h2>
+              <h2 className="text-lg font-semibold text-foreground">Bibliothèque musicale</h2>
             </header>
             <main className="flex-1 flex items-center justify-center">
               <div className="flex flex-col items-center gap-4">
                 <AlertCircle className="h-8 w-8 text-destructive" />
                 <p className="text-destructive">{error}</p>
                 <Button onClick={() => window.location.reload()}>
-                  Try Again
+                  Réessayer
                 </Button>
               </div>
             </main>
@@ -453,7 +473,7 @@ const MusicLibrary = () => {
         <div className="flex-1 flex flex-col">
           <header className="h-16 flex items-center border-b border-border bg-card px-6">
             <SidebarTrigger className="mr-4" />
-            <h2 className="text-lg font-semibold text-foreground">Music Library</h2>
+            <h2 className="text-lg font-semibold text-foreground">Bibliothèque musicale</h2>
           </header>
 
           <main className="flex-1 overflow-auto">
@@ -462,15 +482,15 @@ const MusicLibrary = () => {
               {/* Upload Music CTA */}
               <Card className="bg-card border-border shadow-card animate-fade-in flex flex-col sm:flex-row items-center justify-between p-6">
                 <div>
-                  <CardTitle className="text-xl font-bold text-foreground">Ready to share new music?</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">Prêt à partager de la nouvelle musique ?</CardTitle>
                   <CardDescription className="text-muted-foreground mt-1">
-                    Upload your latest tracks and albums to reach your fans.
+                    Téléversez vos derniers titres et albums pour toucher vos fans.
                   </CardDescription>
                 </div>
                 <Link to="/upload">
                   <Button className="mt-4 sm:mt-0 bg-primary hover:bg-primary-dark text-primary-foreground flex items-center gap-2">
                     <Upload className="h-5 w-5" />
-                    Upload New Music
+                    Téléverser de la musique
                   </Button>
                 </Link>
               </Card>
@@ -478,9 +498,9 @@ const MusicLibrary = () => {
               {/* Music Library with Tabs */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Your Music Library</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">Votre bibliothèque musicale</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Manage your singles and albums ({singles.length + albums.length} total).
+                    Gérez vos singles et albums ({singles.length + albums.length} au total).
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -501,13 +521,13 @@ const MusicLibrary = () => {
                         <CardHeader>
                           <CardTitle className="text-lg font-semibold text-foreground">Singles</CardTitle>
                           <CardDescription className="text-muted-foreground">
-                            Your individual song releases.
+                            Vos titres publiés individuellement.
                           </CardDescription>
                         </CardHeader>
                         <CardContent>
                           {renderReleaseList(
                             singles,
-                            "Start by uploading your first single track.",
+                            "Commencez par téléverser votre premier single.",
                             <Mic className="h-12 w-12 text-muted-foreground" />
                           )}
                         </CardContent>
@@ -519,13 +539,13 @@ const MusicLibrary = () => {
                         <CardHeader>
                           <CardTitle className="text-lg font-semibold text-foreground">Albums</CardTitle>
                           <CardDescription className="text-muted-foreground">
-                            Your album releases and collections.
+                            Vos albums et collections publiés.
                           </CardDescription>
                         </CardHeader>
                         <CardContent>
                           {renderReleaseList(
                             albums,
-                            "Create your first album to organize multiple tracks together.",
+                            "Créez votre premier album pour regrouper plusieurs titres.",
                             <Disc3 className="h-12 w-12 text-muted-foreground" />
                           )}
                         </CardContent>

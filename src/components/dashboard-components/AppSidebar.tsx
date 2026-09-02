@@ -63,8 +63,8 @@ export function AppSidebar() {
   const handleLogout = () => {
     logout();
     toast({
-      title: "Logged out successfully",
-      description: "You have been signed out of your account.",
+      title: "Déconnexion réussie",
+      description: "Vous avez été déconnecté de votre compte.",
     });
     navigate(ROUTES.HOME, { replace: true });
   };

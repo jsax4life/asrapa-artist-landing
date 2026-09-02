@@ -14,9 +14,9 @@ const demoDemographicsData = [
 ];
 
 const demoGenderData = [
-  { name: 'Male', value: 500, color: '#0088FE' },
-  { name: 'Female', value: 300, color: '#00C49F' },
-  { name: 'Other', value: 200, color: '#FFBB28' },
+  { name: 'Hommes', value: 500, color: 'hsl(0 85% 60%)' },
+  { name: 'Femmes', value: 300, color: 'hsl(0 0% 96%)' },
+  { name: 'Autre', value: 200, color: 'hsl(355 75% 42%)' },
 ];
 
 const Audience = () => {
@@ -27,7 +27,7 @@ const Audience = () => {
         <div className="flex-1 flex flex-col">
           <header className="h-16 flex items-center border-b border-border bg-card px-6">
             <SidebarTrigger className="mr-4" />
-            <h2 className="text-lg font-semibold text-foreground">Audience Overview</h2>
+            <h2 className="text-lg font-semibold text-foreground">Aperçu de l'audience</h2>
           </header>
 
           <main className="flex-1 overflow-auto">
@@ -36,30 +36,30 @@ const Audience = () => {
               {/* Audience Stats Overview */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatsCard
-                  title="Total Listeners"
+                  title="Auditeurs totaux"
                   value="1.2M"
-                  change="+8.5% from last month"
+                  change="+8,5 % vs mois dernier"
                   icon={Users}
                   trend="up"
                 />
                 <StatsCard
-                  title="New Listeners"
+                  title="Nouveaux auditeurs"
                   value="150K"
-                  change="+10.2% from last month"
+                  change="+10,2 % vs mois dernier"
                   icon={UserPlus}
                   trend="up"
                 />
                 <StatsCard
-                  title="Returning Listeners"
+                  title="Auditeurs fidèles"
                   value="800K"
-                  change="+5.1% from last month"
+                  change="+5,1 % vs mois dernier"
                   icon={UserCheck}
                   trend="up"
                 />
                 <StatsCard
-                  title="Engagement Rate"
-                  value="75%"
-                  change="+3.0% improvement"
+                  title="Taux d'engagement"
+                  value="75 %"
+                  change="+3,0 % d'amélioration"
                   icon={Heart}
                   trend="up"
                 />
@@ -69,14 +69,14 @@ const Audience = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <Card className="bg-card border-border shadow-card animate-fade-in">
                   <CardHeader>
-                    <CardTitle className="text-xl font-bold text-foreground">Audience Demographics</CardTitle>
+                    <CardTitle className="text-xl font-bold text-foreground">Démographie de l'audience</CardTitle>
                     <CardDescription className="text-muted-foreground">
-                      Insights into your audience's age and gender distribution.
+                      Répartition par âge et par genre de votre audience.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <h3 className="text-lg font-semibold text-foreground mb-2">Age Distribution</h3>
+                      <h3 className="text-lg font-semibold text-foreground mb-2">Répartition par âge</h3>
                       <ResponsiveContainer width="100%" height={200}>
                         <BarChart data={demoDemographicsData}>
                           <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
@@ -95,7 +95,7 @@ const Audience = () => {
                       </ResponsiveContainer>
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-foreground mb-2">Gender Distribution</h3>
+                      <h3 className="text-lg font-semibold text-foreground mb-2">Répartition par genre</h3>
                       <ResponsiveContainer width="100%" height={200}>
                         <PieChart>
                           <Pie
@@ -135,19 +135,18 @@ const Audience = () => {
 
                 <Card className="bg-card border-border shadow-card animate-fade-in">
                   <CardHeader>
-                    <CardTitle className="text-xl font-bold text-foreground">Geographic Distribution</CardTitle>
+                    <CardTitle className="text-xl font-bold text-foreground">Répartition géographique</CardTitle>
                     <CardDescription className="text-muted-foreground">
-                      Top countries and cities where your music is heard.
+                      Principales villes où votre musique est écoutée.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {/* Placeholder for geographic data */}
                     <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                      <li>United States: 40%</li>
-                      <li>Canada: 15%</li>
-                      <li>United Kingdom: 10%</li>
-                      <li>Germany: 8%</li>
-                      <li>Australia: 7%</li>
+                      <li>N'Djaména : 45 %</li>
+                      <li>Moundou : 15 %</li>
+                      <li>Sarh : 10 %</li>
+                      <li>Diaspora (France) : 8 %</li>
+                      <li>Diaspora (autres pays) : 7 %</li>
                     </ul>
                   </CardContent>
                 </Card>
@@ -156,26 +155,26 @@ const Audience = () => {
               {/* Listener Activity Chart */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Listener Activity</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">Activité des auditeurs</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Daily active listeners over the last month.
+                    Auditeurs actifs quotidiens sur le dernier mois.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={[
-                      { day: 'Day 1', listeners: 12000 },
-                      { day: 'Day 5', listeners: 15000 },
-                      { day: 'Day 10', listeners: 13000 },
-                      { day: 'Day 15', listeners: 18000 },
-                      { day: 'Day 20', listeners: 16000 },
-                      { day: 'Day 25', listeners: 20000 },
-                      { day: 'Day 30', listeners: 19000 },
+                      { day: 'Jour 1', listeners: 12000 },
+                      { day: 'Jour 5', listeners: 15000 },
+                      { day: 'Jour 10', listeners: 13000 },
+                      { day: 'Jour 15', listeners: 18000 },
+                      { day: 'Jour 20', listeners: 16000 },
+                      { day: 'Jour 25', listeners: 20000 },
+                      { day: 'Jour 30', listeners: 19000 },
                     ]}>
                       <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                       <XAxis dataKey="day" tick={{ fill: 'hsl(var(--muted-foreground))' }} axisLine={{ stroke: 'hsl(var(--border))' }} />
                       <YAxis tick={{ fill: 'hsl(var(--muted-foreground))' }} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                      <Tooltip 
+                      <Tooltip
                         contentStyle={{
                           backgroundColor: 'hsl(var(--popover))',
                           border: '1px solid hsl(var(--border))',
@@ -183,7 +182,7 @@ const Audience = () => {
                           color: 'hsl(var(--popover-foreground))',
                         }}
                       />
-                      <Bar dataKey="listeners" fill="hsl(var(--accent))" />
+                      <Bar dataKey="listeners" fill="hsl(var(--primary))" />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -192,18 +191,18 @@ const Audience = () => {
               {/* Source of Listeners */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Source of Listeners</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">Origine des auditeurs</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    How listeners are discovering your music.
+                    Comment les auditeurs découvrent votre musique.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                    <li>Direct: 30%</li>
-                    <li>Social Media: 25%</li>
-                    <li>Playlists: 20%</li>
-                    <li>Search: 15%</li>
-                    <li>Other: 10%</li>
+                    <li>Direct : 30 %</li>
+                    <li>Réseaux sociaux : 25 %</li>
+                    <li>Playlists : 20 %</li>
+                    <li>Recherche : 15 %</li>
+                    <li>Autre : 10 %</li>
                   </ul>
                 </CardContent>
               </Card>
