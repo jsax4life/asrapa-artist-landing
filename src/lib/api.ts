@@ -7,7 +7,51 @@ import { authService } from './auth';
 // For local development, it defaults to 'http://localhost:4000/api/v1'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api/v1';
 
-console.log(API_BASE_URL)
+const AUTH_ROUTES = [
+  '/auth/login',
+  '/auth/signup',
+  '/auth/forgot-password',
+  '/auth/reset-password',
+  '/auth/google',
+  '/auth/facebook',
+  '/auth/refresh-token',
+  '/auth/check-email',
+  '/auth/check-stage-name',
+];
+
+const isAuthRoute = (url?: string) => AUTH_ROUTES.some((route) => url?.includes(route));
+
+let refreshPromise: Promise<string | null> | null = null;
+
+const refreshAccessToken = async (): Promise<string | null> => {
+  if (refreshPromise) return refreshPromise;
+
+  refreshPromise = (async () => {
+    try {
+      const response = await axios.post<AuthSuccessResponse>(
+        `${API_BASE_URL}/artist/auth/refresh-token`,
+        {},
+        {
+          withCredentials: true,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+
+      if (response.data.newAccessToken) {
+        authService.updateAccessToken(response.data.newAccessToken, response.data.expiresIn);
+        return response.data.newAccessToken;
+      }
+
+      return null;
+    } catch {
+      return null;
+    } finally {
+      refreshPromise = null;
+    }
+  })();
+
+  return refreshPromise;
+};
 
 // Create axios instance with default config
 const apiClient = axios.create({
@@ -15,7 +59,8 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 60000, // 60 second timeout for file uploads
+  timeout: 60000,
+  withCredentials: true,
 });
 
 // Request interceptor for logging and adding auth token
@@ -50,15 +95,28 @@ export interface ArtistSignupData {
 
 export interface ApiResponse<T> {
   status: string;
-  message: string;
+  message?: string;
   data?: T;
-  expiresIn?: number;
-  newAccessToken?: any;
+  expiresIn?: string | number;
+  newAccessToken?: string;
+  refreshToken?: string;
   success?: boolean;
   error?: string | {
     statusCode: number;
     status: string;
     isOperational: boolean;
+  };
+}
+
+export interface AuthSuccessResponse {
+  status: string;
+  message?: string;
+  newAccessToken: string;
+  refreshToken?: string;
+  expiresIn?: string;
+  data?: {
+    artist: Record<string, unknown>;
+    isNewUser?: boolean;
   };
 }
 
@@ -348,31 +406,37 @@ apiClient.interceptors.response.use(
       
       // Handle authentication errors
       if (status === 401) {
-        // Check if this is a login attempt (incorrect credentials)
-        const isLoginAttempt = error.config?.url?.includes('/auth/login');
-        
-        if (isLoginAttempt) {
-          // For login attempts, return the actual error message from backend
+        const originalRequest = error.config;
+
+        if (isAuthRoute(originalRequest?.url)) {
           throw new ApiError(
-            (errorData?.message as string) || 'Incorrect email/stage name or password',
-            status,
-            errorData
-          );
-        } else {
-          // For other 401 errors, treat as session expired
-          authService.clearAuthData();
-          
-          // Redirect to login page if not already there
-          if (window.location.pathname !== '/login' && window.location.pathname !== '/') {
-            window.location.href = '/';
-          }
-          
-          throw new ApiError(
-            'Your session has expired. Please log in again.',
+            (errorData?.message as string) || 'Authentication failed.',
             status,
             errorData
           );
         }
+
+        if (originalRequest && !(originalRequest as { _retry?: boolean })._retry) {
+          (originalRequest as { _retry?: boolean })._retry = true;
+          const newToken = await refreshAccessToken();
+
+          if (newToken) {
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+            return apiClient(originalRequest);
+          }
+        }
+
+        authService.clearAuthData();
+
+        if (window.location.pathname !== '/login' && window.location.pathname !== '/') {
+          window.location.href = '/login';
+        }
+
+        throw new ApiError(
+          'Your session has expired. Please log in again.',
+          status,
+          errorData
+        );
       }
       
       // Handle forbidden errors
@@ -408,9 +472,9 @@ apiClient.interceptors.response.use(
 );
 
 export const api = {
-  async signupArtist(data: ArtistSignupData): Promise<ApiResponse<ArtistSignupResponse>> {
+  async signupArtist(data: ArtistSignupData): Promise<AuthSuccessResponse> {
     try {
-      const response: AxiosResponse<ApiResponse<ArtistSignupResponse>> = await apiClient.post('/artist/auth/signup', data);
+      const response: AxiosResponse<AuthSuccessResponse> = await apiClient.post('/artist/auth/signup', data);
       return response.data;
     } catch (error) {
       if (error instanceof ApiError) {
@@ -455,11 +519,114 @@ export const api = {
     }
   },
 
-  async loginArtist(credentials: { emailOrStageName: string; password: string }): Promise<ApiResponse<{ artist: any }>> {
-    console.log(credentials);
-
+  async loginArtist(credentials: {
+    emailOrStageName: string;
+    password: string;
+  }): Promise<AuthSuccessResponse> {
     try {
-      const response: AxiosResponse<ApiResponse<{ artist: any }>> = await apiClient.post('/artist/auth/login', credentials);
+      const response: AxiosResponse<AuthSuccessResponse> = await apiClient.post(
+        '/artist/auth/login',
+        credentials
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async forgotPassword(email: string): Promise<{ status: string; message: string }> {
+    try {
+      const response = await apiClient.post<{ status: string; message: string }>(
+        '/artist/auth/forgot-password',
+        { email }
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async resetPassword(data: {
+    otp: string;
+    password: string;
+    passwordConfirm: string;
+  }): Promise<AuthSuccessResponse> {
+    try {
+      const response: AxiosResponse<AuthSuccessResponse> = await apiClient.patch(
+        '/artist/auth/reset-password',
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async googleAuth(data: { idToken: string; stageName?: string }): Promise<AuthSuccessResponse> {
+    try {
+      const response: AxiosResponse<AuthSuccessResponse> = await apiClient.post(
+        '/artist/auth/google',
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async facebookAuth(data: {
+    accessToken: string;
+    stageName?: string;
+  }): Promise<AuthSuccessResponse> {
+    try {
+      const response: AxiosResponse<AuthSuccessResponse> = await apiClient.post(
+        '/artist/auth/facebook',
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Network error occurred. Please check your connection.',
+        0
+      );
+    }
+  },
+
+  async refreshToken(): Promise<AuthSuccessResponse> {
+    try {
+      const response: AxiosResponse<AuthSuccessResponse> = await apiClient.post(
+        '/artist/auth/refresh-token'
+      );
+      if (response.data.newAccessToken) {
+        authService.updateAccessToken(response.data.newAccessToken, response.data.expiresIn);
+      }
       return response.data;
     } catch (error) {
       if (error instanceof ApiError) {

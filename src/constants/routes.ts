@@ -12,6 +12,8 @@ export const ROUTES = {
   GENRES: '/dashboard/genres',
   DASHBOARD: '/dashboard',
   LOGIN: '/login',
+  FORGOT_PASSWORD: '/forgot-password',
+  RESET_PASSWORD: '/reset-password',
   ANALYTICS: '/analytics',
   MUSIC_LIBRARY: '/dashboard/music',
   AUDIENCE: '/dashboard/audience',

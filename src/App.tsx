@@ -7,6 +7,7 @@ import { I18nextProvider } from "react-i18next";
 import { router } from "./routes";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { AuthProvider } from "@/contexts/AuthContext";
+import AuthSessionManager from "@/components/auth/AuthSessionManager";
 import i18n from "@/i18n";
 
 const queryClient = new QueryClient({
@@ -22,6 +23,7 @@ const App = () => (
   <I18nextProvider i18n={i18n}>
     <ErrorBoundary>
       <AuthProvider>
+        <AuthSessionManager />
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <Toaster />

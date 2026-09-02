@@ -91,7 +91,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       // Update stored user data
       try {
-        localStorage.setItem('asra_user_data', JSON.stringify(updatedUser));
+        sessionStorage.setItem('asra_user_data', JSON.stringify(updatedUser));
       } catch (error) {
         console.error('Error updating user data:', error);
       }

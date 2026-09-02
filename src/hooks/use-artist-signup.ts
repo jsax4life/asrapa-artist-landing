@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { api, ArtistSignupData, ApiError } from '@/lib/api';
-import { authService, AuthToken, UserData } from '@/lib/auth';
+import { persistAuthResponse } from '@/lib/auth-utils';
 import { useAuth } from '@/contexts/AuthContext';
 import i18n from '@/i18n';
 import { useToast } from '@/hooks/use-toast';
@@ -23,31 +23,8 @@ export const useArtistSignup = () => {
         description: i18n.t('signup.welcomeToast', { brand: i18n.t('brand') }),
         variant: "default",
       });
-      
-      // Store authentication data using the auth service
-      if (response.newAccessToken) {
-        const tokenData: AuthToken = {
-          newAccessToken: response.newAccessToken || '',
-          expiresIn: response.expiresIn.toString(),
-        };
-        
-        const userData: UserData = {
-          ...response.data.artist
-          // id: response.data.id,
-          // fullName: response.data.fullName,
-          // stageName: response.data.stageName,
-          // email: response.data.email,
-          // country: response.data.country,
-          // createdAt: response.data.createdAt,
-        };
-        
-        authService.setAuthData(tokenData, userData);
-        
-        // Update auth context
-        login(userData);
-      }
-      
-      // Navigate to dashboard
+
+      persistAuthResponse(response, login);
       navigate(ROUTES.DASHBOARD, { replace: true });
     },
     onError: (error: ApiError) => {

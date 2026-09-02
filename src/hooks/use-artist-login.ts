@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { api, ApiError } from '@/lib/api';
-import { authService, AuthToken, UserData } from '@/lib/auth';
+import { persistAuthResponse } from '@/lib/auth-utils';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -13,36 +13,18 @@ export const useArtistLogin = () => {
   const location = useLocation();
 
   const loginMutation = useMutation({
-    mutationFn: (credentials: { emailOrStageName: string; password: string }) => api.loginArtist(credentials),
+    mutationFn: (credentials: { emailOrStageName: string; password: string }) =>
+      api.loginArtist(credentials),
     onSuccess: (response) => {
+      persistAuthResponse(response, login);
+
       toast({
         title: 'Welcome back!',
         description: 'You are now logged in.',
       });
 
-      if (response.newAccessToken) {
-        const tokenData: AuthToken = {
-          newAccessToken: response.newAccessToken || '',
-          expiresIn: response.expiresIn,
-        };
-
-        const artist = response.data?.artist || {};
-        const userData: UserData = {
-          id: artist.id,
-          fullName: artist.fullName,
-          stageName: artist.stageName,
-          email: artist.email,
-          country: artist.country,
-          createdAt: artist.createdAt,
-        };
-
-        authService.setAuthData(tokenData, userData);
-        login(userData);
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const from = (location.state as any)?.from?.pathname || ROUTES.DASHBOARD;
-      navigate(from, { replace: true });
+      const from = (location.state as { from?: { pathname?: string } })?.from?.pathname;
+      navigate(from || ROUTES.DASHBOARD, { replace: true });
     },
     onError: (error: ApiError) => {
       toast({

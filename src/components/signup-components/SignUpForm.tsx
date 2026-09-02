@@ -6,6 +6,7 @@ import { CountrySelect } from './CountrySelect';
 import { TermsCheckbox } from './TermsCheckbox';
 import { useArtistSignup } from '@/hooks/use-artist-signup';
 import { useToast } from '@/hooks/use-toast';
+import SocialAuthButtons from '@/components/auth/SocialAuthButtons';
 
 interface FormData {
   fullName: string;
@@ -341,6 +342,10 @@ export const SignUpForm: React.FC = () => {
           {t('signup.tagline')}
         </p>
       </header>
+
+      <div className="w-full max-w-2xl mb-6">
+        <SocialAuthButtons stageName={formData.stageName} disabled={isSigningUp} />
+      </div>
 
       <div className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
       <form id="artist-signup-form" onSubmit={handleSubmit} className="contents">

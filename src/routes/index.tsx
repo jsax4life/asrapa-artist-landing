@@ -18,6 +18,8 @@ const Terms = lazy(() => import('@/pages/Terms'));
 const GenreManagement = lazy(() => import('@/pages/GenreManagement'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Login = lazy(() => import('@/pages/Login'));
+const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
+const ResetPassword = lazy(() => import('@/pages/ResetPassword'));
 const Analytics = lazy(() => import('@/pages/Analytics')); // Added Analytics page
 const MusicLibrary = lazy(() => import('@/pages/MusicLibrary')); // Added MusicLibrary page
 const Audience = lazy(() => import('@/pages/Audience')); // Added Audience page
@@ -74,6 +76,14 @@ const routes: RouteConfig[] = [
   {
     path: ROUTES.LOGIN,
     element: Login,
+  },
+  {
+    path: ROUTES.FORGOT_PASSWORD,
+    element: ForgotPassword,
+  },
+  {
+    path: ROUTES.RESET_PASSWORD,
+    element: ResetPassword,
   },
   {
     path: ROUTES.ANALYTICS, // Added Analytics route
@@ -163,6 +173,26 @@ export const router = createBrowserRouter([
       <Layout>
         <Suspense fallback={<LoadingSpinner />}>
           <Login />
+        </Suspense>
+      </Layout>
+    ),
+  },
+  {
+    path: ROUTES.FORGOT_PASSWORD,
+    element: (
+      <Layout>
+        <Suspense fallback={<LoadingSpinner />}>
+          <ForgotPassword />
+        </Suspense>
+      </Layout>
+    ),
+  },
+  {
+    path: ROUTES.RESET_PASSWORD,
+    element: (
+      <Layout>
+        <Suspense fallback={<LoadingSpinner />}>
+          <ResetPassword />
         </Suspense>
       </Layout>
     ),
