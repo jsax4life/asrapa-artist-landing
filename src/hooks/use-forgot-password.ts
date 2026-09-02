@@ -12,15 +12,15 @@ export const useForgotPassword = () => {
     mutationFn: (email: string) => api.forgotPassword(email),
     onSuccess: (response, email) => {
       toast({
-        title: 'Check your email',
-        description: response.message || 'A 6-digit code was sent to your email.',
+        title: 'Vérifiez votre e-mail',
+        description: response.message || 'Un code à 6 chiffres a été envoyé à votre e-mail.',
       });
       navigate(ROUTES.RESET_PASSWORD, { state: { email } });
     },
     onError: (error: ApiError) => {
       toast({
-        title: 'Request failed',
-        description: error.message || 'Could not send reset code. Please try again.',
+        title: 'Échec de la demande',
+        description: error.message || 'Impossible d\'envoyer le code de réinitialisation. Veuillez réessayer.',
         variant: 'destructive',
       });
     },

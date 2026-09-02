@@ -49,9 +49,9 @@ export function ProfilePhotoUploader({ fallbackSrc, className, size = "md" }: Pr
 
     try {
       const response = await api.updateProfilePhoto(file);
-      const profilePhotoUrl = response.data?.profilePhotoUrl;
-      if (profilePhotoUrl) {
-        updateUser({ profilePhotoUrl });
+      const updatedArtist = response.data?.artist as { profilePicture?: string } | undefined;
+      if (updatedArtist?.profilePicture) {
+        updateUser({ profilePhotoUrl: updatedArtist.profilePicture });
       }
       toast({
         title: "Photo de profil mise à jour",

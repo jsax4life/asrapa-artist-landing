@@ -435,7 +435,7 @@ apiClient.interceptors.response.use(
         }
 
         throw new ApiError(
-          'Your session has expired. Please log in again.',
+          'Votre session a expiré. Veuillez vous reconnecter.',
           status,
           errorData
         );
@@ -444,7 +444,7 @@ apiClient.interceptors.response.use(
       // Handle forbidden errors
       if (status === 403) {
         throw new ApiError(
-          'You do not have permission to perform this action.',
+          'Vous n\'avez pas la permission d\'effectuer cette action.',
           status,
           errorData
         );
@@ -536,7 +536,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred. Please check your connection.',
+        'Erreur réseau. Vérifiez votre connexion.',
         0
       );
     }
@@ -558,7 +558,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred. Please check your connection.',
+        'Erreur réseau. Vérifiez votre connexion.',
         0
       );
     }
@@ -580,7 +580,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred. Please check your connection.',
+        'Erreur réseau. Vérifiez votre connexion.',
         0
       );
     }
@@ -598,7 +598,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred. Please check your connection.',
+        'Erreur réseau. Vérifiez votre connexion.',
         0
       );
     }
@@ -619,7 +619,7 @@ export const api = {
         throw error;
       }
       throw new ApiError(
-        'Network error occurred. Please check your connection.',
+        'Erreur réseau. Vérifiez votre connexion.',
         0
       );
     }
@@ -710,12 +710,12 @@ export const api = {
     }
   },
 
-  async updateProfilePhoto(file: File): Promise<ApiResponse<{ profilePhotoUrl: string }>> {
+  async updateProfilePhoto(file: File): Promise<ApiResponse<{ artist: Record<string, unknown> }>> {
     try {
       const formData = new FormData();
-      formData.append('profilePhoto', file);
-      const response: AxiosResponse<ApiResponse<{ profilePhotoUrl: string }>> = await apiClient.patch(
-        '/artist/profile-photo',
+      formData.append('artistProfilePicture', file);
+      const response: AxiosResponse<ApiResponse<{ artist: Record<string, unknown> }>> = await apiClient.patch(
+        '/artist/upload-profile-image',
         formData,
         {
           headers: {
@@ -730,6 +730,31 @@ export const api = {
       }
       throw new ApiError(
         'Erreur réseau pendant la mise à jour de la photo de profil. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  async updateBannerImage(file: File): Promise<ApiResponse<{ artist: Record<string, unknown> }>> {
+    try {
+      const formData = new FormData();
+      formData.append('artistBannerPicture', file);
+      const response: AxiosResponse<ApiResponse<{ artist: Record<string, unknown> }>> = await apiClient.patch(
+        '/artist/upload-banner-image',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau pendant la mise à jour de la bannière. Vérifiez votre connexion.',
         0
       );
     }

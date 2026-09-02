@@ -8,6 +8,9 @@ export const mapArtistToUserData = (artist: Record<string, unknown>): UserData =
   email: String(artist.email ?? ''),
   country: String(artist.country ?? ''),
   createdAt: String(artist.createdAt ?? new Date().toISOString()),
+  ...(artist.profilePicture ? { profilePhotoUrl: String(artist.profilePicture) } : {}),
+  ...(artist.bio ? { bio: String(artist.bio) } : {}),
+  ...(artist.city ? { city: String(artist.city) } : {}),
 });
 
 export const persistAuthResponse = (
