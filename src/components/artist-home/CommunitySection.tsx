@@ -8,26 +8,36 @@ import ghisBeatPhoto from '@/assets/images/testimonial-ghis-beat.jpg';
 const artists = [
   {
     id: 1,
-    name: "Ramaji",
+    name: 'Ramaji',
+    role: 'Artiste, Tchad',
     imageUrl: ramajiPhoto,
-    imageAlt: "Ramaji, artiste, Tchad"
+    imageAlt: 'Ramaji, artiste, Tchad',
+    quote:
+      "AsraPa est une plateforme pensée pour nous, les artistes tchadiens. Elle nous permet de mieux promouvoir notre musique, de toucher un public au Tchad comme dans la diaspora, et de renforcer le lien avec nos fans.",
   },
   {
     id: 2,
-    name: "Rocky La Citadelle",
+    name: 'Rocky La Citadelle',
+    role: 'Artiste, Tchad',
     imageUrl: rockyPhoto,
-    imageAlt: "Rocky La Citadelle, artiste, Tchad"
+    imageAlt: 'Rocky La Citadelle, artiste, Tchad',
+    quote:
+      "Avec AsraPa, la musique tchadienne a enfin un espace qui lui est entièrement dédié. La plateforme donne aux artistes une plus grande visibilité et à nos œuvres la reconnaissance qu'elles méritent.",
   },
   {
     id: 3,
-    name: "Ghis Beat",
+    name: 'Ghis Beat',
+    role: 'Ingénieur du son, Tchad',
     imageUrl: ghisBeatPhoto,
-    imageAlt: "Ghis Beat, ingénieur du son, Tchad"
+    imageAlt: 'Ghis Beat, ingénieur du son, Tchad',
+    quote:
+      "En tant qu'ingénieur du son, AsraPa représente une belle opportunité de mettre en valeur tout le travail derrière chaque morceau et d'encourager une musique de meilleure qualité.",
   },
 ];
 
 export const CommunitySection: React.FC = () => {
   const { t } = useTranslation();
+  const [activeId, setActiveId] = useState<number | null>(null);
 
   return (
     <section className="w-full max-w-[1482px] min-h-[523px] shrink-0 relative mt-[10px] mb-8 lg:mb-20 mx-auto px-2 sm:px-4">
@@ -36,33 +46,25 @@ export const CommunitySection: React.FC = () => {
           {t('community.title')}
         </h2>
       </header>
-      
+
       <div
-        className="
-          flex 
-          gap-4 
-          sm:gap-6 
-          w-full 
-          overflow-x-auto 
-          py-4 
-          px-1
-          scrollbar-thin scrollbar-thumb-[#C40505]/40 scrollbar-track-transparent
-          snap-x snap-mandatory
-          "
+        className="flex flex-wrap justify-center gap-6 sm:gap-8 py-6"
         role="region"
         aria-label="Artist community showcase"
       >
         {artists.map((artist) => (
-          <div
+          <ArtistCard
             key={artist.id}
-            className="snap-start flex-shrink-0"
-          >
-            <ArtistCard
-              name={artist.name}
-              imageUrl={artist.imageUrl}
-              imageAlt={artist.imageAlt}
-            />
-          </div>
+            name={artist.name}
+            role={artist.role}
+            quote={artist.quote}
+            imageUrl={artist.imageUrl}
+            imageAlt={artist.imageAlt}
+            isActive={activeId === artist.id}
+            isDimmed={activeId !== null && activeId !== artist.id}
+            onHover={() => setActiveId(artist.id)}
+            onLeave={() => setActiveId(null)}
+          />
         ))}
       </div>
     </section>
