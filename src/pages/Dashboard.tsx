@@ -2,6 +2,7 @@ import { StatsCard } from "@/components/dashboard-components/StatsCard";
 import { PerformanceChart } from "@/components/dashboard-components/PerformanceChart";
 import { RecentReleases } from "@/components/dashboard-components/RecentReleases";
 import { QuickActions } from "@/components/dashboard-components/QuickActions";
+import { ProfilePhotoUploader } from "@/components/dashboard-components/ProfilePhotoUploader";
 import { Play, Users, TrendingUp, Music } from "lucide-react";
 import artistProfile from "@/assets/images/artist-profile.jpg";
 import { AppSidebar } from "@/components/dashboard-components/AppSidebar";
@@ -32,11 +33,7 @@ const Dashboard = () => {
 
           {/* Artist Header */}
           <div className="flex flex-col sm:flex-row items-center sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 p-4 sm:p-6 rounded-xl bg-primary shadow-glow animate-fade-in">
-            <img 
-              src={artistProfile} 
-              alt="Photo de profil de l'artiste"
-              className="w-16 h-16 sm:w-24 sm:h-24 rounded-full border-4 border-primary-foreground/20 shadow-accent"
-            />
+            <ProfilePhotoUploader fallbackSrc={artistProfile} />
             <div className="text-primary-foreground text-center sm:text-left">
               <h1 className="text-2xl sm:text-4xl font-bold mb-1 sm:mb-2">
                 Bon retour, {user?.fullName || user?.stageName || 'Artiste'}

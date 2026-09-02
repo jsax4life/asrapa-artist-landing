@@ -11,6 +11,7 @@ export interface UserData {
   email: string;
   country: string;
   createdAt: string;
+  profilePhotoUrl?: string;
 }
 
 class AuthService {
