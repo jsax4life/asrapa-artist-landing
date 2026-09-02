@@ -88,7 +88,7 @@ const ForgotPassword: React.FC = () => {
                   type="submit"
                   disabled={isSubmitting}
                   className={`min-h-12 w-full rounded-full px-6 py-3 font-semibold text-white transition-colors ${
-                    isSubmitting ? 'cursor-not-allowed bg-gray-500' : 'bg-[#C40505] hover:bg-[#E60606]'
+                    isSubmitting ? 'cursor-not-allowed bg-[#C40505]/30 text-white/50' : 'bg-[#C40505] hover:bg-[#E60606]'
                   }`}
                 >
                   {isSubmitting ? t('forgotPassword.sending') : t('forgotPassword.submit')}

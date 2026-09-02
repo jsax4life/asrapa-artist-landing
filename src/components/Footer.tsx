@@ -103,7 +103,7 @@ const Footer = () => {
               href={FACEBOOK_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="grid size-14 shrink-0 place-items-center rounded-[50px] bg-[#121212] transition-colors hover:bg-[#333] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#121212]"
+              className="grid size-14 shrink-0 place-items-center rounded-[50px] bg-black transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
               aria-label="AsraPa on Facebook"
             >
               <Facebook className="size-5 text-white" />
@@ -112,7 +112,7 @@ const Footer = () => {
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="grid size-14 shrink-0 place-items-center rounded-[50px] bg-[#121212] transition-colors hover:bg-[#333] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#121212]"
+              className="grid size-14 shrink-0 place-items-center rounded-[50px] bg-black transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
               aria-label="AsraPa on Instagram"
             >
               <Instagram className="size-5 text-white" />

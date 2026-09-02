@@ -122,9 +122,9 @@ const MusicLibrary = () => {
         return 'bg-blue-500/20 text-blue-400';
       case 'archived':
       case 'draft':
-        return 'bg-gray-500/20 text-gray-400';
+        return 'bg-white/10 text-white/50';
       default:
-        return 'bg-gray-500/20 text-gray-400';
+        return 'bg-white/10 text-white/50';
     }
   };
 

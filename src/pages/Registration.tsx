@@ -8,7 +8,7 @@ const Registration = () => {
   const brand = t('brand');
 
   return (
-    <main className="bg-[#2A2626] min-h-screen px-4 md:pl-16 md:pr-0">
+    <main className="bg-black min-h-screen px-4 md:pl-16 md:pr-0">
       <div className="flex flex-col lg:flex-row lg:gap-5 min-h-screen">
         <section className="w-full lg:w-[54%] flex items-center justify-center py-8 lg:py-0" aria-label="Sign up form">
           <SignUpForm />

@@ -417,7 +417,7 @@ export const SignUpForm: React.FC = () => {
           {formData.password && (
             <div className="mt-2">
               <div className="flex items-center gap-2 mb-1">
-                <div className="flex-1 bg-gray-700 rounded-full h-2">
+                <div className="flex-1 bg-white/10 rounded-full h-2">
                   <div 
                     className={`h-2 rounded-full transition-all duration-300 ${
                       getPasswordStrength(formData.password).score === 0 ? 'w-0' :
@@ -432,7 +432,7 @@ export const SignUpForm: React.FC = () => {
                   {getPasswordStrength(formData.password).label}
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-1 text-xs text-gray-400">
+              <div className="grid grid-cols-2 gap-1 text-xs text-white/50">
                 <div className={`flex items-center gap-1 ${formData.password.length >= 8 ? 'text-green-500' : ''}`}>
                   <span>{formData.password.length >= 8 ? '✓' : '○'}</span>
                   <span>{t('signup.form.chars8')}</span>
@@ -513,8 +513,8 @@ export const SignUpForm: React.FC = () => {
             type="submit"
             form="artist-signup-form"
             className={`w-full sm:w-auto min-w-[280px] max-w-[328px] min-h-12 px-8 py-3 text-sm sm:text-base text-white font-semibold rounded-full transition-all duration-300 ${
-              isSigningUp 
-                ? 'bg-gray-500 cursor-not-allowed' 
+              isSigningUp
+                ? 'bg-[#C40505]/30 text-white/50 cursor-not-allowed'
                 : formData.agreeToTerms && 
                   formData.fullName && 
                   formData.stageName && 

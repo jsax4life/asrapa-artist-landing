@@ -22,7 +22,7 @@ const ArticleGrid = () => {
       titleSize: "text-base",
       titleTracking: "tracking-[0.13px]",
       titleLeading: "leading-none",
-      descriptionColor: "text-[#666]",
+      descriptionColor: "text-black/70",
       paddingBottom: "pb-1",
       minHeight: ""
     },
