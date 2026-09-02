@@ -664,6 +664,31 @@ export const api = {
     }
   },
 
+  async updateProfilePhoto(file: File): Promise<ApiResponse<{ profilePhotoUrl: string }>> {
+    try {
+      const formData = new FormData();
+      formData.append('profilePhoto', file);
+      const response: AxiosResponse<ApiResponse<{ profilePhotoUrl: string }>> = await apiClient.patch(
+        '/artist/profile-photo',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau pendant la mise à jour de la photo de profil. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
   async getAllArtists(): Promise<ArtistsResponse> {
     try {
       const response: AxiosResponse<ArtistsResponse> = await apiClient.get('/artist');
