@@ -37,31 +37,27 @@ const Audience = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatsCard
                   title="Auditeurs totaux"
-                  value="1.2M"
-                  change="+8,5 % vs mois dernier"
+                  value="0"
                   icon={Users}
-                  trend="up"
+                  trend="neutral"
                 />
                 <StatsCard
                   title="Nouveaux auditeurs"
-                  value="150K"
-                  change="+10,2 % vs mois dernier"
+                  value="0"
                   icon={UserPlus}
-                  trend="up"
+                  trend="neutral"
                 />
                 <StatsCard
                   title="Auditeurs fidèles"
-                  value="800K"
-                  change="+5,1 % vs mois dernier"
+                  value="0"
                   icon={UserCheck}
-                  trend="up"
+                  trend="neutral"
                 />
                 <StatsCard
                   title="Taux d'engagement"
-                  value="75 %"
-                  change="+3,0 % d'amélioration"
+                  value="0 %"
                   icon={Heart}
-                  trend="up"
+                  trend="neutral"
                 />
               </div>
 

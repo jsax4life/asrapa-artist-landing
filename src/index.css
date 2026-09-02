@@ -38,9 +38,9 @@ All colors MUST be HSL.
   --accent: 355 75% 42%;
   --accent-foreground: 0 0% 96%;
 
-  /* Success - Music Green */
-  --success: 120 60% 50%;
-  --success-foreground: 240 10% 8%;
+  /* Success - Brand Red (kept distinct from destructive via lighter tone) */
+  --success: 0 85% 60%;
+  --success-foreground: 0 0% 96%;
 
   /* Warning - Gold */
   --warning: 45 90% 60%;
