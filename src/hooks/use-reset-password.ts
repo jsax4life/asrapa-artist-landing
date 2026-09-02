@@ -18,16 +18,16 @@ export const useResetPassword = () => {
       persistAuthResponse(response, login);
 
       toast({
-        title: 'Password updated',
-        description: 'Your password was reset and you are now logged in.',
+        title: 'Mot de passe mis à jour',
+        description: 'Votre mot de passe a été réinitialisé et vous êtes maintenant connecté.',
       });
 
       navigate(ROUTES.DASHBOARD, { replace: true });
     },
     onError: (error: ApiError) => {
       toast({
-        title: 'Reset failed',
-        description: error.message || 'Invalid or expired code. Please try again.',
+        title: 'Échec de la réinitialisation',
+        description: error.message || 'Code invalide ou expiré. Veuillez réessayer.',
         variant: 'destructive',
       });
     },

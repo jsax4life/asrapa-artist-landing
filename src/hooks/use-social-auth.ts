@@ -22,10 +22,10 @@ export const useSocialAuth = (stageName?: string) => {
       const { isNewUser } = persistAuthResponse(response, login);
 
       toast({
-        title: isNewUser ? 'Welcome to Asrapa!' : 'Welcome back!',
+        title: isNewUser ? 'Bienvenue sur AsraPa !' : 'Bon retour !',
         description: isNewUser
-          ? 'Your account was created successfully.'
-          : 'You are now logged in.',
+          ? 'Votre compte a été créé avec succès.'
+          : 'Vous êtes maintenant connecté.',
       });
 
       navigate(ROUTES.DASHBOARD, { replace: true });
@@ -49,8 +49,8 @@ export const useSocialAuth = (stageName?: string) => {
     onSuccess: handleAuthSuccess,
     onError: (error: ApiError) => {
       toast({
-        title: 'Sign-in failed',
-        description: error.message || 'Could not complete social sign-in.',
+        title: 'Échec de la connexion',
+        description: error.message || 'Impossible de terminer la connexion via ce réseau.',
         variant: 'destructive',
       });
     },
@@ -66,8 +66,8 @@ export const useSocialAuth = (stageName?: string) => {
   const signInWithFacebook = useCallback(async () => {
     if (!FACEBOOK_APP_ID) {
       toast({
-        title: 'Facebook sign-in unavailable',
-        description: 'Facebook app ID is not configured.',
+        title: 'Connexion Facebook indisponible',
+        description: 'L\'identifiant de l\'application Facebook n\'est pas configuré.',
         variant: 'destructive',
       });
       return;
@@ -92,8 +92,8 @@ export const useSocialAuth = (stageName?: string) => {
             });
           } else {
             toast({
-              title: 'Facebook sign-in cancelled',
-              description: 'Sign-in was cancelled or did not return an access token.',
+              title: 'Connexion Facebook annulée',
+              description: 'La connexion a été annulée ou n\'a pas retourné de jeton d\'accès.',
               variant: 'destructive',
             });
           }
@@ -103,8 +103,8 @@ export const useSocialAuth = (stageName?: string) => {
     } catch (error) {
       setIsFacebookLoading(false);
       toast({
-        title: 'Facebook sign-in failed',
-        description: error instanceof Error ? error.message : 'Could not open Facebook sign-in.',
+        title: 'Échec de la connexion Facebook',
+        description: error instanceof Error ? error.message : 'Impossible d\'ouvrir la connexion Facebook.',
         variant: 'destructive',
       });
     }

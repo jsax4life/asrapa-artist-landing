@@ -19,7 +19,7 @@ export const useArtistSignup = () => {
     mutationFn: (data: ArtistSignupData) => api.signupArtist(data),
     onSuccess: (response) => {
       toast({
-        title: "Account Created Successfully!",
+        title: "Compte créé avec succès !",
         description: i18n.t('signup.welcomeToast', { brand: i18n.t('brand') }),
         variant: "default",
       });
@@ -28,18 +28,18 @@ export const useArtistSignup = () => {
       navigate(ROUTES.DASHBOARD, { replace: true });
     },
     onError: (error: ApiError) => {
-      let errorMessage = 'An error occurred during signup. Please try again.';
-      
+      let errorMessage = 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.';
+
       if (error.status === 409) {
-        errorMessage = 'An account with this email or stage name already exists.';
+        errorMessage = 'Un compte existe déjà avec cet e-mail ou ce nom de scène.';
       } else if (error.status === 400) {
-        errorMessage = error.message || 'Please check your input and try again.';
+        errorMessage = error.message || 'Vérifiez vos informations et réessayez.';
       } else if (error.status === 0) {
         errorMessage = 'Erreur réseau. Vérifiez votre connexion et réessayez.';
       }
-      
+
       toast({
-        title: "Signup Failed",
+        title: "Échec de l'inscription",
         description: errorMessage,
         variant: "destructive",
       });

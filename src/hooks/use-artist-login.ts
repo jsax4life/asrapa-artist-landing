@@ -19,8 +19,8 @@ export const useArtistLogin = () => {
       persistAuthResponse(response, login);
 
       toast({
-        title: 'Welcome back!',
-        description: 'You are now logged in.',
+        title: 'Bon retour !',
+        description: 'Vous êtes maintenant connecté.',
       });
 
       const from = (location.state as { from?: { pathname?: string } })?.from?.pathname;
@@ -28,8 +28,8 @@ export const useArtistLogin = () => {
     },
     onError: (error: ApiError) => {
       toast({
-        title: 'Login failed',
-        description: error.message || 'Invalid credentials. Please try again.',
+        title: 'Échec de la connexion',
+        description: error.message || 'Identifiants invalides. Veuillez réessayer.',
         variant: 'destructive',
       });
     },

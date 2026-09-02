@@ -4,30 +4,18 @@ import { api, ApiError } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
-interface ProfilePhotoUploaderProps {
-  fallbackSrc: string;
+interface BannerImageUploaderProps {
   className?: string;
-  size?: "md" | "lg";
 }
 
-const sizeClasses = {
-  md: "w-16 h-16 sm:w-24 sm:h-24",
-  lg: "w-28 h-28 sm:w-36 sm:h-36",
-};
-
-const badgeSizeClasses = {
-  md: "size-7 sm:size-8",
-  lg: "size-9 sm:size-10",
-};
-
-export function ProfilePhotoUploader({ fallbackSrc, className, size = "md" }: ProfilePhotoUploaderProps) {
+export function BannerImageUploader({ className }: BannerImageUploaderProps) {
   const { user, updateUser } = useAuth();
   const { toast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
-  const currentSrc = preview || user?.profilePhotoUrl || fallbackSrc;
+  const currentSrc = preview || user?.bannerImageUrl || null;
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -48,18 +36,18 @@ export function ProfilePhotoUploader({ fallbackSrc, className, size = "md" }: Pr
     setIsUploading(true);
 
     try {
-      const response = await api.updateProfilePhoto(file);
-      const updatedArtist = response.data?.artist as { profilePicture?: string } | undefined;
-      if (updatedArtist?.profilePicture) {
-        updateUser({ profilePhotoUrl: updatedArtist.profilePicture });
+      const response = await api.updateBannerImage(file);
+      const updatedArtist = response.data?.artist as { bannerImage?: string } | undefined;
+      if (updatedArtist?.bannerImage) {
+        updateUser({ bannerImageUrl: updatedArtist.bannerImage });
       }
       toast({
-        title: "Photo de profil mise à jour",
-        description: "Votre nouvelle photo est enregistrée.",
+        title: "Bannière mise à jour",
+        description: "Votre nouvelle bannière est enregistrée.",
       });
     } catch (error) {
       setPreview(null);
-      const errorMessage = error instanceof ApiError ? error.message : "Impossible de mettre à jour la photo de profil.";
+      const errorMessage = error instanceof ApiError ? error.message : "Impossible de mettre à jour la bannière.";
       toast({
         title: "Échec de la mise à jour",
         description: errorMessage,
@@ -71,24 +59,27 @@ export function ProfilePhotoUploader({ fallbackSrc, className, size = "md" }: Pr
   };
 
   return (
-    <div className={`relative shrink-0 ${className ?? ""}`}>
-      <img
-        src={currentSrc}
-        alt="Photo de profil de l'artiste"
-        className={`${sizeClasses[size]} rounded-full border-4 border-primary-foreground/20 shadow-accent object-cover`}
-      />
+    <div className={`relative w-full h-32 sm:h-44 rounded-xl overflow-hidden border border-border bg-muted ${className ?? ""}`}>
+      {currentSrc ? (
+        <img src={currentSrc} alt="Bannière de profil" className="w-full h-full object-cover" />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-sm text-muted-foreground">
+          Aucune bannière pour le moment
+        </div>
+      )}
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={isUploading}
-        aria-label="Changer la photo de profil"
-        className={`absolute bottom-0 right-0 grid ${badgeSizeClasses[size]} place-items-center rounded-full bg-black/70 border-2 border-primary-foreground/20 text-primary-foreground hover:bg-black/90 transition-colors disabled:opacity-70`}
+        aria-label="Changer la bannière de profil"
+        className="absolute bottom-3 right-3 flex items-center gap-2 rounded-full bg-black/70 border border-primary-foreground/20 text-primary-foreground text-sm px-3 py-2 hover:bg-black/90 transition-colors disabled:opacity-70"
       >
         {isUploading ? (
-          <Loader2 className="size-3.5 sm:size-4 animate-spin" />
+          <Loader2 className="size-4 animate-spin" />
         ) : (
-          <Camera className="size-3.5 sm:size-4" />
+          <Camera className="size-4" />
         )}
+        {isUploading ? "Envoi..." : "Changer la bannière"}
       </button>
       <input
         ref={inputRef}

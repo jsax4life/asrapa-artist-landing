@@ -91,18 +91,18 @@ export const SignUpForm: React.FC = () => {
     const newErrors: FormErrors = {};
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required';
+      newErrors.fullName = 'Le nom complet est requis';
     }
 
     if (!formData.stageName.trim()) {
-      newErrors.stageName = 'Stage name is required';
+      newErrors.stageName = 'Le nom de scène est requis';
     } else {
       // Check stage name availability
       setIsCheckingStageName(true);
       try {
         const isAvailable = await checkStageNameAvailability(formData.stageName);
         if (!isAvailable) {
-          newErrors.stageName = 'This stage name is already taken';
+          newErrors.stageName = 'Ce nom de scène est déjà pris';
         }
       } catch (error) {
         console.error('Error checking stage name:', error);
@@ -112,16 +112,16 @@ export const SignUpForm: React.FC = () => {
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "L'e-mail est requis";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = "L'e-mail est invalide";
     } else {
       // Check email availability
       setIsCheckingEmail(true);
       try {
         const isAvailable = await checkEmailAvailability(formData.email);
         if (!isAvailable) {
-          newErrors.email = 'An account with this email already exists';
+          newErrors.email = 'Un compte existe déjà avec cet e-mail';
         }
       } catch (error) {
         console.error('Error checking email:', error);
@@ -131,27 +131,27 @@ export const SignUpForm: React.FC = () => {
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = 'Le mot de passe est requis';
     } else if (!validatePassword(formData.password)) {
-      newErrors.password = 'Password does not meet requirements';
+      newErrors.password = 'Le mot de passe ne respecte pas les exigences';
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
+      newErrors.confirmPassword = 'Veuillez confirmer votre mot de passe';
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = 'Les mots de passe ne correspondent pas';
     }
 
     if (!formData.country) {
-      newErrors.country = 'Please select a country';
+      newErrors.country = 'Veuillez sélectionner un pays';
     }
 
     if (formData.country === 'Tchad' && !formData.city) {
-      newErrors.city = 'Please select your city';
+      newErrors.city = 'Veuillez sélectionner votre ville';
     }
 
     if (!formData.agreeToTerms) {
-      newErrors.agreeToTerms = 'You must agree to the terms and conditions';
+      newErrors.agreeToTerms = 'Vous devez accepter les conditions générales';
     }
 
     setErrors(newErrors);
@@ -164,8 +164,8 @@ export const SignUpForm: React.FC = () => {
     // Ensure no availability checks are pending and no errors exist before submitting
     if (isCheckingEmail || isCheckingStageName || emailStatus === 'error' || stageNameStatus === 'error') {
       toast({
-        title: "Validation Error",
-        description: "Please wait for availability checks to complete or resolve any network issues.",
+        title: "Erreur de validation",
+        description: "Attendez la fin des vérifications de disponibilité ou résolvez les problèmes réseau.",
         variant: "destructive",
       });
       return;
@@ -223,12 +223,12 @@ export const SignUpForm: React.FC = () => {
           console.error('Error checking email:', error);
           // Show a toast message for network error
           toast({
-            title: "Network Error",
-            description: "Could not verify email availability. Please check your internet connection.",
+            title: "Erreur réseau",
+            description: "Impossible de vérifier la disponibilité de l'e-mail. Vérifiez votre connexion internet.",
             variant: "destructive",
           });
           setEmailStatus('error'); // Set status to error
-          setErrors(prev => ({ ...prev, email: 'Could not verify email. Please try again.' }));
+          setErrors(prev => ({ ...prev, email: "Impossible de vérifier l'e-mail. Veuillez réessayer." }));
         } finally {
           setIsCheckingEmail(false);
         }
@@ -253,12 +253,12 @@ export const SignUpForm: React.FC = () => {
           console.error('Error checking stage name:', error);
           // Show a toast message for network error
           toast({
-            title: "Network Error",
-            description: "Could not verify stage name availability. Please check your internet connection.",
+            title: "Erreur réseau",
+            description: "Impossible de vérifier la disponibilité du nom de scène. Vérifiez votre connexion internet.",
             variant: "destructive",
           });
           setStageNameStatus('error'); // Set status to error
-          setErrors(prev => ({ ...prev, stageName: 'Could not verify stage name. Please try again.' }));
+          setErrors(prev => ({ ...prev, stageName: 'Impossible de vérifier le nom de scène. Veuillez réessayer.' }));
         } finally {
           setIsCheckingStageName(false);
         }
@@ -309,12 +309,12 @@ export const SignUpForm: React.FC = () => {
       } catch (error) {
         console.error('Error checking email:', error);
         toast({
-          title: "Network Error",
-          description: "Could not verify email availability. Please check your internet connection.",
+          title: "Erreur réseau",
+          description: "Impossible de vérifier la disponibilité de l'e-mail. Vérifiez votre connexion internet.",
           variant: "destructive",
         });
         setEmailStatus('error'); // Set status to error
-        setErrors(prev => ({ ...prev, email: 'Could not verify email. Please try again.' }));
+        setErrors(prev => ({ ...prev, email: "Impossible de vérifier l'e-mail. Veuillez réessayer." }));
       } finally {
         setIsCheckingEmail(false);
       }
@@ -338,12 +338,12 @@ export const SignUpForm: React.FC = () => {
       } catch (error) {
         console.error('Error checking stage name:', error);
         toast({
-          title: "Network Error",
-          description: "Could not verify stage name availability. Please check your internet connection.",
+          title: "Erreur réseau",
+          description: "Impossible de vérifier la disponibilité du nom de scène. Vérifiez votre connexion internet.",
           variant: "destructive",
         });
         setStageNameStatus('error'); // Set status to error
-        setErrors(prev => ({ ...prev, stageName: 'Could not verify stage name. Please try again.' }));
+        setErrors(prev => ({ ...prev, stageName: 'Impossible de vérifier le nom de scène. Veuillez réessayer.' }));
       } finally {
         setIsCheckingStageName(false);
       }
