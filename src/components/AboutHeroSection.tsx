@@ -11,18 +11,13 @@ const AboutHeroSection: React.FC = () => {
 
   return (
     <div className="w-full min-h-screen relative overflow-x-hidden bg-[#131313]">
-      <div className="h-[60vh] min-h-[360px] w-full">
+      <div className="h-[80vh] min-h-[480px] w-full">
         <img
           src={artistPageHero}
-          alt="Percussionniste sur scène lors d'un festival de musique africaine"
+          alt="Percussionniste jouant du djembé lors d'un festival de musique africaine"
           className="h-full w-full object-cover"
+          style={{ objectPosition: '38% 68%' }}
         />
-      </div>
-      <div className="w-full bg-[#131313] py-10 text-center">
-        <h1 className="text-4xl font-bold md:text-5xl lg:text-6xl">
-          <span className="text-white">{t('about.discover')} </span>
-          <span className="text-red-500">{brand}.</span>
-        </h1>
       </div>
       <section className="w-full h-[821px] relative flex items-center justify-between box-border bg-[#131313] px-[110px] py-0 max-md:h-auto max-md:flex-col max-md:gap-[60px] max-md:px-10 max-md:py-[60px] max-sm:gap-10 max-sm:px-5 max-sm:py-10">
         <div className="flex items-start gap-[81px] w-full max-w-[1292px] relative z-[2] max-md:flex-col max-md:gap-[60px] max-md:w-full max-md:max-w-none max-sm:gap-10">
