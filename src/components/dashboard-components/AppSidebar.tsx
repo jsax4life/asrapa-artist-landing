@@ -9,6 +9,7 @@ import {
   TrendingUp,
   Calendar,
   LogOut,
+  Settings as SettingsIcon,
 } from "lucide-react";
 
 import {
@@ -26,6 +27,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useAuth } from "@/contexts/AuthContext";
 import { ROUTES } from "@/constants/routes";
 import { useToast } from "@/hooks/use-toast";
+import artistProfile from "@/assets/images/artist-profile.jpg";
 
 export function AppSidebar() {
   const { t } = useTranslation();
@@ -73,10 +75,15 @@ export function AppSidebar() {
     >
       <SidebarContent className="p-4">
         <div className={`mb-6 ${collapsed ? "hidden" : "block"}`}>
-          <div className="flex items-center space-x-3 p-3 rounded-lg bg-primary">
-            <div className="w-10 h-10 rounded-full bg-black/25 flex items-center justify-center">
-              <Music className="w-5 h-5 text-primary-foreground" />
-            </div>
+          <NavLink
+            to={ROUTES.SETTINGS}
+            className="flex items-center space-x-3 p-3 rounded-lg bg-primary hover:bg-primary/90 transition-colors"
+          >
+            <img
+              src={user?.profilePhotoUrl || artistProfile}
+              alt="Photo de profil"
+              className="w-10 h-10 rounded-full object-cover border border-primary-foreground/20"
+            />
             <div>
               <h3 className="font-semibold text-primary-foreground">
                 {user?.fullName || user?.stageName || 'Artist'}
@@ -85,7 +92,7 @@ export function AppSidebar() {
                 {user?.stageName ? user.stageName : t('sidebar.musicArtist')}
               </p>
             </div>
-          </div>
+          </NavLink>
         </div>
 
         <SidebarGroup>
@@ -134,6 +141,14 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink to={ROUTES.SETTINGS} className={getNavCls}>
+                    <SettingsIcon className={`h-4 w-4 ${collapsed ? "mx-auto" : "mr-3"}`} />
+                    {!collapsed && <span>Paramètres</span>}
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               {!collapsed && (
                 <SidebarMenuItem>
                   <div className="px-3 py-2">

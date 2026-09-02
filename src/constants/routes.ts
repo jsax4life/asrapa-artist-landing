@@ -6,7 +6,6 @@ export const ROUTES = {
   ARTIST_HOME: '/artist-home',
   PRICES: '/prices',
   REGISTRATION: '/registration',
-  FORGOT_PASSWORD: '/mot-de-passe-oublie',
   ARTIST_GUIDE: '/artist-guide',
   ADVERTISING: '/advertising',
   TERMS: '/terms',
@@ -20,6 +19,7 @@ export const ROUTES = {
   UPLOAD: '/dashboard/upload',
   TRENDS: '/dashboard/trends',
   EVENTS: '/dashboard/events',
+  SETTINGS: '/dashboard/settings',
 } as const;
 
 // Type for route paths

@@ -7,9 +7,20 @@ import { useToast } from "@/hooks/use-toast";
 interface ProfilePhotoUploaderProps {
   fallbackSrc: string;
   className?: string;
+  size?: "md" | "lg";
 }
 
-export function ProfilePhotoUploader({ fallbackSrc, className }: ProfilePhotoUploaderProps) {
+const sizeClasses = {
+  md: "w-16 h-16 sm:w-24 sm:h-24",
+  lg: "w-28 h-28 sm:w-36 sm:h-36",
+};
+
+const badgeSizeClasses = {
+  md: "size-7 sm:size-8",
+  lg: "size-9 sm:size-10",
+};
+
+export function ProfilePhotoUploader({ fallbackSrc, className, size = "md" }: ProfilePhotoUploaderProps) {
   const { user, updateUser } = useAuth();
   const { toast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -64,14 +75,14 @@ export function ProfilePhotoUploader({ fallbackSrc, className }: ProfilePhotoUpl
       <img
         src={currentSrc}
         alt="Photo de profil de l'artiste"
-        className="w-16 h-16 sm:w-24 sm:h-24 rounded-full border-4 border-primary-foreground/20 shadow-accent object-cover"
+        className={`${sizeClasses[size]} rounded-full border-4 border-primary-foreground/20 shadow-accent object-cover`}
       />
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={isUploading}
         aria-label="Changer la photo de profil"
-        className="absolute bottom-0 right-0 grid size-7 sm:size-8 place-items-center rounded-full bg-black/70 border-2 border-primary-foreground/20 text-primary-foreground hover:bg-black/90 transition-colors disabled:opacity-70"
+        className={`absolute bottom-0 right-0 grid ${badgeSizeClasses[size]} place-items-center rounded-full bg-black/70 border-2 border-primary-foreground/20 text-primary-foreground hover:bg-black/90 transition-colors disabled:opacity-70`}
       >
         {isUploading ? (
           <Loader2 className="size-3.5 sm:size-4 animate-spin" />

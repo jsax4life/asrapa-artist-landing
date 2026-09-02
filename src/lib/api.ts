@@ -664,6 +664,50 @@ export const api = {
     }
   },
 
+  async updateArtistProfile(data: {
+    fullName?: string;
+    stageName?: string;
+    email?: string;
+    country?: string;
+  }): Promise<ApiResponse<{ artist: Record<string, unknown> }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ artist: Record<string, unknown> }>> = await apiClient.patch(
+        '/artist/profile',
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau pendant la mise à jour du profil. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  async changePassword(data: {
+    currentPassword: string;
+    newPassword: string;
+  }): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
+        '/artist/change-password',
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau pendant le changement de mot de passe. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
   async updateProfilePhoto(file: File): Promise<ApiResponse<{ profilePhotoUrl: string }>> {
     try {
       const formData = new FormData();
