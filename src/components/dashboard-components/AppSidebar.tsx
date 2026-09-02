@@ -78,8 +78,8 @@ export function AppSidebar() {
     >
       <SidebarContent className="p-4">
         <div className={`mb-6 ${collapsed ? "hidden" : "block"}`}>
-          <div className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-primary">
-            <div className="w-10 h-10 rounded-full bg-primary-glow flex items-center justify-center">
+          <div className="flex items-center space-x-3 p-3 rounded-lg bg-primary">
+            <div className="w-10 h-10 rounded-full bg-black/25 flex items-center justify-center">
               <Music className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>

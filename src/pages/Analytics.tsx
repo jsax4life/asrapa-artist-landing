@@ -7,13 +7,13 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const analyticsChartData = [
-  { month: "Janv.", revenue: 780000, streams: 45000 },
-  { month: "Févr.", revenue: 975000, streams: 52000 },
-  { month: "Mars", revenue: 845000, streams: 48000 },
-  { month: "Avr.", revenue: 1170000, streams: 67000 },
-  { month: "Mai", revenue: 1300000, streams: 73000 },
-  { month: "Juin", revenue: 1625000, streams: 89000 },
-  { month: "Juil.", revenue: 1755000, streams: 95000 },
+  { month: "Janv.", revenue: 0, streams: 0 },
+  { month: "Févr.", revenue: 0, streams: 0 },
+  { month: "Mars", revenue: 0, streams: 0 },
+  { month: "Avr.", revenue: 0, streams: 0 },
+  { month: "Mai", revenue: 0, streams: 0 },
+  { month: "Juin", revenue: 0, streams: 0 },
+  { month: "Juil.", revenue: 0, streams: 0 },
 ];
 
 const Analytics = () => {
@@ -34,31 +34,27 @@ const Analytics = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatsCard
                   title="Revenus totaux"
-                  value="8,1M FCFA"
-                  change="+15,2 % vs mois dernier"
+                  value="0 FCFA"
                   icon={DollarSign}
-                  trend="up"
+                  trend="neutral"
                 />
                 <StatsCard
                   title="Écoutes totales"
-                  value="2.4M"
-                  change="+12,5 % vs mois dernier"
+                  value="0"
                   icon={Play}
-                  trend="up"
+                  trend="neutral"
                 />
                 <StatsCard
                   title="Auditeurs uniques"
-                  value="350K"
-                  change="+7,8 % vs mois dernier"
+                  value="0"
                   icon={Users}
-                  trend="up"
+                  trend="neutral"
                 />
                 <StatsCard
                   title="Vues de page"
-                  value="500K"
-                  change="+10,1 % vs mois dernier"
+                  value="0"
                   icon={Eye}
-                  trend="up"
+                  trend="neutral"
                 />
               </div>
 

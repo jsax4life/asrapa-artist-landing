@@ -31,7 +31,7 @@ const Dashboard = () => {
 
 
           {/* Artist Header */}
-          <div className="flex flex-col sm:flex-row items-center sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 p-4 sm:p-6 rounded-xl bg-gradient-hero shadow-glow animate-fade-in">
+          <div className="flex flex-col sm:flex-row items-center sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 p-4 sm:p-6 rounded-xl bg-primary shadow-glow animate-fade-in">
             <img 
               src={artistProfile} 
               alt="Photo de profil de l'artiste"
@@ -57,31 +57,27 @@ const Dashboard = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                 <StatsCard
                                     title="Écoutes totales"
-                                    value="2.4M"
-                                    change="+12,5 % vs mois dernier"
+                                    value="0"
                                     icon={Play}
-                                    trend="up"
+                                    trend="neutral"
                                 />
                                 <StatsCard
                                     title="Auditeurs mensuels"
-                                    value="145K"
-                                    change="+8,2 % vs mois dernier"
+                                    value="0"
                                     icon={Users}
-                                    trend="up"
+                                    trend="neutral"
                                 />
                                 <StatsCard
                                     title="Titres sortis"
-                                    value="24"
-                                    change="3 nouveaux ce mois-ci"
+                                    value="0"
                                     icon={Music}
-                                    trend="up"
+                                    trend="neutral"
                                 />
                                 <StatsCard
                                     title="Taux de croissance"
-                                    value="18,7 %"
-                                    change="+2,1 % d'amélioration"
+                                    value="0 %"
                                     icon={TrendingUp}
-                                    trend="up"
+                                    trend="neutral"
                                 />
                             </div>
 

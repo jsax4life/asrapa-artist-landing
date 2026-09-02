@@ -2,13 +2,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const chartData = [
-  { month: "Janv.", streams: 45000, plays: 32000 },
-  { month: "Févr.", streams: 52000, plays: 38000 },
-  { month: "Mars", streams: 48000, plays: 35000 },
-  { month: "Avr.", streams: 67000, plays: 49000 },
-  { month: "Mai", streams: 73000, plays: 54000 },
-  { month: "Juin", streams: 89000, plays: 68000 },
-  { month: "Juil.", streams: 95000, plays: 74000 },
+  { month: "Janv.", streams: 0, plays: 0 },
+  { month: "Févr.", streams: 0, plays: 0 },
+  { month: "Mars", streams: 0, plays: 0 },
+  { month: "Avr.", streams: 0, plays: 0 },
+  { month: "Mai", streams: 0, plays: 0 },
+  { month: "Juin", streams: 0, plays: 0 },
+  { month: "Juil.", streams: 0, plays: 0 },
 ];
 
 export function PerformanceChart() {

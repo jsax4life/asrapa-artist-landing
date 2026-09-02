@@ -38,9 +38,9 @@ All colors MUST be HSL.
   --accent: 355 75% 42%;
   --accent-foreground: 0 0% 96%;
 
-  /* Success - Music Green */
-  --success: 120 60% 50%;
-  --success-foreground: 240 10% 8%;
+  /* Success - Brand Red (kept distinct from destructive via lighter tone) */
+  --success: 0 85% 60%;
+  --success-foreground: 0 0% 96%;
 
   /* Warning - Gold */
   --warning: 45 90% 60%;
@@ -52,12 +52,6 @@ All colors MUST be HSL.
   --border: 0 0% 12%;
   --input: 0 0% 12%;
   --ring: 0 85% 60%;
-
-  /* Black & Red Music Industry Gradients */
-  --gradient-primary: linear-gradient(135deg, hsl(0 85% 60%), hsl(0 100% 70%));
-  --gradient-secondary: linear-gradient(135deg, hsl(0 0% 8%), hsl(0 0% 15%));
-  --gradient-accent: linear-gradient(135deg, hsl(355 75% 42%), hsl(0 0% 8%));
-  --gradient-hero: linear-gradient(135deg, hsl(0 85% 60%) 0%, hsl(0 100% 70%) 50%, hsl(355 75% 42%) 100%);
 
   /* Shadows with Black & Red Theme */
   --shadow-glow: 0 0 40px hsl(0 85% 60% / 0.4);
