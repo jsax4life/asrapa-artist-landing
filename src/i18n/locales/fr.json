@@ -128,10 +128,11 @@
     "downloadAppAria": "Télécharger l'application {{brand}}"
   },
   "premium": {
-    "enhance": "Améliorez votre expérience musicale avec Premium",
-    "upgradeDesc": "Passez à {{brand}} Premium et élevez votre expérience musicale. Profitez d'une lecture ininterrompue, même hors ligne. Dites adieu aux publicités et savourez un audio de haute qualité pour une expérience immersive.",
-    "pickPremium": "Choisissez votre Premium",
-    "pickDesc": "Passez à {{brand}} Premium et élevez votre expérience musicale. Profitez d'une lecture ininterrompue, même hors ligne"
+    "artistCtaEyebrow": "Vous êtes artiste ?",
+    "artistCtaTitle": "Vendez votre musique sur AsraPa.",
+    "artistCtaBody": "65 % des revenus reviennent aux artistes, répartis selon vos écoutes réelles. Diffusez votre musique, vos podcasts ou vos émissions directement auprès de votre public.",
+    "artistCtaPrices": "Voir les tarifs",
+    "artistCtaSignup": "Créer mon compte"
   },
   "login": {
     "welcome": "Bienvenue sur",
