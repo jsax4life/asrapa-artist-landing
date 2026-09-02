@@ -47,7 +47,7 @@ const AdvertisingPage: React.FC = () => {
         <div className="hero-visual">
           <img
             src={heroImage}
-            alt="Artiste sur scène devant un public dans une ambiance musicale contemporaine"
+            alt="Artiste jouant de la guitare sur scène, ambiance mawata"
           />
           <div className="image-scrim" />
           <div className="visual-badge">
