@@ -142,7 +142,18 @@
     "submit": "Se connecter",
     "submitting": "Connexion...",
     "noAccount": "Vous n'avez pas de compte ?",
-    "signUp": "S'inscrire"
+    "signUp": "S'inscrire",
+    "forgotPassword": "Mot de passe oublié ?"
+  },
+  "forgotPassword": {
+    "title": "Réinitialiser votre mot de passe sur",
+    "subtitle": "Entrez votre e-mail, on vous envoie un lien pour créer un nouveau mot de passe.",
+    "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
+    "submit": "Envoyer le lien",
+    "sending": "Envoi en cours...",
+    "sentTitle": "E-mail envoyé",
+    "sentBody": "Si un compte existe pour {{email}}, vous recevrez un lien de réinitialisation dans quelques minutes.",
+    "backToLogin": "Retour à la connexion"
   },
   "signup": {
     "join": "Rejoindre",
@@ -169,7 +180,20 @@
       "chars8": "8+ caractères",
       "uppercase": "Majuscule",
       "number": "Chiffre",
-      "specialChar": "Caractère spécial"
+      "specialChar": "Caractère spécial",
+      "country": "Pays",
+      "countryPlaceholder": "Choisissez votre pays",
+      "countrySearch": "Rechercher un pays...",
+      "countryNoResults": "Aucun pays trouvé.",
+      "city": "Ville",
+      "cityPlaceholder": "Choisissez votre ville"
+    },
+    "social": {
+      "google": "Continuer avec Google",
+      "facebook": "Continuer avec Facebook",
+      "divider": "ou avec un e-mail",
+      "comingSoonTitle": "Bientôt disponible",
+      "comingSoonBody": "La connexion avec {{provider}} arrive très prochainement. Utilisez le formulaire en attendant."
     },
     "welcomeToast": "Bienvenue sur {{brand}} ! Vous pouvez maintenant téléverser votre musique.",
     "promoAlt": "Image promotionnelle {{brand}} montrant des musiciens et du matériel musical"
