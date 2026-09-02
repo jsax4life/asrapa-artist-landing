@@ -669,6 +669,8 @@ export const api = {
     stageName?: string;
     email?: string;
     country?: string;
+    city?: string;
+    bio?: string;
   }): Promise<ApiResponse<{ artist: Record<string, unknown> }>> {
     try {
       const response: AxiosResponse<ApiResponse<{ artist: Record<string, unknown> }>> = await apiClient.patch(

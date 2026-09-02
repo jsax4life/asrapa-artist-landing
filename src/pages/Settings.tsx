@@ -5,12 +5,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ProfilePhotoUploader } from "@/components/dashboard-components/ProfilePhotoUploader";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { api, ApiError } from "@/lib/api";
-import { COUNTRIES } from "@/lib/countries";
+import { COUNTRIES, CHAD_CITIES } from "@/lib/countries";
 import artistProfile from "@/assets/images/artist-profile.jpg";
 
 const Settings = () => {
@@ -22,8 +23,12 @@ const Settings = () => {
     stageName: user?.stageName || '',
     email: user?.email || '',
     country: user?.country || '',
+    city: user?.city || '',
   });
   const [isSavingProfile, setIsSavingProfile] = useState(false);
+
+  const [bio, setBio] = useState(user?.bio || '');
+  const [isSavingBio, setIsSavingBio] = useState(false);
 
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: '',
@@ -41,9 +46,13 @@ const Settings = () => {
   const handleProfileSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSavingProfile(true);
+    const payload = {
+      ...profileForm,
+      ...(profileForm.country === 'Tchad' ? {} : { city: '' }),
+    };
     try {
-      await api.updateArtistProfile(profileForm);
-      updateUser(profileForm);
+      await api.updateArtistProfile(payload);
+      updateUser(payload);
       toast({
         title: "Profil mis à jour",
         description: "Vos informations ont été enregistrées.",
@@ -57,6 +66,28 @@ const Settings = () => {
       });
     } finally {
       setIsSavingProfile(false);
+    }
+  };
+
+  const handleBioSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setIsSavingBio(true);
+    try {
+      await api.updateArtistProfile({ bio });
+      updateUser({ bio });
+      toast({
+        title: "Biographie mise à jour",
+        description: "Votre biographie a été enregistrée.",
+      });
+    } catch (error) {
+      const errorMessage = error instanceof ApiError ? error.message : "Impossible de mettre à jour la biographie.";
+      toast({
+        title: "Échec de la mise à jour",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSavingBio(false);
     }
   };
 
@@ -175,7 +206,13 @@ const Settings = () => {
                       <Label htmlFor="country">Pays</Label>
                       <Select
                         value={profileForm.country}
-                        onValueChange={(value) => setProfileForm((prev) => ({ ...prev, country: value }))}
+                        onValueChange={(value) =>
+                          setProfileForm((prev) => ({
+                            ...prev,
+                            country: value,
+                            city: value === 'Tchad' ? prev.city : '',
+                          }))
+                        }
                       >
                         <SelectTrigger id="country">
                           <SelectValue placeholder="Sélectionnez votre pays" />
@@ -189,9 +226,62 @@ const Settings = () => {
                         </SelectContent>
                       </Select>
                     </div>
+                    {profileForm.country === 'Tchad' && (
+                      <div className="space-y-2">
+                        <Label htmlFor="city">Ville</Label>
+                        <Select
+                          value={profileForm.city}
+                          onValueChange={(value) => setProfileForm((prev) => ({ ...prev, city: value }))}
+                        >
+                          <SelectTrigger id="city">
+                            <SelectValue placeholder="Sélectionnez votre ville" />
+                          </SelectTrigger>
+                          <SelectContent className="max-h-72">
+                            {CHAD_CITIES.map((city) => (
+                              <SelectItem key={city} value={city}>
+                                {city}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
                     <div className="md:col-span-2 flex justify-end">
                       <Button type="submit" disabled={isSavingProfile} className="bg-primary hover:bg-primary-dark text-primary-foreground">
                         {isSavingProfile ? 'Enregistrement...' : 'Enregistrer les modifications'}
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
+
+              {/* Biographie */}
+              <Card className="bg-card border-border shadow-card animate-fade-in">
+                <CardHeader>
+                  <CardTitle className="text-xl font-bold text-foreground">Biographie</CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    Présentez-vous à vos fans. Visible sur votre profil public.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleBioSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="bio">Votre biographie</Label>
+                      <Textarea
+                        id="bio"
+                        value={bio}
+                        onChange={(e) => setBio(e.target.value)}
+                        placeholder="Parlez de votre parcours, votre style musical, vos influences..."
+                        rows={5}
+                        maxLength={1000}
+                      />
+                      <p className="text-xs text-muted-foreground text-right">
+                        {bio.length}/1000
+                      </p>
+                    </div>
+                    <div className="flex justify-end">
+                      <Button type="submit" disabled={isSavingBio} className="bg-primary hover:bg-primary-dark text-primary-foreground">
+                        {isSavingBio ? 'Enregistrement...' : 'Enregistrer la biographie'}
                       </Button>
                     </div>
                   </form>
