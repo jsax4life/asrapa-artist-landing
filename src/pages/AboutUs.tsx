@@ -6,7 +6,7 @@ import PlanSubscriptionSection from '@/components/plan-subscription/index';
 
 const AboutUs = () => {
   return (
-    <div className="min-h-screen bg-[#2A2626] text-white">
+    <div className="min-h-screen bg-black text-white">
       {/* Hero Header */}
       
 

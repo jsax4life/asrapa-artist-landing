@@ -16,7 +16,7 @@ const Terms = () => {
     t(key, { returnObjects: true }) as LabeledItem[];
 
   return (
-    <main className="min-h-screen bg-[#131313] text-white py-12 px-4 sm:px-8">
+    <main className="min-h-screen bg-black text-white py-12 px-4 sm:px-8">
       <div className="max-w-3xl mx-auto">
         <Link
           to={ROUTES.REGISTRATION}

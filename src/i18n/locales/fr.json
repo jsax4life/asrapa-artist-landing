@@ -1,5 +1,5 @@
 {
-  "brand": "Asrapa",
+  "brand": "AsraPa",
   "language": {
     "english": "English",
     "french": "Français",
@@ -89,28 +89,50 @@
   "artistHome": {
     "whyChoose": "Pourquoi choisir",
     "artists": "Artistes {{brand}}",
-    "unlimitedTitle": "Distribution illimitée dans le monde",
-    "unlimitedDesc": "Distribuez votre musique sur plus de 150 plateformes numériques et sur les réseaux sociaux dans plus de 200 pays.",
-    "incomeTitle": "Conservez 100 % de vos revenus",
-    "incomeDesc": "{{brand}} pour les artistes ne prend jamais de commission sur vos revenus de streaming et de téléchargement sur la plateforme numérique tchadienne {{brand}} : vous gardez ce que vous générez.",
-    "reportsTitle": "Rapports de ventes détaillés",
-    "reportsDesc": "Découvrez où vos fans téléchargent et écoutent votre musique pour cibler votre marketing et planifier vos tournées en conséquence."
+    "reasons": [
+      {
+        "title": "Expérience culturelle",
+        "body": "Dans nos traditions africaines, la mémoire culturelle a toujours été orale. Elle se transmet de génération en génération."
+      },
+      {
+        "title": "Soutenir les artistes indépendants",
+        "body": "Une plus grande part de chaque écoute va directement au créateur."
+      },
+      {
+        "title": "Streaming rapide",
+        "body": "Une diffusion pensée pour les réseaux africains : la lecture démarre immédiatement."
+      },
+      {
+        "title": "Interface soignée",
+        "body": "Conçue pour la musique d'abord, pour que l'art reste au premier plan."
+      },
+      {
+        "title": "Portée par la communauté",
+        "body": "Playlists, commentaires et soutien des fans intégrés au parcours d'écoute."
+      },
+      {
+        "title": "Un écosystème qui grandit",
+        "body": "Fans, artistes et agents grandissent ensemble sur une seule plateforme."
+      }
+    ]
   },
   "about": {
     "discover": "Découvrez un monde de musique avec",
     "welcome": "Bienvenue sur {{brand}},",
     "tagline": "Là où la musique prend vie. Découvrez un univers de mélodies infinies, de playlists sélectionnées et de recommandations personnalisées rien que pour vous.",
     "usersWorldwide": "utilisateurs {{brand}} dans le monde",
-    "scanDownload": "Scannez pour télécharger l'application {{brand}}",
+    "highlight": "100 % dédié à la musique tchadienne, au pays comme dans la diaspora.",
+    "scanDownload": "Scannez pour télécharger l'application {{brand}}.",
     "iphoneAlt": "iPhone affichant l'interface de l'application {{brand}}",
     "qrAlt": "Code QR pour télécharger l'application {{brand}}",
     "downloadAppAria": "Télécharger l'application {{brand}}"
   },
   "premium": {
-    "enhance": "Améliorez votre expérience musicale avec Premium",
-    "upgradeDesc": "Passez à {{brand}} Premium et élevez votre expérience musicale. Profitez d'une lecture ininterrompue, même hors ligne. Dites adieu aux publicités et savourez un audio de haute qualité pour une expérience immersive.",
-    "pickPremium": "Choisissez votre Premium",
-    "pickDesc": "Passez à {{brand}} Premium et élevez votre expérience musicale. Profitez d'une lecture ininterrompue, même hors ligne"
+    "artistCtaEyebrow": "Vous êtes artiste ?",
+    "artistCtaTitle": "Vendez votre musique sur AsraPa.",
+    "artistCtaBody": "65 % des revenus reviennent aux artistes, répartis selon vos écoutes réelles. Diffusez votre musique, vos podcasts ou vos émissions directement auprès de votre public.",
+    "artistCtaPrices": "Voir les tarifs",
+    "artistCtaSignup": "Créer mon compte"
   },
   "login": {
     "welcome": "Bienvenue sur",
@@ -122,7 +144,18 @@
     "submit": "Se connecter",
     "submitting": "Connexion...",
     "noAccount": "Vous n'avez pas de compte ?",
-    "signUp": "S'inscrire"
+    "signUp": "S'inscrire",
+    "forgotPassword": "Mot de passe oublié ?"
+  },
+  "forgotPassword": {
+    "title": "Réinitialiser votre mot de passe sur",
+    "subtitle": "Entrez votre e-mail, on vous envoie un lien pour créer un nouveau mot de passe.",
+    "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
+    "submit": "Envoyer le lien",
+    "sending": "Envoi en cours...",
+    "sentTitle": "E-mail envoyé",
+    "sentBody": "Si un compte existe pour {{email}}, vous recevrez un lien de réinitialisation dans quelques minutes.",
+    "backToLogin": "Retour à la connexion"
   },
   "auth": {
     "forgotPasswordLink": "Mot de passe oublié ?",
@@ -158,7 +191,7 @@
   },
   "signup": {
     "join": "Rejoindre",
-    "tagline": "Vendez votre musique dans le monde entier et conservez 100 % de vos droits",
+    "tagline": "Vendez votre musique dans le monde entier et conservez 100 % de vos droits.",
     "agreeTerms": "J'accepte les conditions de {{brand}}",
     "termsLink": "Conditions générales",
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
@@ -181,7 +214,20 @@
       "chars8": "8+ caractères",
       "uppercase": "Majuscule",
       "number": "Chiffre",
-      "specialChar": "Caractère spécial"
+      "specialChar": "Caractère spécial",
+      "country": "Pays",
+      "countryPlaceholder": "Choisissez votre pays",
+      "countrySearch": "Rechercher un pays...",
+      "countryNoResults": "Aucun pays trouvé.",
+      "city": "Ville",
+      "cityPlaceholder": "Choisissez votre ville"
+    },
+    "social": {
+      "google": "Continuer avec Google",
+      "facebook": "Continuer avec Facebook",
+      "divider": "ou avec un e-mail",
+      "comingSoonTitle": "Bientôt disponible",
+      "comingSoonBody": "La connexion avec {{provider}} arrive très prochainement. Utilisez le formulaire en attendant."
     },
     "welcomeToast": "Bienvenue sur {{brand}} ! Vous pouvez maintenant téléverser votre musique.",
     "promoAlt": "Image promotionnelle {{brand}} montrant des musiciens et du matériel musical"
@@ -190,7 +236,7 @@
     "title": "Notre communauté d'artistes"
   },
   "artistGuide": {
-    "title": "GUIDE DE L'ARTISTE"
+    "title": "On s'informe un peu ?"
   },
   "advertising": {
     "heroTitle": "Partagez l'histoire de votre marque et touchez un public mondial",

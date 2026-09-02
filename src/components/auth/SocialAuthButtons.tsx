@@ -6,9 +6,14 @@ import { GOOGLE_CLIENT_ID, useSocialAuth } from '@/hooks/use-social-auth';
 interface SocialAuthButtonsProps {
   stageName?: string;
   disabled?: boolean;
+  className?: string;
 }
 
-const SocialAuthButtons: React.FC<SocialAuthButtonsProps> = ({ stageName, disabled = false }) => {
+const SocialAuthButtons: React.FC<SocialAuthButtonsProps> = ({
+  stageName,
+  disabled = false,
+  className = '',
+}) => {
   const { t } = useTranslation();
   const googleButtonRef = useRef<HTMLDivElement>(null);
   const {
@@ -68,7 +73,7 @@ const SocialAuthButtons: React.FC<SocialAuthButtonsProps> = ({ stageName, disabl
   }
 
   return (
-    <div className="space-y-3">
+    <div className={`space-y-3 ${className}`}>
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t border-white/20" />

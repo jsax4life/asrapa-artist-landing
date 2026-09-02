@@ -43,6 +43,8 @@ const Login: React.FC = () => {
             <p className="text-[#D2D8DA] mt-2">{t('login.subtitle')}</p>
           </header>
 
+          <SocialAuthButtons disabled={isLoggingIn} className="mb-4" />
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col">
               <label className="text-white font-bold text-sm mb-2">{t('login.emailOrStage')}</label>
@@ -65,7 +67,7 @@ const Login: React.FC = () => {
               <div className="flex items-center justify-between mb-2">
                 <label className="text-white font-bold text-sm">{t('login.password')}</label>
                 <Link to={ROUTES.FORGOT_PASSWORD} className="text-xs text-[#F6C874] hover:underline">
-                  {t('auth.forgotPasswordLink')}
+                  {t('login.forgotPassword')}
                 </Link>
               </div>
               <div className={`flex items-center min-h-12 rounded-lg px-4 py-3 bg-[rgba(210,216,218,0.16)] border ${errors.password ? 'border-red-500' : 'border-transparent'}`}>
@@ -96,13 +98,11 @@ const Login: React.FC = () => {
               type="submit"
               disabled={isLoggingIn}
               className={`w-full min-h-12 rounded-full px-6 py-3 text-white font-semibold transition-colors ${
-                isLoggingIn ? 'bg-gray-500 cursor-not-allowed' : 'bg-[#C40505] hover:bg-[#E60606]'
+                isLoggingIn ? 'bg-[#C40505]/30 text-white/50 cursor-not-allowed' : 'bg-[#C40505] hover:bg-[#E60606]'
               }`}
             >
               {isLoggingIn ? t('login.submitting', 'Signing in...') : t('login.submit')}
             </button>
-
-            <SocialAuthButtons disabled={isLoggingIn} />
 
             <div className="text-center text-sm text-[#D2D8DA]">
               {t('login.noAccount')}{' '}

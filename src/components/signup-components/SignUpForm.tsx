@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { FormField } from './FormField';
 import { PasswordField } from './PasswordField';
 import { CountrySelect } from './CountrySelect';
+import { CitySelect } from './CitySelect';
 import { TermsCheckbox } from './TermsCheckbox';
 import { useArtistSignup } from '@/hooks/use-artist-signup';
 import { useToast } from '@/hooks/use-toast';
@@ -15,6 +16,7 @@ interface FormData {
   password: string;
   confirmPassword: string;
   country: string;
+  city: string;
   agreeToTerms: boolean;
 }
 
@@ -25,6 +27,7 @@ interface FormErrors {
   password?: string;
   confirmPassword?: string;
   country?: string;
+  city?: string;
   agreeToTerms?: string;
 }
 
@@ -38,6 +41,7 @@ export const SignUpForm: React.FC = () => {
     password: '',
     confirmPassword: '',
     country: '',
+    city: '',
     agreeToTerms: false
   });
 
@@ -142,6 +146,10 @@ export const SignUpForm: React.FC = () => {
       newErrors.country = 'Please select a country';
     }
 
+    if (formData.country === 'Tchad' && !formData.city) {
+      newErrors.city = 'Please select your city';
+    }
+
     if (!formData.agreeToTerms) {
       newErrors.agreeToTerms = 'You must agree to the terms and conditions';
     }
@@ -164,18 +172,29 @@ export const SignUpForm: React.FC = () => {
     }
     
     if (await validateForm()) {
-      const { confirmPassword, ...signupData } = formData;
+      const { confirmPassword, city, country, ...rest } = formData;
+      const signupData = {
+        ...rest,
+        country,
+        // On ne joint la ville que pour le Tchad, elle n'a pas de sens ailleurs.
+        ...(country === 'Tchad' && city ? { city } : {}),
+      };
       signup(signupData);
     }
   };
 
   const updateFormData = (field: keyof FormData) => (value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [field]: value,
+      // Une ville choisie pour le Tchad ne veut plus rien dire si on change de pays.
+      ...(field === 'country' && value !== 'Tchad' ? { city: '' } : {}),
+    }));
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
-    
+
     // Reset status when user starts typing
     if (field === 'email') {
       setEmailStatus('idle');
@@ -331,6 +350,9 @@ export const SignUpForm: React.FC = () => {
     }
   };
 
+  // La ville n'est exigée que pour le Tchad ; pour tout autre pays, elle est sans objet.
+  const cityOk = formData.country !== 'Tchad' || Boolean(formData.city);
+
   return (
     <div className="flex w-full flex-col items-center max-w-4xl mx-auto px-4 sm:px-6">
       <header className="flex flex-col items-center text-center mb-8">
@@ -395,7 +417,7 @@ export const SignUpForm: React.FC = () => {
           {formData.password && (
             <div className="mt-2">
               <div className="flex items-center gap-2 mb-1">
-                <div className="flex-1 bg-gray-700 rounded-full h-2">
+                <div className="flex-1 bg-white/10 rounded-full h-2">
                   <div 
                     className={`h-2 rounded-full transition-all duration-300 ${
                       getPasswordStrength(formData.password).score === 0 ? 'w-0' :
@@ -410,7 +432,7 @@ export const SignUpForm: React.FC = () => {
                   {getPasswordStrength(formData.password).label}
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-1 text-xs text-gray-400">
+              <div className="grid grid-cols-2 gap-1 text-xs text-white/50">
                 <div className={`flex items-center gap-1 ${formData.password.length >= 8 ? 'text-green-500' : ''}`}>
                   <span>{formData.password.length >= 8 ? '✓' : '○'}</span>
                   <span>{t('signup.form.chars8')}</span>
@@ -468,6 +490,14 @@ export const SignUpForm: React.FC = () => {
           error={errors.country}
         />
 
+        {formData.country === 'Tchad' && (
+          <CitySelect
+            value={formData.city}
+            onChange={updateFormData('city')}
+            error={errors.city}
+          />
+        )}
+
       </form>
 
         <div className="md:col-span-2 relative z-10">
@@ -483,8 +513,8 @@ export const SignUpForm: React.FC = () => {
             type="submit"
             form="artist-signup-form"
             className={`w-full sm:w-auto min-w-[280px] max-w-[328px] min-h-12 px-8 py-3 text-sm sm:text-base text-white font-semibold rounded-full transition-all duration-300 ${
-              isSigningUp 
-                ? 'bg-gray-500 cursor-not-allowed' 
+              isSigningUp
+                ? 'bg-[#C40505]/30 text-white/50 cursor-not-allowed'
                 : formData.agreeToTerms && 
                   formData.fullName && 
                   formData.stageName && 
@@ -492,6 +522,7 @@ export const SignUpForm: React.FC = () => {
                   formData.password && 
                   formData.confirmPassword && 
                   formData.country &&
+                  cityOk &&
                   emailStatus === 'available' &&
                   stageNameStatus === 'available' &&
                   formData.password === formData.confirmPassword &&
@@ -499,7 +530,7 @@ export const SignUpForm: React.FC = () => {
                 ? 'bg-green-600 hover:bg-green-700 shadow-lg'
                 : 'bg-[#C40505] hover:bg-[#E60606] disabled:opacity-50 disabled:cursor-not-allowed'
             }`}
-            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
+            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !cityOk || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
           >
             {isSigningUp ? (
               <div className="flex items-center gap-2">
@@ -513,6 +544,7 @@ export const SignUpForm: React.FC = () => {
                 formData.password && 
                 formData.confirmPassword && 
                 formData.country &&
+                  cityOk &&
                 emailStatus === 'available' &&
                 stageNameStatus === 'available' &&
                 formData.password === formData.confirmPassword &&

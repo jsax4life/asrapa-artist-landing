@@ -2,22 +2,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const chartData = [
-  { month: "Jan", streams: 45000, plays: 32000 },
-  { month: "Feb", streams: 52000, plays: 38000 },
-  { month: "Mar", streams: 48000, plays: 35000 },
-  { month: "Apr", streams: 67000, plays: 49000 },
-  { month: "May", streams: 73000, plays: 54000 },
-  { month: "Jun", streams: 89000, plays: 68000 },
-  { month: "Jul", streams: 95000, plays: 74000 },
+  { month: "Janv.", streams: 45000, plays: 32000 },
+  { month: "Févr.", streams: 52000, plays: 38000 },
+  { month: "Mars", streams: 48000, plays: 35000 },
+  { month: "Avr.", streams: 67000, plays: 49000 },
+  { month: "Mai", streams: 73000, plays: 54000 },
+  { month: "Juin", streams: 89000, plays: 68000 },
+  { month: "Juil.", streams: 95000, plays: 74000 },
 ];
 
 export function PerformanceChart() {
   return (
     <Card className="bg-card border-border shadow-card animate-fade-in">
       <CardHeader>
-        <CardTitle className="text-xl font-bold text-foreground">Performance Overview</CardTitle>
+        <CardTitle className="text-xl font-bold text-foreground">Aperçu des performances</CardTitle>
         <CardDescription className="text-muted-foreground">
-          Monthly streams and plays for the last 7 months
+          Écoutes et lectures des 7 derniers mois
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -47,15 +47,15 @@ export function PerformanceChart() {
               stroke="hsl(var(--primary))" 
               strokeWidth={3}
               dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
-              name="Streams"
+              name="Écoutes"
             />
-            <Line 
-              type="monotone" 
-              dataKey="plays" 
-              stroke="hsl(var(--accent))" 
+            <Line
+              type="monotone"
+              dataKey="plays"
+              stroke="hsl(var(--foreground))"
               strokeWidth={3}
-              dot={{ fill: 'hsl(var(--accent))', strokeWidth: 2, r: 4 }}
-              name="Plays"
+              dot={{ fill: 'hsl(var(--foreground))', strokeWidth: 2, r: 4 }}
+              name="Lectures"
             />
           </LineChart>
         </ResponsiveContainer>

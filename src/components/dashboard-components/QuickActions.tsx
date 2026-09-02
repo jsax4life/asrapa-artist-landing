@@ -4,29 +4,29 @@ import { Upload, Plus, Share2, BarChart3 } from "lucide-react";
 
 const actions = [
   {
-    title: "Upload Track",
-    description: "Add new music to your library",
+    title: "Téléverser un titre",
+    description: "Ajouter un nouveau morceau à votre bibliothèque",
     icon: Upload,
     variant: "default" as const,
     color: "bg-gradient-primary"
   },
   {
-    title: "Create Playlist",
-    description: "Organize your releases",
+    title: "Créer une playlist",
+    description: "Organiser vos sorties",
     icon: Plus,
     variant: "secondary" as const,
     color: "bg-gradient-secondary"
   },
   {
-    title: "Share Content",
-    description: "Promote on social media",
+    title: "Partager du contenu",
+    description: "Promouvoir sur les réseaux sociaux",
     icon: Share2,
     variant: "outline" as const,
     color: "bg-gradient-accent"
   },
   {
-    title: "View Analytics",
-    description: "Detailed performance insights",
+    title: "Voir les statistiques",
+    description: "Analyse détaillée des performances",
     icon: BarChart3,
     variant: "ghost" as const,
     color: "bg-muted"
@@ -37,7 +37,7 @@ export function QuickActions() {
   return (
     <Card className="bg-card border-border shadow-card animate-fade-in">
       <CardHeader>
-        <CardTitle className="text-xl font-bold text-foreground">Quick Actions</CardTitle>
+        <CardTitle className="text-xl font-bold text-foreground">Actions rapides</CardTitle>
       </CardHeader>
       <CardContent className="p-4">
         <div className="grid grid-cols-1 gap-3">

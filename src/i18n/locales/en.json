@@ -1,5 +1,5 @@
 {
-  "brand": "Asrapa",
+  "brand": "AsraPa",
   "language": {
     "english": "English",
     "french": "Français",
@@ -89,28 +89,50 @@
   "artistHome": {
     "whyChoose": "Why choose",
     "artists": "{{brand}} Artists",
-    "unlimitedTitle": "Unlimited distribution worldwide",
-    "unlimitedDesc": "Distribute your music on more than 150 digital platforms and on social networks in more than 200 countries.",
-    "incomeTitle": "Keep 100% of your income",
-    "incomeDesc": "{{brand}} for artists never takes commission on your streaming and download revenues from the Chadian digital platform {{brand}}: you pocket what you generate.",
-    "reportsTitle": "Detailed sales reports",
-    "reportsDesc": "Find out where your fans download and listen to your music to target your marketing and plan your tours accordingly."
+    "reasons": [
+      {
+        "title": "Cultural Experience",
+        "body": "In our African traditions, cultural memory has always been oral. It is passed down from generation to generation."
+      },
+      {
+        "title": "Support Independent Artists",
+        "body": "A bigger share of every stream goes straight to the creator."
+      },
+      {
+        "title": "Fast Streaming",
+        "body": "Edge delivery tuned for African network playback starts instantly."
+      },
+      {
+        "title": "Beautiful Interface",
+        "body": "Designed music-first, so the art stays the loudest thing on screen."
+      },
+      {
+        "title": "Community Driven",
+        "body": "Playlists, comments and fan support built into the listening flow."
+      },
+      {
+        "title": "Growing Ecosystem",
+        "body": "Fans, artists and agents growing together on one platform."
+      }
+    ]
   },
   "about": {
     "discover": "Discover a world of Music with",
     "welcome": "Welcome to {{brand}},",
     "tagline": "Where music comes alive. Experience a universe of endless tunes, handpicked playlists, and personalized recommendations just for you.",
     "usersWorldwide": "{{brand}} users worldwide",
+    "highlight": "100% dedicated to Chadian music, at home and across the diaspora.",
     "scanDownload": "Scan To Download {{brand}} App",
     "iphoneAlt": "iPhone showing {{brand}} app interface",
     "qrAlt": "QR Code to download {{brand}} app",
     "downloadAppAria": "Download the {{brand}} app"
   },
   "premium": {
-    "enhance": "Enhance Your Music Journey with Premium",
-    "upgradeDesc": "Upgrade to {{brand}} Premium and take your music journey to the next level. Enjoy uninterrupted music playback, even in offline mode. Say goodbye to those pesky ads, and indulge in high-quality audio for a truly immersive experience.",
-    "pickPremium": "Pick Your Premium",
-    "pickDesc": "Upgrade to {{brand}} Premium and take your music journey to the next level. Enjoy uninterrupted music playback, even in offline mode"
+    "artistCtaEyebrow": "Are you an artist?",
+    "artistCtaTitle": "Sell your music on AsraPa.",
+    "artistCtaBody": "65% of revenue goes to artists, based on actual listens. Distribute your music, podcasts or shows directly to your audience.",
+    "artistCtaPrices": "See pricing",
+    "artistCtaSignup": "Create my account"
   },
   "advertising": {
     "heroTitle": "Share your brand story and reach a global audience",
@@ -151,7 +173,18 @@
     "submit": "Log in",
     "submitting": "Signing in...",
     "noAccount": "Don't have an account?",
-    "signUp": "Sign up"
+    "signUp": "Sign up",
+    "forgotPassword": "Forgot password?"
+  },
+  "forgotPassword": {
+    "title": "Reset your password on",
+    "subtitle": "Enter your email, we'll send you a link to create a new password.",
+    "invalidEmail": "Please enter a valid email address.",
+    "submit": "Send reset link",
+    "sending": "Sending...",
+    "sentTitle": "Email sent",
+    "sentBody": "If an account exists for {{email}}, you'll receive a reset link in a few minutes.",
+    "backToLogin": "Back to login"
   },
   "auth": {
     "forgotPasswordLink": "Forgot password?",
@@ -210,7 +243,20 @@
       "chars8": "8+ characters",
       "uppercase": "Uppercase",
       "number": "Number",
-      "specialChar": "Special char"
+      "specialChar": "Special char",
+      "country": "Country",
+      "countryPlaceholder": "Choose your country",
+      "countrySearch": "Search a country...",
+      "countryNoResults": "No country found.",
+      "city": "City",
+      "cityPlaceholder": "Choose your city"
+    },
+    "social": {
+      "google": "Continue with Google",
+      "facebook": "Continue with Facebook",
+      "divider": "or with email",
+      "comingSoonTitle": "Coming soon",
+      "comingSoonBody": "{{provider}} sign-in is launching very soon. Please use the form below for now."
     },
     "welcomeToast": "Welcome to {{brand}}! You can now start uploading your music.",
     "promoAlt": "{{brand}} promotional image showing musicians and music equipment"

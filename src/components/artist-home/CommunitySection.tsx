@@ -1,60 +1,53 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArtistCard } from './ArtistCard';
+import ramajiPhoto from '@/assets/images/testimonial-ramaji.jpg';
+import rockyPhoto from '@/assets/images/testimonial-rocky.jpg';
+import ghisBeatPhoto from '@/assets/images/testimonial-ghis-beat.jpg';
+import deboraPhoto from '@/assets/images/testimonial-debora.jpg';
 
 const artists = [
   {
     id: 1,
-    name: "Fave",
-    imageUrl: "https://api.builder.io/api/v1/image/assets/TEMP/ddf342161a6d72bc00f7f868176d3e5b76f9d209?width=744",
-    imageAlt: "Fave artist profile"
+    name: 'Ramaji',
+    role: 'Artiste, Tchad',
+    imageUrl: ramajiPhoto,
+    imageAlt: 'Ramaji, artiste, Tchad',
+    quote:
+      "AsraPa est une plateforme pensée pour nous, les artistes tchadiens. Elle nous permet de mieux promouvoir notre musique, de toucher un public au Tchad comme dans la diaspora, et de renforcer le lien avec nos fans.",
   },
   {
     id: 2,
-    name: "Djerabe",
-    imageUrl: "https://api.builder.io/api/v1/image/assets/TEMP/1c153bcb77319c1c8d601ebf69bebef5b9184bb3?width=644",
-    imageAlt: "Djerabe artist profile"
+    name: 'Rocky La Citadelle',
+    role: 'Artiste, Tchad',
+    imageUrl: rockyPhoto,
+    imageAlt: 'Rocky La Citadelle, artiste, Tchad',
+    quote:
+      "Avec AsraPa, la musique tchadienne a enfin un espace qui lui est entièrement dédié. La plateforme donne aux artistes une plus grande visibilité et à nos œuvres la reconnaissance qu'elles méritent.",
   },
   {
     id: 3,
-    name: "Starr Fave",
-    imageUrl: "https://api.builder.io/api/v1/image/assets/TEMP/aac56d7e4740c1dcfccc54083a4e51e1fdf5fc37?width=736",
-    imageAlt: "Starr Fave artist profile"
+    name: 'Ghis Beat',
+    role: 'Ingénieur du son, Tchad',
+    imageUrl: ghisBeatPhoto,
+    imageAlt: 'Ghis Beat, ingénieur du son, Tchad',
+    quote:
+      "En tant qu'ingénieur du son, AsraPa représente une belle opportunité de mettre en valeur tout le travail derrière chaque morceau et d'encourager une musique de meilleure qualité.",
   },
   {
     id: 4,
-    name: "Niniola",
-    imageUrl: "https://api.builder.io/api/v1/image/assets/TEMP/ce2f2692a7e69877d2242296ec45935edb4a9ffc?width=644",
-    imageAlt: "Niniola artist profile"
+    name: 'Debora Edih Ngaba',
+    role: 'Abonnée, Diaspora',
+    imageUrl: deboraPhoto,
+    imageAlt: 'Debora Edih Ngaba, abonnée AsraPa',
+    quote:
+      "Vivre à l'étranger m'éloigne parfois de ma culture et de la musique de chez moi. Grâce à AsraPa, je retrouve les artistes tchadiens que j'aime et je découvre de nouvelles chansons. Chaque écoute me rapproche du Tchad et me permet de rester connectée à mes racines, où que je sois.",
   },
-  {
-    id: 5,
-    name: "Fave",
-    imageUrl: "https://api.builder.io/api/v1/image/assets/TEMP/ddf342161a6d72bc00f7f868176d3e5b76f9d209?width=744",
-    imageAlt: "Fave artist profile"
-  },
-  {
-    id: 6,
-    name: "Starr Fave",
-    imageUrl: "https://api.builder.io/api/v1/image/assets/TEMP/aac56d7e4740c1dcfccc54083a4e51e1fdf5fc37?width=736",
-    imageAlt: "Starr Fave artist profile"
-  },
-  {
-    id: 7,
-    name: "Niniola",
-    imageUrl: "https://api.builder.io/api/v1/image/assets/TEMP/ce2f2692a7e69877d2242296ec45935edb4a9ffc?width=644",
-    imageAlt: "Niniola artist profile"
-  }
 ];
 
 export const CommunitySection: React.FC = () => {
   const { t } = useTranslation();
-  const [currentPage, setCurrentPage] = useState(0);
-  const totalPages = 2;
-
-  const handlePageChange = (pageIndex: number) => {
-    setCurrentPage(pageIndex);
-  };
+  const [activeId, setActiveId] = useState<number | null>(null);
 
   return (
     <section className="w-full max-w-[1482px] min-h-[523px] shrink-0 relative mt-[10px] mb-8 lg:mb-20 mx-auto px-2 sm:px-4">
@@ -63,55 +56,27 @@ export const CommunitySection: React.FC = () => {
           {t('community.title')}
         </h2>
       </header>
-      
+
       <div
-        className="
-          flex 
-          gap-4 
-          sm:gap-6 
-          w-full 
-          overflow-x-auto 
-          py-4 
-          px-1
-          scrollbar-thin scrollbar-thumb-[#C40505]/40 scrollbar-track-transparent
-          snap-x snap-mandatory
-          "
+        className="flex flex-wrap justify-center gap-6 sm:gap-8 py-6"
         role="region"
         aria-label="Artist community showcase"
       >
-        {artists.map((artist, index) => (
-          <div
+        {artists.map((artist) => (
+          <ArtistCard
             key={artist.id}
-            className="snap-start flex-shrink-0"
-          >
-            <ArtistCard
-              name={artist.name}
-              imageUrl={artist.imageUrl}
-              imageAlt={artist.imageAlt}
-              className={index === 2 ? "mix-blend-multiply" : index === 6 ? "mix-blend-multiply" : ""}
-            />
-          </div>
-        ))}
-      </div>
-      
-      <nav
-        className="flex justify-center items-center gap-[5px] mt-4"
-        aria-label="Artist showcase pagination"
-      >
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => handlePageChange(index)}
-            className={`h-2.5 rounded-[100px] transition-all duration-200 ${
-              index === currentPage 
-                ? "w-5 bg-[#C40505]" 
-                : "w-2.5 bg-[#D9D9D9] hover:bg-[#C40505]"
-            }`}
-            aria-label={`Go to page ${index + 1}`}
-            aria-current={index === currentPage ? "page" : undefined}
+            name={artist.name}
+            role={artist.role}
+            quote={artist.quote}
+            imageUrl={artist.imageUrl}
+            imageAlt={artist.imageAlt}
+            isActive={activeId === artist.id}
+            isDimmed={activeId !== null && activeId !== artist.id}
+            onHover={() => setActiveId(artist.id)}
+            onLeave={() => setActiveId(null)}
           />
         ))}
-      </nav>
+      </div>
     </section>
   );
 };
