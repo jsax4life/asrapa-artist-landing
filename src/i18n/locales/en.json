@@ -128,10 +128,11 @@
     "downloadAppAria": "Download the {{brand}} app"
   },
   "premium": {
-    "enhance": "Enhance Your Music Journey with Premium",
-    "upgradeDesc": "Upgrade to {{brand}} Premium and take your music journey to the next level. Enjoy uninterrupted music playback, even in offline mode. Say goodbye to those pesky ads, and indulge in high-quality audio for a truly immersive experience.",
-    "pickPremium": "Pick Your Premium",
-    "pickDesc": "Upgrade to {{brand}} Premium and take your music journey to the next level. Enjoy uninterrupted music playback, even in offline mode"
+    "artistCtaEyebrow": "Are you an artist?",
+    "artistCtaTitle": "Sell your music on AsraPa.",
+    "artistCtaBody": "65% of revenue goes to artists, based on actual listens. Distribute your music, podcasts or shows directly to your audience.",
+    "artistCtaPrices": "See pricing",
+    "artistCtaSignup": "Create my account"
   },
   "advertising": {
     "heroTitle": "Share your brand story and reach a global audience",
