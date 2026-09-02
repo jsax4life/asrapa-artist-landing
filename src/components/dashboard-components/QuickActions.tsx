@@ -8,21 +8,21 @@ const actions = [
     description: "Ajouter un nouveau morceau à votre bibliothèque",
     icon: Upload,
     variant: "default" as const,
-    color: "bg-gradient-primary"
+    color: "bg-primary"
   },
   {
     title: "Créer une playlist",
     description: "Organiser vos sorties",
     icon: Plus,
     variant: "secondary" as const,
-    color: "bg-gradient-secondary"
+    color: "bg-secondary"
   },
   {
     title: "Partager du contenu",
     description: "Promouvoir sur les réseaux sociaux",
     icon: Share2,
     variant: "outline" as const,
-    color: "bg-gradient-accent"
+    color: "bg-accent"
   },
   {
     title: "Voir les statistiques",

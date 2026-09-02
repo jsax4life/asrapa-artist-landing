@@ -31,7 +31,7 @@ const Dashboard = () => {
 
 
           {/* Artist Header */}
-          <div className="flex flex-col sm:flex-row items-center sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 p-4 sm:p-6 rounded-xl bg-gradient-hero shadow-glow animate-fade-in">
+          <div className="flex flex-col sm:flex-row items-center sm:items-center space-y-4 sm:space-y-0 sm:space-x-6 p-4 sm:p-6 rounded-xl bg-primary shadow-glow animate-fade-in">
             <img 
               src={artistProfile} 
               alt="Photo de profil de l'artiste"

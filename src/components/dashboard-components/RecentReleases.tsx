@@ -30,7 +30,7 @@ export function RecentReleases() {
             {releases.map((release) => (
               <div key={release.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-primary flex items-center justify-center text-xl">
+                  <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center text-xl">
                     {release.image}
                   </div>
                   <div>
