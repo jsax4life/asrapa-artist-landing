@@ -4,6 +4,7 @@ import { ArtistCard } from './ArtistCard';
 import ramajiPhoto from '@/assets/images/testimonial-ramaji.jpg';
 import rockyPhoto from '@/assets/images/testimonial-rocky.jpg';
 import ghisBeatPhoto from '@/assets/images/testimonial-ghis-beat.jpg';
+import deboraPhoto from '@/assets/images/testimonial-debora.jpg';
 
 const artists = [
   {
@@ -32,6 +33,15 @@ const artists = [
     imageAlt: 'Ghis Beat, ingénieur du son, Tchad',
     quote:
       "En tant qu'ingénieur du son, AsraPa représente une belle opportunité de mettre en valeur tout le travail derrière chaque morceau et d'encourager une musique de meilleure qualité.",
+  },
+  {
+    id: 4,
+    name: 'Debora Edih Ngaba',
+    role: 'Abonnée, Diaspora',
+    imageUrl: deboraPhoto,
+    imageAlt: 'Debora Edih Ngaba, abonnée AsraPa',
+    quote:
+      "Vivre à l'étranger m'éloigne parfois de ma culture et de la musique de chez moi. Grâce à AsraPa, je retrouve les artistes tchadiens que j'aime et je découvre de nouvelles chansons. Chaque écoute me rapproche du Tchad et me permet de rester connectée à mes racines, où que je sois.",
   },
 ];
 

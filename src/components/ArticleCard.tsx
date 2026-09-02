@@ -66,7 +66,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           </div>
         </div>
       </article>
-      <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
+      <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto bg-white text-black">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-black">{title}</DialogTitle>
         </DialogHeader>
