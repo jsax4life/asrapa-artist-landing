@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import UserAvatars from './UserAvatars';
 import DownloadButtons from './DownloadButtons';
 import MusicPlayerPreview from './MusicPlayerPreview';
-import musicImage from '@/assets/images/music.png';
+import artistPageHero from '@/assets/images/artist-page-hero.jpg';
 
 const AboutHeroSection: React.FC = () => {
   const { t } = useTranslation();
@@ -11,20 +11,18 @@ const AboutHeroSection: React.FC = () => {
 
   return (
     <div className="w-full min-h-screen relative overflow-x-hidden bg-[#131313]">
-      <div className="relative h-[80vh] min-h-[500px] w-full">
+      <div className="h-[60vh] min-h-[360px] w-full">
         <img
-          src={musicImage}
-          alt="Music background"
-          className="absolute inset-0 h-full w-full object-cover"
+          src={artistPageHero}
+          alt="Percussionniste sur scène lors d'un festival de musique africaine"
+          className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl lg:text-6xl font-bold mb-4">
-              <span className="text-white">{t('about.discover')} </span>
-              <span className="text-red-500">{brand}</span>
-            </h1>
-          </div>
-        </div>
+      </div>
+      <div className="w-full bg-[#131313] py-10 text-center">
+        <h1 className="text-4xl font-bold md:text-5xl lg:text-6xl">
+          <span className="text-white">{t('about.discover')} </span>
+          <span className="text-red-500">{brand}.</span>
+        </h1>
       </div>
       <section className="w-full h-[821px] relative flex items-center justify-between box-border bg-[#131313] px-[110px] py-0 max-md:h-auto max-md:flex-col max-md:gap-[60px] max-md:px-10 max-md:py-[60px] max-sm:gap-10 max-sm:px-5 max-sm:py-10">
         <div className="flex items-start gap-[81px] w-full max-w-[1292px] relative z-[2] max-md:flex-col max-md:gap-[60px] max-md:w-full max-md:max-w-none max-sm:gap-10">
