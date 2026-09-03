@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { AppSidebar } from "@/components/dashboard-components/AppSidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/dashboard-sidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,13 +9,13 @@ import { Music, TrendingUp, Users, Award } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-const trendData = [
-  { week: 'Sem. 1', streams: 100000, listeners: 50000 },
-  { week: 'Sem. 2', streams: 120000, listeners: 60000 },
-  { week: 'Sem. 3', streams: 150000, listeners: 75000 },
-  { week: 'Sem. 4', streams: 130000, listeners: 65000 },
-  { week: 'Sem. 5', streams: 170000, listeners: 85000 },
-  { week: 'Sem. 6', streams: 200000, listeners: 100000 },
+const demoTrendData = [
+  { week: 1, streams: 100000, listeners: 50000 },
+  { week: 2, streams: 120000, listeners: 60000 },
+  { week: 3, streams: 150000, listeners: 75000 },
+  { week: 4, streams: 130000, listeners: 65000 },
+  { week: 5, streams: 170000, listeners: 85000 },
+  { week: 6, streams: 200000, listeners: 100000 },
 ];
 
 const trendingTracks = [
@@ -39,6 +40,14 @@ const trendingTracks = [
 ];
 
 const Trends = () => {
+  const { t } = useTranslation();
+
+  const trendData = demoTrendData.map((d) => ({
+    week: t('trendsPage.weeklyTrend.weekLabel', { count: d.week }),
+    streams: d.streams,
+    listeners: d.listeners,
+  }));
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -46,7 +55,7 @@ const Trends = () => {
         <div className="flex-1 flex flex-col">
           <header className="h-16 flex items-center border-b border-border bg-card px-6">
             <SidebarTrigger className="mr-4" />
-            <h2 className="text-lg font-semibold text-foreground">Tendances musicales</h2>
+            <h2 className="text-lg font-semibold text-foreground">{t('trendsPage.header.title')}</h2>
           </header>
 
           <main className="flex-1 overflow-auto">
@@ -55,30 +64,30 @@ const Trends = () => {
               {/* Trend Overview Stats */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatsCard
-                  title="Titre le plus tendance"
+                  title={t('trendsPage.stats.topTrackTitle')}
                   value="Dounia"
                   change="Folk - Tibesti"
                   icon={Music}
                   trend="up"
                 />
                 <StatsCard
-                  title="Artiste en plus forte hausse"
+                  title={t('trendsPage.stats.risingArtistTitle')}
                   value="Ramaji"
-                  change="+200K auditeurs la semaine dernière"
+                  change={t('trendsPage.stats.risingArtistChange')}
                   icon={Users}
                   trend="up"
                 />
                 <StatsCard
-                  title="Genre tendance"
+                  title={t('trendsPage.stats.trendingGenreTitle')}
                   value="Musique urbaine"
-                  change="+15 % de popularité ce mois-ci"
+                  change={t('trendsPage.stats.trendingGenreChange')}
                   icon={TrendingUp}
                   trend="up"
                 />
                 <StatsCard
-                  title="Coup de cœur"
-                  value="Nouveau talent à l'honneur"
-                  change="Décerné à Rocky La Citadelle"
+                  title={t('trendsPage.stats.featuredTalentTitle')}
+                  value={t('trendsPage.stats.featuredTalentValue')}
+                  change={t('trendsPage.stats.featuredTalentChange', { artist: 'Rocky La Citadelle' })}
                   icon={Award}
                   trend="up"
                 />
@@ -87,25 +96,25 @@ const Trends = () => {
               {/* Trend Charts */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Tendance hebdomadaire</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('trendsPage.weeklyTrend.title')}</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Évolution des écoutes et auditeurs sur les 6 dernières semaines.
+                    {t('trendsPage.weeklyTrend.description')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
                     <LineChart data={trendData}>
                       <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                      <XAxis 
-                        dataKey="week" 
+                      <XAxis
+                        dataKey="week"
                         tick={{ fill: 'hsl(var(--muted-foreground))' }}
                         axisLine={{ stroke: 'hsl(var(--border))' }}
                       />
-                      <YAxis 
+                      <YAxis
                         tick={{ fill: 'hsl(var(--muted-foreground))' }}
                         axisLine={{ stroke: 'hsl(var(--border))' }}
                       />
-                      <Tooltip 
+                      <Tooltip
                         contentStyle={{
                           backgroundColor: 'hsl(var(--popover))',
                           border: '1px solid hsl(var(--border))',
@@ -113,13 +122,13 @@ const Trends = () => {
                           color: 'hsl(var(--popover-foreground))',
                         }}
                       />
-                      <Line 
-                        type="monotone" 
-                        dataKey="streams" 
-                        stroke="hsl(var(--primary))" 
+                      <Line
+                        type="monotone"
+                        dataKey="streams"
+                        stroke="hsl(var(--primary))"
                         strokeWidth={3}
                         dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
-                        name="Écoutes"
+                        name={t('trendsPage.weeklyTrend.streamsLabel')}
                       />
                       <Line
                         type="monotone"
@@ -127,7 +136,7 @@ const Trends = () => {
                         stroke="hsl(var(--foreground))"
                         strokeWidth={3}
                         dot={{ fill: 'hsl(var(--foreground))', strokeWidth: 2, r: 4 }}
-                        name="Auditeurs"
+                        name={t('trendsPage.weeklyTrend.listenersLabel')}
                       />
                     </LineChart>
                   </ResponsiveContainer>
@@ -137,9 +146,9 @@ const Trends = () => {
               {/* Trending Tracks/Artists Section */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Tendance en ce moment</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('trendsPage.trendingNow.title')}</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Découvrez les titres les plus écoutés du moment.
+                    {t('trendsPage.trendingNow.description')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

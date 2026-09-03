@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Play, Users, DollarSign, Eye } from "lucide-react";
 import { AppSidebar } from "@/components/dashboard-components/AppSidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/dashboard-sidebar";
@@ -6,17 +7,19 @@ import { StatsCard } from "@/components/dashboard-components/StatsCard";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-const analyticsChartData = [
-  { month: "Janv.", revenue: 0, streams: 0 },
-  { month: "Févr.", revenue: 0, streams: 0 },
-  { month: "Mars", revenue: 0, streams: 0 },
-  { month: "Avr.", revenue: 0, streams: 0 },
-  { month: "Mai", revenue: 0, streams: 0 },
-  { month: "Juin", revenue: 0, streams: 0 },
-  { month: "Juil.", revenue: 0, streams: 0 },
-];
-
 const Analytics = () => {
+  const { t } = useTranslation();
+
+  const analyticsChartData = [
+    { month: t('analyticsPage.chart.months.jan'), revenue: 0, streams: 0 },
+    { month: t('analyticsPage.chart.months.feb'), revenue: 0, streams: 0 },
+    { month: t('analyticsPage.chart.months.mar'), revenue: 0, streams: 0 },
+    { month: t('analyticsPage.chart.months.apr'), revenue: 0, streams: 0 },
+    { month: t('analyticsPage.chart.months.may'), revenue: 0, streams: 0 },
+    { month: t('analyticsPage.chart.months.jun'), revenue: 0, streams: 0 },
+    { month: t('analyticsPage.chart.months.jul'), revenue: 0, streams: 0 },
+  ];
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -24,7 +27,7 @@ const Analytics = () => {
         <div className="flex-1 flex flex-col">
           <header className="h-16 flex items-center border-b border-border bg-card px-6">
             <SidebarTrigger className="mr-4" />
-            <h2 className="text-lg font-semibold text-foreground">Aperçu analytique</h2>
+            <h2 className="text-lg font-semibold text-foreground">{t('analyticsPage.header.title')}</h2>
           </header>
 
           <main className="flex-1 overflow-auto">
@@ -33,25 +36,25 @@ const Analytics = () => {
               {/* Analytics Stats Overview */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatsCard
-                  title="Revenus totaux"
+                  title={t('analyticsPage.stats.totalRevenue')}
                   value="0 FCFA"
                   icon={DollarSign}
                   trend="neutral"
                 />
                 <StatsCard
-                  title="Écoutes totales"
+                  title={t('analyticsPage.stats.totalStreams')}
                   value="0"
                   icon={Play}
                   trend="neutral"
                 />
                 <StatsCard
-                  title="Auditeurs uniques"
+                  title={t('analyticsPage.stats.uniqueListeners')}
                   value="0"
                   icon={Users}
                   trend="neutral"
                 />
                 <StatsCard
-                  title="Vues de page"
+                  title={t('analyticsPage.stats.pageViews')}
                   value="0"
                   icon={Eye}
                   trend="neutral"
@@ -61,26 +64,26 @@ const Analytics = () => {
               {/* Overall Performance Chart */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Performance globale</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('analyticsPage.performance.title')}</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Revenus et écoutes des 7 derniers mois
+                    {t('analyticsPage.performance.description')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
                     <LineChart data={analyticsChartData}>
                       <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                      <XAxis 
-                        dataKey="month" 
+                      <XAxis
+                        dataKey="month"
                         tick={{ fill: 'hsl(var(--muted-foreground))' }}
                         axisLine={{ stroke: 'hsl(var(--border))' }}
                       />
-                      <YAxis 
-                        yAxisId="left" 
-                        stroke="hsl(var(--primary))" 
+                      <YAxis
+                        yAxisId="left"
+                        stroke="hsl(var(--primary))"
                         tick={{ fill: 'hsl(var(--muted-foreground))' }}
                         axisLine={{ stroke: 'hsl(var(--border))' }}
-                        label={{ value: 'Revenus', angle: -90, position: 'insideLeft', fill: 'hsl(var(--muted-foreground))' }}
+                        label={{ value: t('analyticsPage.chart.revenueLabel'), angle: -90, position: 'insideLeft', fill: 'hsl(var(--muted-foreground))' }}
                       />
                       <YAxis
                         yAxisId="right"
@@ -88,9 +91,9 @@ const Analytics = () => {
                         stroke="hsl(var(--foreground))"
                         tick={{ fill: 'hsl(var(--muted-foreground))' }}
                         axisLine={{ stroke: 'hsl(var(--border))' }}
-                        label={{ value: 'Écoutes', angle: 90, position: 'insideRight', fill: 'hsl(var(--muted-foreground))' }}
+                        label={{ value: t('analyticsPage.chart.streamsLabel'), angle: 90, position: 'insideRight', fill: 'hsl(var(--muted-foreground))' }}
                       />
-                      <Tooltip 
+                      <Tooltip
                         contentStyle={{
                           backgroundColor: 'hsl(var(--popover))',
                           border: '1px solid hsl(var(--border))',
@@ -98,14 +101,14 @@ const Analytics = () => {
                           color: 'hsl(var(--popover-foreground))',
                         }}
                       />
-                      <Line 
-                        yAxisId="left" 
-                        type="monotone" 
-                        dataKey="revenue" 
-                        stroke="hsl(var(--primary))" 
+                      <Line
+                        yAxisId="left"
+                        type="monotone"
+                        dataKey="revenue"
+                        stroke="hsl(var(--primary))"
                         strokeWidth={3}
                         dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
-                        name="Revenus"
+                        name={t('analyticsPage.chart.revenueLabel')}
                       />
                       <Line
                         yAxisId="right"
@@ -114,7 +117,7 @@ const Analytics = () => {
                         stroke="hsl(var(--foreground))"
                         strokeWidth={3}
                         dot={{ fill: 'hsl(var(--foreground))', strokeWidth: 2, r: 4 }}
-                        name="Écoutes"
+                        name={t('analyticsPage.chart.streamsLabel')}
                       />
                     </LineChart>
                   </ResponsiveContainer>
@@ -125,41 +128,41 @@ const Analytics = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Card className="bg-card border-border shadow-card animate-fade-in">
                   <CardHeader>
-                    <CardTitle className="text-lg font-bold text-foreground">Titres/Albums les plus écoutés</CardTitle>
-                    <CardDescription className="text-muted-foreground">Votre contenu le plus populaire.</CardDescription>
+                    <CardTitle className="text-lg font-bold text-foreground">{t('analyticsPage.topContent.title')}</CardTitle>
+                    <CardDescription className="text-muted-foreground">{t('analyticsPage.topContent.description')}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">Ce détail sera disponible dès que vous aurez des écoutes.</p>
+                    <p className="text-muted-foreground">{t('analyticsPage.topContent.empty')}</p>
                   </CardContent>
                 </Card>
 
                 <Card className="bg-card border-border shadow-card animate-fade-in">
                   <CardHeader>
-                    <CardTitle className="text-lg font-bold text-foreground">Répartition géographique</CardTitle>
-                    <CardDescription className="text-muted-foreground">Où se trouve votre audience.</CardDescription>
+                    <CardTitle className="text-lg font-bold text-foreground">{t('analyticsPage.geo.title')}</CardTitle>
+                    <CardDescription className="text-muted-foreground">{t('analyticsPage.geo.description')}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">La carte de vos auditeurs s'affichera ici dès le lancement.</p>
+                    <p className="text-muted-foreground">{t('analyticsPage.geo.empty')}</p>
                   </CardContent>
                 </Card>
 
                 <Card className="bg-card border-border shadow-card animate-fade-in">
                   <CardHeader>
-                    <CardTitle className="text-lg font-bold text-foreground">Démographie des auditeurs</CardTitle>
-                    <CardDescription className="text-muted-foreground">Âge et genre de votre audience.</CardDescription>
+                    <CardTitle className="text-lg font-bold text-foreground">{t('analyticsPage.demographics.title')}</CardTitle>
+                    <CardDescription className="text-muted-foreground">{t('analyticsPage.demographics.description')}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">Ces statistiques s'afficheront ici dès que vous aurez des auditeurs.</p>
+                    <p className="text-muted-foreground">{t('analyticsPage.demographics.empty')}</p>
                   </CardContent>
                 </Card>
 
                 <Card className="bg-card border-border shadow-card animate-fade-in">
                   <CardHeader>
-                    <CardTitle className="text-lg font-bold text-foreground">Indicateurs d'engagement</CardTitle>
-                    <CardDescription className="text-muted-foreground">Comment les auditeurs interagissent avec votre musique.</CardDescription>
+                    <CardTitle className="text-lg font-bold text-foreground">{t('analyticsPage.engagement.title')}</CardTitle>
+                    <CardDescription className="text-muted-foreground">{t('analyticsPage.engagement.description')}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">Les données sur les partages et favoris s'afficheront ici.</p>
+                    <p className="text-muted-foreground">{t('analyticsPage.engagement.empty')}</p>
                   </CardContent>
                 </Card>
               </div>

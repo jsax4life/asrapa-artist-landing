@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AppSidebar } from "@/components/dashboard-components/AppSidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/dashboard-sidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +17,7 @@ import { COUNTRIES, CHAD_CITIES } from "@/lib/countries";
 import artistProfile from "@/assets/images/artist-profile.jpg";
 
 const Settings = () => {
+  const { t } = useTranslation();
   const { user, updateUser } = useAuth();
   const { toast } = useToast();
 
@@ -55,13 +57,13 @@ const Settings = () => {
       await api.updateArtistProfile(payload);
       updateUser(payload);
       toast({
-        title: "Profil mis à jour",
-        description: "Vos informations ont été enregistrées.",
+        title: t('accountSettingsPage.profileUpdatedTitle'),
+        description: t('accountSettingsPage.profileUpdatedDescription'),
       });
     } catch (error) {
-      const errorMessage = error instanceof ApiError ? error.message : "Impossible de mettre à jour le profil.";
+      const errorMessage = error instanceof ApiError ? error.message : t('accountSettingsPage.profileUpdateFailedDescription');
       toast({
-        title: "Échec de la mise à jour",
+        title: t('accountSettingsPage.updateFailedTitle'),
         description: errorMessage,
         variant: "destructive",
       });
@@ -77,13 +79,13 @@ const Settings = () => {
       await api.updateArtistProfile({ bio });
       updateUser({ bio });
       toast({
-        title: "Biographie mise à jour",
-        description: "Votre biographie a été enregistrée.",
+        title: t('accountSettingsPage.bioUpdatedTitle'),
+        description: t('accountSettingsPage.bioUpdatedDescription'),
       });
     } catch (error) {
-      const errorMessage = error instanceof ApiError ? error.message : "Impossible de mettre à jour la biographie.";
+      const errorMessage = error instanceof ApiError ? error.message : t('accountSettingsPage.bioUpdateFailedDescription');
       toast({
-        title: "Échec de la mise à jour",
+        title: t('accountSettingsPage.updateFailedTitle'),
         description: errorMessage,
         variant: "destructive",
       });
@@ -97,8 +99,8 @@ const Settings = () => {
 
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
       toast({
-        title: "Les mots de passe ne correspondent pas",
-        description: "Vérifiez la confirmation de votre nouveau mot de passe.",
+        title: t('accountSettingsPage.passwordsMismatchTitle'),
+        description: t('accountSettingsPage.passwordsMismatchDescription'),
         variant: "destructive",
       });
       return;
@@ -106,8 +108,8 @@ const Settings = () => {
 
     if (passwordForm.newPassword.length < 8) {
       toast({
-        title: "Mot de passe trop court",
-        description: "Le nouveau mot de passe doit contenir au moins 8 caractères.",
+        title: t('accountSettingsPage.passwordTooShortTitle'),
+        description: t('accountSettingsPage.passwordTooShortDescription'),
         variant: "destructive",
       });
       return;
@@ -121,13 +123,13 @@ const Settings = () => {
       });
       setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
       toast({
-        title: "Mot de passe modifié",
-        description: "Votre mot de passe a été mis à jour avec succès.",
+        title: t('accountSettingsPage.passwordChangedTitle'),
+        description: t('accountSettingsPage.passwordChangedDescription'),
       });
     } catch (error) {
-      const errorMessage = error instanceof ApiError ? error.message : "Impossible de modifier le mot de passe.";
+      const errorMessage = error instanceof ApiError ? error.message : t('accountSettingsPage.passwordChangeFailedDescription');
       toast({
-        title: "Échec de la modification",
+        title: t('accountSettingsPage.changeFailedTitle'),
         description: errorMessage,
         variant: "destructive",
       });
@@ -143,7 +145,7 @@ const Settings = () => {
         <div className="flex-1 flex flex-col">
           <header className="h-16 flex items-center border-b border-border bg-card px-6">
             <SidebarTrigger className="mr-4" />
-            <h2 className="text-lg font-semibold text-foreground">Paramètres</h2>
+            <h2 className="text-lg font-semibold text-foreground">{t('accountSettingsPage.pageTitle')}</h2>
           </header>
 
           <main className="flex-1 overflow-auto">
@@ -152,9 +154,9 @@ const Settings = () => {
               {/* Bannière de profil */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Bannière de profil</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.bannerTitle')}</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Affichée en haut de votre profil public, derrière votre photo.
+                    {t('accountSettingsPage.bannerDescription')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -165,15 +167,15 @@ const Settings = () => {
               {/* Photo de profil */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Photo de profil</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.profilePhotoTitle')}</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Visible par vos fans et sur votre tableau de bord.
+                    {t('accountSettingsPage.profilePhotoDescription')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex items-center gap-4">
                   <ProfilePhotoUploader fallbackSrc={artistProfile} size="lg" />
                   <p className="text-sm text-muted-foreground">
-                    Cliquez sur l'icône appareil photo pour changer votre photo. Formats acceptés : JPEG, PNG, WebP.
+                    {t('accountSettingsPage.profilePhotoInstructions')}
                   </p>
                 </CardContent>
               </Card>
@@ -181,15 +183,15 @@ const Settings = () => {
               {/* Informations du compte */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Informations du compte</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.accountInfoTitle')}</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Votre identité publique et vos coordonnées.
+                    {t('accountSettingsPage.accountInfoDescription')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleProfileSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="fullName">Nom complet</Label>
+                      <Label htmlFor="fullName">{t('accountSettingsPage.fullNameLabel')}</Label>
                       <Input
                         id="fullName"
                         value={profileForm.fullName}
@@ -198,7 +200,7 @@ const Settings = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="stageName">Nom de scène</Label>
+                      <Label htmlFor="stageName">{t('accountSettingsPage.stageNameLabel')}</Label>
                       <Input
                         id="stageName"
                         value={profileForm.stageName}
@@ -207,7 +209,7 @@ const Settings = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email">E-mail</Label>
+                      <Label htmlFor="email">{t('accountSettingsPage.emailLabel')}</Label>
                       <Input
                         id="email"
                         type="email"
@@ -217,7 +219,7 @@ const Settings = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="country">Pays</Label>
+                      <Label htmlFor="country">{t('accountSettingsPage.countryLabel')}</Label>
                       <Select
                         value={profileForm.country}
                         onValueChange={(value) =>
@@ -229,7 +231,7 @@ const Settings = () => {
                         }
                       >
                         <SelectTrigger id="country">
-                          <SelectValue placeholder="Sélectionnez votre pays" />
+                          <SelectValue placeholder={t('accountSettingsPage.countryPlaceholder')} />
                         </SelectTrigger>
                         <SelectContent className="max-h-72">
                           {COUNTRIES.map((country) => (
@@ -242,13 +244,13 @@ const Settings = () => {
                     </div>
                     {profileForm.country === 'Tchad' && (
                       <div className="space-y-2">
-                        <Label htmlFor="city">Ville</Label>
+                        <Label htmlFor="city">{t('accountSettingsPage.cityLabel')}</Label>
                         <Select
                           value={profileForm.city}
                           onValueChange={(value) => setProfileForm((prev) => ({ ...prev, city: value }))}
                         >
                           <SelectTrigger id="city">
-                            <SelectValue placeholder="Sélectionnez votre ville" />
+                            <SelectValue placeholder={t('accountSettingsPage.cityPlaceholder')} />
                           </SelectTrigger>
                           <SelectContent className="max-h-72">
                             {CHAD_CITIES.map((city) => (
@@ -262,7 +264,7 @@ const Settings = () => {
                     )}
                     <div className="md:col-span-2 flex justify-end">
                       <Button type="submit" disabled={isSavingProfile} className="bg-primary hover:bg-primary-dark text-primary-foreground">
-                        {isSavingProfile ? 'Enregistrement...' : 'Enregistrer les modifications'}
+                        {isSavingProfile ? t('accountSettingsPage.saving') : t('accountSettingsPage.saveChanges')}
                       </Button>
                     </div>
                   </form>
@@ -272,20 +274,20 @@ const Settings = () => {
               {/* Biographie */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Biographie</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.bioTitle')}</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Présentez-vous à vos fans. Visible sur votre profil public.
+                    {t('accountSettingsPage.bioSectionDescription')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleBioSubmit} className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="bio">Votre biographie</Label>
+                      <Label htmlFor="bio">{t('accountSettingsPage.bioLabel')}</Label>
                       <Textarea
                         id="bio"
                         value={bio}
                         onChange={(e) => setBio(e.target.value)}
-                        placeholder="Parlez de votre parcours, votre style musical, vos influences..."
+                        placeholder={t('accountSettingsPage.bioPlaceholder')}
                         rows={5}
                         maxLength={1000}
                       />
@@ -295,7 +297,7 @@ const Settings = () => {
                     </div>
                     <div className="flex justify-end">
                       <Button type="submit" disabled={isSavingBio} className="bg-primary hover:bg-primary-dark text-primary-foreground">
-                        {isSavingBio ? 'Enregistrement...' : 'Enregistrer la biographie'}
+                        {isSavingBio ? t('accountSettingsPage.saving') : t('accountSettingsPage.saveBio')}
                       </Button>
                     </div>
                   </form>
@@ -305,15 +307,15 @@ const Settings = () => {
               {/* Sécurité */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Sécurité</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.securityTitle')}</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Changez votre mot de passe régulièrement pour protéger votre compte.
+                    {t('accountSettingsPage.securityDescription')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handlePasswordSubmit} className="grid grid-cols-1 gap-4 max-w-md">
                     <div className="space-y-2">
-                      <Label htmlFor="currentPassword">Mot de passe actuel</Label>
+                      <Label htmlFor="currentPassword">{t('accountSettingsPage.currentPasswordLabel')}</Label>
                       <Input
                         id="currentPassword"
                         type="password"
@@ -323,7 +325,7 @@ const Settings = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="newPassword">Nouveau mot de passe</Label>
+                      <Label htmlFor="newPassword">{t('accountSettingsPage.newPasswordLabel')}</Label>
                       <Input
                         id="newPassword"
                         type="password"
@@ -334,7 +336,7 @@ const Settings = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="confirmPassword">Confirmer le nouveau mot de passe</Label>
+                      <Label htmlFor="confirmPassword">{t('accountSettingsPage.confirmPasswordLabel')}</Label>
                       <Input
                         id="confirmPassword"
                         type="password"
@@ -346,7 +348,7 @@ const Settings = () => {
                     </div>
                     <div className="flex justify-end">
                       <Button type="submit" disabled={isSavingPassword} className="bg-primary hover:bg-primary-dark text-primary-foreground">
-                        {isSavingPassword ? 'Modification...' : 'Changer le mot de passe'}
+                        {isSavingPassword ? t('accountSettingsPage.changingPassword') : t('accountSettingsPage.changePassword')}
                       </Button>
                     </div>
                   </form>

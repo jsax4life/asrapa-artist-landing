@@ -52,7 +52,10 @@
     "events": "Events",
     "genres": "Genres",
     "logOut": "Log Out",
-    "musicArtist": "Music Artist"
+    "musicArtist": "Music Artist",
+    "profilePhotoAlt": "Profile photo",
+    "logoutToastTitle": "Successfully logged out",
+    "logoutToastDescription": "You have been logged out of your account."
   },
   "genres": {
     "title": "Genre Management",
@@ -122,7 +125,7 @@
     "tagline": "Where music comes alive. Experience a universe of endless tunes, handpicked playlists, and personalized recommendations just for you.",
     "usersWorldwide": "{{brand}} users worldwide",
     "highlight": "100% dedicated to Chadian music, at home and across the diaspora.",
-    "scanDownload": "Scan To Download {{brand}} App",
+    "scanDownload": "Scan to download the {{brand}} app.",
     "iphoneAlt": "iPhone showing {{brand}} app interface",
     "qrAlt": "QR Code to download {{brand}} app",
     "downloadAppAria": "Download the {{brand}} app"
@@ -265,7 +268,7 @@
     "title": "Our community of artists"
   },
   "artistGuide": {
-    "title": "ARTIST GUIDE"
+    "title": "Want to learn a bit more?"
   },
   "terms": {
     "backToRegistration": "← Back to Registration",
@@ -361,5 +364,576 @@
       "s1": "These Terms and Conditions shall be governed by Chadian law and the provisions of the Bangui Agreement of OAPI.",
       "s2": "Any dispute relating to the interpretation or performance of these Terms and Conditions shall be subject to the jurisdiction of the courts of Chad."
     }
+  },
+  "dashboardHome": {
+    "header": {
+      "title": "Artist dashboard"
+    },
+    "welcome": {
+      "title": "Welcome back, {{name}}",
+      "defaultName": "Artist",
+      "subtitle": "Music artist",
+      "memberSince": "Member since {{date}}",
+      "recently": "recently"
+    },
+    "stats": {
+      "totalStreams": "Total streams",
+      "monthlyListeners": "Monthly listeners",
+      "releasedTracks": "Released tracks",
+      "growthRate": "Growth rate"
+    },
+    "recentReleases": {
+      "title": "Recent releases",
+      "empty": "No releases yet.",
+      "streams": "{{count}} streams"
+    },
+    "performanceChart": {
+      "title": "Performance overview",
+      "description": "Streams and plays over the last 7 months",
+      "streamsLegend": "Streams",
+      "playsLegend": "Plays",
+      "months": {
+        "jan": "Jan.",
+        "feb": "Feb.",
+        "mar": "Mar.",
+        "apr": "Apr.",
+        "may": "May",
+        "jun": "Jun.",
+        "jul": "Jul."
+      }
+    },
+    "quickActions": {
+      "title": "Quick actions",
+      "comingSoonTitle": "Feature coming soon",
+      "comingSoonDescription": "{{feature}} will be available in an upcoming update.",
+      "uploadTrack": {
+        "title": "Upload a track",
+        "description": "Add a new track to your library"
+      },
+      "viewLibrary": {
+        "title": "View my library",
+        "description": "Manage your singles and albums"
+      },
+      "shareContent": {
+        "title": "Share content",
+        "description": "Promote on social media",
+        "featureName": "Content sharing"
+      },
+      "viewStats": {
+        "title": "View statistics",
+        "description": "Detailed performance analytics"
+      }
+    }
+  },
+  "analyticsPage": {
+    "header": {
+      "title": "Analytics overview"
+    },
+    "chart": {
+      "months": {
+        "jan": "Jan.",
+        "feb": "Feb.",
+        "mar": "Mar.",
+        "apr": "Apr.",
+        "may": "May",
+        "jun": "Jun.",
+        "jul": "Jul."
+      },
+      "revenueLabel": "Revenue",
+      "streamsLabel": "Streams"
+    },
+    "stats": {
+      "totalRevenue": "Total revenue",
+      "totalStreams": "Total streams",
+      "uniqueListeners": "Unique listeners",
+      "pageViews": "Page views"
+    },
+    "performance": {
+      "title": "Overall performance",
+      "description": "Revenue and streams over the last 7 months"
+    },
+    "topContent": {
+      "title": "Most-streamed tracks/albums",
+      "description": "Your most popular content.",
+      "empty": "This detail will be available once you have streams."
+    },
+    "geo": {
+      "title": "Geographic breakdown",
+      "description": "Where your audience is located.",
+      "empty": "Your listener map will appear here at launch."
+    },
+    "demographics": {
+      "title": "Listener demographics",
+      "description": "Age and gender of your audience.",
+      "empty": "These statistics will appear here once you have listeners."
+    },
+    "engagement": {
+      "title": "Engagement metrics",
+      "description": "How listeners interact with your music.",
+      "empty": "Share and favorite data will appear here."
+    }
+  },
+  "audiencePage": {
+    "header": {
+      "title": "Audience overview"
+    },
+    "stats": {
+      "totalListeners": "Total listeners",
+      "newListeners": "New listeners",
+      "loyalListeners": "Loyal listeners",
+      "engagementRate": "Engagement rate"
+    },
+    "demographics": {
+      "title": "Audience demographics",
+      "description": "Breakdown of your audience by age and gender.",
+      "ageTitle": "Breakdown by age",
+      "genderTitle": "Breakdown by gender",
+      "genderLabels": {
+        "men": "Men",
+        "women": "Women",
+        "other": "Other"
+      }
+    },
+    "geography": {
+      "title": "Geographic breakdown",
+      "description": "Top cities where your music is streamed.",
+      "cities": {
+        "ndjamena": "N'Djamena",
+        "moundou": "Moundou",
+        "sarh": "Sarh",
+        "diasporaFrance": "Diaspora (France)",
+        "diasporaOther": "Diaspora (other countries)"
+      }
+    },
+    "activity": {
+      "title": "Listener activity",
+      "description": "Daily active listeners over the last month.",
+      "dayLabel": "Day {{count}}"
+    },
+    "sources": {
+      "title": "Listener sources",
+      "description": "How listeners discover your music.",
+      "items": {
+        "direct": "Direct",
+        "social": "Social media",
+        "playlists": "Playlists",
+        "search": "Search",
+        "other": "Other"
+      }
+    },
+    "percentLabel": "{{label}}: {{percent}}%"
+  },
+  "trendsPage": {
+    "header": {
+      "title": "Music trends"
+    },
+    "stats": {
+      "topTrackTitle": "Top trending track",
+      "risingArtistTitle": "Fastest-rising artist",
+      "risingArtistChange": "+200K listeners last week",
+      "trendingGenreTitle": "Trending genre",
+      "trendingGenreChange": "+15% popularity this month",
+      "featuredTalentTitle": "Featured pick",
+      "featuredTalentValue": "New talent in the spotlight",
+      "featuredTalentChange": "Awarded to {{artist}}"
+    },
+    "weeklyTrend": {
+      "title": "Weekly trend",
+      "description": "Streams and listeners over the last 6 weeks.",
+      "weekLabel": "Week {{count}}",
+      "streamsLabel": "Streams",
+      "listenersLabel": "Listeners"
+    },
+    "trendingNow": {
+      "title": "Trending right now",
+      "description": "Discover the most-streamed tracks right now."
+    }
+  },
+  "musicLibraryPage": {
+    "header": {
+      "title": "Music Library"
+    },
+    "loading": {
+      "message": "Loading your music library..."
+    },
+    "error": {
+      "retry": "Retry"
+    },
+    "toast": {
+      "loadErrorTitle": "Loading error",
+      "loadErrorDescription": "Unable to load the music library",
+      "comingSoonTitle": "Feature coming soon",
+      "editComingSoonDescription": "Editing will be available in an upcoming update.",
+      "analyticsComingSoonDescription": "Detailed per-track statistics will be available soon.",
+      "deleteSuccessTitle": "Release deleted",
+      "deleteSuccessDescription": "\"{{title}}\" was successfully deleted.",
+      "deleteErrorTitle": "Deletion failed",
+      "deleteErrorDescription": "Deletion failed"
+    },
+    "status": {
+      "active": "Active",
+      "pending": "Pending",
+      "upcoming": "Upcoming",
+      "archived": "Archived",
+      "draft": "Draft"
+    },
+    "emptyState": {
+      "title": "No music yet",
+      "singles": "Start by uploading your first single.",
+      "albums": "Create your first album to group several tracks together.",
+      "uploadButton": "Upload music"
+    },
+    "list": {
+      "releaseInfo": "{{genre}} • Released on {{date}}",
+      "songsCount_one": "{{count}} track",
+      "songsCount_other": "{{count}} tracks",
+      "downloads": "{{count}} downloads",
+      "streams": "{{count}} streams",
+      "likes": "{{count}} likes"
+    },
+    "dialog": {
+      "status": "Status",
+      "type": "Type",
+      "description": "Description",
+      "downloads": "Downloads",
+      "streams": "Streams",
+      "songs": "Tracks",
+      "likes": "Likes",
+      "single": "Single",
+      "album": "Album",
+      "subtitle": "{{type}} • {{genre}} • Released on {{date}}"
+    },
+    "deleteDialog": {
+      "titleSingle": "Delete this single",
+      "titleAlbum": "Delete this album",
+      "description": "Are you sure you want to delete \"{{title}}\"? This action cannot be undone.",
+      "albumWarning_one": "This will also delete the {{count}} track in this album.",
+      "albumWarning_other": "This will also delete the {{count}} tracks in this album.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "cta": {
+      "title": "Ready to share new music?",
+      "description": "Upload your latest tracks and albums to reach your fans.",
+      "button": "Upload music"
+    },
+    "card": {
+      "title": "Your music library",
+      "description": "Manage your singles and albums ({{count}} in total)."
+    },
+    "tabs": {
+      "singles": "Singles ({{count}})",
+      "albums": "Albums ({{count}})",
+      "singlesTitle": "Singles",
+      "singlesDescription": "Your individually released tracks.",
+      "albumsTitle": "Albums",
+      "albumsDescription": "Your released albums and collections."
+    }
+  },
+  "uploadPage": {
+    "header": {
+      "title": "Upload music"
+    },
+    "uploadType": {
+      "title": "Upload type",
+      "description": "Choose whether you want to upload a single track or create an album",
+      "singleLabel": "Single track",
+      "singleHint": "Upload a single track",
+      "albumLabel": "Album",
+      "albumHint": "Create an album with several tracks"
+    },
+    "audioFile": {
+      "title": "Audio file",
+      "description": "Drag and drop your audio file here, or click to browse. Accepted formats: MP3, WAV, FLAC (max size 50 MB)",
+      "uploadingProgress": "Uploading... {{progress}}%",
+      "uploadComplete": "Upload complete!",
+      "dropzoneText": "Drag and drop your track or click to upload",
+      "acceptedFormats": "Accepted formats: MP3, WAV, FLAC"
+    },
+    "coverPhoto": {
+      "title": "Cover photo",
+      "description": "Drag and drop your cover photo here, or click to browse. Accepted formats: JPEG, PNG, WebP (max size 5 MB)",
+      "previewAlt": "Cover preview",
+      "dropzoneText": "Drag and drop your photo or click to upload",
+      "acceptedFormats": "Accepted formats: JPEG, PNG, WebP"
+    },
+    "songDetails": {
+      "title": "Track details",
+      "description": "Enter information about your track. This helps listeners find your music.",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Track title",
+      "durationLabel": "Duration (seconds)",
+      "durationPlaceholder": "e.g. 233",
+      "albumLabel": "Album (optional)",
+      "albumPlaceholder": "Select an album",
+      "genreLabel": "Genre",
+      "collaboratorsLabel": "Collaborators (optional)",
+      "collaboratorsSelected_one": "{{count}} collaborator selected",
+      "collaboratorsSelected_other": "{{count}} collaborators selected",
+      "collaboratorsPlaceholder": "Select collaborators...",
+      "collaboratorsSearchPlaceholder": "Search for an artist...",
+      "collaboratorsEmpty": "No artist found.",
+      "explicitLabel": "Explicit content",
+      "lyricsLabel": "Lyrics (optional, max 10,000 characters)",
+      "lyricsPlaceholder": "Enter lyrics here...",
+      "uploading": "Uploading...",
+      "publishButton": "Publish track"
+    },
+    "genrePicker": {
+      "placeholder": "Select a genre...",
+      "searchPlaceholder": "Search for a genre...",
+      "empty": "No genre found."
+    },
+    "albumCoverPhoto": {
+      "title": "Album cover photo",
+      "description": "Upload a cover photo for your album. Accepted formats: JPEG, PNG, WebP (max size 5 MB)",
+      "previewAlt": "Album cover preview",
+      "dropzoneText": "Click to upload the cover",
+      "acceptedFormats": "Accepted formats: JPEG, PNG, WebP"
+    },
+    "albumDetails": {
+      "title": "Album details",
+      "description": "Enter information about your album",
+      "titleLabel": "Album title",
+      "titlePlaceholder": "Album title",
+      "releaseDateLabel": "Release date",
+      "genreLabel": "Genre",
+      "explicitLabel": "Explicit content",
+      "captionLabel": "Caption (optional)",
+      "captionPlaceholder": "Describe your album...",
+      "existingSongsLabel": "Existing tracks (optional)",
+      "existingSongsSelected_one": "{{count}} track selected",
+      "existingSongsSelected_other": "{{count}} tracks selected",
+      "existingSongsNoneAvailable": "No uploaded tracks available",
+      "existingSongsPlaceholder": "Select existing tracks...",
+      "existingSongsSearchPlaceholder": "Search for a track...",
+      "existingSongsEmpty": "No track found.",
+      "existingSongsHint": "Select tracks you've already uploaded to include in this album",
+      "creating": "Creating album...",
+      "createButton": "Create album"
+    },
+    "newSongs": {
+      "title": "New tracks",
+      "description": "Upload new tracks for your album. You can upload several audio files at once.",
+      "filesSelected_one": "{{count}} track selected",
+      "filesSelected_other": "{{count}} tracks selected",
+      "dropzoneText": "Click to upload new tracks",
+      "acceptedFormats": "Accepted formats: MP3, WAV, FLAC"
+    },
+    "toast": {
+      "loadErrorTitle": "Loading error",
+      "loadErrorDescription": "Unable to load artists and genres. Refresh the page.",
+      "invalidFileTypeTitle": "Invalid file type",
+      "invalidAudioFileDescription": "Select an audio file (MP3, WAV, FLAC).",
+      "invalidImageFileDescription": "Select an image file (JPEG, PNG, WebP).",
+      "unsupportedFileTypeTitle": "Unsupported file type",
+      "unsupportedFileTypeDescription": "Drop an audio or image file.",
+      "missingAudioFileTitle": "Missing audio file",
+      "missingAudioFileDescription": "Select an audio file to upload.",
+      "missingCoverPhotoTitle": "Missing cover photo",
+      "missingCoverPhotoSongDescription": "Select a cover photo for your track.",
+      "missingCoverPhotoAlbumDescription": "Select a cover photo for your album.",
+      "missingRequiredFieldsTitle": "Missing required fields",
+      "missingRequiredFieldsDescription": "Fill in all required fields (title, release date, genre).",
+      "uploadSuccessTitle": "Upload successful",
+      "uploadSuccessDescription": "Your track was uploaded successfully!",
+      "unexpectedUploadErrorDescription": "An unexpected error occurred during the upload.",
+      "uploadFailedTitle": "Upload failed",
+      "albumCreatedSuccessTitle": "Album created successfully",
+      "albumCreatedSuccessDescription": "Your album has been created and is awaiting validation!",
+      "unexpectedAlbumErrorDescription": "An unexpected error occurred while creating the album.",
+      "albumCreationFailedTitle": "Album creation failed",
+      "someFilesIgnoredDescription": "Some files were not audio files and were ignored."
+    }
+  },
+  "accountSettingsPage": {
+    "pageTitle": "Settings",
+    "bannerTitle": "Profile banner",
+    "bannerDescription": "Displayed at the top of your public profile, behind your photo.",
+    "profilePhotoTitle": "Profile photo",
+    "profilePhotoDescription": "Visible to your fans and on your dashboard.",
+    "profilePhotoInstructions": "Click the camera icon to change your photo. Accepted formats: JPEG, PNG, WebP.",
+    "accountInfoTitle": "Account information",
+    "accountInfoDescription": "Your public identity and contact details.",
+    "fullNameLabel": "Full name",
+    "stageNameLabel": "Stage name",
+    "emailLabel": "Email",
+    "countryLabel": "Country",
+    "countryPlaceholder": "Select your country",
+    "cityLabel": "City",
+    "cityPlaceholder": "Select your city",
+    "saving": "Saving...",
+    "saveChanges": "Save changes",
+    "bioTitle": "Biography",
+    "bioSectionDescription": "Introduce yourself to your fans. Visible on your public profile.",
+    "bioLabel": "Your biography",
+    "bioPlaceholder": "Tell us about your journey, your musical style, your influences...",
+    "saveBio": "Save biography",
+    "securityTitle": "Security",
+    "securityDescription": "Change your password regularly to protect your account.",
+    "currentPasswordLabel": "Current password",
+    "newPasswordLabel": "New password",
+    "confirmPasswordLabel": "Confirm new password",
+    "changingPassword": "Changing...",
+    "changePassword": "Change password",
+    "profileUpdatedTitle": "Profile updated",
+    "profileUpdatedDescription": "Your information has been saved.",
+    "profileUpdateFailedDescription": "Unable to update the profile.",
+    "updateFailedTitle": "Update failed",
+    "bioUpdatedTitle": "Biography updated",
+    "bioUpdatedDescription": "Your biography has been saved.",
+    "bioUpdateFailedDescription": "Unable to update the biography.",
+    "passwordsMismatchTitle": "Passwords do not match",
+    "passwordsMismatchDescription": "Check the confirmation of your new password.",
+    "passwordTooShortTitle": "Password too short",
+    "passwordTooShortDescription": "The new password must be at least 8 characters long.",
+    "passwordChangedTitle": "Password changed",
+    "passwordChangedDescription": "Your password has been successfully updated.",
+    "passwordChangeFailedDescription": "Unable to change the password.",
+    "changeFailedTitle": "Change failed"
+  },
+  "profilePhotoUploader": {
+    "invalidFileTypeTitle": "Invalid file type",
+    "invalidFileTypeDescription": "Please select an image (JPEG, PNG, WebP).",
+    "updateSuccessTitle": "Profile photo updated",
+    "updateSuccessDescription": "Your new photo has been saved.",
+    "updateFailedTitle": "Update failed",
+    "updateFailedDescription": "Unable to update the profile photo.",
+    "photoAlt": "Artist's profile photo",
+    "changePhoto": "Change profile photo"
+  },
+  "bannerImageUploader": {
+    "invalidFileTypeTitle": "Invalid file type",
+    "invalidFileTypeDescription": "Please select an image (JPEG, PNG, WebP).",
+    "updateSuccessTitle": "Banner updated",
+    "updateSuccessDescription": "Your new banner has been saved.",
+    "updateFailedTitle": "Update failed",
+    "updateFailedDescription": "Unable to update the banner.",
+    "bannerAlt": "Profile banner",
+    "noBannerYet": "No banner yet",
+    "changeBanner": "Change profile banner",
+    "uploading": "Uploading..."
+  },
+  "eventsPage": {
+    "header": {
+      "title": "Your events"
+    },
+    "cta": {
+      "title": "Organizing a new event?",
+      "description": "Plan and promote your concerts, tours, or online events.",
+      "button": "Create an event"
+    },
+    "list": {
+      "title": "All events",
+      "description": "Overview of your upcoming and past events."
+    },
+    "status": {
+      "upcoming": "Upcoming",
+      "live": "Live",
+      "past": "Past",
+      "cancelled": "Cancelled"
+    },
+    "dateTime": "{{date}} at {{time}}"
+  },
+  "pricesPage": {
+    "eyebrow": "Pricing",
+    "title": "Distribute your content on AsraPa.",
+    "subtitle": "A simple price based on your status and content. No hidden subscription, no surprise fees.",
+    "musicTiers": {
+      "independent": {
+        "name": "Independent artists",
+        "tagline": "You produce and distribute on your own.",
+        "rows": [
+          {
+            "label": "Track (single)",
+            "price": "10,000 FCFA / year"
+          },
+          {
+            "label": "EP",
+            "price": "30,000 FCFA"
+          },
+          {
+            "label": "Album",
+            "price": "100,000 FCFA"
+          }
+        ],
+        "steps": [
+          "Create your artist account.",
+          "Choose the format to publish (track, EP, or album).",
+          "Pay the corresponding fee and send your files."
+        ]
+      },
+      "labelled": {
+        "name": "Signed artists",
+        "tagline": "You are supported by a label or producer.",
+        "rows": [
+          {
+            "label": "Track (single)",
+            "price": "5,000 FCFA / year"
+          },
+          {
+            "label": "EP",
+            "price": "15,000 FCFA"
+          },
+          {
+            "label": "Album",
+            "price": "25,000 FCFA / year"
+          }
+        ],
+        "steps": [
+          "Create your artist account (in the name of the label or rights holder).",
+          "Enter your label's information.",
+          "Pay the corresponding fee and send your files."
+        ]
+      }
+    },
+    "howToAccess": "How to get access",
+    "createAccountCta": "Create my artist account",
+    "otherContent": {
+      "title": "Other content",
+      "radio": {
+        "name": "Radio shows",
+        "price": "Custom quote",
+        "detail": "Tailored subscription",
+        "steps": [
+          "Contact us on WhatsApp.",
+          "Describe your show and its frequency.",
+          "Receive your personalized quote."
+        ],
+        "ctaLabel": "Request a quote"
+      },
+      "podcast": {
+        "name": "Audio podcast",
+        "price": "10,000 FCFA",
+        "detail": "per episode",
+        "steps": [
+          "Create your creator account.",
+          "Upload your episode.",
+          "Pay and publish."
+        ],
+        "ctaLabel": "Create my account"
+      },
+      "sketches": {
+        "name": "Sketches",
+        "price": "10,000 FCFA",
+        "detail": "per episode",
+        "steps": [
+          "Create your creator account.",
+          "Upload your episode.",
+          "Pay and publish."
+        ],
+        "ctaLabel": "Create my account"
+      }
+    },
+    "footer": {
+      "question": "Questions about pricing?",
+      "contact": "Contact us on WhatsApp"
+    }
+  },
+  "notFoundPage": {
+    "title": "404",
+    "message": "Oops! Page not found",
+    "backHome": "Return to Home"
   }
 }

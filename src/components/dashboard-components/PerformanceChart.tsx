@@ -1,23 +1,26 @@
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-const chartData = [
-  { month: "Janv.", streams: 0, plays: 0 },
-  { month: "Févr.", streams: 0, plays: 0 },
-  { month: "Mars", streams: 0, plays: 0 },
-  { month: "Avr.", streams: 0, plays: 0 },
-  { month: "Mai", streams: 0, plays: 0 },
-  { month: "Juin", streams: 0, plays: 0 },
-  { month: "Juil.", streams: 0, plays: 0 },
-];
-
 export function PerformanceChart() {
+  const { t } = useTranslation();
+
+  const chartData = [
+    { month: t('dashboardHome.performanceChart.months.jan'), streams: 0, plays: 0 },
+    { month: t('dashboardHome.performanceChart.months.feb'), streams: 0, plays: 0 },
+    { month: t('dashboardHome.performanceChart.months.mar'), streams: 0, plays: 0 },
+    { month: t('dashboardHome.performanceChart.months.apr'), streams: 0, plays: 0 },
+    { month: t('dashboardHome.performanceChart.months.may'), streams: 0, plays: 0 },
+    { month: t('dashboardHome.performanceChart.months.jun'), streams: 0, plays: 0 },
+    { month: t('dashboardHome.performanceChart.months.jul'), streams: 0, plays: 0 },
+  ];
+
   return (
     <Card className="bg-card border-border shadow-card animate-fade-in">
       <CardHeader>
-        <CardTitle className="text-xl font-bold text-foreground">Aperçu des performances</CardTitle>
+        <CardTitle className="text-xl font-bold text-foreground">{t('dashboardHome.performanceChart.title')}</CardTitle>
         <CardDescription className="text-muted-foreground">
-          Écoutes et lectures des 7 derniers mois
+          {t('dashboardHome.performanceChart.description')}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -47,7 +50,7 @@ export function PerformanceChart() {
               stroke="hsl(var(--primary))" 
               strokeWidth={3}
               dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
-              name="Écoutes"
+              name={t('dashboardHome.performanceChart.streamsLegend')}
             />
             <Line
               type="monotone"
@@ -55,7 +58,7 @@ export function PerformanceChart() {
               stroke="hsl(var(--foreground))"
               strokeWidth={3}
               dot={{ fill: 'hsl(var(--foreground))', strokeWidth: 2, r: 4 }}
-              name="Lectures"
+              name={t('dashboardHome.performanceChart.playsLegend')}
             />
           </LineChart>
         </ResponsiveContainer>

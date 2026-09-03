@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Check, Mic2, Podcast, Radio, Sparkles } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
@@ -15,89 +16,64 @@ type MusicTier = {
   steps: string[];
 };
 
-const musicTiers: MusicTier[] = [
-  {
-    id: 'independent',
-    name: 'Artistes indépendants',
-    tagline: 'Vous produisez et distribuez seul.',
-    highlight: true,
-    rows: [
-      { label: 'Titre (single)', price: '10 000 FCFA / an' },
-      { label: 'EP', price: '30 000 FCFA' },
-      { label: 'Album', price: '100 000 FCFA' },
-    ],
-    steps: [
-      'Créez votre compte artiste.',
-      'Choisissez le format à publier (titre, EP ou album).',
-      'Réglez le tarif correspondant et envoyez vos fichiers.',
-    ],
-  },
-  {
-    id: 'labelled',
-    name: 'Artistes labellisés',
-    tagline: 'Vous êtes accompagné par un label ou un producteur.',
-    highlight: false,
-    rows: [
-      { label: 'Titre (single)', price: '5 000 FCFA / an' },
-      { label: 'EP', price: '15 000 FCFA' },
-      { label: 'Album', price: '25 000 FCFA / an' },
-    ],
-    steps: [
-      'Créez votre compte artiste (au nom du label ou du titulaire des droits).',
-      'Renseignez les informations de votre label.',
-      'Réglez le tarif correspondant et envoyez vos fichiers.',
-    ],
-  },
-];
+const MUSIC_TIER_ORDER: MusicTier['id'][] = ['independent', 'labelled'];
+const MUSIC_TIER_HIGHLIGHT: Record<MusicTier['id'], boolean> = {
+  independent: true,
+  labelled: false,
+};
 
-const contentPlans = [
-  {
-    id: 'radio',
-    icon: Radio,
-    name: 'Émissions radio',
-    price: 'Sur devis',
-    detail: 'Abonnement sur mesure',
-    steps: [
-      'Contactez-nous par WhatsApp.',
-      'Décrivez votre émission et sa fréquence.',
-      'Recevez votre devis personnalisé.',
-    ],
-    cta: { label: 'Demander un devis', href: WHATSAPP_URL, external: true },
-  },
-  {
-    id: 'podcast',
-    icon: Podcast,
-    name: 'Podcast audio',
-    price: '10 000 FCFA',
-    detail: 'par épisode',
-    steps: ['Créez votre compte créateur.', 'Téléversez votre épisode.', 'Réglez et publiez.'],
-    cta: { label: 'Créer mon compte', href: ROUTES.REGISTRATION, external: false },
-  },
-  {
-    id: 'sketches',
-    icon: Mic2,
-    name: 'Sketchs',
-    price: '10 000 FCFA',
-    detail: 'par épisode',
-    steps: ['Créez votre compte créateur.', 'Téléversez votre épisode.', 'Réglez et publiez.'],
-    cta: { label: 'Créer mon compte', href: ROUTES.REGISTRATION, external: false },
-  },
-];
+const CONTENT_PLAN_ORDER = ['radio', 'podcast', 'sketches'] as const;
+type ContentPlanId = (typeof CONTENT_PLAN_ORDER)[number];
+
+const CONTENT_PLAN_ICONS: Record<ContentPlanId, typeof Radio> = {
+  radio: Radio,
+  podcast: Podcast,
+  sketches: Mic2,
+};
+
+const CONTENT_PLAN_CTA: Record<ContentPlanId, { href: string; external: boolean }> = {
+  radio: { href: WHATSAPP_URL, external: true },
+  podcast: { href: ROUTES.REGISTRATION, external: false },
+  sketches: { href: ROUTES.REGISTRATION, external: false },
+};
 
 const Prices = () => {
+  const { t } = useTranslation();
   const [activeTier, setActiveTier] = useState<MusicTier['id']>('independent');
+
+  const musicTiers: MusicTier[] = MUSIC_TIER_ORDER.map((id) => ({
+    id,
+    name: t(`pricesPage.musicTiers.${id}.name`),
+    tagline: t(`pricesPage.musicTiers.${id}.tagline`),
+    highlight: MUSIC_TIER_HIGHLIGHT[id],
+    rows: t(`pricesPage.musicTiers.${id}.rows`, { returnObjects: true }) as { label: string; price: string }[],
+    steps: t(`pricesPage.musicTiers.${id}.steps`, { returnObjects: true }) as string[],
+  }));
+
+  const contentPlans = CONTENT_PLAN_ORDER.map((id) => ({
+    id,
+    icon: CONTENT_PLAN_ICONS[id],
+    name: t(`pricesPage.otherContent.${id}.name`),
+    price: t(`pricesPage.otherContent.${id}.price`),
+    detail: t(`pricesPage.otherContent.${id}.detail`),
+    steps: t(`pricesPage.otherContent.${id}.steps`, { returnObjects: true }) as string[],
+    cta: {
+      label: t(`pricesPage.otherContent.${id}.ctaLabel`),
+      href: CONTENT_PLAN_CTA[id].href,
+      external: CONTENT_PLAN_CTA[id].external,
+    },
+  }));
 
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
         <header className="text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#C40505]">Tarifs</p>
+          <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#C40505]">{t('pricesPage.eyebrow')}</p>
           <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">
-            Diffusez votre contenu sur AsraPa.
+            {t('pricesPage.title')}
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-white/60">
-            Un tarif simple selon votre statut et votre contenu. Pas d'abonnement caché, pas de
-            frais surprise.
+            {t('pricesPage.subtitle')}
           </p>
         </header>
 
@@ -146,7 +122,7 @@ const Prices = () => {
 
                 <div className="mt-8">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
-                    Comment y accéder
+                    {t('pricesPage.howToAccess')}
                   </p>
                   <ol className="mt-3 space-y-2">
                     {tier.steps.map((step, i) => (
@@ -165,7 +141,7 @@ const Prices = () => {
                   className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-[#C40505] py-3.5 font-bold text-white transition-colors hover:bg-[#a00404]"
                 >
                   <Check className="size-4" />
-                  Créer mon compte artiste
+                  {t('pricesPage.createAccountCta')}
                 </Link>
               </div>
             ))}
@@ -173,7 +149,7 @@ const Prices = () => {
 
         {/* Other content types */}
         <section className="mt-20">
-          <h2 className="text-center text-2xl font-bold sm:text-3xl">Autres contenus</h2>
+          <h2 className="text-center text-2xl font-bold sm:text-3xl">{t('pricesPage.otherContent.title')}</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-3">
             {contentPlans.map((plan) => {
               const Icon = plan.icon;
@@ -224,9 +200,9 @@ const Prices = () => {
         </section>
 
         <p className="mt-16 text-center text-xs text-white/40">
-          Des questions sur les tarifs ?{' '}
+          {t('pricesPage.footer.question')}{' '}
           <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-[#C40505] hover:underline">
-            Contactez-nous sur WhatsApp
+            {t('pricesPage.footer.contact')}
           </a>
           .
         </p>
