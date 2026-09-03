@@ -128,7 +128,8 @@
     "scanDownload": "Scan to download the {{brand}} app.",
     "iphoneAlt": "iPhone showing {{brand}} app interface",
     "qrAlt": "QR Code to download {{brand}} app",
-    "downloadAppAria": "Download the {{brand}} app"
+    "downloadAppAria": "Download the {{brand}} app",
+    "heroImageAlt": "Percussionist playing djembe at an African music festival"
   },
   "premium": {
     "artistCtaEyebrow": "Are you an artist?",
@@ -136,35 +137,6 @@
     "artistCtaBody": "65% of revenue goes to artists, based on actual listens. Distribute your music, podcasts or shows directly to your audience.",
     "artistCtaPrices": "See pricing",
     "artistCtaSignup": "Create my account"
-  },
-  "advertising": {
-    "heroTitle": "Share your brand story and reach a global audience",
-    "whyTitle": "Why Advertise your Brand on {{brand}}?",
-    "whyDesc": "{{brand}} offers innovative advertising solutions that connect your brand with a passionate, music-loving audience. Reach millions of active listeners across the globe and engage them with immersive audio and visual ad experiences tailored to their listening habits. Whether you're launching a new product or building brand awareness, {{brand}} puts your message in front of the right people at the right moment.",
-    "placementTitle": "Ad Placement",
-    "placementDesc": "Reach your audience where they listen. {{brand}} offers multiple ad formats — from full-screen video and audio spots to in-feed and search placements — so your brand stays visible throughout the listening experience.",
-    "formatVideo": "Full-screen video ad",
-    "formatStory": "Story ad",
-    "formatInFeed": "In-feed ad",
-    "formatSearch": "Search ad",
-    "caseStudies": "Case studies",
-    "getStarted": "Get Started",
-    "thankYou": "Thank you for your interest!",
-    "teamReachOut": "Our advertising team will reach out to you shortly.",
-    "colgateTitle": "Smile to the beat of your favorite music.",
-    "colgateDesc": "Colgate partnered with {{brand}} to launch a campaign that connected oral care with the joy of music. By placing audio ads during morning playlist sessions, Colgate reached health-conscious listeners and saw a 34% increase in brand recall among 18–34 year-olds.",
-    "cocaColaTitle": "Coca-Cola: The perfect soundtrack for your music journey",
-    "cocaColaDesc": "Coca-Cola leveraged {{brand}}'s in-feed and full-screen ad formats to promote its \"Share a Coke\" campaign. Targeting listeners during social and party playlists, the brand achieved a 28% lift in purchase intent and over 2 million ad impressions in the first month.",
-    "form": {
-      "firstName": "First name",
-      "lastName": "Last name",
-      "email": "Email",
-      "workEmail": "Work email",
-      "phone": "Phone number",
-      "website": "Company Website",
-      "industry": "Industry",
-      "role": "Role"
-    }
   },
   "login": {
     "welcome": "Welcome to",
@@ -262,10 +234,52 @@
       "comingSoonBody": "{{provider}} sign-in is launching very soon. Please use the form below for now."
     },
     "welcomeToast": "Welcome to {{brand}}! You can now start uploading your music.",
-    "promoAlt": "{{brand}} promotional image showing musicians and music equipment"
+    "promoAlt": "{{brand}} promotional image showing musicians and music equipment",
+    "errors": {
+      "fullNameRequired": "Full name is required",
+      "stageNameRequired": "Stage name is required",
+      "stageNameTaken": "This stage name is already taken",
+      "emailInvalid": "Email is invalid",
+      "emailTaken": "An account with this email already exists",
+      "passwordRequirements": "Password does not meet the requirements",
+      "confirmPasswordRequired": "Please confirm your password",
+      "countryRequired": "Please select a country",
+      "cityRequired": "Please select your city",
+      "agreeToTermsRequired": "You must agree to the terms and conditions",
+      "emailCheckFailed": "Could not check email. Please try again.",
+      "stageNameCheckFailed": "Could not check stage name. Please try again.",
+      "validationErrorTitle": "Validation error",
+      "validationErrorBody": "Wait for the availability checks to finish or resolve the network issues.",
+      "networkErrorTitle": "Network error",
+      "emailNetworkErrorBody": "Could not check email availability. Check your internet connection.",
+      "stageNameNetworkErrorBody": "Could not check stage name availability. Check your internet connection."
+    }
   },
   "community": {
-    "title": "Our community of artists"
+    "title": "Our community of artists",
+    "showcaseAria": "Artist community showcase",
+    "artists": {
+      "ramaji": {
+        "role": "Artist, Chad",
+        "imageAlt": "Ramaji, artist, Chad",
+        "quote": "AsraPa is a platform designed for us, Chadian artists. It lets us better promote our music, reach audiences both in Chad and in the diaspora, and strengthen our connection with our fans."
+      },
+      "rocky": {
+        "role": "Artist, Chad",
+        "imageAlt": "Rocky La Citadelle, artist, Chad",
+        "quote": "With AsraPa, Chadian music finally has a space entirely dedicated to it. The platform gives artists greater visibility and gives our work the recognition it deserves."
+      },
+      "ghisBeat": {
+        "role": "Sound Engineer, Chad",
+        "imageAlt": "Ghis Beat, sound engineer, Chad",
+        "quote": "As a sound engineer, AsraPa is a great opportunity to showcase all the work behind every track and to encourage higher-quality music."
+      },
+      "debora": {
+        "role": "Subscriber, Diaspora",
+        "imageAlt": "Debora Edih Ngaba, AsraPa subscriber",
+        "quote": "Living abroad sometimes distances me from my culture and the music back home. Thanks to AsraPa, I find the Chadian artists I love and discover new songs. Every listen brings me closer to Chad and keeps me connected to my roots, wherever I am."
+      }
+    }
   },
   "artistGuide": {
     "title": "Want to learn a bit more?"
@@ -935,5 +949,174 @@
     "title": "404",
     "message": "Oops! Page not found",
     "backHome": "Return to Home"
+  },
+  "advertisingPage": {
+    "eyebrow": "First specialist ad network",
+    "titleBefore": "Your brand, in rhythm with",
+    "titleAccent": "Chad.",
+    "leadStrong": "ASRAPA ADS",
+    "leadRest": "connects brands with a music-loving audience, on smartphone as well as basic phones.",
+    "note": "In a market saturated with advertising messages, we turn music listening into a targeted, cultural and memorable touchpoint.",
+    "talkAboutCampaign": "Talk about my campaign",
+    "channelsAria": "Distribution channels",
+    "channels": {
+      "app": "App",
+      "miniApp": "Mini-app",
+      "kaiOS": "KaiOS",
+      "ussd": "USSD",
+      "bunda": "Bunda Package"
+    },
+    "heroImageAlt": "Artist playing guitar on stage, mawata atmosphere",
+    "mediaGround": "Media ground",
+    "mediaGroundValue": "100% Chadian",
+    "soundCardText": "A message that gets heard.",
+    "keyFigureAria": "Key figure",
+    "signal": {
+      "label": "Music",
+      "value": "Top 3",
+      "description": "of the main interests of users in Chad, after football and sports betting."
+    },
+    "why": {
+      "eyebrow": "Why AsraPa",
+      "title": "An audience other platforms don't see.",
+      "cardA": {
+        "title": "An audience unreachable elsewhere.",
+        "body": "App, mini-app, KaiOS, USSD and the Bunda Package network: AsraPa reaches audiences that the global streaming majors don't cover in Chad."
+      },
+      "cardB": {
+        "title": "A strong identity.",
+        "body": "Every campaign lives within a 100% Chadian world, at the heart of local habits and culture, not in a generic feed."
+      },
+      "cardC": {
+        "title": "Data that belongs to you.",
+        "body": "The first structured data on music listening in Chad helps you better understand your audiences and refine your next campaigns."
+      }
+    },
+    "formats": {
+      "eyebrow": "Our formats",
+      "title": "From audio to screen. From smartphone to basic phone.",
+      "subtitle": "A consistent campaign, adapted to every use case and built to hold attention.",
+      "audio": {
+        "tag": "15–30 sec",
+        "title": "Audio spot",
+        "body": "Played between tracks. A message heard without distraction and without depending on a screen."
+      },
+      "visual": {
+        "tag": "App + KaiOS",
+        "title": "Companion visual",
+        "body": "A banner displayed during the spot to reinforce recall of your campaign."
+      },
+      "canvas": {
+        "tag": "Included",
+        "title": "Canvas skin",
+        "body": "An image or short loop that customizes the listening screen during your campaign, at no extra cost."
+      },
+      "voice": {
+        "tag": "Exclusive",
+        "title": "USSD/SMS voice message",
+        "body": "A format unique to AsraPa for reaching basic phones, where classic audio doesn't exist."
+      },
+      "playlist": {
+        "tag": "Home",
+        "title": "Sponsored playlist",
+        "body": "A music selection associated with your brand and featured on the home page."
+      }
+    },
+    "solutions": {
+      "eyebrow": "Beyond the spot",
+      "title": "Your brand becomes a cultural moment.",
+      "subtitle": "Programs designed to associate your identity with artists, key moments and communities.",
+      "sponsoring": {
+        "kicker": "Sponsoring & Naming",
+        "title": "Don't interrupt the listening. Become part of the moment.",
+        "item1Strong": "Named segments",
+        "item1Rest": ": \"The Christmas Playlist, presented by your brand.\"",
+        "item2Strong": "Event sponsorship",
+        "item2Rest": ": concerts, album releases and AsraPa exclusives.",
+        "item3Strong": "Seasonal takeover",
+        "item3Rest": ": your identity on the app during a key period."
+      },
+      "endorsement": {
+        "kicker": "Artist endorsement",
+        "title": "Cultural credibility, direct access.",
+        "item1Strong": "Brand × artist association",
+        "item1Rest": "in editorial content and on social media.",
+        "item2Strong": "Co-created content",
+        "item2Rest": ": freestyle, video or live session for your brand.",
+        "item3Strong": "Artist voice",
+        "item3Rest": ": testimonial or appearance in your campaign."
+      }
+    },
+    "crossmedia": {
+      "eyebrow": "Crossmedia / Transmedia",
+      "title": "One idea. Several touchpoints.",
+      "body": "Social media teasing, listening on the app, a USSD contest and on-the-ground activation via the Bunda Package network: each channel plays a different role to maximize reach.",
+      "mapAria": "Crossmedia journey",
+      "step1Title": "Social media",
+      "step1Label": "Attract",
+      "step2Title": "AsraPa app",
+      "step2Label": "Get them listening",
+      "step3Title": "USSD",
+      "step3Label": "Get them participating",
+      "step4Title": "Bunda",
+      "step4Label": "Activate on the ground"
+    },
+    "start": {
+      "eyebrow": "How to get started",
+      "title": "Your campaign can start here.",
+      "step1Strong": "Contact us",
+      "step1Rest": "via WhatsApp at +235 87 50 91 91.",
+      "step2Strong": "Let's build the offer",
+      "step2Rest": "based on your format, budget and duration.",
+      "step3Strong": "Launch and track",
+      "step3Rest": "your campaign with the right audiences.",
+      "cta": "Discuss my project"
+    }
+  },
+  "articleGuidePage": {
+    "heroImageAlt": "Silhouette of an artist on stage during a concert",
+    "readMore": "Read more",
+    "readArticle": "Read the article: {{title}}",
+    "tagline": "AsraPa · One Sound, One Identity, One People.",
+    "article1": {
+      "title": "Why does an artist need a manager?",
+      "description": "Discover how a manager supports an artist's career and helps turn their talent into a true professional project.",
+      "body": [
+        "Talent is essential, but it isn't always enough to build a lasting career. The manager supports the artist's decisions, organizes their schedule, seeks out opportunities, and facilitates relationships with media, producers, promoters and partners.",
+        "They also help the artist define their identity, prepare their releases and develop a coherent communication strategy. While the artist focuses on creating, the manager makes sure their career stays well organized.",
+        "A good manager doesn't decide in the artist's place. They listen, advise, and protect the artist's interests. For this collaboration to succeed, responsibilities, commissions and the length of the partnership must be clearly defined in a contract.",
+        "Choosing the right manager means choosing someone you trust, who understands your vision and can support you toward your goals."
+      ]
+    },
+    "article2": {
+      "title": "How do you protect your music before release?",
+      "description": "A few essential precautions let artists and producers protect their works before publishing them.",
+      "body": [
+        "Before releasing a song, the artist must be able to prove they are its author or hold the necessary rights to exploit it.",
+        "It's important to keep the different versions of the track, the studio files, the creation dates and exchanges between collaborators. Each participant's role — author, composer, performer, beatmaker, producer or sound engineer — should be clearly specified.",
+        "When a work is created by several people, a written agreement should determine everyone's rights and shares. The artist should also avoid releasing a full version of their track on social media too early.",
+        "Protecting your music isn't just about preventing theft. It's also about properly organizing your rights so you can distribute, promote and monetize your work under good conditions."
+      ]
+    },
+    "article3": {
+      "title": "Protecting our culture means safeguarding our future",
+      "description": "Our languages, rhythms and stories form a precious memory that must be passed on to future generations.",
+      "body": [
+        "Culture tells the story of who we are. It lives in our languages, our songs, our instruments, our dances, and the stories passed down by our parents.",
+        "When a piece of traditional music disappears without ever being recorded, part of our collective memory fades with it. Artists therefore play an essential role: creating, documenting and passing on our heritage with today's tools.",
+        "Digital technology lets us preserve our works and make them accessible everywhere in the world. A song released online can reconnect a young person with their origins and introduce Chad's cultural richness to new audiences.",
+        "Protecting our culture doesn't mean rejecting modernity. It means using modernity to give our heritage new life and pass it on with pride."
+      ]
+    },
+    "article4": {
+      "title": "Why choose AsraPa to distribute your music?",
+      "description": "AsraPa gives artists a space dedicated to discovering, showcasing and promoting Chadian music.",
+      "body": [
+        "AsraPa is a platform designed to bring Chadian artists closer to their audience, in Chad and across the diaspora.",
+        "Choosing AsraPa means joining a space that understands our music, our realities and the diversity of our culture. Every artist can showcase their world, share their work and strengthen their relationship with their listeners.",
+        "For the public, AsraPa makes it easier to find the artists, songs and sounds that represent Chad. For creators, the platform is a new digital showcase that can support their visibility and career growth.",
+        "By choosing AsraPa, artists and listeners together help build a stronger music ecosystem. Our music deserves to be heard, valued and passed on. AsraPa gives it a space to shine."
+      ]
+    }
   }
 }

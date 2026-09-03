@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './ads.css';
 import heroImage from '@/assets/images/asrapa-ads-hero.png';
 
@@ -8,53 +9,52 @@ const WHATSAPP_URL =
 const soundBarHeights = [18, 34, 50, 28, 58, 40, 22, 46, 32, 52, 26];
 
 const AdvertisingPage: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <div className="ads-page">
       <section className="hero section-shell" id="top">
         <div className="hero-copy">
           <p className="eyebrow">
-            <span></span> Première régie spécialisée
+            <span></span> {t('advertisingPage.eyebrow')}
           </p>
           <h1>
-            Votre marque au rythme du <em>Tchad.</em>
+            {t('advertisingPage.titleBefore')} <em>{t('advertisingPage.titleAccent')}</em>
           </h1>
           <p className="hero-lead">
-            <strong>ASRAPA ADS</strong> connecte les marques à une audience passionnée de
-            musique, sur smartphone comme sur téléphone basique.
+            <strong>{t('advertisingPage.leadStrong')}</strong> {t('advertisingPage.leadRest')}
           </p>
           <p className="hero-note">
-            Dans un marché saturé de messages publicitaires, nous transformons l'écoute
-            musicale en un point de contact ciblé, culturel et mémorable.
+            {t('advertisingPage.note')}
           </p>
           <div className="hero-actions">
             <a className="button" href={WHATSAPP_URL} target="_blank" rel="noreferrer">
-              Parler de ma campagne
+              {t('advertisingPage.talkAboutCampaign')}
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6"></path>
               </svg>
             </a>
             <span className="phone-label">WhatsApp&nbsp; +235 87 50 91 91</span>
           </div>
-          <div className="channel-row" aria-label="Canaux de diffusion">
-            <span>App</span>
-            <span>Mini-app</span>
-            <span>KaiOS</span>
-            <span>USSD</span>
-            <span>Forfait Bunda</span>
+          <div className="channel-row" aria-label={t('advertisingPage.channelsAria')}>
+            <span>{t('advertisingPage.channels.app')}</span>
+            <span>{t('advertisingPage.channels.miniApp')}</span>
+            <span>{t('advertisingPage.channels.kaiOS')}</span>
+            <span>{t('advertisingPage.channels.ussd')}</span>
+            <span>{t('advertisingPage.channels.bunda')}</span>
           </div>
         </div>
 
         <div className="hero-visual">
           <img
             src={heroImage}
-            alt="Artiste jouant de la guitare sur scène, ambiance mawata"
+            alt={t('advertisingPage.heroImageAlt')}
           />
           <div className="image-scrim" />
           <div className="visual-badge">
             <span className="live-dot" />
             <div>
-              <small>Terrain média</small>
-              <strong>100 % tchadien</strong>
+              <small>{t('advertisingPage.mediaGround')}</small>
+              <strong>{t('advertisingPage.mediaGroundValue')}</strong>
             </div>
           </div>
           <div className="sound-card">
@@ -63,18 +63,17 @@ const AdvertisingPage: React.FC = () => {
                 <i key={i} style={{ height: `${height}px` }} />
               ))}
             </div>
-            <p>Un message qui s'écoute.</p>
+            <p>{t('advertisingPage.soundCardText')}</p>
           </div>
         </div>
       </section>
 
-      <section className="signal-strip" aria-label="Chiffre clé">
+      <section className="signal-strip" aria-label={t('advertisingPage.keyFigureAria')}>
         <div className="section-shell signal-inner">
-          <span>Musique</span>
-          <strong>Top 3</strong>
+          <span>{t('advertisingPage.signal.label')}</span>
+          <strong>{t('advertisingPage.signal.value')}</strong>
           <p>
-            des principaux centres d'intérêt des utilisateurs au Tchad, après le football et
-            les paris sportifs.
+            {t('advertisingPage.signal.description')}
           </p>
         </div>
       </section>
@@ -82,33 +81,30 @@ const AdvertisingPage: React.FC = () => {
       <section className="section-shell content-section" id="pourquoi">
         <div className="section-heading">
           <p className="eyebrow">
-            <span></span> Pourquoi AsraPa
+            <span></span> {t('advertisingPage.why.eyebrow')}
           </p>
-          <h2>Une audience que les autres plateformes ne voient pas.</h2>
+          <h2>{t('advertisingPage.why.title')}</h2>
         </div>
         <div className="advantage-grid">
           <article className="advantage-card">
             <span className="card-marker">A</span>
-            <h3>Une audience introuvable ailleurs.</h3>
+            <h3>{t('advertisingPage.why.cardA.title')}</h3>
             <p>
-              App, mini-app, KaiOS, USSD et réseau Forfait Bunda : AsraPa touche des publics
-              que les majors mondiales du streaming ne couvrent pas au Tchad.
+              {t('advertisingPage.why.cardA.body')}
             </p>
           </article>
           <article className="advantage-card">
             <span className="card-marker">B</span>
-            <h3>Une identité forte.</h3>
+            <h3>{t('advertisingPage.why.cardB.title')}</h3>
             <p>
-              Chaque campagne s'inscrit dans un univers 100 % tchadien, au cœur des usages et
-              de la culture locale, pas dans un flux générique.
+              {t('advertisingPage.why.cardB.body')}
             </p>
           </article>
           <article className="advantage-card">
             <span className="card-marker">C</span>
-            <h3>Une data qui vous appartient.</h3>
+            <h3>{t('advertisingPage.why.cardC.title')}</h3>
             <p>
-              Les premières données structurées sur l'écoute musicale au Tchad vous aident à
-              mieux comprendre vos audiences et à affiner vos prochaines campagnes.
+              {t('advertisingPage.why.cardC.body')}
             </p>
           </article>
         </div>
@@ -119,19 +115,19 @@ const AdvertisingPage: React.FC = () => {
           <div className="section-heading heading-row">
             <div>
               <p className="eyebrow">
-                <span></span> Nos formats
+                <span></span> {t('advertisingPage.formats.eyebrow')}
               </p>
-              <h2>De l'audio à l'écran. Du smartphone au téléphone basique.</h2>
+              <h2>{t('advertisingPage.formats.title')}</h2>
             </div>
             <p className="heading-copy">
-              Une campagne cohérente, adaptée à chaque usage et pensée pour garder l'attention.
+              {t('advertisingPage.formats.subtitle')}
             </p>
           </div>
           <div className="format-grid">
             <article className="format-card">
               <div className="format-topline">
                 <span>01</span>
-                <small>15–30 sec</small>
+                <small>{t('advertisingPage.formats.audio.tag')}</small>
               </div>
               <div className="format-icon" aria-hidden="true">
                 <i></i>
@@ -140,16 +136,15 @@ const AdvertisingPage: React.FC = () => {
                 <i></i>
                 <i></i>
               </div>
-              <h3>Spot audio</h3>
+              <h3>{t('advertisingPage.formats.audio.title')}</h3>
               <p>
-                Diffusé entre les titres. Un message entendu sans distraction et sans dépendre
-                de l'écran.
+                {t('advertisingPage.formats.audio.body')}
               </p>
             </article>
             <article className="format-card">
               <div className="format-topline">
                 <span>02</span>
-                <small>App + KaiOS</small>
+                <small>{t('advertisingPage.formats.visual.tag')}</small>
               </div>
               <div className="format-icon" aria-hidden="true">
                 <i></i>
@@ -158,16 +153,15 @@ const AdvertisingPage: React.FC = () => {
                 <i></i>
                 <i></i>
               </div>
-              <h3>Visuel compagnon</h3>
+              <h3>{t('advertisingPage.formats.visual.title')}</h3>
               <p>
-                Une bannière affichée pendant le spot pour renforcer la mémorisation de votre
-                campagne.
+                {t('advertisingPage.formats.visual.body')}
               </p>
             </article>
             <article className="format-card">
               <div className="format-topline">
                 <span>03</span>
-                <small>Inclus</small>
+                <small>{t('advertisingPage.formats.canvas.tag')}</small>
               </div>
               <div className="format-icon" aria-hidden="true">
                 <i></i>
@@ -176,16 +170,15 @@ const AdvertisingPage: React.FC = () => {
                 <i></i>
                 <i></i>
               </div>
-              <h3>Habillage Canvas</h3>
+              <h3>{t('advertisingPage.formats.canvas.title')}</h3>
               <p>
-                Une image ou une courte boucle qui personnalise l'écran d'écoute pendant votre
-                campagne, sans surcoût.
+                {t('advertisingPage.formats.canvas.body')}
               </p>
             </article>
             <article className="format-card">
               <div className="format-topline">
                 <span>04</span>
-                <small>Exclusif</small>
+                <small>{t('advertisingPage.formats.voice.tag')}</small>
               </div>
               <div className="format-icon" aria-hidden="true">
                 <i></i>
@@ -194,16 +187,15 @@ const AdvertisingPage: React.FC = () => {
                 <i></i>
                 <i></i>
               </div>
-              <h3>Message vocal USSD/SMS</h3>
+              <h3>{t('advertisingPage.formats.voice.title')}</h3>
               <p>
-                Un format propre à AsraPa pour toucher les téléphones basiques, là où l'audio
-                classique n'existe pas.
+                {t('advertisingPage.formats.voice.body')}
               </p>
             </article>
             <article className="format-card">
               <div className="format-topline">
                 <span>05</span>
-                <small>Accueil</small>
+                <small>{t('advertisingPage.formats.playlist.tag')}</small>
               </div>
               <div className="format-icon" aria-hidden="true">
                 <i></i>
@@ -212,10 +204,9 @@ const AdvertisingPage: React.FC = () => {
                 <i></i>
                 <i></i>
               </div>
-              <h3>Playlist sponsorisée</h3>
+              <h3>{t('advertisingPage.formats.playlist.title')}</h3>
               <p>
-                Une sélection musicale associée à votre marque et mise en avant sur la page
-                d'accueil.
+                {t('advertisingPage.formats.playlist.body')}
               </p>
             </article>
           </div>
@@ -226,51 +217,44 @@ const AdvertisingPage: React.FC = () => {
         <div className="section-heading heading-row">
           <div>
             <p className="eyebrow">
-              <span></span> Au-delà du spot
+              <span></span> {t('advertisingPage.solutions.eyebrow')}
             </p>
-            <h2>Votre marque devient un moment culturel.</h2>
+            <h2>{t('advertisingPage.solutions.title')}</h2>
           </div>
           <p className="heading-copy">
-            Des dispositifs pensés pour associer votre identité aux artistes, aux temps forts
-            et aux communautés.
+            {t('advertisingPage.solutions.subtitle')}
           </p>
         </div>
         <div className="solution-grid">
           <article className="solution-card solution-red">
-            <p className="solution-kicker">Sponsoring &amp; Naming</p>
-            <h3>Ne coupez pas l'écoute. Entrez dans le moment.</h3>
+            <p className="solution-kicker">{t('advertisingPage.solutions.sponsoring.kicker')}</p>
+            <h3>{t('advertisingPage.solutions.sponsoring.title')}</h3>
             <ul>
               <li>
-                <strong>Rubriques nommées</strong> : « La Playlist de Noël, présentée par
-                votre marque ».
+                <strong>{t('advertisingPage.solutions.sponsoring.item1Strong')}</strong> {t('advertisingPage.solutions.sponsoring.item1Rest')}
               </li>
               <li>
-                <strong>Sponsoring d'événements</strong> : concerts, sorties d'albums et
-                exclusivités AsraPa.
+                <strong>{t('advertisingPage.solutions.sponsoring.item2Strong')}</strong> {t('advertisingPage.solutions.sponsoring.item2Rest')}
               </li>
               <li>
-                <strong>Habillage saisonnier</strong> : votre identité sur l'app pendant une
-                période clé.
+                <strong>{t('advertisingPage.solutions.sponsoring.item3Strong')}</strong> {t('advertisingPage.solutions.sponsoring.item3Rest')}
               </li>
             </ul>
           </article>
           <article className="solution-card solution-photo">
             <div className="solution-photo-bg" />
             <div className="solution-photo-content">
-              <p className="solution-kicker">Endorsement artiste</p>
-              <h3>La crédibilité culturelle, en accès direct.</h3>
+              <p className="solution-kicker">{t('advertisingPage.solutions.endorsement.kicker')}</p>
+              <h3>{t('advertisingPage.solutions.endorsement.title')}</h3>
               <ul>
                 <li>
-                  <strong>Association marque × artiste</strong> dans les contenus éditoriaux
-                  et les réseaux.
+                  <strong>{t('advertisingPage.solutions.endorsement.item1Strong')}</strong> {t('advertisingPage.solutions.endorsement.item1Rest')}
                 </li>
                 <li>
-                  <strong>Contenu co-créé</strong> : freestyle, clip ou session live pour
-                  votre marque.
+                  <strong>{t('advertisingPage.solutions.endorsement.item2Strong')}</strong> {t('advertisingPage.solutions.endorsement.item2Rest')}
                 </li>
                 <li>
-                  <strong>Prise de parole artiste</strong> : témoignage ou apparition dans
-                  votre campagne.
+                  <strong>{t('advertisingPage.solutions.endorsement.item3Strong')}</strong> {t('advertisingPage.solutions.endorsement.item3Rest')}
                 </li>
               </ul>
             </div>
@@ -280,35 +264,33 @@ const AdvertisingPage: React.FC = () => {
         <article className="crossmedia-card">
           <div className="crossmedia-copy">
             <p className="eyebrow">
-              <span></span> Crossmedia / Transmedia
+              <span></span> {t('advertisingPage.crossmedia.eyebrow')}
             </p>
-            <h3>Une idée. Plusieurs points de contact.</h3>
+            <h3>{t('advertisingPage.crossmedia.title')}</h3>
             <p>
-              Teasing sur les réseaux, écoute sur l'app, jeu-concours par USSD et activation
-              terrain via le réseau Forfait Bunda : chaque canal joue un rôle différent pour
-              maximiser la portée.
+              {t('advertisingPage.crossmedia.body')}
             </p>
           </div>
-          <div className="channel-map" aria-label="Parcours crossmedia">
+          <div className="channel-map" aria-label={t('advertisingPage.crossmedia.mapAria')}>
             <div className="map-item">
               <span>01</span>
-              <strong>Réseaux</strong>
-              <small>Attirer</small>
+              <strong>{t('advertisingPage.crossmedia.step1Title')}</strong>
+              <small>{t('advertisingPage.crossmedia.step1Label')}</small>
             </div>
             <div className="map-item">
               <span>02</span>
-              <strong>App AsraPa</strong>
-              <small>Faire écouter</small>
+              <strong>{t('advertisingPage.crossmedia.step2Title')}</strong>
+              <small>{t('advertisingPage.crossmedia.step2Label')}</small>
             </div>
             <div className="map-item">
               <span>03</span>
-              <strong>USSD</strong>
-              <small>Faire participer</small>
+              <strong>{t('advertisingPage.crossmedia.step3Title')}</strong>
+              <small>{t('advertisingPage.crossmedia.step3Label')}</small>
             </div>
             <div className="map-item">
               <span>04</span>
-              <strong>Bunda</strong>
-              <small>Activer le terrain</small>
+              <strong>{t('advertisingPage.crossmedia.step4Title')}</strong>
+              <small>{t('advertisingPage.crossmedia.step4Label')}</small>
             </div>
           </div>
         </article>
@@ -318,34 +300,32 @@ const AdvertisingPage: React.FC = () => {
         <div className="section-shell start-inner">
           <div className="start-heading">
             <p className="eyebrow eyebrow-light">
-              <span></span> Comment démarrer
+              <span></span> {t('advertisingPage.start.eyebrow')}
             </p>
-            <h2>Votre campagne peut commencer ici.</h2>
+            <h2>{t('advertisingPage.start.title')}</h2>
           </div>
           <ol className="steps">
             <li>
               <span>1</span>
               <p>
-                <strong>Contactez-nous</strong> via WhatsApp au +235 87 50 91 91.
+                <strong>{t('advertisingPage.start.step1Strong')}</strong> {t('advertisingPage.start.step1Rest')}
               </p>
             </li>
             <li>
               <span>2</span>
               <p>
-                <strong>Construisons l'offre</strong> selon votre format, votre budget et
-                votre durée.
+                <strong>{t('advertisingPage.start.step2Strong')}</strong> {t('advertisingPage.start.step2Rest')}
               </p>
             </li>
             <li>
               <span>3</span>
               <p>
-                <strong>Diffusez et suivez</strong> votre campagne auprès des bonnes
-                audiences.
+                <strong>{t('advertisingPage.start.step3Strong')}</strong> {t('advertisingPage.start.step3Rest')}
               </p>
             </li>
           </ol>
           <a className="button button-light" href={WHATSAPP_URL} target="_blank" rel="noreferrer">
-            Discuter de mon projet
+            {t('advertisingPage.start.cta')}
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M5 12h14M13 6l6 6-6 6"></path>
             </svg>

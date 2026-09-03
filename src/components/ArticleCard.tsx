@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
@@ -34,6 +35,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   paddingBottom = "pb-1",
   minHeight = ""
 }) => {
+  const { t } = useTranslation();
   return (
     <Dialog>
       <article className={`bg-white shadow-[0px_20px_20px_rgba(0,0,0,0.04)] flex min-w-60 ${minHeight} flex-col overflow-hidden items-center tracking-[-0.5px] justify-center grow shrink w-[310px] ${paddingBottom} rounded-lg`}>
@@ -57,9 +59,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
                 <button
                   type="button"
                   className="items-center border shadow-[0_4px_4px_0_rgba(0,0,0,0.05)] flex flex-col justify-center bg-[#C40505] px-10 py-[17px] rounded-[50px] border-solid border-[#C40505] max-md:px-5 hover:bg-[#A00404] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C40505] focus:ring-offset-2"
-                  aria-label={`Lire l'article : ${title}`}
+                  aria-label={t('articleGuidePage.readArticle', { title })}
                 >
-                  <span>Lire la suite</span>
+                  <span>{t('articleGuidePage.readMore')}</span>
                 </button>
               </DialogTrigger>
             </div>
@@ -78,7 +80,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           )}
         </div>
         <p className="mt-6 text-xs font-semibold tracking-[0.15em] text-[#C40505] uppercase">
-          AsraPa · Un Son, Une Identité, Un Peuple.
+          {t('articleGuidePage.tagline')}
         </p>
       </DialogContent>
     </Dialog>

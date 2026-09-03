@@ -14,7 +14,7 @@ const AboutHeroSection: React.FC = () => {
       <div className="h-[80vh] min-h-[480px] w-full">
         <img
           src={artistPageHero}
-          alt="Percussionniste jouant du djembé lors d'un festival de musique africaine"
+          alt={t('about.heroImageAlt')}
           className="h-full w-full object-cover"
           style={{ objectPosition: '38% 68%' }}
         />

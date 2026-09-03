@@ -9,7 +9,7 @@ const Hero = () => {
     <section className="flex flex-col relative min-h-[502px] w-full items-center justify-center text-xl font-bold pb-36 max-md:max-w-full max-md:pb-[100px]">
       <img
         src={artistGuideHero}
-        alt="Silhouette d'un artiste sur scène pendant un concert"
+        alt={t('articleGuidePage.heroImageAlt')}
         className="absolute h-full w-full object-cover inset-0"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />

@@ -91,18 +91,18 @@ export const SignUpForm: React.FC = () => {
     const newErrors: FormErrors = {};
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Le nom complet est requis';
+      newErrors.fullName = t('signup.errors.fullNameRequired');
     }
 
     if (!formData.stageName.trim()) {
-      newErrors.stageName = 'Le nom de scène est requis';
+      newErrors.stageName = t('signup.errors.stageNameRequired');
     } else {
       // Check stage name availability
       setIsCheckingStageName(true);
       try {
         const isAvailable = await checkStageNameAvailability(formData.stageName);
         if (!isAvailable) {
-          newErrors.stageName = 'Ce nom de scène est déjà pris';
+          newErrors.stageName = t('signup.errors.stageNameTaken');
         }
       } catch (error) {
         console.error('Error checking stage name:', error);
@@ -112,16 +112,16 @@ export const SignUpForm: React.FC = () => {
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "L'e-mail est requis";
+      newErrors.email = t('auth.emailRequired');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "L'e-mail est invalide";
+      newErrors.email = t('signup.errors.emailInvalid');
     } else {
       // Check email availability
       setIsCheckingEmail(true);
       try {
         const isAvailable = await checkEmailAvailability(formData.email);
         if (!isAvailable) {
-          newErrors.email = 'Un compte existe déjà avec cet e-mail';
+          newErrors.email = t('signup.errors.emailTaken');
         }
       } catch (error) {
         console.error('Error checking email:', error);
@@ -131,27 +131,27 @@ export const SignUpForm: React.FC = () => {
     }
 
     if (!formData.password) {
-      newErrors.password = 'Le mot de passe est requis';
+      newErrors.password = t('auth.passwordRequired');
     } else if (!validatePassword(formData.password)) {
-      newErrors.password = 'Le mot de passe ne respecte pas les exigences';
+      newErrors.password = t('signup.errors.passwordRequirements');
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Veuillez confirmer votre mot de passe';
+      newErrors.confirmPassword = t('signup.errors.confirmPasswordRequired');
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Les mots de passe ne correspondent pas';
+      newErrors.confirmPassword = t('signup.form.passwordsNoMatch');
     }
 
     if (!formData.country) {
-      newErrors.country = 'Veuillez sélectionner un pays';
+      newErrors.country = t('signup.errors.countryRequired');
     }
 
     if (formData.country === 'Tchad' && !formData.city) {
-      newErrors.city = 'Veuillez sélectionner votre ville';
+      newErrors.city = t('signup.errors.cityRequired');
     }
 
     if (!formData.agreeToTerms) {
-      newErrors.agreeToTerms = 'Vous devez accepter les conditions générales';
+      newErrors.agreeToTerms = t('signup.errors.agreeToTermsRequired');
     }
 
     setErrors(newErrors);
@@ -164,8 +164,8 @@ export const SignUpForm: React.FC = () => {
     // Ensure no availability checks are pending and no errors exist before submitting
     if (isCheckingEmail || isCheckingStageName || emailStatus === 'error' || stageNameStatus === 'error') {
       toast({
-        title: "Erreur de validation",
-        description: "Attendez la fin des vérifications de disponibilité ou résolvez les problèmes réseau.",
+        title: t('signup.errors.validationErrorTitle'),
+        description: t('signup.errors.validationErrorBody'),
         variant: "destructive",
       });
       return;
@@ -212,7 +212,7 @@ export const SignUpForm: React.FC = () => {
         try {
           const isAvailable = await checkEmailAvailability(email);
           if (!isAvailable) {
-            setErrors(prev => ({ ...prev, email: 'An account with this email already exists' }));
+            setErrors(prev => ({ ...prev, email: t('signup.errors.emailTaken') }));
             setEmailStatus('unavailable');
           } else {
             // Clear email error if it was previously set
@@ -223,12 +223,12 @@ export const SignUpForm: React.FC = () => {
           console.error('Error checking email:', error);
           // Show a toast message for network error
           toast({
-            title: "Erreur réseau",
-            description: "Impossible de vérifier la disponibilité de l'e-mail. Vérifiez votre connexion internet.",
+            title: t('signup.errors.networkErrorTitle'),
+            description: t('signup.errors.emailNetworkErrorBody'),
             variant: "destructive",
           });
           setEmailStatus('error'); // Set status to error
-          setErrors(prev => ({ ...prev, email: "Impossible de vérifier l'e-mail. Veuillez réessayer." }));
+          setErrors(prev => ({ ...prev, email: t("signup.errors.emailCheckFailed") }));
         } finally {
           setIsCheckingEmail(false);
         }
@@ -242,7 +242,7 @@ export const SignUpForm: React.FC = () => {
         try {
           const isAvailable = await checkStageNameAvailability(stageName);
           if (!isAvailable) {
-            setErrors(prev => ({ ...prev, stageName: 'This stage name is already taken' }));
+            setErrors(prev => ({ ...prev, stageName: t('signup.errors.stageNameTaken') }));
             setStageNameStatus('unavailable');
           } else {
             // Clear stage name error if it was previously set
@@ -253,12 +253,12 @@ export const SignUpForm: React.FC = () => {
           console.error('Error checking stage name:', error);
           // Show a toast message for network error
           toast({
-            title: "Erreur réseau",
-            description: "Impossible de vérifier la disponibilité du nom de scène. Vérifiez votre connexion internet.",
+            title: t('signup.errors.networkErrorTitle'),
+            description: t('signup.errors.stageNameNetworkErrorBody'),
             variant: "destructive",
           });
           setStageNameStatus('error'); // Set status to error
-          setErrors(prev => ({ ...prev, stageName: 'Impossible de vérifier le nom de scène. Veuillez réessayer.' }));
+          setErrors(prev => ({ ...prev, stageName: t('signup.errors.stageNameCheckFailed') }));
         } finally {
           setIsCheckingStageName(false);
         }
@@ -300,7 +300,7 @@ export const SignUpForm: React.FC = () => {
       try {
         const isAvailable = await checkEmailAvailability(email);
         if (!isAvailable) {
-          setErrors(prev => ({ ...prev, email: 'An account with this email already exists' }));
+          setErrors(prev => ({ ...prev, email: t('signup.errors.emailTaken') }));
           setEmailStatus('unavailable');
         } else {
           setErrors(prev => ({ ...prev, email: undefined }));
@@ -309,12 +309,12 @@ export const SignUpForm: React.FC = () => {
       } catch (error) {
         console.error('Error checking email:', error);
         toast({
-          title: "Erreur réseau",
-          description: "Impossible de vérifier la disponibilité de l'e-mail. Vérifiez votre connexion internet.",
+          title: t('signup.errors.networkErrorTitle'),
+          description: t('signup.errors.emailNetworkErrorBody'),
           variant: "destructive",
         });
         setEmailStatus('error'); // Set status to error
-        setErrors(prev => ({ ...prev, email: "Impossible de vérifier l'e-mail. Veuillez réessayer." }));
+        setErrors(prev => ({ ...prev, email: t("signup.errors.emailCheckFailed") }));
       } finally {
         setIsCheckingEmail(false);
       }
@@ -329,7 +329,7 @@ export const SignUpForm: React.FC = () => {
       try {
         const isAvailable = await checkStageNameAvailability(stageName);
         if (!isAvailable) {
-          setErrors(prev => ({ ...prev, stageName: 'This stage name is already taken' }));
+          setErrors(prev => ({ ...prev, stageName: t('signup.errors.stageNameTaken') }));
           setStageNameStatus('unavailable');
         } else {
           setErrors(prev => ({ ...prev, stageName: undefined }));
@@ -338,12 +338,12 @@ export const SignUpForm: React.FC = () => {
       } catch (error) {
         console.error('Error checking stage name:', error);
         toast({
-          title: "Erreur réseau",
-          description: "Impossible de vérifier la disponibilité du nom de scène. Vérifiez votre connexion internet.",
+          title: t('signup.errors.networkErrorTitle'),
+          description: t('signup.errors.stageNameNetworkErrorBody'),
           variant: "destructive",
         });
         setStageNameStatus('error'); // Set status to error
-        setErrors(prev => ({ ...prev, stageName: 'Impossible de vérifier le nom de scène. Veuillez réessayer.' }));
+        setErrors(prev => ({ ...prev, stageName: t('signup.errors.stageNameCheckFailed') }));
       } finally {
         setIsCheckingStageName(false);
       }
