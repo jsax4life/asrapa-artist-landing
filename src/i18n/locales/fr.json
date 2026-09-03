@@ -128,7 +128,8 @@
     "scanDownload": "Scannez pour télécharger l'application {{brand}}.",
     "iphoneAlt": "iPhone affichant l'interface de l'application {{brand}}",
     "qrAlt": "Code QR pour télécharger l'application {{brand}}",
-    "downloadAppAria": "Télécharger l'application {{brand}}"
+    "downloadAppAria": "Télécharger l'application {{brand}}",
+    "heroImageAlt": "Percussionniste jouant du djembé lors d'un festival de musique africaine"
   },
   "premium": {
     "artistCtaEyebrow": "Vous êtes artiste ?",
@@ -233,42 +234,55 @@
       "comingSoonBody": "La connexion avec {{provider}} arrive très prochainement. Utilisez le formulaire en attendant."
     },
     "welcomeToast": "Bienvenue sur {{brand}} ! Vous pouvez maintenant téléverser votre musique.",
-    "promoAlt": "Image promotionnelle {{brand}} montrant des musiciens et du matériel musical"
+    "promoAlt": "Image promotionnelle {{brand}} montrant des musiciens et du matériel musical",
+    "errors": {
+      "fullNameRequired": "Le nom complet est requis",
+      "stageNameRequired": "Le nom de scène est requis",
+      "stageNameTaken": "Ce nom de scène est déjà pris",
+      "emailInvalid": "L'e-mail est invalide",
+      "emailTaken": "Un compte existe déjà avec cet e-mail",
+      "passwordRequirements": "Le mot de passe ne respecte pas les exigences",
+      "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+      "countryRequired": "Veuillez sélectionner un pays",
+      "cityRequired": "Veuillez sélectionner votre ville",
+      "agreeToTermsRequired": "Vous devez accepter les conditions générales",
+      "emailCheckFailed": "Impossible de vérifier l'e-mail. Veuillez réessayer.",
+      "stageNameCheckFailed": "Impossible de vérifier le nom de scène. Veuillez réessayer.",
+      "validationErrorTitle": "Erreur de validation",
+      "validationErrorBody": "Attendez la fin des vérifications de disponibilité ou résolvez les problèmes réseau.",
+      "networkErrorTitle": "Erreur réseau",
+      "emailNetworkErrorBody": "Impossible de vérifier la disponibilité de l'e-mail. Vérifiez votre connexion internet.",
+      "stageNameNetworkErrorBody": "Impossible de vérifier la disponibilité du nom de scène. Vérifiez votre connexion internet."
+    }
   },
   "community": {
-    "title": "Notre communauté d'artistes"
+    "title": "Notre communauté d'artistes",
+    "showcaseAria": "Vitrine de la communauté d'artistes",
+    "artists": {
+      "ramaji": {
+        "role": "Artiste, Tchad",
+        "imageAlt": "Ramaji, artiste, Tchad",
+        "quote": "AsraPa est une plateforme pensée pour nous, les artistes tchadiens. Elle nous permet de mieux promouvoir notre musique, de toucher un public au Tchad comme dans la diaspora, et de renforcer le lien avec nos fans."
+      },
+      "rocky": {
+        "role": "Artiste, Tchad",
+        "imageAlt": "Rocky La Citadelle, artiste, Tchad",
+        "quote": "Avec AsraPa, la musique tchadienne a enfin un espace qui lui est entièrement dédié. La plateforme donne aux artistes une plus grande visibilité et à nos œuvres la reconnaissance qu'elles méritent."
+      },
+      "ghisBeat": {
+        "role": "Ingénieur du son, Tchad",
+        "imageAlt": "Ghis Beat, ingénieur du son, Tchad",
+        "quote": "En tant qu'ingénieur du son, AsraPa représente une belle opportunité de mettre en valeur tout le travail derrière chaque morceau et d'encourager une musique de meilleure qualité."
+      },
+      "debora": {
+        "role": "Abonnée, Diaspora",
+        "imageAlt": "Debora Edih Ngaba, abonnée AsraPa",
+        "quote": "Vivre à l'étranger m'éloigne parfois de ma culture et de la musique de chez moi. Grâce à AsraPa, je retrouve les artistes tchadiens que j'aime et je découvre de nouvelles chansons. Chaque écoute me rapproche du Tchad et me permet de rester connectée à mes racines, où que je sois."
+      }
+    }
   },
   "artistGuide": {
     "title": "On s'informe un peu ?"
-  },
-  "advertising": {
-    "heroTitle": "Partagez l'histoire de votre marque et touchez un public mondial",
-    "whyTitle": "Pourquoi faire de la publicité sur {{brand}} ?",
-    "whyDesc": "{{brand}} propose des solutions publicitaires innovantes qui connectent votre marque à un public passionné de musique. Touchez des millions d'auditeurs actifs dans le monde et engagez-les avec des expériences publicitaires audio et visuelles adaptées à leurs habitudes d'écoute. Que vous lanciez un nouveau produit ou renforciez votre notoriété, {{brand}} place votre message devant les bonnes personnes au bon moment.",
-    "placementTitle": "Emplacements publicitaires",
-    "placementDesc": "Touchez votre audience là où elle écoute. {{brand}} propose plusieurs formats publicitaires — des spots vidéo et audio plein écran aux placements dans le fil et la recherche — pour que votre marque reste visible tout au long de l'expérience d'écoute.",
-    "formatVideo": "Publicité vidéo plein écran",
-    "formatStory": "Publicité story",
-    "formatInFeed": "Publicité in-feed",
-    "formatSearch": "Publicité recherche",
-    "caseStudies": "Études de cas",
-    "getStarted": "Commencer",
-    "thankYou": "Merci pour votre intérêt !",
-    "teamReachOut": "Notre équipe publicitaire vous contactera sous peu.",
-    "colgateTitle": "Souriez au rythme de votre musique préférée.",
-    "colgateDesc": "Colgate s'est associé à {{brand}} pour lancer une campagne reliant les soins bucco-dentaires à la joie de la musique. En diffusant des publicités audio pendant les sessions de playlists matinales, Colgate a touché des auditeurs soucieux de leur santé et a enregistré une augmentation de 34 % du rappel de marque chez les 18-34 ans.",
-    "cocaColaTitle": "Coca-Cola : la bande-son parfaite de votre parcours musical",
-    "cocaColaDesc": "Coca-Cola a utilisé les formats publicitaires in-feed et plein écran de {{brand}} pour promouvoir sa campagne « Share a Coke ». En ciblant les auditeurs lors de playlists sociales et de fête, la marque a obtenu une augmentation de 28 % de l'intention d'achat et plus de 2 millions d'impressions publicitaires le premier mois.",
-    "form": {
-      "firstName": "Prénom",
-      "lastName": "Nom",
-      "email": "E-mail",
-      "workEmail": "E-mail professionnel",
-      "phone": "Numéro de téléphone",
-      "website": "Site web de l'entreprise",
-      "industry": "Secteur",
-      "role": "Rôle"
-    }
   },
   "terms": {
     "backToRegistration": "← Retour à l'inscription",
@@ -935,5 +949,174 @@
     "title": "404",
     "message": "Oups ! Page introuvable",
     "backHome": "Retour à l'accueil"
+  },
+  "advertisingPage": {
+    "eyebrow": "Première régie spécialisée",
+    "titleBefore": "Votre marque au rythme du",
+    "titleAccent": "Tchad.",
+    "leadStrong": "ASRAPA ADS",
+    "leadRest": "connecte les marques à une audience passionnée de musique, sur smartphone comme sur téléphone basique.",
+    "note": "Dans un marché saturé de messages publicitaires, nous transformons l'écoute musicale en un point de contact ciblé, culturel et mémorable.",
+    "talkAboutCampaign": "Parler de ma campagne",
+    "channelsAria": "Canaux de diffusion",
+    "channels": {
+      "app": "App",
+      "miniApp": "Mini-app",
+      "kaiOS": "KaiOS",
+      "ussd": "USSD",
+      "bunda": "Forfait Bunda"
+    },
+    "heroImageAlt": "Artiste jouant de la guitare sur scène, ambiance mawata",
+    "mediaGround": "Terrain média",
+    "mediaGroundValue": "100 % tchadien",
+    "soundCardText": "Un message qui s'écoute.",
+    "keyFigureAria": "Chiffre clé",
+    "signal": {
+      "label": "Musique",
+      "value": "Top 3",
+      "description": "des principaux centres d'intérêt des utilisateurs au Tchad, après le football et les paris sportifs."
+    },
+    "why": {
+      "eyebrow": "Pourquoi AsraPa",
+      "title": "Une audience que les autres plateformes ne voient pas.",
+      "cardA": {
+        "title": "Une audience introuvable ailleurs.",
+        "body": "App, mini-app, KaiOS, USSD et réseau Forfait Bunda : AsraPa touche des publics que les majors mondiales du streaming ne couvrent pas au Tchad."
+      },
+      "cardB": {
+        "title": "Une identité forte.",
+        "body": "Chaque campagne s'inscrit dans un univers 100 % tchadien, au cœur des usages et de la culture locale, pas dans un flux générique."
+      },
+      "cardC": {
+        "title": "Une data qui vous appartient.",
+        "body": "Les premières données structurées sur l'écoute musicale au Tchad vous aident à mieux comprendre vos audiences et à affiner vos prochaines campagnes."
+      }
+    },
+    "formats": {
+      "eyebrow": "Nos formats",
+      "title": "De l'audio à l'écran. Du smartphone au téléphone basique.",
+      "subtitle": "Une campagne cohérente, adaptée à chaque usage et pensée pour garder l'attention.",
+      "audio": {
+        "tag": "15–30 sec",
+        "title": "Spot audio",
+        "body": "Diffusé entre les titres. Un message entendu sans distraction et sans dépendre de l'écran."
+      },
+      "visual": {
+        "tag": "App + KaiOS",
+        "title": "Visuel compagnon",
+        "body": "Une bannière affichée pendant le spot pour renforcer la mémorisation de votre campagne."
+      },
+      "canvas": {
+        "tag": "Inclus",
+        "title": "Habillage Canvas",
+        "body": "Une image ou une courte boucle qui personnalise l'écran d'écoute pendant votre campagne, sans surcoût."
+      },
+      "voice": {
+        "tag": "Exclusif",
+        "title": "Message vocal USSD/SMS",
+        "body": "Un format propre à AsraPa pour toucher les téléphones basiques, là où l'audio classique n'existe pas."
+      },
+      "playlist": {
+        "tag": "Accueil",
+        "title": "Playlist sponsorisée",
+        "body": "Une sélection musicale associée à votre marque et mise en avant sur la page d'accueil."
+      }
+    },
+    "solutions": {
+      "eyebrow": "Au-delà du spot",
+      "title": "Votre marque devient un moment culturel.",
+      "subtitle": "Des dispositifs pensés pour associer votre identité aux artistes, aux temps forts et aux communautés.",
+      "sponsoring": {
+        "kicker": "Sponsoring & Naming",
+        "title": "Ne coupez pas l'écoute. Entrez dans le moment.",
+        "item1Strong": "Rubriques nommées",
+        "item1Rest": ": « La Playlist de Noël, présentée par votre marque ».",
+        "item2Strong": "Sponsoring d'événements",
+        "item2Rest": ": concerts, sorties d'albums et exclusivités AsraPa.",
+        "item3Strong": "Habillage saisonnier",
+        "item3Rest": ": votre identité sur l'app pendant une période clé."
+      },
+      "endorsement": {
+        "kicker": "Endorsement artiste",
+        "title": "La crédibilité culturelle, en accès direct.",
+        "item1Strong": "Association marque × artiste",
+        "item1Rest": "dans les contenus éditoriaux et les réseaux.",
+        "item2Strong": "Contenu co-créé",
+        "item2Rest": ": freestyle, clip ou session live pour votre marque.",
+        "item3Strong": "Prise de parole artiste",
+        "item3Rest": ": témoignage ou apparition dans votre campagne."
+      }
+    },
+    "crossmedia": {
+      "eyebrow": "Crossmedia / Transmedia",
+      "title": "Une idée. Plusieurs points de contact.",
+      "body": "Teasing sur les réseaux, écoute sur l'app, jeu-concours par USSD et activation terrain via le réseau Forfait Bunda : chaque canal joue un rôle différent pour maximiser la portée.",
+      "mapAria": "Parcours crossmedia",
+      "step1Title": "Réseaux",
+      "step1Label": "Attirer",
+      "step2Title": "App AsraPa",
+      "step2Label": "Faire écouter",
+      "step3Title": "USSD",
+      "step3Label": "Faire participer",
+      "step4Title": "Bunda",
+      "step4Label": "Activer le terrain"
+    },
+    "start": {
+      "eyebrow": "Comment démarrer",
+      "title": "Votre campagne peut commencer ici.",
+      "step1Strong": "Contactez-nous",
+      "step1Rest": "via WhatsApp au +235 87 50 91 91.",
+      "step2Strong": "Construisons l'offre",
+      "step2Rest": "selon votre format, votre budget et votre durée.",
+      "step3Strong": "Diffusez et suivez",
+      "step3Rest": "votre campagne auprès des bonnes audiences.",
+      "cta": "Discuter de mon projet"
+    }
+  },
+  "articleGuidePage": {
+    "heroImageAlt": "Silhouette d'un artiste sur scène pendant un concert",
+    "readMore": "Lire la suite",
+    "readArticle": "Lire l'article : {{title}}",
+    "tagline": "AsraPa · Un Son, Une Identité, Un Peuple.",
+    "article1": {
+      "title": "Pourquoi un artiste a-t-il besoin d'un manager ?",
+      "description": "Découvrez comment un manager accompagne la carrière d'un artiste et l'aide à transformer son talent en véritable projet professionnel.",
+      "body": [
+        "Le talent est essentiel, mais il ne suffit pas toujours pour construire une carrière durable. Le manager accompagne l'artiste dans ses décisions, organise son calendrier, recherche des opportunités et facilite les relations avec les médias, les producteurs, les organisateurs et les partenaires.",
+        "Il aide également l'artiste à définir son identité, préparer ses sorties musicales et développer une stratégie de communication cohérente. Pendant que l'artiste se concentre sur la création, le manager veille à la bonne organisation de sa carrière.",
+        "Un bon manager ne décide pas à la place de l'artiste. Il l'écoute, le conseille et protège ses intérêts. Pour réussir cette collaboration, les responsabilités, les commissions et la durée du partenariat doivent être clairement définies dans un contrat.",
+        "Bien choisir son manager, c'est choisir une personne de confiance capable de comprendre sa vision et de l'accompagner vers ses objectifs."
+      ]
+    },
+    "article2": {
+      "title": "Comment protéger sa musique avant sa sortie ?",
+      "description": "Quelques précautions essentielles permettent aux artistes et producteurs de protéger leurs œuvres avant leur publication.",
+      "body": [
+        "Avant de publier une chanson, l'artiste doit pouvoir prouver qu'il en est l'auteur ou qu'il possède les autorisations nécessaires pour l'exploiter.",
+        "Il est important de conserver les différentes versions du morceau, les fichiers du studio, les dates de création et les échanges entre les collaborateurs. Les rôles de chaque participant, auteur, compositeur, interprète, beatmaker, producteur ou ingénieur du son, doivent être clairement précisés.",
+        "Lorsqu'une œuvre est réalisée par plusieurs personnes, un accord écrit doit déterminer les droits et les parts de chacun. L'artiste doit également éviter de diffuser trop tôt une version complète de son morceau sur les réseaux sociaux.",
+        "Protéger sa musique ne signifie pas seulement empêcher le vol. C'est aussi organiser correctement ses droits afin de pouvoir diffuser, promouvoir et monétiser son œuvre dans de bonnes conditions."
+      ]
+    },
+    "article3": {
+      "title": "Protéger notre culture, c'est préserver notre avenir",
+      "description": "Nos langues, nos rythmes et nos histoires constituent une mémoire précieuse qu'il faut transmettre aux générations futures.",
+      "body": [
+        "La culture raconte qui nous sommes. Elle vit dans nos langues, nos chants, nos instruments, nos danses et les histoires transmises par nos parents.",
+        "Lorsqu'une musique traditionnelle disparaît sans avoir été enregistrée, c'est une partie de notre mémoire collective qui s'efface. Les artistes ont donc un rôle essentiel : créer, documenter et transmettre notre patrimoine avec les outils d'aujourd'hui.",
+        "Le numérique permet de conserver nos œuvres et de les rendre accessibles partout dans le monde. Une chanson diffusée en ligne peut reconnecter un jeune à ses origines et faire découvrir la richesse culturelle tchadienne à de nouveaux publics.",
+        "Protéger notre culture, ce n'est pas refuser la modernité. C'est utiliser la modernité pour donner une nouvelle vie à notre héritage et le transmettre avec fierté."
+      ]
+    },
+    "article4": {
+      "title": "Pourquoi choisir AsraPa pour diffuser votre musique ?",
+      "description": "AsraPa offre aux artistes un espace consacré à la découverte, à la valorisation et au rayonnement de la musique tchadienne.",
+      "body": [
+        "AsraPa est une plateforme conçue pour rapprocher les artistes tchadiens de leur public, au Tchad comme dans la diaspora.",
+        "Choisir AsraPa, c'est rejoindre un espace qui comprend notre musique, nos réalités et la diversité de notre culture. Chaque artiste peut y présenter son univers, faire découvrir ses œuvres et renforcer sa relation avec ses auditeurs.",
+        "Pour le public, AsraPa permet de retrouver plus facilement les artistes, les chansons et les sonorités qui représentent le Tchad. Pour les créateurs, la plateforme constitue une nouvelle vitrine numérique capable d'accompagner leur visibilité et le développement de leur carrière.",
+        "En choisissant AsraPa, artistes et auditeurs participent ensemble à la construction d'un écosystème musical plus fort. Notre musique mérite d'être écoutée, valorisée et transmise. AsraPa lui offre un espace pour rayonner."
+      ]
+    }
   }
 }
