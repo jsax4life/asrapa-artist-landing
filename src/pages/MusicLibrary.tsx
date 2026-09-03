@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AppSidebar } from "@/components/dashboard-components/AppSidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/dashboard-sidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,6 +32,7 @@ interface CombinedRelease {
 }
 
 const MusicLibrary = () => {
+  const { t, i18n } = useTranslation();
   const [singles, setSingles] = useState<CombinedRelease[]>([]);
   const [albums, setAlbums] = useState<CombinedRelease[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -92,10 +94,10 @@ const MusicLibrary = () => {
       setAlbums(albumsData);
     } catch (error) {
       console.error('Error refreshing data:', error);
-      const errorMessage = error instanceof ApiError ? error.message : 'Impossible de charger la bibliothèque musicale';
+      const errorMessage = error instanceof ApiError ? error.message : t('musicLibraryPage.toast.loadErrorDescription');
       setError(errorMessage);
       toast({
-        title: "Erreur de chargement",
+        title: t('musicLibraryPage.toast.loadErrorTitle'),
         description: errorMessage,
         variant: "destructive",
       });
@@ -133,23 +135,23 @@ const MusicLibrary = () => {
       case 'active':
       case 'distributed':
       case 'published':
-        return 'Actif';
+        return t('musicLibraryPage.status.active');
       case 'pending':
       case 'under review':
-        return 'En attente';
+        return t('musicLibraryPage.status.pending');
       case 'upcoming':
-        return 'À venir';
+        return t('musicLibraryPage.status.upcoming');
       case 'archived':
-        return 'Archivé';
+        return t('musicLibraryPage.status.archived');
       case 'draft':
-        return 'Brouillon';
+        return t('musicLibraryPage.status.draft');
       default:
         return status;
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    return new Date(dateString).toLocaleDateString(i18n.language, {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
@@ -164,16 +166,16 @@ const MusicLibrary = () => {
   const handleEditRelease = (release: CombinedRelease) => {
     // TODO: Implement edit functionality
     toast({
-      title: "Fonctionnalité bientôt disponible",
-      description: "La modification sera disponible dans une prochaine mise à jour.",
+      title: t('musicLibraryPage.toast.comingSoonTitle'),
+      description: t('musicLibraryPage.toast.editComingSoonDescription'),
     });
   };
 
   const handleAnalyticsRelease = (release: CombinedRelease) => {
     // TODO: Navigate to analytics page with release filter
     toast({
-      title: "Fonctionnalité bientôt disponible",
-      description: "Les statistiques détaillées par titre seront bientôt disponibles.",
+      title: t('musicLibraryPage.toast.comingSoonTitle'),
+      description: t('musicLibraryPage.toast.analyticsComingSoonDescription'),
     });
   };
 
@@ -190,14 +192,14 @@ const MusicLibrary = () => {
       }
 
       toast({
-        title: "Sortie supprimée",
-        description: `« ${release.title} » a été supprimé avec succès.`,
+        title: t('musicLibraryPage.toast.deleteSuccessTitle'),
+        description: t('musicLibraryPage.toast.deleteSuccessDescription', { title: release.title }),
       });
     } catch (error) {
       console.error('Error deleting release:', error);
-      const errorMessage = error instanceof ApiError ? error.message : 'Échec de la suppression';
+      const errorMessage = error instanceof ApiError ? error.message : t('musicLibraryPage.toast.deleteErrorDescription');
       toast({
-        title: "Échec de la suppression",
+        title: t('musicLibraryPage.toast.deleteErrorTitle'),
         description: errorMessage,
         variant: "destructive",
       });
@@ -211,14 +213,14 @@ const MusicLibrary = () => {
       return (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           {emptyIcon}
-          <h3 className="text-lg font-medium text-foreground mb-2 mt-4">Aucune musique pour le moment</h3>
+          <h3 className="text-lg font-medium text-foreground mb-2 mt-4">{t('musicLibraryPage.emptyState.title')}</h3>
           <p className="text-muted-foreground mb-4">
             {emptyMessage}
           </p>
           <Link to="/upload">
             <Button className="bg-primary hover:bg-primary-dark text-primary-foreground">
               <Upload className="h-4 w-4 mr-2" />
-              Téléverser de la musique
+              {t('musicLibraryPage.emptyState.uploadButton')}
             </Button>
           </Link>
         </div>
@@ -240,7 +242,7 @@ const MusicLibrary = () => {
                   <span className="text-sm text-muted-foreground ml-1">({release.type})</span>
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  {release.genre} • Sortie le {formatDate(release.releaseDate)}
+                  {t('musicLibraryPage.list.releaseInfo', { genre: release.genre, date: formatDate(release.releaseDate) })}
                 </p>
                 {release.caption && (
                   <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
@@ -253,22 +255,22 @@ const MusicLibrary = () => {
                   </span>
                   {release.songsCount && (
                     <span className="text-xs text-muted-foreground">
-                      {release.songsCount} titre{release.songsCount !== 1 ? 's' : ''}
+                      {t('musicLibraryPage.list.songsCount', { count: release.songsCount })}
                     </span>
                   )}
                   {release.downloads && (
                     <span className="text-xs text-muted-foreground">
-                      {release.downloads} téléchargements
+                      {t('musicLibraryPage.list.downloads', { count: release.downloads })}
                     </span>
                   )}
                   {release.streams && (
                     <span className="text-xs text-muted-foreground">
-                      {release.streams} écoutes
+                      {t('musicLibraryPage.list.streams', { count: release.streams })}
                     </span>
                   )}
                   {release.likesCount && (
                     <span className="text-xs text-muted-foreground">
-                      {release.likesCount} mentions J'aime
+                      {t('musicLibraryPage.list.likes', { count: release.likesCount })}
                     </span>
                   )}
                 </div>
@@ -296,50 +298,54 @@ const MusicLibrary = () => {
                         {release.title}
                       </DialogTitle>
                       <DialogDescription>
-                        {release.type === 'Single' ? 'Single' : 'Album'} • {release.genre} • Sorti le {formatDate(release.releaseDate)}
+                        {t('musicLibraryPage.dialog.subtitle', {
+                          type: release.type === 'Single' ? t('musicLibraryPage.dialog.single') : t('musicLibraryPage.dialog.album'),
+                          genre: release.genre,
+                          date: formatDate(release.releaseDate),
+                        })}
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <h4 className="font-medium text-sm text-muted-foreground">Statut</h4>
+                          <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.dialog.status')}</h4>
                           <span className={`text-sm font-semibold px-2 py-1 rounded-full inline-block ${getStatusColor(release.status)}`}>
                             {translateStatus(release.status)}
                           </span>
                         </div>
                         <div>
-                          <h4 className="font-medium text-sm text-muted-foreground">Type</h4>
-                          <p className="text-sm">{release.type === 'Single' ? 'Single' : 'Album'}</p>
+                          <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.dialog.type')}</h4>
+                          <p className="text-sm">{release.type === 'Single' ? t('musicLibraryPage.dialog.single') : t('musicLibraryPage.dialog.album')}</p>
                         </div>
                       </div>
                       {release.caption && (
                         <div>
-                          <h4 className="font-medium text-sm text-muted-foreground">Description</h4>
+                          <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.dialog.description')}</h4>
                           <p className="text-sm">{release.caption}</p>
                         </div>
                       )}
                       <div className="grid grid-cols-2 gap-4">
                         {release.downloads && (
                           <div>
-                            <h4 className="font-medium text-sm text-muted-foreground">Téléchargements</h4>
+                            <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.dialog.downloads')}</h4>
                             <p className="text-sm font-medium">{release.downloads.toLocaleString()}</p>
                           </div>
                         )}
                         {release.streams && (
                           <div>
-                            <h4 className="font-medium text-sm text-muted-foreground">Écoutes</h4>
+                            <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.dialog.streams')}</h4>
                             <p className="text-sm font-medium">{release.streams.toLocaleString()}</p>
                           </div>
                         )}
                         {release.songsCount && (
                           <div>
-                            <h4 className="font-medium text-sm text-muted-foreground">Titres</h4>
+                            <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.dialog.songs')}</h4>
                             <p className="text-sm font-medium">{release.songsCount}</p>
                           </div>
                         )}
                         {release.likesCount && (
                           <div>
-                            <h4 className="font-medium text-sm text-muted-foreground">Mentions J'aime</h4>
+                            <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.dialog.likes')}</h4>
                             <p className="text-sm font-medium">{release.likesCount}</p>
                           </div>
                         )}
@@ -382,18 +388,20 @@ const MusicLibrary = () => {
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Supprimer {release.type === 'Single' ? 'ce single' : 'cet album'}</AlertDialogTitle>
+                      <AlertDialogTitle>
+                        {release.type === 'Single' ? t('musicLibraryPage.deleteDialog.titleSingle') : t('musicLibraryPage.deleteDialog.titleAlbum')}
+                      </AlertDialogTitle>
                       <AlertDialogDescription>
-                        Êtes-vous sûr de vouloir supprimer « {release.title} » ? Cette action est irréversible.
+                        {t('musicLibraryPage.deleteDialog.description', { title: release.title })}
                         {release.type === 'Album' && release.songsCount && (
                           <span className="block mt-2 text-primary font-medium">
-                            Cela supprimera également les {release.songsCount} titre{release.songsCount !== 1 ? 's' : ''} de cet album.
+                            {t('musicLibraryPage.deleteDialog.albumWarning', { count: release.songsCount })}
                           </span>
                         )}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Annuler</AlertDialogCancel>
+                      <AlertDialogCancel>{t('musicLibraryPage.deleteDialog.cancel')}</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={() => handleDeleteRelease(release)}
                         className="bg-destructive hover:bg-destructive/90"
@@ -402,10 +410,10 @@ const MusicLibrary = () => {
                         {isDeleting ? (
                           <>
                             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            Suppression...
+                            {t('musicLibraryPage.deleteDialog.deleting')}
                           </>
                         ) : (
-                          'Supprimer'
+                          t('musicLibraryPage.deleteDialog.confirm')
                         )}
                       </AlertDialogAction>
                     </AlertDialogFooter>
@@ -427,12 +435,12 @@ const MusicLibrary = () => {
           <div className="flex-1 flex flex-col">
             <header className="h-16 flex items-center border-b border-border bg-card px-6">
               <SidebarTrigger className="mr-4" />
-              <h2 className="text-lg font-semibold text-foreground">Bibliothèque musicale</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t('musicLibraryPage.header.title')}</h2>
             </header>
             <main className="flex-1 flex items-center justify-center">
               <div className="flex flex-col items-center gap-4">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="text-muted-foreground">Chargement de votre bibliothèque musicale...</p>
+                <p className="text-muted-foreground">{t('musicLibraryPage.loading.message')}</p>
               </div>
             </main>
           </div>
@@ -449,14 +457,14 @@ const MusicLibrary = () => {
           <div className="flex-1 flex flex-col">
             <header className="h-16 flex items-center border-b border-border bg-card px-6">
               <SidebarTrigger className="mr-4" />
-              <h2 className="text-lg font-semibold text-foreground">Bibliothèque musicale</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t('musicLibraryPage.header.title')}</h2>
             </header>
             <main className="flex-1 flex items-center justify-center">
               <div className="flex flex-col items-center gap-4">
                 <AlertCircle className="h-8 w-8 text-destructive" />
                 <p className="text-destructive">{error}</p>
                 <Button onClick={() => window.location.reload()}>
-                  Réessayer
+                  {t('musicLibraryPage.error.retry')}
                 </Button>
               </div>
             </main>
@@ -473,7 +481,7 @@ const MusicLibrary = () => {
         <div className="flex-1 flex flex-col">
           <header className="h-16 flex items-center border-b border-border bg-card px-6">
             <SidebarTrigger className="mr-4" />
-            <h2 className="text-lg font-semibold text-foreground">Bibliothèque musicale</h2>
+            <h2 className="text-lg font-semibold text-foreground">{t('musicLibraryPage.header.title')}</h2>
           </header>
 
           <main className="flex-1 overflow-auto">
@@ -482,15 +490,15 @@ const MusicLibrary = () => {
               {/* Upload Music CTA */}
               <Card className="bg-card border-border shadow-card animate-fade-in flex flex-col sm:flex-row items-center justify-between p-6">
                 <div>
-                  <CardTitle className="text-xl font-bold text-foreground">Prêt à partager de la nouvelle musique ?</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('musicLibraryPage.cta.title')}</CardTitle>
                   <CardDescription className="text-muted-foreground mt-1">
-                    Téléversez vos derniers titres et albums pour toucher vos fans.
+                    {t('musicLibraryPage.cta.description')}
                   </CardDescription>
                 </div>
                 <Link to="/upload">
                   <Button className="mt-4 sm:mt-0 bg-primary hover:bg-primary-dark text-primary-foreground flex items-center gap-2">
                     <Upload className="h-5 w-5" />
-                    Téléverser de la musique
+                    {t('musicLibraryPage.cta.button')}
                   </Button>
                 </Link>
               </Card>
@@ -498,9 +506,9 @@ const MusicLibrary = () => {
               {/* Music Library with Tabs */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Votre bibliothèque musicale</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('musicLibraryPage.card.title')}</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Gérez vos singles et albums ({singles.length + albums.length} au total).
+                    {t('musicLibraryPage.card.description', { count: singles.length + albums.length })}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -508,44 +516,44 @@ const MusicLibrary = () => {
                     <TabsList className="grid w-full grid-cols-2">
                       <TabsTrigger value="singles" className="flex items-center gap-2">
                         <Mic className="h-4 w-4" />
-                        Singles ({singles.length})
+                        {t('musicLibraryPage.tabs.singles', { count: singles.length })}
                       </TabsTrigger>
                       <TabsTrigger value="albums" className="flex items-center gap-2">
                         <Disc3 className="h-4 w-4" />
-                        Albums ({albums.length})
+                        {t('musicLibraryPage.tabs.albums', { count: albums.length })}
                       </TabsTrigger>
                     </TabsList>
-                    
+
                     <TabsContent value="singles" className="mt-6">
                       <Card>
                         <CardHeader>
-                          <CardTitle className="text-lg font-semibold text-foreground">Singles</CardTitle>
+                          <CardTitle className="text-lg font-semibold text-foreground">{t('musicLibraryPage.tabs.singlesTitle')}</CardTitle>
                           <CardDescription className="text-muted-foreground">
-                            Vos titres publiés individuellement.
+                            {t('musicLibraryPage.tabs.singlesDescription')}
                           </CardDescription>
                         </CardHeader>
                         <CardContent>
                           {renderReleaseList(
                             singles,
-                            "Commencez par téléverser votre premier single.",
+                            t('musicLibraryPage.emptyState.singles'),
                             <Mic className="h-12 w-12 text-muted-foreground" />
                           )}
                         </CardContent>
                       </Card>
                     </TabsContent>
-                    
+
                     <TabsContent value="albums" className="mt-6">
                       <Card>
                         <CardHeader>
-                          <CardTitle className="text-lg font-semibold text-foreground">Albums</CardTitle>
+                          <CardTitle className="text-lg font-semibold text-foreground">{t('musicLibraryPage.tabs.albumsTitle')}</CardTitle>
                           <CardDescription className="text-muted-foreground">
-                            Vos albums et collections publiés.
+                            {t('musicLibraryPage.tabs.albumsDescription')}
                           </CardDescription>
                         </CardHeader>
                         <CardContent>
                           {renderReleaseList(
                             albums,
-                            "Créez votre premier album pour regrouper plusieurs titres.",
+                            t('musicLibraryPage.emptyState.albums'),
                             <Disc3 className="h-12 w-12 text-muted-foreground" />
                           )}
                         </CardContent>

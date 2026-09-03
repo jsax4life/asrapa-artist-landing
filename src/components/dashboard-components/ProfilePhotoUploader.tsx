@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { Camera, Loader2 } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
@@ -21,6 +22,7 @@ const badgeSizeClasses = {
 };
 
 export function ProfilePhotoUploader({ fallbackSrc, className, size = "md" }: ProfilePhotoUploaderProps) {
+  const { t } = useTranslation();
   const { user, updateUser } = useAuth();
   const { toast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -36,8 +38,8 @@ export function ProfilePhotoUploader({ fallbackSrc, className, size = "md" }: Pr
 
     if (!file.type.startsWith("image/")) {
       toast({
-        title: "Type de fichier invalide",
-        description: "Sélectionnez une image (JPEG, PNG, WebP).",
+        title: t('profilePhotoUploader.invalidFileTypeTitle'),
+        description: t('profilePhotoUploader.invalidFileTypeDescription'),
         variant: "destructive",
       });
       return;
@@ -54,14 +56,14 @@ export function ProfilePhotoUploader({ fallbackSrc, className, size = "md" }: Pr
         updateUser({ profilePhotoUrl: updatedArtist.profilePicture });
       }
       toast({
-        title: "Photo de profil mise à jour",
-        description: "Votre nouvelle photo est enregistrée.",
+        title: t('profilePhotoUploader.updateSuccessTitle'),
+        description: t('profilePhotoUploader.updateSuccessDescription'),
       });
     } catch (error) {
       setPreview(null);
-      const errorMessage = error instanceof ApiError ? error.message : "Impossible de mettre à jour la photo de profil.";
+      const errorMessage = error instanceof ApiError ? error.message : t('profilePhotoUploader.updateFailedDescription');
       toast({
-        title: "Échec de la mise à jour",
+        title: t('profilePhotoUploader.updateFailedTitle'),
         description: errorMessage,
         variant: "destructive",
       });
@@ -74,14 +76,14 @@ export function ProfilePhotoUploader({ fallbackSrc, className, size = "md" }: Pr
     <div className={`relative shrink-0 ${className ?? ""}`}>
       <img
         src={currentSrc}
-        alt="Photo de profil de l'artiste"
+        alt={t('profilePhotoUploader.photoAlt')}
         className={`${sizeClasses[size]} rounded-full border-4 border-primary-foreground/20 shadow-accent object-cover`}
       />
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={isUploading}
-        aria-label="Changer la photo de profil"
+        aria-label={t('profilePhotoUploader.changePhoto')}
         className={`absolute bottom-0 right-0 grid ${badgeSizeClasses[size]} place-items-center rounded-full bg-black/70 border-2 border-primary-foreground/20 text-primary-foreground hover:bg-black/90 transition-colors disabled:opacity-70`}
       >
         {isUploading ? (

@@ -52,7 +52,10 @@
     "events": "Événements",
     "genres": "Genres",
     "logOut": "Se déconnecter",
-    "musicArtist": "Artiste musical"
+    "musicArtist": "Artiste musical",
+    "profilePhotoAlt": "Photo de profil",
+    "logoutToastTitle": "Déconnexion réussie",
+    "logoutToastDescription": "Vous avez été déconnecté de votre compte."
   },
   "genres": {
     "title": "Gestion des genres",
@@ -361,5 +364,576 @@
       "s1": "Les présentes Conditions Générales sont régies par le droit tchadien et les dispositions de l'Accord de Bangui de l'OAPI.",
       "s2": "Tout litige relatif à l'interprétation ou à l'exécution des présentes Conditions Générales relève de la compétence des tribunaux du Tchad."
     }
+  },
+  "dashboardHome": {
+    "header": {
+      "title": "Tableau de bord artiste"
+    },
+    "welcome": {
+      "title": "Bon retour, {{name}}",
+      "defaultName": "Artiste",
+      "subtitle": "Artiste musical",
+      "memberSince": "Membre depuis {{date}}",
+      "recently": "récemment"
+    },
+    "stats": {
+      "totalStreams": "Écoutes totales",
+      "monthlyListeners": "Auditeurs mensuels",
+      "releasedTracks": "Titres sortis",
+      "growthRate": "Taux de croissance"
+    },
+    "recentReleases": {
+      "title": "Sorties récentes",
+      "empty": "Aucune sortie pour le moment.",
+      "streams": "{{count}} écoutes"
+    },
+    "performanceChart": {
+      "title": "Aperçu des performances",
+      "description": "Écoutes et lectures des 7 derniers mois",
+      "streamsLegend": "Écoutes",
+      "playsLegend": "Lectures",
+      "months": {
+        "jan": "Janv.",
+        "feb": "Févr.",
+        "mar": "Mars",
+        "apr": "Avr.",
+        "may": "Mai",
+        "jun": "Juin",
+        "jul": "Juil."
+      }
+    },
+    "quickActions": {
+      "title": "Actions rapides",
+      "comingSoonTitle": "Fonctionnalité bientôt disponible",
+      "comingSoonDescription": "{{feature}} sera disponible dans une prochaine mise à jour.",
+      "uploadTrack": {
+        "title": "Téléverser un titre",
+        "description": "Ajouter un nouveau morceau à votre bibliothèque"
+      },
+      "viewLibrary": {
+        "title": "Voir ma bibliothèque",
+        "description": "Gérer vos singles et albums"
+      },
+      "shareContent": {
+        "title": "Partager du contenu",
+        "description": "Promouvoir sur les réseaux sociaux",
+        "featureName": "Le partage de contenu"
+      },
+      "viewStats": {
+        "title": "Voir les statistiques",
+        "description": "Analyse détaillée des performances"
+      }
+    }
+  },
+  "analyticsPage": {
+    "header": {
+      "title": "Aperçu analytique"
+    },
+    "chart": {
+      "months": {
+        "jan": "Janv.",
+        "feb": "Févr.",
+        "mar": "Mars",
+        "apr": "Avr.",
+        "may": "Mai",
+        "jun": "Juin",
+        "jul": "Juil."
+      },
+      "revenueLabel": "Revenus",
+      "streamsLabel": "Écoutes"
+    },
+    "stats": {
+      "totalRevenue": "Revenus totaux",
+      "totalStreams": "Écoutes totales",
+      "uniqueListeners": "Auditeurs uniques",
+      "pageViews": "Vues de page"
+    },
+    "performance": {
+      "title": "Performance globale",
+      "description": "Revenus et écoutes des 7 derniers mois"
+    },
+    "topContent": {
+      "title": "Titres/Albums les plus écoutés",
+      "description": "Votre contenu le plus populaire.",
+      "empty": "Ce détail sera disponible dès que vous aurez des écoutes."
+    },
+    "geo": {
+      "title": "Répartition géographique",
+      "description": "Où se trouve votre audience.",
+      "empty": "La carte de vos auditeurs s'affichera ici dès le lancement."
+    },
+    "demographics": {
+      "title": "Démographie des auditeurs",
+      "description": "Âge et genre de votre audience.",
+      "empty": "Ces statistiques s'afficheront ici dès que vous aurez des auditeurs."
+    },
+    "engagement": {
+      "title": "Indicateurs d'engagement",
+      "description": "Comment les auditeurs interagissent avec votre musique.",
+      "empty": "Les données sur les partages et favoris s'afficheront ici."
+    }
+  },
+  "audiencePage": {
+    "header": {
+      "title": "Aperçu de l'audience"
+    },
+    "stats": {
+      "totalListeners": "Auditeurs totaux",
+      "newListeners": "Nouveaux auditeurs",
+      "loyalListeners": "Auditeurs fidèles",
+      "engagementRate": "Taux d'engagement"
+    },
+    "demographics": {
+      "title": "Démographie de l'audience",
+      "description": "Répartition par âge et par genre de votre audience.",
+      "ageTitle": "Répartition par âge",
+      "genderTitle": "Répartition par genre",
+      "genderLabels": {
+        "men": "Hommes",
+        "women": "Femmes",
+        "other": "Autre"
+      }
+    },
+    "geography": {
+      "title": "Répartition géographique",
+      "description": "Principales villes où votre musique est écoutée.",
+      "cities": {
+        "ndjamena": "N'Djaména",
+        "moundou": "Moundou",
+        "sarh": "Sarh",
+        "diasporaFrance": "Diaspora (France)",
+        "diasporaOther": "Diaspora (autres pays)"
+      }
+    },
+    "activity": {
+      "title": "Activité des auditeurs",
+      "description": "Auditeurs actifs quotidiens sur le dernier mois.",
+      "dayLabel": "Jour {{count}}"
+    },
+    "sources": {
+      "title": "Origine des auditeurs",
+      "description": "Comment les auditeurs découvrent votre musique.",
+      "items": {
+        "direct": "Direct",
+        "social": "Réseaux sociaux",
+        "playlists": "Playlists",
+        "search": "Recherche",
+        "other": "Autre"
+      }
+    },
+    "percentLabel": "{{label}} : {{percent}} %"
+  },
+  "trendsPage": {
+    "header": {
+      "title": "Tendances musicales"
+    },
+    "stats": {
+      "topTrackTitle": "Titre le plus tendance",
+      "risingArtistTitle": "Artiste en plus forte hausse",
+      "risingArtistChange": "+200K auditeurs la semaine dernière",
+      "trendingGenreTitle": "Genre tendance",
+      "trendingGenreChange": "+15 % de popularité ce mois-ci",
+      "featuredTalentTitle": "Coup de cœur",
+      "featuredTalentValue": "Nouveau talent à l'honneur",
+      "featuredTalentChange": "Décerné à {{artist}}"
+    },
+    "weeklyTrend": {
+      "title": "Tendance hebdomadaire",
+      "description": "Évolution des écoutes et auditeurs sur les 6 dernières semaines.",
+      "weekLabel": "Sem. {{count}}",
+      "streamsLabel": "Écoutes",
+      "listenersLabel": "Auditeurs"
+    },
+    "trendingNow": {
+      "title": "Tendance en ce moment",
+      "description": "Découvrez les titres les plus écoutés du moment."
+    }
+  },
+  "musicLibraryPage": {
+    "header": {
+      "title": "Bibliothèque musicale"
+    },
+    "loading": {
+      "message": "Chargement de votre bibliothèque musicale..."
+    },
+    "error": {
+      "retry": "Réessayer"
+    },
+    "toast": {
+      "loadErrorTitle": "Erreur de chargement",
+      "loadErrorDescription": "Impossible de charger la bibliothèque musicale",
+      "comingSoonTitle": "Fonctionnalité bientôt disponible",
+      "editComingSoonDescription": "La modification sera disponible dans une prochaine mise à jour.",
+      "analyticsComingSoonDescription": "Les statistiques détaillées par titre seront bientôt disponibles.",
+      "deleteSuccessTitle": "Sortie supprimée",
+      "deleteSuccessDescription": "« {{title}} » a été supprimé avec succès.",
+      "deleteErrorTitle": "Échec de la suppression",
+      "deleteErrorDescription": "Échec de la suppression"
+    },
+    "status": {
+      "active": "Actif",
+      "pending": "En attente",
+      "upcoming": "À venir",
+      "archived": "Archivé",
+      "draft": "Brouillon"
+    },
+    "emptyState": {
+      "title": "Aucune musique pour le moment",
+      "singles": "Commencez par téléverser votre premier single.",
+      "albums": "Créez votre premier album pour regrouper plusieurs titres.",
+      "uploadButton": "Téléverser de la musique"
+    },
+    "list": {
+      "releaseInfo": "{{genre}} • Sortie le {{date}}",
+      "songsCount_one": "{{count}} titre",
+      "songsCount_other": "{{count}} titres",
+      "downloads": "{{count}} téléchargements",
+      "streams": "{{count}} écoutes",
+      "likes": "{{count}} mentions J'aime"
+    },
+    "dialog": {
+      "status": "Statut",
+      "type": "Type",
+      "description": "Description",
+      "downloads": "Téléchargements",
+      "streams": "Écoutes",
+      "songs": "Titres",
+      "likes": "Mentions J'aime",
+      "single": "Single",
+      "album": "Album",
+      "subtitle": "{{type}} • {{genre}} • Sorti le {{date}}"
+    },
+    "deleteDialog": {
+      "titleSingle": "Supprimer ce single",
+      "titleAlbum": "Supprimer cet album",
+      "description": "Êtes-vous sûr de vouloir supprimer « {{title}} » ? Cette action est irréversible.",
+      "albumWarning_one": "Cela supprimera également les {{count}} titre de cet album.",
+      "albumWarning_other": "Cela supprimera également les {{count}} titres de cet album.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer",
+      "deleting": "Suppression..."
+    },
+    "cta": {
+      "title": "Prêt à partager de la nouvelle musique ?",
+      "description": "Téléversez vos derniers titres et albums pour toucher vos fans.",
+      "button": "Téléverser de la musique"
+    },
+    "card": {
+      "title": "Votre bibliothèque musicale",
+      "description": "Gérez vos singles et albums ({{count}} au total)."
+    },
+    "tabs": {
+      "singles": "Singles ({{count}})",
+      "albums": "Albums ({{count}})",
+      "singlesTitle": "Singles",
+      "singlesDescription": "Vos titres publiés individuellement.",
+      "albumsTitle": "Albums",
+      "albumsDescription": "Vos albums et collections publiés."
+    }
+  },
+  "uploadPage": {
+    "header": {
+      "title": "Téléverser de la musique"
+    },
+    "uploadType": {
+      "title": "Type de téléversement",
+      "description": "Choisissez si vous voulez téléverser un titre seul ou créer un album",
+      "singleLabel": "Titre unique",
+      "singleHint": "Téléverser un seul titre",
+      "albumLabel": "Album",
+      "albumHint": "Créer un album avec plusieurs titres"
+    },
+    "audioFile": {
+      "title": "Fichier audio",
+      "description": "Glissez-déposez votre fichier audio ici, ou cliquez pour parcourir. Formats acceptés : MP3, WAV, FLAC (taille max. 50 Mo)",
+      "uploadingProgress": "Téléversement... {{progress}}%",
+      "uploadComplete": "Téléversement terminé !",
+      "dropzoneText": "Glissez-déposez votre titre ou cliquez pour téléverser",
+      "acceptedFormats": "Formats acceptés : MP3, WAV, FLAC"
+    },
+    "coverPhoto": {
+      "title": "Photo de couverture",
+      "description": "Glissez-déposez votre photo de couverture ici, ou cliquez pour parcourir. Formats acceptés : JPEG, PNG, WebP (taille max. 5 Mo)",
+      "previewAlt": "Aperçu de la couverture",
+      "dropzoneText": "Glissez-déposez votre photo ou cliquez pour téléverser",
+      "acceptedFormats": "Formats acceptés : JPEG, PNG, WebP"
+    },
+    "songDetails": {
+      "title": "Détails du titre",
+      "description": "Renseignez les informations sur votre titre. Cela aide les auditeurs à trouver votre musique.",
+      "titleLabel": "Titre",
+      "titlePlaceholder": "Titre du morceau",
+      "durationLabel": "Durée (secondes)",
+      "durationPlaceholder": "ex. 233",
+      "albumLabel": "Album (optionnel)",
+      "albumPlaceholder": "Sélectionner un album",
+      "genreLabel": "Genre",
+      "collaboratorsLabel": "Collaborateurs (optionnel)",
+      "collaboratorsSelected_one": "{{count}} collaborateur sélectionné",
+      "collaboratorsSelected_other": "{{count}} collaborateurs sélectionnés",
+      "collaboratorsPlaceholder": "Sélectionner des collaborateurs...",
+      "collaboratorsSearchPlaceholder": "Rechercher un artiste...",
+      "collaboratorsEmpty": "Aucun artiste trouvé.",
+      "explicitLabel": "Contenu explicite",
+      "lyricsLabel": "Paroles (optionnel, 10 000 caractères max.)",
+      "lyricsPlaceholder": "Saisissez les paroles ici...",
+      "uploading": "Téléversement...",
+      "publishButton": "Publier le titre"
+    },
+    "genrePicker": {
+      "placeholder": "Sélectionner un genre...",
+      "searchPlaceholder": "Rechercher un genre...",
+      "empty": "Aucun genre trouvé."
+    },
+    "albumCoverPhoto": {
+      "title": "Photo de couverture de l'album",
+      "description": "Téléversez une photo de couverture pour votre album. Formats acceptés : JPEG, PNG, WebP (taille max. 5 Mo)",
+      "previewAlt": "Aperçu de la couverture de l'album",
+      "dropzoneText": "Cliquez pour téléverser la couverture",
+      "acceptedFormats": "Formats acceptés : JPEG, PNG, WebP"
+    },
+    "albumDetails": {
+      "title": "Détails de l'album",
+      "description": "Renseignez les informations sur votre album",
+      "titleLabel": "Titre de l'album",
+      "titlePlaceholder": "Titre de l'album",
+      "releaseDateLabel": "Date de sortie",
+      "genreLabel": "Genre",
+      "explicitLabel": "Contenu explicite",
+      "captionLabel": "Légende (optionnel)",
+      "captionPlaceholder": "Décrivez votre album...",
+      "existingSongsLabel": "Titres existants (optionnel)",
+      "existingSongsSelected_one": "{{count}} titre sélectionné",
+      "existingSongsSelected_other": "{{count}} titres sélectionnés",
+      "existingSongsNoneAvailable": "Aucun titre téléversé disponible",
+      "existingSongsPlaceholder": "Sélectionner des titres existants...",
+      "existingSongsSearchPlaceholder": "Rechercher un titre...",
+      "existingSongsEmpty": "Aucun titre trouvé.",
+      "existingSongsHint": "Sélectionnez des titres déjà téléversés à inclure dans cet album",
+      "creating": "Création de l'album...",
+      "createButton": "Créer l'album"
+    },
+    "newSongs": {
+      "title": "Nouveaux titres",
+      "description": "Téléversez de nouveaux titres pour votre album. Vous pouvez téléverser plusieurs fichiers audio à la fois.",
+      "filesSelected_one": "{{count}} titre sélectionné",
+      "filesSelected_other": "{{count}} titres sélectionnés",
+      "dropzoneText": "Cliquez pour téléverser de nouveaux titres",
+      "acceptedFormats": "Formats acceptés : MP3, WAV, FLAC"
+    },
+    "toast": {
+      "loadErrorTitle": "Erreur de chargement",
+      "loadErrorDescription": "Impossible de charger les artistes et les genres. Actualisez la page.",
+      "invalidFileTypeTitle": "Type de fichier invalide",
+      "invalidAudioFileDescription": "Sélectionnez un fichier audio (MP3, WAV, FLAC).",
+      "invalidImageFileDescription": "Sélectionnez un fichier image (JPEG, PNG, WebP).",
+      "unsupportedFileTypeTitle": "Type de fichier non pris en charge",
+      "unsupportedFileTypeDescription": "Déposez un fichier audio ou image.",
+      "missingAudioFileTitle": "Fichier audio manquant",
+      "missingAudioFileDescription": "Sélectionnez un fichier audio à téléverser.",
+      "missingCoverPhotoTitle": "Photo de couverture manquante",
+      "missingCoverPhotoSongDescription": "Sélectionnez une photo de couverture pour votre titre.",
+      "missingCoverPhotoAlbumDescription": "Sélectionnez une photo de couverture pour votre album.",
+      "missingRequiredFieldsTitle": "Champs obligatoires manquants",
+      "missingRequiredFieldsDescription": "Remplissez tous les champs requis (titre, date de sortie, genre).",
+      "uploadSuccessTitle": "Téléversement réussi",
+      "uploadSuccessDescription": "Votre titre a été téléversé avec succès !",
+      "unexpectedUploadErrorDescription": "Une erreur inattendue s'est produite pendant le téléversement.",
+      "uploadFailedTitle": "Échec du téléversement",
+      "albumCreatedSuccessTitle": "Album créé avec succès",
+      "albumCreatedSuccessDescription": "Votre album a été créé et est en attente de validation !",
+      "unexpectedAlbumErrorDescription": "Une erreur inattendue s'est produite pendant la création de l'album.",
+      "albumCreationFailedTitle": "Échec de la création de l'album",
+      "someFilesIgnoredDescription": "Certains fichiers n'étaient pas des fichiers audio et ont été ignorés."
+    }
+  },
+  "accountSettingsPage": {
+    "pageTitle": "Paramètres",
+    "bannerTitle": "Bannière de profil",
+    "bannerDescription": "Affichée en haut de votre profil public, derrière votre photo.",
+    "profilePhotoTitle": "Photo de profil",
+    "profilePhotoDescription": "Visible par vos fans et sur votre tableau de bord.",
+    "profilePhotoInstructions": "Cliquez sur l'icône appareil photo pour changer votre photo. Formats acceptés : JPEG, PNG, WebP.",
+    "accountInfoTitle": "Informations du compte",
+    "accountInfoDescription": "Votre identité publique et vos coordonnées.",
+    "fullNameLabel": "Nom complet",
+    "stageNameLabel": "Nom de scène",
+    "emailLabel": "E-mail",
+    "countryLabel": "Pays",
+    "countryPlaceholder": "Sélectionnez votre pays",
+    "cityLabel": "Ville",
+    "cityPlaceholder": "Sélectionnez votre ville",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications",
+    "bioTitle": "Biographie",
+    "bioSectionDescription": "Présentez-vous à vos fans. Visible sur votre profil public.",
+    "bioLabel": "Votre biographie",
+    "bioPlaceholder": "Parlez de votre parcours, votre style musical, vos influences...",
+    "saveBio": "Enregistrer la biographie",
+    "securityTitle": "Sécurité",
+    "securityDescription": "Changez votre mot de passe régulièrement pour protéger votre compte.",
+    "currentPasswordLabel": "Mot de passe actuel",
+    "newPasswordLabel": "Nouveau mot de passe",
+    "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+    "changingPassword": "Modification...",
+    "changePassword": "Changer le mot de passe",
+    "profileUpdatedTitle": "Profil mis à jour",
+    "profileUpdatedDescription": "Vos informations ont été enregistrées.",
+    "profileUpdateFailedDescription": "Impossible de mettre à jour le profil.",
+    "updateFailedTitle": "Échec de la mise à jour",
+    "bioUpdatedTitle": "Biographie mise à jour",
+    "bioUpdatedDescription": "Votre biographie a été enregistrée.",
+    "bioUpdateFailedDescription": "Impossible de mettre à jour la biographie.",
+    "passwordsMismatchTitle": "Les mots de passe ne correspondent pas",
+    "passwordsMismatchDescription": "Vérifiez la confirmation de votre nouveau mot de passe.",
+    "passwordTooShortTitle": "Mot de passe trop court",
+    "passwordTooShortDescription": "Le nouveau mot de passe doit contenir au moins 8 caractères.",
+    "passwordChangedTitle": "Mot de passe modifié",
+    "passwordChangedDescription": "Votre mot de passe a été mis à jour avec succès.",
+    "passwordChangeFailedDescription": "Impossible de modifier le mot de passe.",
+    "changeFailedTitle": "Échec de la modification"
+  },
+  "profilePhotoUploader": {
+    "invalidFileTypeTitle": "Type de fichier invalide",
+    "invalidFileTypeDescription": "Sélectionnez une image (JPEG, PNG, WebP).",
+    "updateSuccessTitle": "Photo de profil mise à jour",
+    "updateSuccessDescription": "Votre nouvelle photo est enregistrée.",
+    "updateFailedTitle": "Échec de la mise à jour",
+    "updateFailedDescription": "Impossible de mettre à jour la photo de profil.",
+    "photoAlt": "Photo de profil de l'artiste",
+    "changePhoto": "Changer la photo de profil"
+  },
+  "bannerImageUploader": {
+    "invalidFileTypeTitle": "Type de fichier invalide",
+    "invalidFileTypeDescription": "Sélectionnez une image (JPEG, PNG, WebP).",
+    "updateSuccessTitle": "Bannière mise à jour",
+    "updateSuccessDescription": "Votre nouvelle bannière est enregistrée.",
+    "updateFailedTitle": "Échec de la mise à jour",
+    "updateFailedDescription": "Impossible de mettre à jour la bannière.",
+    "bannerAlt": "Bannière de profil",
+    "noBannerYet": "Aucune bannière pour le moment",
+    "changeBanner": "Changer la bannière de profil",
+    "uploading": "Envoi..."
+  },
+  "eventsPage": {
+    "header": {
+      "title": "Vos événements"
+    },
+    "cta": {
+      "title": "Vous organisez un nouvel événement ?",
+      "description": "Planifiez et faites la promotion de vos concerts, tournées ou événements en ligne.",
+      "button": "Créer un événement"
+    },
+    "list": {
+      "title": "Tous les événements",
+      "description": "Aperçu de vos événements planifiés et passés."
+    },
+    "status": {
+      "upcoming": "À venir",
+      "live": "En direct",
+      "past": "Passé",
+      "cancelled": "Annulé"
+    },
+    "dateTime": "{{date}} à {{time}}"
+  },
+  "pricesPage": {
+    "eyebrow": "Tarifs",
+    "title": "Diffusez votre contenu sur AsraPa.",
+    "subtitle": "Un tarif simple selon votre statut et votre contenu. Pas d'abonnement caché, pas de frais surprise.",
+    "musicTiers": {
+      "independent": {
+        "name": "Artistes indépendants",
+        "tagline": "Vous produisez et distribuez seul.",
+        "rows": [
+          {
+            "label": "Titre (single)",
+            "price": "10 000 FCFA / an"
+          },
+          {
+            "label": "EP",
+            "price": "30 000 FCFA"
+          },
+          {
+            "label": "Album",
+            "price": "100 000 FCFA"
+          }
+        ],
+        "steps": [
+          "Créez votre compte artiste.",
+          "Choisissez le format à publier (titre, EP ou album).",
+          "Réglez le tarif correspondant et envoyez vos fichiers."
+        ]
+      },
+      "labelled": {
+        "name": "Artistes labellisés",
+        "tagline": "Vous êtes accompagné par un label ou un producteur.",
+        "rows": [
+          {
+            "label": "Titre (single)",
+            "price": "5 000 FCFA / an"
+          },
+          {
+            "label": "EP",
+            "price": "15 000 FCFA"
+          },
+          {
+            "label": "Album",
+            "price": "25 000 FCFA / an"
+          }
+        ],
+        "steps": [
+          "Créez votre compte artiste (au nom du label ou du titulaire des droits).",
+          "Renseignez les informations de votre label.",
+          "Réglez le tarif correspondant et envoyez vos fichiers."
+        ]
+      }
+    },
+    "howToAccess": "Comment y accéder",
+    "createAccountCta": "Créer mon compte artiste",
+    "otherContent": {
+      "title": "Autres contenus",
+      "radio": {
+        "name": "Émissions radio",
+        "price": "Sur devis",
+        "detail": "Abonnement sur mesure",
+        "steps": [
+          "Contactez-nous par WhatsApp.",
+          "Décrivez votre émission et sa fréquence.",
+          "Recevez votre devis personnalisé."
+        ],
+        "ctaLabel": "Demander un devis"
+      },
+      "podcast": {
+        "name": "Podcast audio",
+        "price": "10 000 FCFA",
+        "detail": "par épisode",
+        "steps": [
+          "Créez votre compte créateur.",
+          "Téléversez votre épisode.",
+          "Réglez et publiez."
+        ],
+        "ctaLabel": "Créer mon compte"
+      },
+      "sketches": {
+        "name": "Sketchs",
+        "price": "10 000 FCFA",
+        "detail": "par épisode",
+        "steps": [
+          "Créez votre compte créateur.",
+          "Téléversez votre épisode.",
+          "Réglez et publiez."
+        ],
+        "ctaLabel": "Créer mon compte"
+      }
+    },
+    "footer": {
+      "question": "Des questions sur les tarifs ?",
+      "contact": "Contactez-nous sur WhatsApp"
+    }
+  },
+  "notFoundPage": {
+    "title": "404",
+    "message": "Oups ! Page introuvable",
+    "backHome": "Retour à l'accueil"
   }
 }

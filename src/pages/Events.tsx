@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { AppSidebar } from "@/components/dashboard-components/AppSidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/dashboard-sidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -52,6 +53,15 @@ const eventsData: EventData[] = [
 ];
 
 const Events = () => {
+  const { t } = useTranslation();
+
+  const statusLabels: Record<EventData['status'], string> = {
+    Upcoming: t('eventsPage.status.upcoming'),
+    Live: t('eventsPage.status.live'),
+    Past: t('eventsPage.status.past'),
+    Cancelled: t('eventsPage.status.cancelled'),
+  };
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -59,7 +69,7 @@ const Events = () => {
         <div className="flex-1 flex flex-col">
           <header className="h-16 flex items-center border-b border-border bg-card px-6">
             <SidebarTrigger className="mr-4" />
-            <h2 className="text-lg font-semibold text-foreground">Vos événements</h2>
+            <h2 className="text-lg font-semibold text-foreground">{t('eventsPage.header.title')}</h2>
           </header>
 
           <main className="flex-1 overflow-auto">
@@ -68,23 +78,23 @@ const Events = () => {
               {/* Create New Event CTA */}
               <Card className="bg-card border-border shadow-card animate-fade-in flex flex-col sm:flex-row items-center justify-between p-6">
                 <div>
-                  <CardTitle className="text-xl font-bold text-foreground">Vous organisez un nouvel événement ?</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('eventsPage.cta.title')}</CardTitle>
                   <CardDescription className="text-muted-foreground mt-1">
-                    Planifiez et faites la promotion de vos concerts, tournées ou événements en ligne.
+                    {t('eventsPage.cta.description')}
                   </CardDescription>
                 </div>
                 <Button className="mt-4 sm:mt-0 bg-primary hover:bg-primary-dark text-primary-foreground flex items-center gap-2">
                   <CalendarIcon className="h-5 w-5" />
-                  Créer un événement
+                  {t('eventsPage.cta.button')}
                 </Button>
               </Card>
 
               {/* Events List */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">Tous les événements</CardTitle>
+                  <CardTitle className="text-xl font-bold text-foreground">{t('eventsPage.list.title')}</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Aperçu de vos événements planifiés et passés.
+                    {t('eventsPage.list.description')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -98,7 +108,7 @@ const Events = () => {
                           <div className="flex-1">
                             <p className="font-medium text-foreground">{event.name}</p>
                             <p className="text-sm text-muted-foreground flex items-center gap-1">
-                              <CalendarIcon className="h-3 w-3" /> {event.date} à {event.time}
+                              <CalendarIcon className="h-3 w-3" /> {t('eventsPage.dateTime', { date: event.date, time: event.time })}
                             </p>
                             <p className="text-sm text-muted-foreground flex items-center gap-1">
                               <MapPin className="h-3 w-3" /> {event.location}
@@ -109,9 +119,7 @@ const Events = () => {
                                 event.status === 'Past' ? 'bg-white/10 text-white/50' :
                                 'bg-white/10 text-white/40'
                             }`}>
-                              {event.status === 'Upcoming' ? 'À venir' :
-                                event.status === 'Live' ? 'En direct' :
-                                event.status === 'Past' ? 'Passé' : 'Annulé'}
+                              {statusLabels[event.status]}
                             </span>
                           </div>
                           <div className="flex space-x-2">

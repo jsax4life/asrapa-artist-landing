@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { StatsCard } from "@/components/dashboard-components/StatsCard";
 import { PerformanceChart } from "@/components/dashboard-components/PerformanceChart";
 import { RecentReleases } from "@/components/dashboard-components/RecentReleases";
@@ -11,6 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
  
 const Dashboard = () => {
     const { user } = useAuth();
+    const { t, i18n } = useTranslation();
 
     return (
         <SidebarProvider>
@@ -22,7 +24,7 @@ const Dashboard = () => {
                 <div className="flex-1 flex flex-col">
                     <header className="h-16 flex items-center border-b border-border bg-card px-6">
                         <SidebarTrigger className="mr-4" />
-                        <h2 className="text-lg font-semibold text-foreground">Tableau de bord artiste</h2>
+                        <h2 className="text-lg font-semibold text-foreground">{t('dashboardHome.header.title')}</h2>
                     </header>
 
 
@@ -36,16 +38,18 @@ const Dashboard = () => {
             <ProfilePhotoUploader fallbackSrc={artistProfile} />
             <div className="text-primary-foreground text-center sm:text-left">
               <h1 className="text-2xl sm:text-4xl font-bold mb-1 sm:mb-2">
-                Bon retour, {user?.fullName || user?.stageName || 'Artiste'}
+                {t('dashboardHome.welcome.title', { name: user?.fullName || user?.stageName || t('dashboardHome.welcome.defaultName') })}
               </h1>
               <p className="text-lg sm:text-xl opacity-90">
-                {user?.stageName ? `${user.stageName} - ` : ''}Artiste musical
+                {user?.stageName ? `${user.stageName} - ` : ''}{t('dashboardHome.welcome.subtitle')}
               </p>
               <p className="text-xs sm:text-sm opacity-70 mt-1">
-                Membre depuis {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('fr-FR', {
-                  year: 'numeric',
-                  month: 'long'
-                }) : 'récemment'}
+                {t('dashboardHome.welcome.memberSince', {
+                  date: user?.createdAt ? new Date(user.createdAt).toLocaleDateString(i18n.language, {
+                    year: 'numeric',
+                    month: 'long'
+                  }) : t('dashboardHome.welcome.recently')
+                })}
               </p>
             </div>
           </div>
@@ -53,25 +57,25 @@ const Dashboard = () => {
                             {/* Stats Overview */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                 <StatsCard
-                                    title="Écoutes totales"
+                                    title={t('dashboardHome.stats.totalStreams')}
                                     value="0"
                                     icon={Play}
                                     trend="neutral"
                                 />
                                 <StatsCard
-                                    title="Auditeurs mensuels"
+                                    title={t('dashboardHome.stats.monthlyListeners')}
                                     value="0"
                                     icon={Users}
                                     trend="neutral"
                                 />
                                 <StatsCard
-                                    title="Titres sortis"
+                                    title={t('dashboardHome.stats.releasedTracks')}
                                     value="0"
                                     icon={Music}
                                     trend="neutral"
                                 />
                                 <StatsCard
-                                    title="Taux de croissance"
+                                    title={t('dashboardHome.stats.growthRate')}
                                     value="0 %"
                                     icon={TrendingUp}
                                     trend="neutral"

@@ -60,8 +60,8 @@ export function AppSidebar() {
   const handleLogout = () => {
     logout();
     toast({
-      title: "Déconnexion réussie",
-      description: "Vous avez été déconnecté de votre compte.",
+      title: t('sidebar.logoutToastTitle'),
+      description: t('sidebar.logoutToastDescription'),
     });
     navigate(ROUTES.HOME, { replace: true });
   };
@@ -81,7 +81,7 @@ export function AppSidebar() {
           >
             <img
               src={user?.profilePhotoUrl || artistProfile}
-              alt="Photo de profil"
+              alt={t('sidebar.profilePhotoAlt')}
               className="w-10 h-10 rounded-full object-cover border border-primary-foreground/20"
             />
             <div>
@@ -145,7 +145,7 @@ export function AppSidebar() {
                 <SidebarMenuButton asChild>
                   <NavLink to={ROUTES.SETTINGS} className={getNavCls}>
                     <SettingsIcon className={`h-4 w-4 ${collapsed ? "mx-auto" : "mr-3"}`} />
-                    {!collapsed && <span>Paramètres</span>}
+                    {!collapsed && <span>{t('sidebar.settings')}</span>}
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>

@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { Camera, Loader2 } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
@@ -9,6 +10,7 @@ interface BannerImageUploaderProps {
 }
 
 export function BannerImageUploader({ className }: BannerImageUploaderProps) {
+  const { t } = useTranslation();
   const { user, updateUser } = useAuth();
   const { toast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -24,8 +26,8 @@ export function BannerImageUploader({ className }: BannerImageUploaderProps) {
 
     if (!file.type.startsWith("image/")) {
       toast({
-        title: "Type de fichier invalide",
-        description: "Sélectionnez une image (JPEG, PNG, WebP).",
+        title: t('bannerImageUploader.invalidFileTypeTitle'),
+        description: t('bannerImageUploader.invalidFileTypeDescription'),
         variant: "destructive",
       });
       return;
@@ -42,14 +44,14 @@ export function BannerImageUploader({ className }: BannerImageUploaderProps) {
         updateUser({ bannerImageUrl: updatedArtist.bannerImage });
       }
       toast({
-        title: "Bannière mise à jour",
-        description: "Votre nouvelle bannière est enregistrée.",
+        title: t('bannerImageUploader.updateSuccessTitle'),
+        description: t('bannerImageUploader.updateSuccessDescription'),
       });
     } catch (error) {
       setPreview(null);
-      const errorMessage = error instanceof ApiError ? error.message : "Impossible de mettre à jour la bannière.";
+      const errorMessage = error instanceof ApiError ? error.message : t('bannerImageUploader.updateFailedDescription');
       toast({
-        title: "Échec de la mise à jour",
+        title: t('bannerImageUploader.updateFailedTitle'),
         description: errorMessage,
         variant: "destructive",
       });
@@ -61,17 +63,17 @@ export function BannerImageUploader({ className }: BannerImageUploaderProps) {
   return (
     <div className={`relative w-full h-32 sm:h-44 rounded-xl overflow-hidden border border-border bg-muted ${className ?? ""}`}>
       {currentSrc ? (
-        <img src={currentSrc} alt="Bannière de profil" className="w-full h-full object-cover" />
+        <img src={currentSrc} alt={t('bannerImageUploader.bannerAlt')} className="w-full h-full object-cover" />
       ) : (
         <div className="w-full h-full flex items-center justify-center text-sm text-muted-foreground">
-          Aucune bannière pour le moment
+          {t('bannerImageUploader.noBannerYet')}
         </div>
       )}
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={isUploading}
-        aria-label="Changer la bannière de profil"
+        aria-label={t('bannerImageUploader.changeBanner')}
         className="absolute bottom-3 right-3 flex items-center gap-2 rounded-full bg-black/70 border border-primary-foreground/20 text-primary-foreground text-sm px-3 py-2 hover:bg-black/90 transition-colors disabled:opacity-70"
       >
         {isUploading ? (
@@ -79,7 +81,7 @@ export function BannerImageUploader({ className }: BannerImageUploaderProps) {
         ) : (
           <Camera className="size-4" />
         )}
-        {isUploading ? "Envoi..." : "Changer la bannière"}
+        {isUploading ? t('bannerImageUploader.uploading') : t('bannerImageUploader.changeBanner')}
       </button>
       <input
         ref={inputRef}
