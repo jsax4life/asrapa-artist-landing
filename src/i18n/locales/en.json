@@ -605,7 +605,11 @@
       "deleteSuccessTitle": "Release deleted",
       "deleteSuccessDescription": "\"{{title}}\" was successfully deleted.",
       "deleteErrorTitle": "Deletion failed",
-      "deleteErrorDescription": "Deletion failed"
+      "deleteErrorDescription": "Deletion failed",
+      "editSuccessTitle": "Track updated",
+      "editSuccessDescription": "\"{{title}}\" was successfully updated.",
+      "editErrorTitle": "Update failed",
+      "editErrorDescription": "Unable to save changes right now."
     },
     "status": {
       "active": "Active",
@@ -639,6 +643,22 @@
       "single": "Single",
       "album": "Album",
       "subtitle": "{{type}} • {{genre}} • Released on {{date}}"
+    },
+    "editDialog": {
+      "title": "Edit track",
+      "description": "Update the information for \"{{title}}\".",
+      "titleLabel": "Title",
+      "releaseYearLabel": "Release year",
+      "explicitLabel": "Explicit content",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving..."
+    },
+    "analyticsDialog": {
+      "subtitle": "Statistics • {{genre}}",
+      "duration": "Duration",
+      "releaseDate": "Release date",
+      "moreComingSoon": "More detailed statistics (unique listeners, geographic data) are coming in a future update."
     },
     "deleteDialog": {
       "titleSingle": "Delete this single",
@@ -702,6 +722,8 @@
       "titlePlaceholder": "Track title",
       "durationLabel": "Duration (seconds)",
       "durationPlaceholder": "e.g. 233",
+      "releaseYearLabel": "Release year",
+      "releaseYearPlaceholder": "e.g. 2026",
       "albumLabel": "Album (optional)",
       "albumPlaceholder": "Select an album",
       "genreLabel": "Genre",

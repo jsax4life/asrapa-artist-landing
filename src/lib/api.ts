@@ -168,9 +168,10 @@ export interface AlbumUploadResponse {
 }
 
 export interface UploadedSong {
-  id: string;
+  _id: string;
   title: string;
   duration: number;
+  releaseYear?: number;
   album?: {
     title: string;
   };
@@ -954,6 +955,26 @@ export const api = {
       }
       throw new ApiError(
         'Erreur réseau lors du chargement de vos albums. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  async updateSong(songId: string, data: {
+    title?: string;
+    isExplicit?: boolean;
+    releaseYear?: number;
+    genreId?: string;
+  }): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(`/artist/songs/${songId}`, data);
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau lors de la modification du titre. Vérifiez votre connexion.',
         0
       );
     }

@@ -605,7 +605,11 @@
       "deleteSuccessTitle": "Sortie supprimée",
       "deleteSuccessDescription": "« {{title}} » a été supprimé avec succès.",
       "deleteErrorTitle": "Échec de la suppression",
-      "deleteErrorDescription": "Échec de la suppression"
+      "deleteErrorDescription": "Échec de la suppression",
+      "editSuccessTitle": "Titre modifié",
+      "editSuccessDescription": "« {{title}} » a été mis à jour avec succès.",
+      "editErrorTitle": "Échec de la modification",
+      "editErrorDescription": "Impossible d'enregistrer les modifications pour le moment."
     },
     "status": {
       "active": "Actif",
@@ -639,6 +643,22 @@
       "single": "Single",
       "album": "Album",
       "subtitle": "{{type}} • {{genre}} • Sorti le {{date}}"
+    },
+    "editDialog": {
+      "title": "Modifier le titre",
+      "description": "Mettez à jour les informations de « {{title}} ».",
+      "titleLabel": "Titre",
+      "releaseYearLabel": "Année de sortie",
+      "explicitLabel": "Contenu explicite",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "saving": "Enregistrement..."
+    },
+    "analyticsDialog": {
+      "subtitle": "Statistiques • {{genre}}",
+      "duration": "Durée",
+      "releaseDate": "Date de sortie",
+      "moreComingSoon": "Des statistiques plus détaillées (auditeurs uniques, données géographiques) arriveront dans une prochaine mise à jour."
     },
     "deleteDialog": {
       "titleSingle": "Supprimer ce single",
@@ -702,6 +722,8 @@
       "titlePlaceholder": "Titre du morceau",
       "durationLabel": "Durée (secondes)",
       "durationPlaceholder": "ex. 233",
+      "releaseYearLabel": "Année de sortie",
+      "releaseYearPlaceholder": "ex. 2026",
       "albumLabel": "Album (optionnel)",
       "albumPlaceholder": "Sélectionner un album",
       "genreLabel": "Genre",
