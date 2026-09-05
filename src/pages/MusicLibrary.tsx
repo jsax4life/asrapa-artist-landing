@@ -10,8 +10,11 @@ import { Link } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from "@/components/ui/use-toast";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { api, ApiError, UploadedSong, UploadedAlbum } from "@/lib/api";
 
 // Combined release data for display
@@ -29,6 +32,9 @@ interface CombinedRelease {
   downloads?: number;
   streams?: number;
   isFromAlbum: boolean;
+  duration?: number;
+  explicit?: boolean;
+  releaseYear?: number;
 }
 
 const MusicLibrary = () => {
@@ -39,6 +45,10 @@ const MusicLibrary = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedRelease, setSelectedRelease] = useState<CombinedRelease | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [editingRelease, setEditingRelease] = useState<CombinedRelease | null>(null);
+  const [editForm, setEditForm] = useState({ title: '', releaseYear: new Date().getFullYear(), explicit: false });
+  const [isSaving, setIsSaving] = useState(false);
+  const [analyticsRelease, setAnalyticsRelease] = useState<CombinedRelease | null>(null);
   const { toast } = useToast();
 
   const refreshData = useCallback(async () => {
@@ -56,7 +66,7 @@ const MusicLibrary = () => {
 
       if (songsResponse.status === 'success' && songsResponse.data) {
         const songReleases: CombinedRelease[] = songsResponse.data.songs.map(song => ({
-          id: song.id,
+          id: song._id,
           title: song.title,
           type: 'Single' as const,
           releaseDate: song.createdAt,
@@ -65,7 +75,10 @@ const MusicLibrary = () => {
           genre: song.genre.name,
           downloads: song.downloads,
           streams: song.streams,
-          isFromAlbum: false
+          isFromAlbum: false,
+          duration: song.duration,
+          explicit: song.explicit,
+          releaseYear: song.releaseYear
         }));
         singlesData.push(...songReleases);
       }
@@ -164,19 +177,44 @@ const MusicLibrary = () => {
   };
 
   const handleEditRelease = (release: CombinedRelease) => {
-    // TODO: Implement edit functionality
-    toast({
-      title: t('musicLibraryPage.toast.comingSoonTitle'),
-      description: t('musicLibraryPage.toast.editComingSoonDescription'),
+    setEditingRelease(release);
+    setEditForm({
+      title: release.title,
+      releaseYear: release.releaseYear || new Date(release.releaseDate).getFullYear(),
+      explicit: release.explicit || false,
     });
   };
 
+  const handleSaveEdit = async () => {
+    if (!editingRelease) return;
+    try {
+      setIsSaving(true);
+      await api.updateSong(editingRelease.id, {
+        title: editForm.title,
+        releaseYear: editForm.releaseYear,
+        isExplicit: editForm.explicit,
+      });
+      toast({
+        title: t('musicLibraryPage.toast.editSuccessTitle'),
+        description: t('musicLibraryPage.toast.editSuccessDescription', { title: editForm.title }),
+      });
+      setEditingRelease(null);
+      refreshData();
+    } catch (error) {
+      console.error('Error updating release:', error);
+      const errorMessage = error instanceof ApiError ? error.message : t('musicLibraryPage.toast.editErrorDescription');
+      toast({
+        title: t('musicLibraryPage.toast.editErrorTitle'),
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleAnalyticsRelease = (release: CombinedRelease) => {
-    // TODO: Navigate to analytics page with release filter
-    toast({
-      title: t('musicLibraryPage.toast.comingSoonTitle'),
-      description: t('musicLibraryPage.toast.analyticsComingSoonDescription'),
-    });
+    setAnalyticsRelease(release);
   };
 
   const handleDeleteRelease = async (release: CombinedRelease) => {
@@ -360,6 +398,8 @@ const MusicLibrary = () => {
                   size="icon"
                   className="text-muted-foreground hover:text-foreground"
                   onClick={() => handleEditRelease(release)}
+                  disabled={release.type === 'Album'}
+                  title={release.type === 'Album' ? t('musicLibraryPage.toast.editComingSoonDescription') : undefined}
                 >
                   <Edit className="h-4 w-4" />
                 </Button>
@@ -567,6 +607,100 @@ const MusicLibrary = () => {
           </main>
         </div>
       </SidebarInset>
+
+      {/* Edit Dialog */}
+      <Dialog open={!!editingRelease} onOpenChange={(open) => !open && setEditingRelease(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t('musicLibraryPage.editDialog.title')}</DialogTitle>
+            <DialogDescription>
+              {t('musicLibraryPage.editDialog.description', { title: editingRelease?.title })}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="edit-title">{t('musicLibraryPage.editDialog.titleLabel')}</Label>
+              <Input
+                id="edit-title"
+                value={editForm.title}
+                onChange={(e) => setEditForm(prev => ({ ...prev, title: e.target.value }))}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-releaseYear">{t('musicLibraryPage.editDialog.releaseYearLabel')}</Label>
+              <Input
+                id="edit-releaseYear"
+                type="number"
+                min="1900"
+                max="2100"
+                value={editForm.releaseYear}
+                onChange={(e) => setEditForm(prev => ({ ...prev, releaseYear: Number(e.target.value) }))}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="edit-explicit">{t('musicLibraryPage.editDialog.explicitLabel')}</Label>
+              <Switch
+                id="edit-explicit"
+                checked={editForm.explicit}
+                onCheckedChange={(checked) => setEditForm(prev => ({ ...prev, explicit: checked }))}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditingRelease(null)} disabled={isSaving}>
+              {t('musicLibraryPage.editDialog.cancel')}
+            </Button>
+            <Button onClick={handleSaveEdit} disabled={isSaving || !editForm.title.trim()}>
+              {isSaving ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  {t('musicLibraryPage.editDialog.saving')}
+                </>
+              ) : (
+                t('musicLibraryPage.editDialog.save')
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Analytics Dialog */}
+      <Dialog open={!!analyticsRelease} onOpenChange={(open) => !open && setAnalyticsRelease(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <BarChart2 className="h-5 w-5 text-primary" />
+              {analyticsRelease?.title}
+            </DialogTitle>
+            <DialogDescription>
+              {t('musicLibraryPage.analyticsDialog.subtitle', { genre: analyticsRelease?.genre })}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.dialog.streams')}</h4>
+              <p className="text-lg font-semibold">{(analyticsRelease?.streams || 0).toLocaleString()}</p>
+            </div>
+            <div>
+              <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.dialog.downloads')}</h4>
+              <p className="text-lg font-semibold">{(analyticsRelease?.downloads || 0).toLocaleString()}</p>
+            </div>
+            {analyticsRelease?.duration !== undefined && (
+              <div>
+                <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.analyticsDialog.duration')}</h4>
+                <p className="text-lg font-semibold">
+                  {Math.floor(analyticsRelease.duration / 60)}:{String(Math.round(analyticsRelease.duration % 60)).padStart(2, '0')}
+                </p>
+              </div>
+            )}
+            <div>
+              <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.analyticsDialog.releaseDate')}</h4>
+              <p className="text-lg font-semibold">{analyticsRelease && formatDate(analyticsRelease.releaseDate)}</p>
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">{t('musicLibraryPage.analyticsDialog.moreComingSoon')}</p>
+        </DialogContent>
+      </Dialog>
     </SidebarProvider>
   );
 };

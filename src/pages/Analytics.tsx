@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Play, Users, DollarSign, Eye } from "lucide-react";
+import { Play, Users, Banknote, Eye } from "lucide-react";
 import { AppSidebar } from "@/components/dashboard-components/AppSidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/dashboard-sidebar";
 import { StatsCard } from "@/components/dashboard-components/StatsCard";
@@ -38,7 +38,7 @@ const Analytics = () => {
                 <StatsCard
                   title={t('analyticsPage.stats.totalRevenue')}
                   value="0 FCFA"
-                  icon={DollarSign}
+                  icon={Banknote}
                   trend="neutral"
                 />
                 <StatsCard

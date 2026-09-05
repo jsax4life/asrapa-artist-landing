@@ -24,6 +24,7 @@ interface UploadFormData {
   collaborators: string[]; // Array of artist IDs
   isExplicit: boolean;
   lyrics?: string;
+  releaseYear: number;
 }
 
 interface AlbumFormData {
@@ -69,6 +70,7 @@ const Upload = () => {
     isExplicit: false,
     collaborators: [],
     lyrics: '',
+    releaseYear: new Date().getFullYear(),
   });
   const [albumFormData, setAlbumFormData] = useState<AlbumFormData>({
     title: '',
@@ -184,7 +186,7 @@ const Upload = () => {
 
   const handleFormChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: name === 'duration' ? Number(value) : value }));
+    setFormData(prev => ({ ...prev, [name]: (name === 'duration' || name === 'releaseYear') ? Number(value) : value }));
   }, []);
 
   const handleSelectChange = useCallback((name: keyof UploadFormData, value: string | boolean) => {
@@ -216,6 +218,7 @@ const Upload = () => {
     const formDataToSend = new FormData();
     formDataToSend.append('title', formData.title);
     formDataToSend.append('duration', formData.duration.toString());
+    formDataToSend.append('releaseYear', formData.releaseYear.toString());
     formDataToSend.append('genreId', formData.genreId);
     formDataToSend.append('isExplicit', formData.isExplicit.toString());
     if (formData.albumId) formDataToSend.append('albumId', formData.albumId);
@@ -241,6 +244,7 @@ const Upload = () => {
         isExplicit: false,
         collaborators: [],
         lyrics: '',
+        releaseYear: new Date().getFullYear(),
       });
     } catch (error) {
       console.error("Upload error:", error);
@@ -497,6 +501,10 @@ const Upload = () => {
                     <div className="space-y-2">
                       <Label htmlFor="duration">{t('uploadPage.songDetails.durationLabel')}</Label>
                       <Input id="duration" name="duration" type="number" value={formData.duration === 0 ? '' : formData.duration} onChange={handleFormChange} placeholder={t('uploadPage.songDetails.durationPlaceholder')} required min="1" max="3600" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="releaseYear">{t('uploadPage.songDetails.releaseYearLabel')}</Label>
+                      <Input id="releaseYear" name="releaseYear" type="number" value={formData.releaseYear} onChange={handleFormChange} placeholder={t('uploadPage.songDetails.releaseYearPlaceholder')} required min="1900" max="2100" />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="albumId">{t('uploadPage.songDetails.albumLabel')}</Label>
@@ -834,17 +842,17 @@ const Upload = () => {
                                   <CommandEmpty>{t('uploadPage.albumDetails.existingSongsEmpty')}</CommandEmpty>
                                   <CommandGroup>
                                     {uploadedSongs.map((song) => {
-                                      const isSelected = albumFormData.existingSongIds.includes(song.id);
+                                      const isSelected = albumFormData.existingSongIds.includes(song._id);
                                       return (
                                         <CommandItem
-                                          key={song.id}
+                                          key={song._id}
                                           value={`${song.title} ${song.genre.name}`}
                                           onSelect={() => {
                                             setAlbumFormData(prev => ({
                                               ...prev,
                                               existingSongIds: isSelected
-                                                ? prev.existingSongIds.filter(id => id !== song.id)
-                                                : [...prev.existingSongIds, song.id]
+                                                ? prev.existingSongIds.filter(id => id !== song._id)
+                                                : [...prev.existingSongIds, song._id]
                                             }));
                                           }}
                                         >
@@ -868,7 +876,7 @@ const Upload = () => {
                           {albumFormData.existingSongIds.length > 0 && (
                             <div className="flex flex-wrap gap-2 mt-2">
                               {albumFormData.existingSongIds.map((songId) => {
-                                const song = uploadedSongs.find(s => s.id === songId);
+                                const song = uploadedSongs.find(s => s._id === songId);
                                 return song ? (
                                   <div key={songId} className="flex items-center gap-1 bg-primary/10 text-primary px-2 py-1 rounded-md text-sm">
                                     {song.title}
