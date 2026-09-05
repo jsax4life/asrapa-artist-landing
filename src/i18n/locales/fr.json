@@ -287,96 +287,119 @@
   "terms": {
     "backToRegistration": "← Retour à l'inscription",
     "title": "CONDITIONS GÉNÉRALES D'UTILISATION ET DE VENTE",
-    "subtitle": "Pour la plateforme de streaming {{brand}}",
+    "subtitle": "1ère Plateforme de streaming musicale Tchadienne {{brand}} — Espace Artistes",
+    "legalInfo": {
+      "title": "Identification légale de l'exploitant de la plateforme",
+      "items": [
+        { "label": "Dénomination sociale :", "text": "SATCHAPRODUCTION (exploitant la plateforme sous le nom commercial « ASRAPA », satchaprodmusic.com)" },
+        { "label": "Forme juridique :", "text": "Société à Responsabilité Limitée (SARL)" },
+        { "label": "Siège social :", "text": "N'Djamena, République du Tchad" },
+        { "label": "Date de constitution :", "text": "11 décembre 2018" },
+        { "label": "Représentant légal :", "text": "M. Djérabé NDIGNGAR" },
+        { "label": "NIF :", "text": "9024706 G" },
+        { "label": "N° CNPS :", "text": "202007041477" },
+        { "label": "N° RCCM :", "text": "TC/NDJ/203 213" },
+        { "label": "Objet social déclaré (ANIE) :", "text": "Production audiovisuelle et promotion des artistes tchadiens" },
+        { "label": "Contact :", "text": "87 50 91 91 — infos@asrapa.com — www.asrapa.com" }
+      ]
+    },
     "preamble": {
       "title": "Préambule",
-      "p1": "Les présentes Conditions Générales d'Utilisation et de Vente (CGUV) régissent la relation entre {{brand}} et les Artistes utilisant la Plateforme dans le but de rendre leurs œuvres musicales disponibles en streaming.",
-      "p2": "L'utilisation de la Plateforme implique l'acceptation pleine et entière des présentes conditions, conformément aux dispositions de l'Accord de Bangui révisé de l'OAPI et à la Loi tchadienne n° 2003-05 du 15 janvier 2003 relative à la protection du droit d'auteur et des droits voisins."
+      "p1": "Les présentes Conditions Générales d'Utilisation et de Vente (CGU/CGV) régissent les relations entre SATCHAPRODUCTION, exploitant la plateforme de streaming musical {{brand}}, et les Artistes utilisateurs de la Plateforme, pour la mise à disposition de leurs œuvres musicales en streaming.",
+      "p2": "L'utilisation de la Plateforme implique l'acceptation pleine et entière des présentes conditions, conformément aux dispositions de l'Accord de Bangui (révisé) de l'OAPI et de la loi tchadienne n° 2003-05 du 15 janvier 2003 sur la protection du droit d'auteur et des droits voisins."
     },
     "article1": {
-      "title": "Article 1 : Objet",
-      "p1": "Les présentes Conditions Générales ont pour objet de définir les conditions dans lesquelles la Plateforme permet aux Artistes de rendre leurs œuvres musicales accessibles au public par le biais de services de streaming à la demande et de téléchargement temporaire."
+      "title": "Article 1 — Objet",
+      "p1": "Les présentes CGV ont pour objet de définir les conditions dans lesquelles la Plateforme permet aux Artistes de diffuser leurs œuvres musicales auprès du public, via des services de streaming à la demande et de téléchargement temporaire."
     },
     "article2": {
-      "title": "Article 2 : Inscription et compte Artiste",
-      "s1": "Pour accéder aux services de distribution, l'Artiste doit créer un compte en fournissant des informations exactes et complètes (identité, coordonnées, etc.).",
-      "s2": "L'Artiste déclare et garantit être majeur et avoir la capacité juridique de conclure les présentes Conditions Générales."
+      "title": "Article 2 — Inscription et compte Artiste",
+      "s1": "Pour accéder aux services de diffusion, l'Artiste doit créer un compte en fournissant des informations exactes et complètes (identité, coordonnées, etc.).",
+      "s2": "L'Artiste déclare et garantit être majeur et avoir la capacité juridique pour conclure les présentes."
     },
     "article3": {
-      "title": "Article 3 : Soumission et mise à disposition des œuvres",
-      "s1": "L'Artiste accorde à la Plateforme une licence non exclusive de distribution de ses œuvres sur le territoire des États membres de l'OAPI, et plus particulièrement au Tchad, pour la durée de son abonnement ou de son utilisation de la Plateforme.",
-      "s2Intro": "L'Artiste est seul responsable du contenu qu'il téléverse et déclare et garantit que :",
+      "title": "Article 3 — Dépôt et mise à disposition des œuvres",
+      "s1": "L'Artiste concède à la Plateforme une licence non exclusive de diffusion de ses œuvres sur le territoire des États membres de l'OAPI, et plus particulièrement au Tchad, pour la durée de son abonnement ou de son utilisation.",
+      "s2Intro": "L'Artiste est seul responsable du contenu qu'il dépose et garantit :",
       "s2Items": [
-        "Il détient ou possède l'ensemble des droits patrimoniaux sur les œuvres téléversées, y compris le droit d'auteur et les droits voisins.",
-        "Il a obtenu toutes les autorisations nécessaires de tout co-auteur, interprète ou producteur.",
-        "Ses œuvres ne portent atteinte aux droits d'aucun tiers."
+        "Être titulaire de tous les droits patrimoniaux sur les œuvres déposées (droits d'auteur, droits voisins).",
+        "Avoir obtenu toutes les autorisations nécessaires auprès des éventuels co-auteurs, interprètes ou producteurs.",
+        "Que ses œuvres ne portent pas atteinte aux droits de tiers."
       ],
-      "s3": "L'Artiste s'engage à fournir des métadonnées complètes et exactes pour ses œuvres."
+      "s3": "L'Artiste s'engage à fournir les métadonnées complètes et exactes de ses œuvres."
     },
     "article4": {
-      "title": "Article 4 : Services et rémunération",
-      "s1Intro": "La Plateforme fournit les services suivants :",
+      "title": "Article 4 — Services et rémunération",
+      "s1Intro": "La Plateforme met à disposition les services suivants :",
       "s1Items": [
         {
           "label": "Streaming à la demande (VOD) :",
-          "text": "Écoute individuelle d'une œuvre par les utilisateurs."
+          "text": "écoute individuelle de l'œuvre par les utilisateurs."
         },
         {
           "label": "Téléchargement temporaire :",
-          "text": "Mise en cache du contenu pour une écoute hors ligne, dans les limites de l'abonnement de l'utilisateur."
+          "text": "mise en cache pour une écoute hors ligne (dans la limite de l'abonnement)."
         }
       ],
-      "s2Intro": "En contrepartie de la licence accordée, l'Artiste percevra une rémunération calculée selon le modèle économique en vigueur sur la Plateforme :",
-      "s2Items": [
-        {
-          "label": "Option A (Au prorata) :",
-          "text": "Un pourcentage du revenu net total de la Plateforme, proportionnel au nombre total de streams des œuvres de l'Artiste."
-        },
-        {
-          "label": "Option B (Par stream) :",
-          "text": "Un montant fixe pour chaque stream complet d'une œuvre."
-        }
-      ],
-      "s3": "Les revenus seront calculés et versés périodiquement, chaque trimestre, sous réserve que l'Artiste atteigne le seuil minimum de paiement."
+      "s2": "En contrepartie de la licence accordée, l'Artiste perçoit une rémunération calculée au prorata : un pourcentage du revenu net global de la Plateforme (65 %), proportionnel au nombre total d'écoutes de ses œuvres rapporté au nombre total d'écoutes enregistrées sur la Plateforme.",
+      "s3": "Les revenus sont calculés et reversés périodiquement (chaque trimestre), sous réserve d'atteindre un seuil minimum de paiement."
     },
     "article5": {
-      "title": "Article 5 : Obligations de la Plateforme",
+      "title": "Article 5 — Obligations de la Plateforme",
       "intro": "La Plateforme s'engage à :",
       "items": [
-        "Mettre en œuvre les mesures techniques nécessaires pour garantir que les œuvres sont mises à disposition dans des conditions appropriées.",
-        "Fournir à l'Artiste l'accès à un espace sécurisé pour suivre ses statistiques de distribution.",
-        "Assurer la protection des œuvres contre toute utilisation non autorisée, dans les limites des technologies disponibles.",
-        "Fournir à l'Artiste un relevé de l'exploitation de ses œuvres et des revenus générés."
+        "Mettre en œuvre les moyens techniques nécessaires pour assurer la diffusion des œuvres dans de bonnes conditions.",
+        "Fournir à l'Artiste un accès à un espace sécurisé pour le suivi de ses statistiques de diffusion.",
+        "Assurer la protection des œuvres contre les usages non autorisés, dans la limite des technologies disponibles.",
+        "Rendre compte à l'Artiste de l'exploitation de ses œuvres et des revenus générés."
       ]
     },
     "article6": {
-      "title": "Article 6 : Obligations de l'Artiste",
+      "title": "Article 6 — Obligations de l'Artiste",
       "intro": "L'Artiste s'engage à :",
       "items": [
         "Maintenir à jour ses informations personnelles et ses œuvres.",
-        "Ne pas téléverser d'œuvres contrefaites ou illicites portant atteinte aux droits d'autrui.",
-        "Ne pas tenter de manipuler ou d'interférer frauduleusement avec le système de comptage des streams.",
-        "Informer ses organismes de gestion collective (OGC) de la disponibilité de ses œuvres sur la Plateforme pour la perception des droits non couverts par la licence directe."
-      ]
+        "Ne pas déposer d'œuvres contrefaisantes ou portant atteinte aux droits d'autrui.",
+        "Ne pas tenter de frauder le système de comptage des écoutes.",
+        "Informer ses organismes de gestion collective (OGC) de la diffusion de ses œuvres sur la Plateforme pour la collecte des droits non couverts par la licence directe."
+      ],
+      "pricingIntro": "6.1 En contrepartie de la mise en ligne de ses contenus sur la Plateforme, l'Artiste s'acquitte d'un abonnement annuel dont le montant, exprimé en francs CFA (FCFA), varie selon son statut et le format du contenu déposé, conformément au barème suivant :",
+      "pricingTableColumns": {
+        "format": "Format du contenu",
+        "price": "Tarif annuel (FCFA)"
+      },
+      "labelledTitle": "a) Artistes labellisés (gérés par une maison de production)",
+      "labelledRows": [
+        { "format": "Titre (single)", "price": "5 000 FCFA / titre / an" },
+        { "format": "EP (maximum 5 chansons)", "price": "15 000 FCFA / EP / an" },
+        { "format": "Album", "price": "25 000 FCFA / album / an" }
+      ],
+      "independentTitle": "b) Artistes indépendants",
+      "independentRows": [
+        { "format": "Titre (single)", "price": "10 000 FCFA / titre / an" },
+        { "format": "EP (maximum 5 chansons)", "price": "25 000 FCFA / EP / an" },
+        { "format": "Album", "price": "50 000 FCFA / album / an" }
+      ],
+      "pricingNote": "6.2 Ces montants correspondent à des frais de mise en ligne et de maintien des contenus sur la Plateforme pour une durée d'un (1) an, renouvelables. Ils sont dus indépendamment de la rémunération prévue à l'article 4.2 et sont payables préalablement à la mise en ligne des œuvres concernées."
     },
     "article7": {
-      "title": "Article 7 : Propriété intellectuelle",
-      "s1": "La Plateforme est protégée par les lois relatives à la propriété intellectuelle. Toute reproduction ou représentation non autorisée est interdite.",
-      "s2": "Les œuvres musicales téléversées restent la propriété exclusive de l'Artiste. La Plateforme n'acquiert aucun droit de propriété sur les œuvres, mais uniquement une licence d'exploitation dans les conditions définies par les présentes Conditions Générales."
+      "title": "Article 7 — Propriété intellectuelle",
+      "s1": "La Plateforme est protégée par les lois sur la propriété intellectuelle. Toute reproduction ou représentation non autorisée est interdite.",
+      "s2": "Les œuvres musicales déposées restent la propriété exclusive de l'Artiste. La Plateforme n'acquiert aucun droit de propriété sur les œuvres, mais seulement une licence d'exploitation dans les conditions définies aux présentes."
     },
     "article8": {
-      "title": "Article 8 : Durée et résiliation",
-      "s1": "L'Artiste peut résilier son compte à tout moment, gratuitement.",
-      "s2": "La Plateforme se réserve le droit de suspendre ou de résilier le compte d'un Artiste en cas de manquement grave à ses obligations, tel qu'une violation du droit d'auteur ou une fraude, après une mise en demeure restée sans effet."
+      "title": "Article 8 — Durée et résiliation",
+      "s1": "L'Artiste peut résilier son compte à tout moment, sans frais.",
+      "s2": "La Plateforme se réserve le droit de suspendre ou résilier le compte d'un Artiste en cas de manquement grave à ses obligations (ex. : contrefaçon, fraude), après mise en demeure restée infructueuse."
     },
     "article9": {
-      "title": "Article 9 : Protection des données personnelles",
-      "p1": "La Plateforme collecte et traite les données personnelles des Artistes conformément aux lois et réglementations applicables, aux fins de la gestion de leurs comptes et de la distribution de leurs revenus."
+      "title": "Article 9 — Protection des données personnelles",
+      "p1": "La Plateforme collecte et traite les données personnelles des Artistes conformément à la réglementation en vigueur, pour la gestion de leur compte et le reversement de leurs revenus."
     },
     "article10": {
-      "title": "Article 10 : Droit applicable et litiges",
-      "s1": "Les présentes Conditions Générales sont régies par le droit tchadien et les dispositions de l'Accord de Bangui de l'OAPI.",
-      "s2": "Tout litige relatif à l'interprétation ou à l'exécution des présentes Conditions Générales relève de la compétence des tribunaux du Tchad."
+      "title": "Article 10 — Droit applicable et litiges",
+      "s1": "Les présentes CGV sont régies par le droit tchadien et par les dispositions de l'Accord de Bangui de l'OAPI.",
+      "s2": "Tout litige relatif à l'interprétation ou l'exécution des présentes sera soumis à la compétence des tribunaux du Tchad."
     }
   },
   "dashboardHome": {

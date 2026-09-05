@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/constants/routes';
 
 type LabeledItem = { label: string; text: string };
+type PriceRow = { format: string; price: string };
 
 const Terms = () => {
   const { t } = useTranslation();
@@ -14,6 +15,9 @@ const Terms = () => {
 
   const labeledList = (key: string) =>
     t(key, { returnObjects: true }) as LabeledItem[];
+
+  const priceRows = (key: string) =>
+    t(key, { returnObjects: true }) as PriceRow[];
 
   return (
     <main className="min-h-screen bg-black text-white py-12 px-4 sm:px-8">
@@ -36,6 +40,19 @@ const Terms = () => {
           </header>
 
           <section className="space-y-8 text-[#D2D8DA] leading-relaxed">
+            <div>
+              <h2 className="text-xl font-bold text-white mb-3">
+                {t('terms.legalInfo.title')}
+              </h2>
+              <ul className="space-y-1">
+                {labeledList('terms.legalInfo.items').map((item) => (
+                  <li key={item.label}>
+                    <strong className="text-white">{item.label}</strong> {item.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <div>
               <h2 className="text-xl font-bold text-white mb-3">
                 {t('terms.preamble.title')}
@@ -98,15 +115,8 @@ const Terms = () => {
                 ))}
               </ul>
               <p className="mt-3">
-                <strong className="text-white">4.2</strong> {t('terms.article4.s2Intro')}
+                <strong className="text-white">4.2</strong> {t('terms.article4.s2')}
               </p>
-              <ul className="list-disc pl-6 mt-2 space-y-1">
-                {labeledList('terms.article4.s2Items').map((item) => (
-                  <li key={item.label}>
-                    <strong className="text-white">{item.label}</strong> {item.text}
-                  </li>
-                ))}
-              </ul>
               <p className="mt-3">
                 <strong className="text-white">4.3</strong> {t('terms.article4.s3')}
               </p>
@@ -134,6 +144,62 @@ const Terms = () => {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
+
+              <p className="mt-4">{t('terms.article6.pricingIntro')}</p>
+
+              <h3 className="text-white font-semibold mt-4 mb-2">
+                {t('terms.article6.labelledTitle')}
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border border-white/10">
+                  <thead>
+                    <tr className="border-b border-white/10 text-left text-white">
+                      <th className="py-2 px-3 font-semibold">
+                        {t('terms.article6.pricingTableColumns.format')}
+                      </th>
+                      <th className="py-2 px-3 font-semibold">
+                        {t('terms.article6.pricingTableColumns.price')}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {priceRows('terms.article6.labelledRows').map((row) => (
+                      <tr key={row.format} className="border-b border-white/5">
+                        <td className="py-2 px-3">{row.format}</td>
+                        <td className="py-2 px-3">{row.price}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <h3 className="text-white font-semibold mt-6 mb-2">
+                {t('terms.article6.independentTitle')}
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm border border-white/10">
+                  <thead>
+                    <tr className="border-b border-white/10 text-left text-white">
+                      <th className="py-2 px-3 font-semibold">
+                        {t('terms.article6.pricingTableColumns.format')}
+                      </th>
+                      <th className="py-2 px-3 font-semibold">
+                        {t('terms.article6.pricingTableColumns.price')}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {priceRows('terms.article6.independentRows').map((row) => (
+                      <tr key={row.format} className="border-b border-white/5">
+                        <td className="py-2 px-3">{row.format}</td>
+                        <td className="py-2 px-3">{row.price}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <p className="mt-4">{t('terms.article6.pricingNote')}</p>
             </div>
 
             <div>

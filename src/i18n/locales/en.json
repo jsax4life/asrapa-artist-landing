@@ -287,96 +287,119 @@
   "terms": {
     "backToRegistration": "← Back to Registration",
     "title": "GENERAL TERMS OF USE AND SALE",
-    "subtitle": "For the {{brand}} Streaming Platform",
+    "subtitle": "1st 100% Chadian Music Streaming Platform {{brand}} — Artist Space",
+    "legalInfo": {
+      "title": "Legal identification of the platform operator",
+      "items": [
+        { "label": "Company name:", "text": "SATCHAPRODUCTION (operating the platform under the trade name “ASRAPA”, satchaprodmusic.com)" },
+        { "label": "Legal form:", "text": "Société à Responsabilité Limitée (SARL) — Limited Liability Company" },
+        { "label": "Registered office:", "text": "N'Djamena, Republic of Chad" },
+        { "label": "Date of incorporation:", "text": "December 11, 2018" },
+        { "label": "Legal representative:", "text": "Mr. Djérabé NDIGNGAR" },
+        { "label": "Tax ID (NIF):", "text": "9024706 G" },
+        { "label": "Social security no. (CNPS):", "text": "202007041477" },
+        { "label": "Trade register no. (RCCM):", "text": "TC/NDJ/203 213" },
+        { "label": "Declared corporate purpose (ANIE):", "text": "Audiovisual production and promotion of Chadian artists" },
+        { "label": "Contact:", "text": "87 50 91 91 — infos@asrapa.com — www.asrapa.com" }
+      ]
+    },
     "preamble": {
       "title": "Preamble",
-      "p1": "These General Terms of Use and Sale (GTUS) govern the relationship between {{brand}} and the Artists using the Platform for the purpose of making their musical works available for streaming.",
+      "p1": "These General Terms of Use and Sale (GTUS) govern the relationship between SATCHAPRODUCTION, operator of the {{brand}} music streaming platform, and the Artists using the Platform, for making their musical works available for streaming.",
       "p2": "Use of the Platform implies full and unconditional acceptance of these terms and conditions, in accordance with the provisions of the revised Bangui Agreement of OAPI and Chadian Law No. 2003-05 of January 15, 2003, concerning the protection of copyright and related rights."
     },
     "article1": {
-      "title": "Article 1: Purpose",
-      "p1": "The purpose of these Terms and Conditions is to define the conditions under which the Platform enables Artists to make their musical works available to the public through on-demand streaming and temporary download services."
+      "title": "Article 1 — Purpose",
+      "p1": "The purpose of these GTUS is to define the conditions under which the Platform enables Artists to distribute their musical works to the public through on-demand streaming and temporary download services."
     },
     "article2": {
-      "title": "Article 2: Registration and Artist Account",
+      "title": "Article 2 — Registration and Artist Account",
       "s1": "To access the distribution services, the Artist must create an account by providing accurate and complete information (identity, contact details, etc.).",
-      "s2": "The Artist represents and warrants that they are of legal age and have the legal capacity to enter into these Terms and Conditions."
+      "s2": "The Artist represents and warrants that they are of legal age and have the legal capacity to enter into these terms."
     },
     "article3": {
-      "title": "Article 3: Submission and Availability of Works",
-      "s1": "The Artist grants the Platform a non-exclusive license to distribute their works within the territory of the member states of OAPI, and more particularly in Chad, for the duration of their subscription or use of the Platform.",
-      "s2Intro": "The Artist is solely responsible for the content they upload and represents and warrants that:",
+      "title": "Article 3 — Submission and Availability of Works",
+      "s1": "The Artist grants the Platform a non-exclusive license to distribute their works within the territory of the OAPI member states, and more particularly in Chad, for the duration of their subscription or use of the Platform.",
+      "s2Intro": "The Artist is solely responsible for the content they upload and warrants that:",
       "s2Items": [
-        "They own or hold all economic rights in the uploaded works, including copyright and related rights.",
+        "They hold all economic rights over the uploaded works (copyright, related rights).",
         "They have obtained all necessary authorizations from any co-authors, performers, or producers.",
-        "Their works do not infringe upon the rights of any third party."
+        "Their works do not infringe the rights of any third party."
       ],
       "s3": "The Artist agrees to provide complete and accurate metadata for their works."
     },
     "article4": {
-      "title": "Article 4: Services and Remuneration",
+      "title": "Article 4 — Services and Remuneration",
       "s1Intro": "The Platform provides the following services:",
       "s1Items": [
         {
           "label": "On-demand streaming (VOD):",
-          "text": "Individual listening to a work by users."
+          "text": "individual listening to a work by users."
         },
         {
           "label": "Temporary download:",
-          "text": "Caching of content for offline listening, subject to the limits of the user's subscription."
+          "text": "caching for offline listening (within the limits of the subscription)."
         }
       ],
-      "s2Intro": "In consideration for the license granted, the Artist shall receive remuneration calculated according to the economic model in force on the Platform:",
-      "s2Items": [
-        {
-          "label": "Option A (Pro Rata):",
-          "text": "A percentage of the Platform's total net revenue, proportional to the total number of streams of the Artist's works."
-        },
-        {
-          "label": "Option B (Per Stream):",
-          "text": "A fixed amount for each complete stream of a work."
-        }
-      ],
-      "s3": "Revenue shall be calculated and paid periodically, every quarter, subject to the Artist reaching the minimum payment threshold."
+      "s2": "In consideration of the license granted, the Artist receives remuneration calculated on a pro-rata basis: a percentage of the Platform's total net revenue (65%), proportional to the total number of streams of their works relative to the total number of streams recorded on the Platform.",
+      "s3": "Revenue is calculated and paid out periodically (each quarter), subject to reaching a minimum payment threshold."
     },
     "article5": {
-      "title": "Article 5: Obligations of the Platform",
+      "title": "Article 5 — Obligations of the Platform",
       "intro": "The Platform undertakes to:",
       "items": [
-        "Implement the necessary technical measures to ensure that works are made available under appropriate conditions.",
-        "Provide the Artist with access to a secure area for monitoring their distribution statistics.",
+        "Implement the technical means necessary to ensure that works are distributed under appropriate conditions.",
+        "Provide the Artist with access to a secure area to monitor their distribution statistics.",
         "Ensure the protection of works against unauthorized use, within the limits of available technologies.",
-        "Provide the Artist with an account of the exploitation of their works and the revenue generated."
+        "Report to the Artist on the exploitation of their works and the revenue generated."
       ]
     },
     "article6": {
-      "title": "Article 6: Obligations of the Artist",
+      "title": "Article 6 — Obligations of the Artist",
       "intro": "The Artist undertakes to:",
       "items": [
         "Keep their personal information and works up to date.",
-        "Not upload counterfeit or infringing works that violate the rights of others.",
-        "Not attempt to manipulate or fraudulently interfere with the system used to count streams.",
-        "Inform their collective management organizations (CMOs) about the availability of their works on the Platform for the collection of rights not covered by the direct license."
-      ]
+        "Not upload counterfeit works or works that infringe the rights of others.",
+        "Not attempt to defraud the stream-counting system.",
+        "Inform their collective management organizations (CMOs) of the availability of their works on the Platform, for the collection of rights not covered by the direct license."
+      ],
+      "pricingIntro": "6.1 In consideration for publishing their content on the Platform, the Artist pays an annual subscription fee, expressed in CFA francs (FCFA), which varies according to their status and the format of the content uploaded, in accordance with the following schedule:",
+      "pricingTableColumns": {
+        "format": "Content format",
+        "price": "Annual fee (FCFA)"
+      },
+      "labelledTitle": "a) Signed artists (managed by a production company)",
+      "labelledRows": [
+        { "format": "Track (single)", "price": "5,000 FCFA / track / year" },
+        { "format": "EP (up to 5 songs)", "price": "15,000 FCFA / EP / year" },
+        { "format": "Album", "price": "25,000 FCFA / album / year" }
+      ],
+      "independentTitle": "b) Independent artists",
+      "independentRows": [
+        { "format": "Track (single)", "price": "10,000 FCFA / track / year" },
+        { "format": "EP (up to 5 songs)", "price": "25,000 FCFA / EP / year" },
+        { "format": "Album", "price": "50,000 FCFA / album / year" }
+      ],
+      "pricingNote": "6.2 These amounts correspond to fees for publishing and maintaining content on the Platform for a period of one (1) year, renewable. They are due independently of the remuneration provided for in Article 4.2 and are payable prior to the publication of the works concerned."
     },
     "article7": {
-      "title": "Article 7: Intellectual Property",
+      "title": "Article 7 — Intellectual Property",
       "s1": "The Platform is protected by intellectual property laws. Any unauthorized reproduction or representation is prohibited.",
-      "s2": "The uploaded musical works shall remain the exclusive property of the Artist. The Platform does not acquire any ownership rights over the works, but only a license to exploit them under the conditions defined in these Terms and Conditions."
+      "s2": "The uploaded musical works remain the exclusive property of the Artist. The Platform does not acquire any ownership rights over the works, but only a license to exploit them under the conditions defined herein."
     },
     "article8": {
-      "title": "Article 8: Duration and Termination",
+      "title": "Article 8 — Duration and Termination",
       "s1": "The Artist may terminate their account at any time, free of charge.",
-      "s2": "The Platform reserves the right to suspend or terminate an Artist's account in the event of a serious breach of their obligations, such as copyright infringement or fraud, following a formal notice that remains ineffective."
+      "s2": "The Platform reserves the right to suspend or terminate an Artist's account in the event of a serious breach of their obligations (e.g., infringement, fraud), following formal notice that remains without effect."
     },
     "article9": {
-      "title": "Article 9: Protection of Personal Data",
-      "p1": "The Platform collects and processes Artists' personal data in accordance with applicable laws and regulations for the purpose of managing their accounts and distributing their earnings."
+      "title": "Article 9 — Protection of Personal Data",
+      "p1": "The Platform collects and processes Artists' personal data in accordance with applicable regulations, for the purpose of managing their account and paying out their revenue."
     },
     "article10": {
-      "title": "Article 10: Applicable Law and Disputes",
-      "s1": "These Terms and Conditions shall be governed by Chadian law and the provisions of the Bangui Agreement of OAPI.",
-      "s2": "Any dispute relating to the interpretation or performance of these Terms and Conditions shall be subject to the jurisdiction of the courts of Chad."
+      "title": "Article 10 — Applicable Law and Disputes",
+      "s1": "These GTUS are governed by Chadian law and by the provisions of the Bangui Agreement of OAPI.",
+      "s2": "Any dispute relating to the interpretation or performance of these terms shall be subject to the jurisdiction of the courts of Chad."
     }
   },
   "dashboardHome": {
