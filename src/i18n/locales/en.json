@@ -205,6 +205,8 @@
       "fullNamePlaceholder": "Your full name",
       "stageName": "Stage Name",
       "stageNamePlaceholder": "Your stage name",
+      "creatorName": "Creator name",
+      "creatorNamePlaceholder": "Your name or your show's name",
       "email": "Email address",
       "emailPlaceholder": "Your email address",
       "password": "Password",

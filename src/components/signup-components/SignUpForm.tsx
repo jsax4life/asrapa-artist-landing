@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FormField } from './FormField';
 import { PasswordField } from './PasswordField';
@@ -42,6 +43,11 @@ interface FormErrors {
 export const SignUpForm: React.FC = () => {
   const { t } = useTranslation();
   const brand = t('brand');
+  const [searchParams] = useSearchParams();
+  // Les créateurs de podcast/sketch utilisent le même compte, mais "nom de scène" et le
+  // statut indépendant/labellisé (propre à la musique) n'ont pas de sens pour eux.
+  const signupTypeParam = searchParams.get('type');
+  const isContentCreator = signupTypeParam === 'podcast' || signupTypeParam === 'sketch';
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     stageName: '',
@@ -197,11 +203,12 @@ export const SignUpForm: React.FC = () => {
       const signupData = {
         ...rest,
         country,
-        artistType,
+        // Le statut indépendant/labellisé ne concerne que la musique, pas les créateurs de podcast/sketch.
+        ...(isContentCreator ? {} : { artistType }),
         // On ne joint la ville que pour le Tchad, elle n'a pas de sens ailleurs.
         ...(country === 'Tchad' && city ? { city } : {}),
         // Les informations du label ne sont envoyées que pour les artistes labellisés.
-        ...(artistType === 'labelled' ? { labelName, labelManagerName, labelManagerContact } : {}),
+        ...(!isContentCreator && artistType === 'labelled' ? { labelName, labelManagerName, labelManagerContact } : {}),
       };
       signup(signupData);
     }
@@ -411,8 +418,8 @@ export const SignUpForm: React.FC = () => {
         />
 
         <FormField
-          label={t('signup.form.stageName')}
-          placeholder={t('signup.form.stageNamePlaceholder')}
+          label={isContentCreator ? t('signup.form.creatorName') : t('signup.form.stageName')}
+          placeholder={isContentCreator ? t('signup.form.creatorNamePlaceholder') : t('signup.form.stageNamePlaceholder')}
           value={formData.stageName}
           onChange={updateFormData('stageName')}
           onBlur={handleStageNameBlur}
@@ -528,55 +535,59 @@ export const SignUpForm: React.FC = () => {
           />
         )}
 
-        <div className="flex flex-col w-full md:col-span-2">
-          <label className="text-white font-bold tracking-[0.13px] text-sm mb-2">
-            {t('signup.form.artistTypeLabel')}
-          </label>
-          <div className="inline-flex w-fit rounded-full bg-[rgba(210,216,218,0.16)] p-1">
-            {(['independent', 'labelled'] as ArtistType[]).map((type) => (
-              <button
-                key={type}
-                type="button"
-                onClick={() => updateFormData('artistType')(type)}
-                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
-                  formData.artistType === type
-                    ? 'bg-[#C40505] text-white'
-                    : 'text-[#D2D8DA] hover:text-white'
-                }`}
-              >
-                {t(`signup.form.artistType.${type}`)}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {formData.artistType === 'labelled' && (
+        {!isContentCreator && (
           <>
-            <FormField
-              label={t('signup.form.labelName')}
-              placeholder={t('signup.form.labelNamePlaceholder')}
-              value={formData.labelName}
-              onChange={updateFormData('labelName')}
-              required
-              error={errors.labelName}
-            />
+            <div className="flex flex-col w-full md:col-span-2">
+              <label className="text-white font-bold tracking-[0.13px] text-sm mb-2">
+                {t('signup.form.artistTypeLabel')}
+              </label>
+              <div className="inline-flex w-fit rounded-full bg-[rgba(210,216,218,0.16)] p-1">
+                {(['independent', 'labelled'] as ArtistType[]).map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => updateFormData('artistType')(type)}
+                    className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+                      formData.artistType === type
+                        ? 'bg-[#C40505] text-white'
+                        : 'text-[#D2D8DA] hover:text-white'
+                    }`}
+                  >
+                    {t(`signup.form.artistType.${type}`)}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-            <FormField
-              label={t('signup.form.labelManagerName')}
-              placeholder={t('signup.form.labelManagerNamePlaceholder')}
-              value={formData.labelManagerName}
-              onChange={updateFormData('labelManagerName')}
-            />
+            {formData.artistType === 'labelled' && (
+              <>
+                <FormField
+                  label={t('signup.form.labelName')}
+                  placeholder={t('signup.form.labelNamePlaceholder')}
+                  value={formData.labelName}
+                  onChange={updateFormData('labelName')}
+                  required
+                  error={errors.labelName}
+                />
 
-            <FormField
-              label={t('signup.form.labelManagerContact')}
-              placeholder={t('signup.form.labelManagerContactPlaceholder')}
-              value={formData.labelManagerContact}
-              onChange={updateFormData('labelManagerContact')}
-              required
-              error={errors.labelManagerContact}
-              className="md:col-span-2"
-            />
+                <FormField
+                  label={t('signup.form.labelManagerName')}
+                  placeholder={t('signup.form.labelManagerNamePlaceholder')}
+                  value={formData.labelManagerName}
+                  onChange={updateFormData('labelManagerName')}
+                />
+
+                <FormField
+                  label={t('signup.form.labelManagerContact')}
+                  placeholder={t('signup.form.labelManagerContactPlaceholder')}
+                  value={formData.labelManagerContact}
+                  onChange={updateFormData('labelManagerContact')}
+                  required
+                  error={errors.labelManagerContact}
+                  className="md:col-span-2"
+                />
+              </>
+            )}
           </>
         )}
 

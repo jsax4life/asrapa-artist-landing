@@ -33,8 +33,8 @@ const CONTENT_PLAN_ICONS: Record<ContentPlanId, typeof Radio> = {
 
 const CONTENT_PLAN_CTA: Record<ContentPlanId, { href: string; external: boolean }> = {
   radio: { href: WHATSAPP_URL, external: true },
-  podcast: { href: ROUTES.REGISTRATION, external: false },
-  sketches: { href: ROUTES.REGISTRATION, external: false },
+  podcast: { href: `${ROUTES.REGISTRATION}?type=podcast`, external: false },
+  sketches: { href: `${ROUTES.REGISTRATION}?type=sketch`, external: false },
 };
 
 const Prices = () => {
