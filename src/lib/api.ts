@@ -671,6 +671,46 @@ export const api = {
     }
   },
 
+  /** Endpoint pas encore confirmé côté backend au moment de l'écriture — à valider avec le développeur. */
+  async uploadPodcastEpisode(formData: FormData): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.post('/artist/upload-podcast', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau pendant le téléversement de l\'épisode. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  /** Endpoint pas encore confirmé côté backend au moment de l'écriture — à valider avec le développeur. */
+  async uploadSketch(formData: FormData): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.post('/artist/upload-sketch', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau pendant le téléversement du sketch. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
   async updateArtistProfile(data: {
     fullName?: string;
     stageName?: string;
