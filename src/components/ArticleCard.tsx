@@ -58,7 +58,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
               <DialogTrigger asChild>
                 <button
                   type="button"
-                  className="items-center border shadow-[0_4px_4px_0_rgba(0,0,0,0.05)] flex flex-col justify-center bg-[#C40505] px-10 py-[17px] rounded-[50px] border-solid border-[#C40505] max-md:px-5 hover:bg-[#A00404] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C40505] focus:ring-offset-2"
+                  className="items-center border shadow-[0_4px_4px_0_rgba(0,0,0,0.05)] flex flex-col justify-center bg-[#FF0000] px-10 py-[17px] rounded-[50px] border-solid border-[#FF0000] max-md:px-5 hover:bg-[#A00404] transition-colors focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:ring-offset-2"
                   aria-label={t('articleGuidePage.readArticle', { title })}
                 >
                   <span>{t('articleGuidePage.readMore')}</span>
@@ -79,7 +79,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
             <p>{description}</p>
           )}
         </div>
-        <p className="mt-6 text-xs font-semibold tracking-[0.15em] text-[#C40505] uppercase">
+        <p className="mt-6 text-xs font-semibold tracking-[0.15em] text-[#FF0000] uppercase">
           {t('articleGuidePage.tagline')}
         </p>
       </DialogContent>

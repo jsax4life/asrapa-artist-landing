@@ -26,7 +26,7 @@ const Index = () => {
             </p>
             <a
               href="/registration"
-              className="inline-block px-8 py-3 bg-[#C40505] text-white text-lg font-bold rounded-full shadow-lg hover:bg-[#a30404] transition-colors duration-200"
+              className="inline-block px-8 py-3 bg-[#FF0000] text-white text-lg font-bold rounded-full shadow-lg hover:bg-[#a30404] transition-colors duration-200"
             >
               {t('nav.registration')}
             </a>

@@ -112,7 +112,7 @@ const ResetPassword: React.FC = () => {
               type="submit"
               disabled={isResetting}
               className={`w-full min-h-12 rounded-full px-6 py-3 text-white font-semibold transition-colors ${
-                isResetting ? 'bg-gray-500 cursor-not-allowed' : 'bg-[#C40505] hover:bg-[#E60606]'
+                isResetting ? 'bg-gray-500 cursor-not-allowed' : 'bg-[#FF0000] hover:bg-[#E60000]'
               }`}
             >
               {isResetting ? t('auth.resettingPassword') : t('auth.resetPasswordButton')}

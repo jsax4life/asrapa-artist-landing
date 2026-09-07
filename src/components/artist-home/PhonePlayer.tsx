@@ -16,7 +16,7 @@ function Waveform({ active }: { active: boolean }) {
       {barHeights.map((height, i) => (
         <span
           key={i}
-          className="w-full flex-1 origin-bottom rounded-full bg-gradient-to-t from-[#C40505]/50 to-[#C40505]"
+          className="w-full flex-1 origin-bottom rounded-full bg-gradient-to-t from-[#FF0000]/50 to-[#FF0000]"
           style={{
             height: `${height}%`,
             animation: `equalize ${0.32 + (i % 4) * 0.09}s ease-in-out ${i * 0.025}s infinite alternate`,
@@ -87,7 +87,7 @@ export const PhonePlayer: React.FC = () => {
 
   return (
     <div className="w-[220px] xs:w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] shrink-0">
-      <div className="flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-black shadow-[0_4px_30px_rgba(196,5,5,0.2)]">
+      <div className="flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-black shadow-[0_4px_30px_rgba(255,0,0,0.2)]">
         <div className="relative aspect-square w-full bg-black">
           {track ? (
             <img
@@ -125,7 +125,7 @@ export const PhonePlayer: React.FC = () => {
           </div>
           <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-white/10">
             <div
-              className="h-full rounded-full bg-[#C40505] transition-[width] duration-300"
+              className="h-full rounded-full bg-[#FF0000] transition-[width] duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -135,7 +135,7 @@ export const PhonePlayer: React.FC = () => {
             onClick={togglePlay}
             disabled={!track}
             aria-label={isPlaying ? 'Pause' : 'Lecture'}
-            className="mx-auto mt-3 grid size-10 place-items-center rounded-full bg-[#C40505] text-white transition-transform hover:scale-105 disabled:opacity-40"
+            className="mx-auto mt-3 grid size-10 place-items-center rounded-full bg-[#FF0000] text-white transition-transform hover:scale-105 disabled:opacity-40"
           >
             {isPlaying ? (
               <Pause className="size-4 fill-current" />

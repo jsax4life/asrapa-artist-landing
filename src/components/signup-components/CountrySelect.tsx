@@ -84,7 +84,7 @@ export const CountrySelect: React.FC<CountrySelectProps> = ({
                       setQuery('');
                     }}
                     className={`w-full text-left px-4 py-2 text-sm transition-colors hover:bg-[rgba(210,216,218,0.12)] ${
-                      country === value ? 'text-[#C40505] font-semibold' : 'text-[#D2D8DA]'
+                      country === value ? 'text-[#FF0000] font-semibold' : 'text-[#D2D8DA]'
                     }`}
                   >
                     {country}

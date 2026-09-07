@@ -54,7 +54,7 @@ export const ErrorFallback: React.FC<{ error?: Error | null }> = ({ error }) => 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black">
       <div className="text-center max-w-md mx-auto p-6">
-        <h1 className="text-4xl font-bold text-[#C40505] mb-4">Oops!</h1>
+        <h1 className="text-4xl font-bold text-[#FF0000] mb-4">Oops!</h1>
         <h2 className="text-2xl font-semibold mb-4 text-white">{errorMessage}</h2>
         {errorDetails && (
           <details className="text-sm text-white/60 mb-4">
@@ -66,7 +66,7 @@ export const ErrorFallback: React.FC<{ error?: Error | null }> = ({ error }) => 
         )}
         <button
           onClick={() => window.location.href = '/'}
-          className="bg-[#C40505] hover:bg-[#a00404] text-white font-bold py-2 px-4 rounded"
+          className="bg-[#FF0000] hover:bg-[#a00404] text-white font-bold py-2 px-4 rounded"
         >
           Go Home
         </button>

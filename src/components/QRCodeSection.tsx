@@ -18,7 +18,7 @@ const QRCodeSection: React.FC = () => {
         </h2>
       </header>
 
-      <div className="rounded-3xl bg-white p-6 shadow-[0_20px_60px_rgba(196,5,5,0.2)]">
+      <div className="rounded-3xl bg-white p-6 shadow-[0_20px_60px_rgba(255,0,0,0.2)]">
         <QRCodeSVG
           value={APP_DOWNLOAD_URL}
           size={220}

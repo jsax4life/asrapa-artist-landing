@@ -35,7 +35,7 @@ export const TermsCheckbox: React.FC<TermsCheckboxProps> = ({
               type="button"
               onClick={() => onChange(!checked)}
               className={`border flex w-4 h-4 rounded items-center justify-center transition-colors ${
-                checked ? 'bg-[#C40505] border-[#C40505]' : 'bg-white border-[rgba(118,118,118,1)]'
+                checked ? 'bg-[#FF0000] border-[#FF0000]' : 'bg-white border-[rgba(118,118,118,1)]'
               } ${error ? 'border-red-500' : ''}`}
               aria-label="Agree to terms and conditions"
               role="checkbox"
@@ -50,7 +50,7 @@ export const TermsCheckbox: React.FC<TermsCheckboxProps> = ({
             <a
               href={ROUTES.TERMS}
               onClick={openTerms}
-              className="text-[#C40505] font-normal underline hover:text-[#E60606] transition-colors inline-block py-1"
+              className="text-[#FF0000] font-normal underline hover:text-[#E60000] transition-colors inline-block py-1"
               data-1p-ignore="true"
               data-lpignore="true"
               data-form-type="other"
@@ -64,7 +64,7 @@ export const TermsCheckbox: React.FC<TermsCheckboxProps> = ({
           <span>{t('signup.alreadyHaveAccount')} </span>
           <Link
             to={ROUTES.LOGIN}
-            className="text-[#C40505] font-normal underline hover:text-[#E60606] transition-colors"
+            className="text-[#FF0000] font-normal underline hover:text-[#E60000] transition-colors"
           >
             {t('signup.logIn')}
           </Link>

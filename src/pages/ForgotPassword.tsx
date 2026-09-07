@@ -39,7 +39,7 @@ const ForgotPassword: React.FC = () => {
         <div className="w-full max-w-md rounded-xl bg-[rgba(210,216,218,0.08)] p-6 shadow-card">
           {sent ? (
             <div className="text-center">
-              <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#C40505]/15 text-[#C40505]">
+              <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#FF0000]/15 text-[#FF0000]">
                 <Mail className="size-6" />
               </span>
               <h1 className="mt-4 text-2xl font-bold text-white">
@@ -51,7 +51,7 @@ const ForgotPassword: React.FC = () => {
               <Link
                 to={ROUTES.RESET_PASSWORD}
                 state={{ email }}
-                className="mt-6 inline-block min-h-12 w-full rounded-full bg-[#C40505] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#E60606]"
+                className="mt-6 inline-block min-h-12 w-full rounded-full bg-[#FF0000] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#E60000]"
               >
                 {t('auth.resetPasswordButton')}
               </Link>
@@ -66,7 +66,7 @@ const ForgotPassword: React.FC = () => {
             <>
               <header className="mb-6 text-center">
                 <h1 className="text-3xl font-bold text-white">
-                  {t('forgotPassword.title')} <span className="text-[#C40505]">{brand}</span>
+                  {t('forgotPassword.title')} <span className="text-[#FF0000]">{brand}</span>
                 </h1>
                 <p className="mt-2 text-[#D2D8DA]">{t('forgotPassword.subtitle')}</p>
               </header>
@@ -97,8 +97,8 @@ const ForgotPassword: React.FC = () => {
                   disabled={isSubmitting}
                   className={`min-h-12 w-full rounded-full px-6 py-3 font-semibold text-white transition-colors ${
                     isSubmitting
-                      ? 'cursor-not-allowed bg-[#C40505]/30 text-white/50'
-                      : 'bg-[#C40505] hover:bg-[#E60606]'
+                      ? 'cursor-not-allowed bg-[#FF0000]/30 text-white/50'
+                      : 'bg-[#FF0000] hover:bg-[#E60000]'
                   }`}
                 >
                   {isSubmitting ? t('forgotPassword.sending') : t('forgotPassword.submit')}

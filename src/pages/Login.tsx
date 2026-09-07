@@ -38,7 +38,7 @@ const Login: React.FC = () => {
         <div className="w-full max-w-md bg-[rgba(210,216,218,0.08)] rounded-xl p-6 shadow-card">
           <header className="text-center mb-6">
             <h1 className="text-white text-3xl font-bold">
-              {t('login.welcome')} <span className="text-[#C40505]">{brand}</span>
+              {t('login.welcome')} <span className="text-[#FF0000]">{brand}</span>
             </h1>
             <p className="text-[#D2D8DA] mt-2">{t('login.subtitle')}</p>
           </header>
@@ -98,7 +98,7 @@ const Login: React.FC = () => {
               type="submit"
               disabled={isLoggingIn}
               className={`w-full min-h-12 rounded-full px-6 py-3 text-white font-semibold transition-colors ${
-                isLoggingIn ? 'bg-[#C40505]/30 text-white/50 cursor-not-allowed' : 'bg-[#C40505] hover:bg-[#E60606]'
+                isLoggingIn ? 'bg-[#FF0000]/30 text-white/50 cursor-not-allowed' : 'bg-[#FF0000] hover:bg-[#E60000]'
               }`}
             >
               {isLoggingIn ? t('login.submitting', 'Signing in...') : t('login.submit')}

@@ -68,7 +68,7 @@ const Prices = () => {
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
         <header className="text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#C40505]">{t('pricesPage.eyebrow')}</p>
+          <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#FF0000]">{t('pricesPage.eyebrow')}</p>
           <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">
             {t('pricesPage.title')}
           </h1>
@@ -87,7 +87,7 @@ const Prices = () => {
                 onClick={() => setActiveTier(tier.id)}
                 className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
                   activeTier === tier.id
-                    ? 'bg-[#C40505] text-white'
+                    ? 'bg-[#FF0000] text-white'
                     : 'text-white/60 hover:text-white'
                 }`}
               >
@@ -103,7 +103,7 @@ const Prices = () => {
                 key={tier.id}
                 className="mx-auto mt-8 max-w-2xl rounded-3xl border border-white/10 bg-[#0d0d0d] p-8 sm:p-10"
               >
-                <div className="flex items-center gap-2 text-[#C40505]">
+                <div className="flex items-center gap-2 text-[#FF0000]">
                   <Sparkles className="size-5" />
                   <span className="text-xs font-semibold uppercase tracking-[0.2em]">
                     {tier.name}
@@ -127,7 +127,7 @@ const Prices = () => {
                   <ol className="mt-3 space-y-2">
                     {tier.steps.map((step, i) => (
                       <li key={step} className="flex items-start gap-3 text-sm text-white/70">
-                        <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#C40505] text-[11px] font-bold text-white">
+                        <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#FF0000] text-[11px] font-bold text-white">
                           {i + 1}
                         </span>
                         {step}
@@ -138,7 +138,7 @@ const Prices = () => {
 
                 <Link
                   to={ROUTES.REGISTRATION}
-                  className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-[#C40505] py-3.5 font-bold text-white transition-colors hover:bg-[#a00404]"
+                  className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-[#FF0000] py-3.5 font-bold text-white transition-colors hover:bg-[#a00404]"
                 >
                   <Check className="size-4" />
                   {t('pricesPage.createAccountCta')}
@@ -158,7 +158,7 @@ const Prices = () => {
                   key={plan.id}
                   className="flex flex-col rounded-2xl border border-white/10 bg-[#0d0d0d] p-6"
                 >
-                  <span className="grid size-10 place-items-center rounded-full bg-[#C40505]/15 text-[#C40505]">
+                  <span className="grid size-10 place-items-center rounded-full bg-[#FF0000]/15 text-[#FF0000]">
                     <Icon className="size-5" />
                   </span>
                   <h3 className="mt-4 text-lg font-bold">{plan.name}</h3>
@@ -181,14 +181,14 @@ const Prices = () => {
                       href={plan.cta.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-6 rounded-full border border-[#C40505] py-2.5 text-center text-sm font-semibold text-[#C40505] transition-colors hover:bg-[#C40505] hover:text-white"
+                      className="mt-6 rounded-full border border-[#FF0000] py-2.5 text-center text-sm font-semibold text-[#FF0000] transition-colors hover:bg-[#FF0000] hover:text-white"
                     >
                       {plan.cta.label}
                     </a>
                   ) : (
                     <Link
                       to={plan.cta.href}
-                      className="mt-6 rounded-full border border-[#C40505] py-2.5 text-center text-sm font-semibold text-[#C40505] transition-colors hover:bg-[#C40505] hover:text-white"
+                      className="mt-6 rounded-full border border-[#FF0000] py-2.5 text-center text-sm font-semibold text-[#FF0000] transition-colors hover:bg-[#FF0000] hover:text-white"
                     >
                       {plan.cta.label}
                     </Link>
@@ -201,7 +201,7 @@ const Prices = () => {
 
         <p className="mt-16 text-center text-xs text-white/40">
           {t('pricesPage.footer.question')}{' '}
-          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-[#C40505] hover:underline">
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-[#FF0000] hover:underline">
             {t('pricesPage.footer.contact')}
           </a>
           .

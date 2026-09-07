@@ -28,7 +28,7 @@ const Audience = () => {
   const { t } = useTranslation();
 
   const demoGenderData = [
-    { name: t('audiencePage.demographics.genderLabels.men'), value: 500, color: 'hsl(0 85% 60%)' },
+    { name: t('audiencePage.demographics.genderLabels.men'), value: 500, color: 'hsl(0 100% 50%)' },
     { name: t('audiencePage.demographics.genderLabels.women'), value: 300, color: 'hsl(0 0% 96%)' },
     { name: t('audiencePage.demographics.genderLabels.other'), value: 200, color: 'hsl(355 75% 42%)' },
   ];

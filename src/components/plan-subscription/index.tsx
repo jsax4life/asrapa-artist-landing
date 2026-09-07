@@ -10,7 +10,7 @@ const Index = () => {
   return (
     <section className="w-full py-24 max-sm:py-16">
       <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 px-6 text-center">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#C40505]">
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#FF0000]">
           {t('premium.artistCtaEyebrow')}
         </p>
         <h2 className="text-4xl font-bold text-white sm:text-5xl">
@@ -26,7 +26,7 @@ const Index = () => {
           </Link>
           <Link
             to={ROUTES.REGISTRATION}
-            className="rounded-full bg-[#C40505] px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#a00404]"
+            className="rounded-full bg-[#FF0000] px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#a00404]"
           >
             {t('premium.artistCtaSignup')}
           </Link>
