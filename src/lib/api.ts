@@ -93,6 +93,12 @@ export interface ArtistSignupData {
   /** Ville au Tchad, pour le ciblage marketing local (Moundou, Sarh, Bongor, etc.). */
   city?: string;
   agreeToTerms: boolean;
+  /** Statut de l'artiste, détermine le tarif appliqué (indépendant vs labellisé). */
+  artistType?: 'independent' | 'labelled';
+  /** Renseignés uniquement si artistType === 'labelled', pour vérification manuelle avant validation. */
+  labelName?: string;
+  labelManagerName?: string;
+  labelManagerContact?: string;
 }
 
 export interface ApiResponse<T> {
