@@ -92,7 +92,8 @@ export interface ArtistSignupData {
   country: string;
   /** Ville au Tchad, pour le ciblage marketing local (Moundou, Sarh, Bongor, etc.). */
   city?: string;
-  agreeToTerms: boolean;
+  /** Le backend attend ce champ sous le nom "termsAccepted", pas "agreeToTerms". */
+  termsAccepted: boolean;
   /** Statut de l'artiste, détermine le tarif appliqué (indépendant vs labellisé). */
   artistType?: 'independent' | 'labelled';
   /** Renseignés uniquement si artistType === 'labelled', pour vérification manuelle avant validation. */

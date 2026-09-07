@@ -199,10 +199,12 @@ export const SignUpForm: React.FC = () => {
     }
     
     if (await validateForm()) {
-      const { confirmPassword, city, country, artistType, labelName, labelManagerName, labelManagerContact, ...rest } = formData;
+      const { confirmPassword, city, country, artistType, labelName, labelManagerName, labelManagerContact, agreeToTerms, ...rest } = formData;
       const signupData = {
         ...rest,
         country,
+        // Le backend attend ce champ sous le nom "termsAccepted", pas "agreeToTerms".
+        termsAccepted: agreeToTerms,
         // Le statut indépendant/labellisé ne concerne que la musique, pas les créateurs de podcast/sketch.
         ...(isContentCreator ? {} : { artistType }),
         // On ne joint la ville que pour le Tchad, elle n'a pas de sens ailleurs.
