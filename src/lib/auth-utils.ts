@@ -1,6 +1,8 @@
 import { authService, AuthToken, UserData } from '@/lib/auth';
 import { AuthSuccessResponse } from '@/lib/api';
 
+const optionalString = (value: unknown) => (value ? String(value) : undefined);
+
 export const mapArtistToUserData = (artist: Record<string, unknown>): UserData => ({
   id: String(artist.id ?? artist._id ?? ''),
   fullName: String(artist.fullName ?? ''),
@@ -8,10 +10,19 @@ export const mapArtistToUserData = (artist: Record<string, unknown>): UserData =
   email: String(artist.email ?? ''),
   country: String(artist.country ?? ''),
   createdAt: String(artist.createdAt ?? new Date().toISOString()),
-  ...(artist.profilePicture ? { profilePhotoUrl: String(artist.profilePicture) } : {}),
-  ...(artist.bannerImage ? { bannerImageUrl: String(artist.bannerImage) } : {}),
-  ...(artist.bio ? { bio: String(artist.bio) } : {}),
-  ...(artist.city ? { city: String(artist.city) } : {}),
+  ...(optionalString(artist.profilePicture) ? { profilePhotoUrl: String(artist.profilePicture) } : {}),
+  ...(optionalString(artist.bannerImage ?? artist.bannerImageUrl)
+    ? { bannerImageUrl: String(artist.bannerImage ?? artist.bannerImageUrl) }
+    : {}),
+  ...(optionalString(artist.bio) ? { bio: String(artist.bio) } : {}),
+  ...(optionalString(artist.city) ? { city: String(artist.city) } : {}),
+  ...(optionalString(artist.hometown) ? { hometown: String(artist.hometown) } : {}),
+  ...(optionalString(artist.website) ? { website: String(artist.website) } : {}),
+  ...(optionalString(artist.twitter) ? { twitter: String(artist.twitter) } : {}),
+  ...(optionalString(artist.facebook) ? { facebook: String(artist.facebook) } : {}),
+  ...(optionalString(artist.instagram) ? { instagram: String(artist.instagram) } : {}),
+  ...(optionalString(artist.youtube) ? { youtube: String(artist.youtube) } : {}),
+  ...(optionalString(artist.tiktok) ? { tiktok: String(artist.tiktok) } : {}),
 });
 
 export const persistAuthResponse = (

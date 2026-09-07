@@ -16,6 +16,13 @@ export interface UserData {
   bio?: string;
   /** Ville au Tchad, pour le ciblage marketing local (Moundou, Sarh, Bongor, etc.). */
   city?: string;
+  hometown?: string;
+  website?: string;
+  twitter?: string;
+  facebook?: string;
+  instagram?: string;
+  youtube?: string;
+  tiktok?: string;
 }
 
 class AuthService {

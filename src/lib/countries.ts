@@ -1,3 +1,6 @@
+/** Valeur envoyée à l'API pour le pays (artiste basé au Tchad uniquement). */
+export const CHAD_COUNTRY = 'Chad';
+
 /** Tchad en premier (public prioritaire), puis tous les autres pays par ordre alphabétique. */
 export const COUNTRIES: string[] = [
   'Tchad',

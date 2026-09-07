@@ -39,9 +39,10 @@ export function BannerImageUploader({ className }: BannerImageUploaderProps) {
 
     try {
       const response = await api.updateBannerImage(file);
-      const updatedArtist = response.data?.artist as { bannerImage?: string } | undefined;
-      if (updatedArtist?.bannerImage) {
-        updateUser({ bannerImageUrl: updatedArtist.bannerImage });
+      const updatedArtist = response.data?.artist as { bannerImage?: string; bannerImageUrl?: string } | undefined;
+      const bannerUrl = updatedArtist?.bannerImageUrl ?? updatedArtist?.bannerImage;
+      if (bannerUrl) {
+        updateUser({ bannerImageUrl: bannerUrl });
       }
       toast({
         title: t('bannerImageUploader.updateSuccessTitle'),

@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { api, ApiError, UploadedSong, UploadedAlbum } from "@/lib/api";
+import { ROUTES } from "@/constants/routes";
 
 // Combined release data for display
 interface CombinedRelease {
@@ -255,7 +256,7 @@ const MusicLibrary = () => {
           <p className="text-muted-foreground mb-4">
             {emptyMessage}
           </p>
-          <Link to="/upload">
+          <Link to={ROUTES.UPLOAD}>
             <Button className="bg-primary hover:bg-primary-dark text-primary-foreground">
               <Upload className="h-4 w-4 mr-2" />
               {t('musicLibraryPage.emptyState.uploadButton')}
@@ -535,7 +536,7 @@ const MusicLibrary = () => {
                     {t('musicLibraryPage.cta.description')}
                   </CardDescription>
                 </div>
-                <Link to="/upload">
+                <Link to={ROUTES.UPLOAD}>
                   <Button className="mt-4 sm:mt-0 bg-primary hover:bg-primary-dark text-primary-foreground flex items-center gap-2">
                     <Upload className="h-5 w-5" />
                     {t('musicLibraryPage.cta.button')}

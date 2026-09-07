@@ -712,17 +712,42 @@ export const api = {
     }
   },
 
+  async getArtistMe(): Promise<ApiResponse<{ artist: Record<string, unknown> }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ artist: Record<string, unknown> }>> =
+        await apiClient.get('/artist/me');
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau lors du chargement du profil. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
   async updateArtistProfile(data: {
     fullName?: string;
     stageName?: string;
     email?: string;
+    hometown?: string;
     country?: string;
     city?: string;
+    website?: string;
     bio?: string;
+    twitter?: string;
+    facebook?: string;
+    instagram?: string;
+    youtube?: string;
+    tiktok?: string;
+    bannerImageUrl?: string;
+    profilePicture?: string;
   }): Promise<ApiResponse<{ artist: Record<string, unknown> }>> {
     try {
       const response: AxiosResponse<ApiResponse<{ artist: Record<string, unknown> }>> = await apiClient.patch(
-        '/artist/profile',
+        '/artist/update-me',
         data
       );
       return response.data;
@@ -738,12 +763,12 @@ export const api = {
   },
 
   async changePassword(data: {
-    currentPassword: string;
-    newPassword: string;
+    passwordCurrent: string;
+    password: string;
   }): Promise<ApiResponse<{ message: string }>> {
     try {
       const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
-        '/artist/change-password',
+        '/artist/auth/update-password',
         data
       );
       return response.data;

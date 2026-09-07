@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppSidebar } from "@/components/dashboard-components/AppSidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/dashboard-sidebar";
@@ -13,25 +13,65 @@ import { BannerImageUploader } from "@/components/dashboard-components/BannerIma
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { api, ApiError } from "@/lib/api";
-import { COUNTRIES, CHAD_CITIES } from "@/lib/countries";
+import { mapArtistToUserData } from "@/lib/auth-utils";
+import { CHAD_CITIES, CHAD_COUNTRY } from "@/lib/countries";
 import artistProfile from "@/assets/images/artist-profile.jpg";
+
+type ProfileForm = {
+  fullName: string;
+  stageName: string;
+  email: string;
+  hometown: string;
+  city: string;
+  website: string;
+  bio: string;
+  twitter: string;
+  facebook: string;
+  instagram: string;
+  youtube: string;
+  tiktok: string;
+};
+
+const emptyProfileForm = (): ProfileForm => ({
+  fullName: '',
+  stageName: '',
+  email: '',
+  hometown: '',
+  city: '',
+  website: '',
+  bio: '',
+  twitter: '',
+  facebook: '',
+  instagram: '',
+  youtube: '',
+  tiktok: '',
+});
+
+const profileFormFromUser = (user: ReturnType<typeof mapArtistToUserData>): ProfileForm => ({
+  fullName: user.fullName,
+  stageName: user.stageName,
+  email: user.email,
+  hometown: user.hometown || '',
+  city: user.city || '',
+  website: user.website || '',
+  bio: user.bio || '',
+  twitter: user.twitter || '',
+  facebook: user.facebook || '',
+  instagram: user.instagram || '',
+  youtube: user.youtube || '',
+  tiktok: user.tiktok || '',
+});
 
 const Settings = () => {
   const { t } = useTranslation();
   const { user, updateUser } = useAuth();
   const { toast } = useToast();
 
-  const [profileForm, setProfileForm] = useState({
-    fullName: user?.fullName || '',
-    stageName: user?.stageName || '',
-    email: user?.email || '',
-    country: user?.country || '',
-    city: user?.city || '',
-  });
+  const [profileForm, setProfileForm] = useState<ProfileForm>(() =>
+    user ? profileFormFromUser(user as ReturnType<typeof mapArtistToUserData>) : emptyProfileForm()
+  );
   const [isSavingProfile, setIsSavingProfile] = useState(false);
-
-  const [bio, setBio] = useState(user?.bio || '');
-  const [isSavingBio, setIsSavingBio] = useState(false);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
 
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: '',
@@ -40,8 +80,34 @@ const Settings = () => {
   });
   const [isSavingPassword, setIsSavingPassword] = useState(false);
 
-  const handleProfileChange = (field: keyof typeof profileForm) => (
-    event: React.ChangeEvent<HTMLInputElement>
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const response = await api.getArtistMe();
+        const artist = response.data?.artist;
+        if (artist) {
+          const userData = mapArtistToUserData(artist);
+          updateUser(userData);
+          setProfileForm(profileFormFromUser(userData));
+        }
+      } catch (error) {
+        const errorMessage = error instanceof ApiError ? error.message : t('accountSettingsPage.profileUpdateFailedDescription');
+        toast({
+          title: t('accountSettingsPage.updateFailedTitle'),
+          description: errorMessage,
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoadingProfile(false);
+      }
+    };
+
+    loadProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load once on mount
+  }, []);
+
+  const handleProfileChange = (field: keyof ProfileForm) => (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setProfileForm((prev) => ({ ...prev, [field]: event.target.value }));
   };
@@ -50,12 +116,28 @@ const Settings = () => {
     event.preventDefault();
     setIsSavingProfile(true);
     const payload = {
-      ...profileForm,
-      ...(profileForm.country === 'Tchad' ? {} : { city: '' }),
+      fullName: profileForm.fullName,
+      stageName: profileForm.stageName,
+      email: profileForm.email,
+      country: CHAD_COUNTRY,
+      hometown: profileForm.hometown,
+      city: profileForm.city,
+      website: profileForm.website,
+      bio: profileForm.bio,
+      twitter: profileForm.twitter,
+      facebook: profileForm.facebook,
+      instagram: profileForm.instagram,
+      youtube: profileForm.youtube,
+      tiktok: profileForm.tiktok,
     };
     try {
-      await api.updateArtistProfile(payload);
-      updateUser(payload);
+      const response = await api.updateArtistProfile(payload);
+      const artist = response.data?.artist;
+      if (artist) {
+        const userData = mapArtistToUserData(artist);
+        updateUser(userData);
+        setProfileForm(profileFormFromUser(userData));
+      }
       toast({
         title: t('accountSettingsPage.profileUpdatedTitle'),
         description: t('accountSettingsPage.profileUpdatedDescription'),
@@ -69,28 +151,6 @@ const Settings = () => {
       });
     } finally {
       setIsSavingProfile(false);
-    }
-  };
-
-  const handleBioSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setIsSavingBio(true);
-    try {
-      await api.updateArtistProfile({ bio });
-      updateUser({ bio });
-      toast({
-        title: t('accountSettingsPage.bioUpdatedTitle'),
-        description: t('accountSettingsPage.bioUpdatedDescription'),
-      });
-    } catch (error) {
-      const errorMessage = error instanceof ApiError ? error.message : t('accountSettingsPage.bioUpdateFailedDescription');
-      toast({
-        title: t('accountSettingsPage.updateFailedTitle'),
-        description: errorMessage,
-        variant: "destructive",
-      });
-    } finally {
-      setIsSavingBio(false);
     }
   };
 
@@ -118,8 +178,8 @@ const Settings = () => {
     setIsSavingPassword(true);
     try {
       await api.changePassword({
-        currentPassword: passwordForm.currentPassword,
-        newPassword: passwordForm.newPassword,
+        passwordCurrent: passwordForm.currentPassword,
+        password: passwordForm.newPassword,
       });
       setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
       toast({
@@ -150,8 +210,10 @@ const Settings = () => {
 
           <main className="flex-1 overflow-auto">
             <div className="min-h-screen p-3 sm:p-6 space-y-4 sm:space-y-6 bg-background max-w-3xl">
+              {isLoadingProfile ? (
+                <p className="text-sm text-muted-foreground">{t('accountSettingsPage.loadingProfile')}</p>
+              ) : null}
 
-              {/* Bannière de profil */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
                   <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.bannerTitle')}</CardTitle>
@@ -164,7 +226,6 @@ const Settings = () => {
                 </CardContent>
               </Card>
 
-              {/* Photo de profil */}
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
                   <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.profilePhotoTitle')}</CardTitle>
@@ -180,16 +241,15 @@ const Settings = () => {
                 </CardContent>
               </Card>
 
-              {/* Informations du compte */}
-              <Card className="bg-card border-border shadow-card animate-fade-in">
-                <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.accountInfoTitle')}</CardTitle>
-                  <CardDescription className="text-muted-foreground">
-                    {t('accountSettingsPage.accountInfoDescription')}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleProfileSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <form onSubmit={handleProfileSubmit} className="space-y-4 sm:space-y-6">
+                <Card className="bg-card border-border shadow-card animate-fade-in">
+                  <CardHeader>
+                    <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.accountInfoTitle')}</CardTitle>
+                    <CardDescription className="text-muted-foreground">
+                      {t('accountSettingsPage.accountInfoDescription')}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="fullName">{t('accountSettingsPage.fullNameLabel')}</Label>
                       <Input
@@ -208,7 +268,7 @@ const Settings = () => {
                         required
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2 md:col-span-2">
                       <Label htmlFor="email">{t('accountSettingsPage.emailLabel')}</Label>
                       <Input
                         id="email"
@@ -218,93 +278,164 @@ const Settings = () => {
                         required
                       />
                     </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-card border-border shadow-card animate-fade-in">
+                  <CardHeader>
+                    <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.locationTitle')}</CardTitle>
+                    <CardDescription className="text-muted-foreground">
+                      {t('accountSettingsPage.locationDescription')}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="country">{t('accountSettingsPage.countryLabel')}</Label>
+                      <Input
+                        id="country"
+                        value={t('accountSettingsPage.countryValue')}
+                        readOnly
+                        disabled
+                        className="bg-muted"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="city">{t('accountSettingsPage.cityLabel')}</Label>
                       <Select
-                        value={profileForm.country}
-                        onValueChange={(value) =>
-                          setProfileForm((prev) => ({
-                            ...prev,
-                            country: value,
-                            city: value === 'Tchad' ? prev.city : '',
-                          }))
-                        }
+                        value={profileForm.city}
+                        onValueChange={(value) => setProfileForm((prev) => ({ ...prev, city: value }))}
                       >
-                        <SelectTrigger id="country">
-                          <SelectValue placeholder={t('accountSettingsPage.countryPlaceholder')} />
+                        <SelectTrigger id="city">
+                          <SelectValue placeholder={t('accountSettingsPage.cityPlaceholder')} />
                         </SelectTrigger>
                         <SelectContent className="max-h-72">
-                          {COUNTRIES.map((country) => (
-                            <SelectItem key={country} value={country}>
-                              {country}
+                          {CHAD_CITIES.map((city) => (
+                            <SelectItem key={city} value={city}>
+                              {city}
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
                     </div>
-                    {profileForm.country === 'Tchad' && (
-                      <div className="space-y-2">
-                        <Label htmlFor="city">{t('accountSettingsPage.cityLabel')}</Label>
-                        <Select
-                          value={profileForm.city}
-                          onValueChange={(value) => setProfileForm((prev) => ({ ...prev, city: value }))}
-                        >
-                          <SelectTrigger id="city">
-                            <SelectValue placeholder={t('accountSettingsPage.cityPlaceholder')} />
-                          </SelectTrigger>
-                          <SelectContent className="max-h-72">
-                            {CHAD_CITIES.map((city) => (
-                              <SelectItem key={city} value={city}>
-                                {city}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    )}
-                    <div className="md:col-span-2 flex justify-end">
-                      <Button type="submit" disabled={isSavingProfile} className="bg-primary hover:bg-primary-dark text-primary-foreground">
-                        {isSavingProfile ? t('accountSettingsPage.saving') : t('accountSettingsPage.saveChanges')}
-                      </Button>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="hometown">{t('accountSettingsPage.hometownLabel')}</Label>
+                      <Input
+                        id="hometown"
+                        value={profileForm.hometown}
+                        onChange={handleProfileChange('hometown')}
+                        placeholder={t('accountSettingsPage.hometownPlaceholder')}
+                      />
                     </div>
-                  </form>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
 
-              {/* Biographie */}
-              <Card className="bg-card border-border shadow-card animate-fade-in">
-                <CardHeader>
-                  <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.bioTitle')}</CardTitle>
-                  <CardDescription className="text-muted-foreground">
-                    {t('accountSettingsPage.bioSectionDescription')}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleBioSubmit} className="space-y-4">
+                <Card className="bg-card border-border shadow-card animate-fade-in">
+                  <CardHeader>
+                    <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.bioTitle')}</CardTitle>
+                    <CardDescription className="text-muted-foreground">
+                      {t('accountSettingsPage.bioSectionDescription')}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="bio">{t('accountSettingsPage.bioLabel')}</Label>
                       <Textarea
                         id="bio"
-                        value={bio}
-                        onChange={(e) => setBio(e.target.value)}
+                        value={profileForm.bio}
+                        onChange={handleProfileChange('bio')}
                         placeholder={t('accountSettingsPage.bioPlaceholder')}
                         rows={5}
-                        maxLength={1000}
+                        maxLength={500}
                       />
                       <p className="text-xs text-muted-foreground text-right">
-                        {bio.length}/1000
+                        {profileForm.bio.length}/500
                       </p>
                     </div>
-                    <div className="flex justify-end">
-                      <Button type="submit" disabled={isSavingBio} className="bg-primary hover:bg-primary-dark text-primary-foreground">
-                        {isSavingBio ? t('accountSettingsPage.saving') : t('accountSettingsPage.saveBio')}
-                      </Button>
+                    <div className="space-y-2">
+                      <Label htmlFor="website">{t('accountSettingsPage.websiteLabel')}</Label>
+                      <Input
+                        id="website"
+                        type="url"
+                        value={profileForm.website}
+                        onChange={handleProfileChange('website')}
+                        placeholder={t('accountSettingsPage.websitePlaceholder')}
+                      />
                     </div>
-                  </form>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
 
-              {/* Sécurité */}
+                <Card className="bg-card border-border shadow-card animate-fade-in">
+                  <CardHeader>
+                    <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.socialLinksTitle')}</CardTitle>
+                    <CardDescription className="text-muted-foreground">
+                      {t('accountSettingsPage.socialLinksDescription')}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="instagram">{t('accountSettingsPage.instagramLabel')}</Label>
+                      <Input
+                        id="instagram"
+                        type="url"
+                        value={profileForm.instagram}
+                        onChange={handleProfileChange('instagram')}
+                        placeholder={t('accountSettingsPage.instagramPlaceholder')}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="facebook">{t('accountSettingsPage.facebookLabel')}</Label>
+                      <Input
+                        id="facebook"
+                        type="url"
+                        value={profileForm.facebook}
+                        onChange={handleProfileChange('facebook')}
+                        placeholder={t('accountSettingsPage.facebookPlaceholder')}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="twitter">{t('accountSettingsPage.twitterLabel')}</Label>
+                      <Input
+                        id="twitter"
+                        type="url"
+                        value={profileForm.twitter}
+                        onChange={handleProfileChange('twitter')}
+                        placeholder={t('accountSettingsPage.twitterPlaceholder')}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="youtube">{t('accountSettingsPage.youtubeLabel')}</Label>
+                      <Input
+                        id="youtube"
+                        type="url"
+                        value={profileForm.youtube}
+                        onChange={handleProfileChange('youtube')}
+                        placeholder={t('accountSettingsPage.youtubePlaceholder')}
+                      />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="tiktok">{t('accountSettingsPage.tiktokLabel')}</Label>
+                      <Input
+                        id="tiktok"
+                        type="url"
+                        value={profileForm.tiktok}
+                        onChange={handleProfileChange('tiktok')}
+                        placeholder={t('accountSettingsPage.tiktokPlaceholder')}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="flex justify-end">
+                  <Button
+                    type="submit"
+                    disabled={isSavingProfile || isLoadingProfile}
+                    className="bg-primary hover:bg-primary-dark text-primary-foreground"
+                  >
+                    {isSavingProfile ? t('accountSettingsPage.saving') : t('accountSettingsPage.saveChanges')}
+                  </Button>
+                </div>
+              </form>
+
               <Card className="bg-card border-border shadow-card animate-fade-in">
                 <CardHeader>
                   <CardTitle className="text-xl font-bold text-foreground">{t('accountSettingsPage.securityTitle')}</CardTitle>
