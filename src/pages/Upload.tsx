@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Progress } from "@/components/ui/progress";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { UploadCloud, CheckCircle, XCircle, FileText, ChevronDown, X, Music, Disc } from "lucide-react";
+import { UploadCloud, CheckCircle, XCircle, FileText, ChevronDown, X, Music, Disc, Podcast, Mic2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast"; // Added useToast
 import { api, ApiError, Artist, Genre, UploadedSong, UploadedAlbum, getGenreId } from "@/lib/api"; // Import api, ApiError, Artist, Genre, UploadedSong, and UploadedAlbum
 import { useAuth } from "@/contexts/AuthContext"; // Import useAuth to get current user
@@ -43,7 +43,12 @@ interface AlbumFormData {
   }>;
 }
 
-type UploadType = 'single' | 'album';
+interface ContentFormData {
+  title: string;
+  description: string;
+}
+
+type UploadType = 'single' | 'album' | 'podcast' | 'sketch';
 
 const Upload = () => {
   const { t } = useTranslation();
@@ -52,6 +57,9 @@ const Upload = () => {
   const [coverPhotoFile, setCoverPhotoFile] = useState<File | null>(null);
   const [albumCoverPhotoFile, setAlbumCoverPhotoFile] = useState<File | null>(null);
   const [newSongFiles, setNewSongFiles] = useState<File[]>([]);
+  const [contentAudioFile, setContentAudioFile] = useState<File | null>(null);
+  const [contentCoverPhotoFile, setContentCoverPhotoFile] = useState<File | null>(null);
+  const [contentFormData, setContentFormData] = useState<ContentFormData>({ title: '', description: '' });
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
@@ -343,6 +351,91 @@ const Upload = () => {
     }
   }, [albumCoverPhotoFile, albumFormData, newSongFiles, toast]);
 
+  const handleContentFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      if (!file.type.startsWith('audio/')) {
+        toast({
+          title: t('uploadPage.toast.invalidFileTypeTitle'),
+          description: t('uploadPage.toast.invalidAudioFileDescription'),
+          variant: "destructive",
+        });
+        return;
+      }
+      setContentAudioFile(file);
+    }
+  }, [toast, t]);
+
+  const handleContentCoverPhotoChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: t('uploadPage.toast.invalidFileTypeTitle'),
+          description: t('uploadPage.toast.invalidImageFileDescription'),
+          variant: "destructive",
+        });
+        return;
+      }
+      setContentCoverPhotoFile(file);
+    }
+  }, [toast, t]);
+
+  const handleContentSubmit = useCallback(async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!contentAudioFile) {
+      toast({
+        title: t('uploadPage.toast.missingAudioFileTitle'),
+        description: t('uploadPage.toast.missingAudioFileDescription'),
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!contentCoverPhotoFile) {
+      toast({
+        title: t('uploadPage.toast.missingCoverPhotoTitle'),
+        description: t('uploadPage.toast.missingCoverPhotoSongDescription'),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('title', contentFormData.title);
+    if (contentFormData.description) formDataToSend.append('description', contentFormData.description);
+    formDataToSend.append('audioFile', contentAudioFile);
+    formDataToSend.append('coverPhoto', contentCoverPhotoFile);
+
+    try {
+      if (uploadType === 'podcast') {
+        await api.uploadPodcastEpisode(formDataToSend);
+      } else {
+        await api.uploadSketch(formDataToSend);
+      }
+      toast({
+        title: t('uploadPage.toast.uploadSuccessTitle'),
+        description: t('uploadPage.toast.uploadSuccessDescription'),
+      });
+      setContentAudioFile(null);
+      setContentCoverPhotoFile(null);
+      setContentFormData({ title: '', description: '' });
+    } catch (error) {
+      console.error("Content upload error:", error);
+      const notReady = error instanceof ApiError && (error.status === 404 || error.status === 501);
+      toast({
+        title: notReady ? t('uploadPage.toast.featureNotReadyTitle') : t('uploadPage.toast.uploadFailedTitle'),
+        description: notReady
+          ? t('uploadPage.toast.featureNotReadyDescription')
+          : (error instanceof ApiError ? error.message : t('uploadPage.toast.unexpectedUploadErrorDescription')),
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  }, [contentAudioFile, contentCoverPhotoFile, contentFormData, uploadType, toast, t]);
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -365,7 +458,7 @@ const Upload = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="px-0">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <Button
                       variant={uploadType === 'single' ? 'default' : 'outline'}
                       className={`h-20 flex flex-col items-center justify-center gap-2 ${
@@ -387,6 +480,28 @@ const Upload = () => {
                       <Disc className="h-6 w-6" />
                       <span className="font-medium">{t('uploadPage.uploadType.albumLabel')}</span>
                       <span className="text-xs opacity-80">{t('uploadPage.uploadType.albumHint')}</span>
+                    </Button>
+                    <Button
+                      variant={uploadType === 'podcast' ? 'default' : 'outline'}
+                      className={`h-20 flex flex-col items-center justify-center gap-2 ${
+                        uploadType === 'podcast' ? 'bg-primary text-primary-foreground' : ''
+                      }`}
+                      onClick={() => setUploadType('podcast')}
+                    >
+                      <Podcast className="h-6 w-6" />
+                      <span className="font-medium">{t('uploadPage.uploadType.podcastLabel')}</span>
+                      <span className="text-xs opacity-80">{t('uploadPage.uploadType.podcastHint')}</span>
+                    </Button>
+                    <Button
+                      variant={uploadType === 'sketch' ? 'default' : 'outline'}
+                      className={`h-20 flex flex-col items-center justify-center gap-2 ${
+                        uploadType === 'sketch' ? 'bg-primary text-primary-foreground' : ''
+                      }`}
+                      onClick={() => setUploadType('sketch')}
+                    >
+                      <Mic2 className="h-6 w-6" />
+                      <span className="font-medium">{t('uploadPage.uploadType.sketchLabel')}</span>
+                      <span className="text-xs opacity-80">{t('uploadPage.uploadType.sketchHint')}</span>
                     </Button>
                   </div>
                 </CardContent>
@@ -967,6 +1082,124 @@ const Upload = () => {
                       {isUploading ? t('uploadPage.albumDetails.creating') : t('uploadPage.albumDetails.createButton')}
                     </Button>
                   </div>
+                </>
+              )}
+
+              {/* Podcast / Sketch Upload Form */}
+              {(uploadType === 'podcast' || uploadType === 'sketch') && (
+                <>
+                  <Card className="bg-card border-border shadow-card animate-fade-in p-6">
+                    <CardHeader className="px-0 pt-0">
+                      <CardTitle className="text-xl font-bold text-foreground">{t('uploadPage.audioFile.title')}</CardTitle>
+                      <CardDescription className="text-muted-foreground">
+                        {uploadType === 'podcast' ? t('uploadPage.contentDetails.podcastAudioDescription') : t('uploadPage.contentDetails.sketchAudioDescription')}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="px-0">
+                      <div
+                        className="border-2 border-dashed border-border rounded-lg p-10 text-center cursor-pointer hover:bg-accent/10 transition-colors"
+                        onClick={() => document.getElementById('content-audio-input')?.click()}
+                      >
+                        {contentAudioFile ? (
+                          <div className="flex flex-col items-center">
+                            <FileText className="h-12 w-12 text-primary mb-3" />
+                            <p className="text-foreground font-medium">{contentAudioFile.name}</p>
+                            <p className="text-muted-foreground text-sm">{(contentAudioFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center">
+                            <UploadCloud className="h-12 w-12 text-muted-foreground mb-3" />
+                            <p className="text-foreground font-medium">{t('uploadPage.audioFile.dropzoneText')}</p>
+                            <p className="text-muted-foreground text-sm mt-1">{t('uploadPage.audioFile.acceptedFormats')}</p>
+                          </div>
+                        )}
+                        <input
+                          id="content-audio-input"
+                          type="file"
+                          accept=".mp3,.wav,.flac"
+                          className="hidden"
+                          onChange={handleContentFileChange}
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-card border-border shadow-card animate-fade-in p-6">
+                    <CardHeader className="px-0 pt-0">
+                      <CardTitle className="text-xl font-bold text-foreground">{t('uploadPage.coverPhoto.title')}</CardTitle>
+                      <CardDescription className="text-muted-foreground">
+                        {t('uploadPage.coverPhoto.description')}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="px-0">
+                      <div
+                        className="border-2 border-dashed border-border rounded-lg p-10 text-center cursor-pointer hover:bg-accent/10 transition-colors"
+                        onClick={() => document.getElementById('content-cover-input')?.click()}
+                      >
+                        {contentCoverPhotoFile ? (
+                          <div className="flex flex-col items-center">
+                            <img src={URL.createObjectURL(contentCoverPhotoFile)} alt={t('uploadPage.coverPhoto.previewAlt')} className="h-24 w-24 object-cover rounded-md mb-3" />
+                            <p className="text-foreground font-medium">{contentCoverPhotoFile.name}</p>
+                            <p className="text-muted-foreground text-sm">{(contentCoverPhotoFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center">
+                            <UploadCloud className="h-12 w-12 text-muted-foreground mb-3" />
+                            <p className="text-foreground font-medium">{t('uploadPage.coverPhoto.dropzoneText')}</p>
+                            <p className="text-muted-foreground text-sm mt-1">{t('uploadPage.coverPhoto.acceptedFormats')}</p>
+                          </div>
+                        )}
+                        <input
+                          id="content-cover-input"
+                          type="file"
+                          accept=".jpeg,.jpg,.png,.webp"
+                          className="hidden"
+                          onChange={handleContentCoverPhotoChange}
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-card border-border shadow-card animate-fade-in p-6">
+                    <CardHeader className="px-0 pt-0">
+                      <CardTitle className="text-xl font-bold text-foreground">
+                        {uploadType === 'podcast' ? t('uploadPage.contentDetails.podcastTitle') : t('uploadPage.contentDetails.sketchTitle')}
+                      </CardTitle>
+                      <CardDescription className="text-muted-foreground">
+                        {uploadType === 'podcast' ? t('uploadPage.contentDetails.podcastDescription') : t('uploadPage.contentDetails.sketchDescription')}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="px-0">
+                      <form onSubmit={handleContentSubmit} className="grid grid-cols-1 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="content-title">{t('uploadPage.contentDetails.titleLabel')}</Label>
+                          <Input
+                            id="content-title"
+                            value={contentFormData.title}
+                            onChange={(e) => setContentFormData(prev => ({ ...prev, title: e.target.value }))}
+                            placeholder={t('uploadPage.contentDetails.titlePlaceholder')}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="content-description">{t('uploadPage.contentDetails.descriptionLabel')}</Label>
+                          <Textarea
+                            id="content-description"
+                            value={contentFormData.description}
+                            onChange={(e) => setContentFormData(prev => ({ ...prev, description: e.target.value }))}
+                            placeholder={t('uploadPage.contentDetails.descriptionPlaceholder')}
+                            rows={4}
+                            maxLength={2000}
+                          />
+                        </div>
+                        <div className="flex justify-end">
+                          <Button type="submit" disabled={!contentAudioFile || !contentCoverPhotoFile || isUploading} className="bg-primary hover:bg-primary-dark text-primary-foreground flex items-center gap-2">
+                            {isUploading ? t('uploadPage.songDetails.uploading') : t('uploadPage.songDetails.publishButton')}
+                          </Button>
+                        </div>
+                      </form>
+                    </CardContent>
+                  </Card>
                 </>
               )}
 

@@ -707,11 +707,15 @@
     },
     "uploadType": {
       "title": "Type de téléversement",
-      "description": "Choisissez si vous voulez téléverser un titre seul ou créer un album",
+      "description": "Choisissez le type de contenu que vous voulez téléverser",
       "singleLabel": "Titre unique",
       "singleHint": "Téléverser un seul titre",
       "albumLabel": "Album",
-      "albumHint": "Créer un album avec plusieurs titres"
+      "albumHint": "Créer un album avec plusieurs titres",
+      "podcastLabel": "Podcast",
+      "podcastHint": "Téléverser un épisode de podcast",
+      "sketchLabel": "Sketch",
+      "sketchHint": "Téléverser un sketch"
     },
     "audioFile": {
       "title": "Fichier audio",
@@ -793,6 +797,18 @@
       "dropzoneText": "Cliquez pour téléverser de nouveaux titres",
       "acceptedFormats": "Formats acceptés : MP3, WAV, FLAC"
     },
+    "contentDetails": {
+      "podcastTitle": "Détails de l'épisode",
+      "podcastDescription": "Renseignez les informations sur votre épisode de podcast.",
+      "podcastAudioDescription": "Glissez-déposez votre épisode ici, ou cliquez pour parcourir. Formats acceptés : MP3, WAV, FLAC (taille max. 50 Mo)",
+      "sketchTitle": "Détails du sketch",
+      "sketchDescription": "Renseignez les informations sur votre sketch.",
+      "sketchAudioDescription": "Glissez-déposez votre sketch ici, ou cliquez pour parcourir. Formats acceptés : MP3, WAV, FLAC (taille max. 50 Mo)",
+      "titleLabel": "Titre",
+      "titlePlaceholder": "Titre de l'épisode",
+      "descriptionLabel": "Description (optionnel)",
+      "descriptionPlaceholder": "Décrivez le contenu de cet épisode..."
+    },
     "toast": {
       "loadErrorTitle": "Erreur de chargement",
       "loadErrorDescription": "Impossible de charger les artistes et les genres. Actualisez la page.",
@@ -816,7 +832,9 @@
       "albumCreatedSuccessDescription": "Votre album a été créé et est en attente de validation !",
       "unexpectedAlbumErrorDescription": "Une erreur inattendue s'est produite pendant la création de l'album.",
       "albumCreationFailedTitle": "Échec de la création de l'album",
-      "someFilesIgnoredDescription": "Certains fichiers n'étaient pas des fichiers audio et ont été ignorés."
+      "someFilesIgnoredDescription": "Certains fichiers n'étaient pas des fichiers audio et ont été ignorés.",
+      "featureNotReadyTitle": "Bientôt disponible",
+      "featureNotReadyDescription": "Le téléversement de ce type de contenu arrive très prochainement. Réessayez plus tard."
     }
   },
   "accountSettingsPage": {

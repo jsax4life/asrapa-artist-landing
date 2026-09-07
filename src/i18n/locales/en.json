@@ -707,11 +707,15 @@
     },
     "uploadType": {
       "title": "Upload type",
-      "description": "Choose whether you want to upload a single track or create an album",
+      "description": "Choose the type of content you want to upload",
       "singleLabel": "Single track",
       "singleHint": "Upload a single track",
       "albumLabel": "Album",
-      "albumHint": "Create an album with several tracks"
+      "albumHint": "Create an album with several tracks",
+      "podcastLabel": "Podcast",
+      "podcastHint": "Upload a podcast episode",
+      "sketchLabel": "Sketch",
+      "sketchHint": "Upload a sketch"
     },
     "audioFile": {
       "title": "Audio file",
@@ -793,6 +797,18 @@
       "dropzoneText": "Click to upload new tracks",
       "acceptedFormats": "Accepted formats: MP3, WAV, FLAC"
     },
+    "contentDetails": {
+      "podcastTitle": "Episode details",
+      "podcastDescription": "Fill in the information about your podcast episode.",
+      "podcastAudioDescription": "Drag and drop your episode here, or click to browse. Accepted formats: MP3, WAV, FLAC (max size 50 MB)",
+      "sketchTitle": "Sketch details",
+      "sketchDescription": "Fill in the information about your sketch.",
+      "sketchAudioDescription": "Drag and drop your sketch here, or click to browse. Accepted formats: MP3, WAV, FLAC (max size 50 MB)",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Episode title",
+      "descriptionLabel": "Description (optional)",
+      "descriptionPlaceholder": "Describe what this episode is about..."
+    },
     "toast": {
       "loadErrorTitle": "Loading error",
       "loadErrorDescription": "Unable to load artists and genres. Refresh the page.",
@@ -816,7 +832,9 @@
       "albumCreatedSuccessDescription": "Your album has been created and is awaiting validation!",
       "unexpectedAlbumErrorDescription": "An unexpected error occurred while creating the album.",
       "albumCreationFailedTitle": "Album creation failed",
-      "someFilesIgnoredDescription": "Some files were not audio files and were ignored."
+      "someFilesIgnoredDescription": "Some files were not audio files and were ignored.",
+      "featureNotReadyTitle": "Coming soon",
+      "featureNotReadyDescription": "Uploading this type of content is coming very soon. Please try again later."
     }
   },
   "accountSettingsPage": {
