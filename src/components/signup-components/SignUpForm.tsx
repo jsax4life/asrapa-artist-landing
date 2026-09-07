@@ -9,6 +9,8 @@ import { useArtistSignup } from '@/hooks/use-artist-signup';
 import { useToast } from '@/hooks/use-toast';
 import SocialAuthButtons from '@/components/auth/SocialAuthButtons';
 
+type ArtistType = 'independent' | 'labelled';
+
 interface FormData {
   fullName: string;
   stageName: string;
@@ -17,6 +19,10 @@ interface FormData {
   confirmPassword: string;
   country: string;
   city: string;
+  artistType: ArtistType;
+  labelName: string;
+  labelManagerName: string;
+  labelManagerContact: string;
   agreeToTerms: boolean;
 }
 
@@ -28,6 +34,8 @@ interface FormErrors {
   confirmPassword?: string;
   country?: string;
   city?: string;
+  labelName?: string;
+  labelManagerContact?: string;
   agreeToTerms?: string;
 }
 
@@ -42,6 +50,10 @@ export const SignUpForm: React.FC = () => {
     confirmPassword: '',
     country: '',
     city: '',
+    artistType: 'independent',
+    labelName: '',
+    labelManagerName: '',
+    labelManagerContact: '',
     agreeToTerms: false
   });
 
@@ -150,6 +162,15 @@ export const SignUpForm: React.FC = () => {
       newErrors.city = t('signup.errors.cityRequired');
     }
 
+    if (formData.artistType === 'labelled') {
+      if (!formData.labelName.trim()) {
+        newErrors.labelName = t('signup.errors.labelNameRequired');
+      }
+      if (!formData.labelManagerContact.trim()) {
+        newErrors.labelManagerContact = t('signup.errors.labelManagerContactRequired');
+      }
+    }
+
     if (!formData.agreeToTerms) {
       newErrors.agreeToTerms = t('signup.errors.agreeToTermsRequired');
     }
@@ -172,12 +193,15 @@ export const SignUpForm: React.FC = () => {
     }
     
     if (await validateForm()) {
-      const { confirmPassword, city, country, ...rest } = formData;
+      const { confirmPassword, city, country, artistType, labelName, labelManagerName, labelManagerContact, ...rest } = formData;
       const signupData = {
         ...rest,
         country,
+        artistType,
         // On ne joint la ville que pour le Tchad, elle n'a pas de sens ailleurs.
         ...(country === 'Tchad' && city ? { city } : {}),
+        // Les informations du label ne sont envoyées que pour les artistes labellisés.
+        ...(artistType === 'labelled' ? { labelName, labelManagerName, labelManagerContact } : {}),
       };
       signup(signupData);
     }
@@ -189,6 +213,10 @@ export const SignUpForm: React.FC = () => {
       [field]: value,
       // Une ville choisie pour le Tchad ne veut plus rien dire si on change de pays.
       ...(field === 'country' && value !== 'Tchad' ? { city: '' } : {}),
+      // Les infos de label n'ont plus de sens si on repasse en indépendant.
+      ...(field === 'artistType' && value === 'independent'
+        ? { labelName: '', labelManagerName: '', labelManagerContact: '' }
+        : {}),
     }));
     // Clear error when user starts typing
     if (errors[field]) {
@@ -352,6 +380,8 @@ export const SignUpForm: React.FC = () => {
 
   // La ville n'est exigée que pour le Tchad ; pour tout autre pays, elle est sans objet.
   const cityOk = formData.country !== 'Tchad' || Boolean(formData.city);
+  // Les infos de label ne sont exigées que pour les artistes labellisés.
+  const labelInfoOk = formData.artistType !== 'labelled' || (Boolean(formData.labelName) && Boolean(formData.labelManagerContact));
 
   return (
     <div className="flex w-full flex-col items-center max-w-4xl mx-auto px-4 sm:px-6">
@@ -498,6 +528,58 @@ export const SignUpForm: React.FC = () => {
           />
         )}
 
+        <div className="flex flex-col w-full md:col-span-2">
+          <label className="text-white font-bold tracking-[0.13px] text-sm mb-2">
+            {t('signup.form.artistTypeLabel')}
+          </label>
+          <div className="inline-flex w-fit rounded-full bg-[rgba(210,216,218,0.16)] p-1">
+            {(['independent', 'labelled'] as ArtistType[]).map((type) => (
+              <button
+                key={type}
+                type="button"
+                onClick={() => updateFormData('artistType')(type)}
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+                  formData.artistType === type
+                    ? 'bg-[#C40505] text-white'
+                    : 'text-[#D2D8DA] hover:text-white'
+                }`}
+              >
+                {t(`signup.form.artistType.${type}`)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {formData.artistType === 'labelled' && (
+          <>
+            <FormField
+              label={t('signup.form.labelName')}
+              placeholder={t('signup.form.labelNamePlaceholder')}
+              value={formData.labelName}
+              onChange={updateFormData('labelName')}
+              required
+              error={errors.labelName}
+            />
+
+            <FormField
+              label={t('signup.form.labelManagerName')}
+              placeholder={t('signup.form.labelManagerNamePlaceholder')}
+              value={formData.labelManagerName}
+              onChange={updateFormData('labelManagerName')}
+            />
+
+            <FormField
+              label={t('signup.form.labelManagerContact')}
+              placeholder={t('signup.form.labelManagerContactPlaceholder')}
+              value={formData.labelManagerContact}
+              onChange={updateFormData('labelManagerContact')}
+              required
+              error={errors.labelManagerContact}
+              className="md:col-span-2"
+            />
+          </>
+        )}
+
       </form>
 
         <div className="md:col-span-2 relative z-10">
@@ -523,6 +605,7 @@ export const SignUpForm: React.FC = () => {
                   formData.confirmPassword && 
                   formData.country &&
                   cityOk &&
+                  labelInfoOk &&
                   emailStatus === 'available' &&
                   stageNameStatus === 'available' &&
                   formData.password === formData.confirmPassword &&
@@ -530,7 +613,7 @@ export const SignUpForm: React.FC = () => {
                 ? 'bg-green-600 hover:bg-green-700 shadow-lg'
                 : 'bg-[#C40505] hover:bg-[#E60606] disabled:opacity-50 disabled:cursor-not-allowed'
             }`}
-            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !cityOk || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
+            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !cityOk || !labelInfoOk || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
           >
             {isSigningUp ? (
               <div className="flex items-center gap-2">

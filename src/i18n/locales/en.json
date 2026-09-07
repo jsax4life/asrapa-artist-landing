@@ -224,7 +224,18 @@
       "countrySearch": "Search a country...",
       "countryNoResults": "No country found.",
       "city": "City",
-      "cityPlaceholder": "Choose your city"
+      "cityPlaceholder": "Choose your city",
+      "artistTypeLabel": "Artist status",
+      "artistType": {
+        "independent": "Independent",
+        "labelled": "Labelled"
+      },
+      "labelName": "Label name",
+      "labelNamePlaceholder": "Your label's name",
+      "labelManagerName": "Label manager's name",
+      "labelManagerNamePlaceholder": "Manager's name (optional)",
+      "labelManagerContact": "Label manager's contact",
+      "labelManagerContactPlaceholder": "Manager's phone or email"
     },
     "social": {
       "google": "Continue with Google",
@@ -246,6 +257,8 @@
       "countryRequired": "Please select a country",
       "cityRequired": "Please select your city",
       "agreeToTermsRequired": "You must agree to the terms and conditions",
+      "labelNameRequired": "The label name is required",
+      "labelManagerContactRequired": "The label manager's contact is required",
       "emailCheckFailed": "Could not check email. Please try again.",
       "stageNameCheckFailed": "Could not check stage name. Please try again.",
       "validationErrorTitle": "Validation error",
