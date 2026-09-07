@@ -205,6 +205,8 @@
       "fullNamePlaceholder": "Votre nom complet",
       "stageName": "Nom de scène",
       "stageNamePlaceholder": "Votre nom de scène",
+      "creatorName": "Nom du créateur",
+      "creatorNamePlaceholder": "Votre nom ou celui de votre émission",
       "email": "Adresse e-mail",
       "emailPlaceholder": "Votre adresse e-mail",
       "password": "Mot de passe",
