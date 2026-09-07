@@ -32,7 +32,7 @@ export const ArtistCard: React.FC<ArtistCardProps> = ({
       tabIndex={0}
       className={`group relative h-[380px] w-[250px] shrink-0 overflow-hidden rounded-2xl bg-black outline-none transition-all duration-500 ease-out max-md:h-[300px] max-md:w-[210px] max-sm:h-[240px] max-sm:w-[170px] ${
         isActive
-          ? 'z-20 -translate-y-3 scale-105 shadow-[0_20px_50px_rgba(196,5,5,0.35)] ring-2 ring-[#C40505]'
+          ? 'z-20 -translate-y-3 scale-105 shadow-[0_20px_50px_rgba(255,0,0,0.35)] ring-2 ring-[#FF0000]'
           : isDimmed
             ? 'z-0 scale-95 opacity-50'
             : 'z-10 opacity-100'
@@ -56,7 +56,7 @@ export const ArtistCard: React.FC<ArtistCardProps> = ({
         <h3 className="text-lg font-bold leading-6 tracking-[0.18px] text-white max-sm:text-sm">
           {name}
         </h3>
-        <p className="mt-0.5 text-xs font-medium text-[#C40505] uppercase tracking-[0.1em]">
+        <p className="mt-0.5 text-xs font-medium text-[#FF0000] uppercase tracking-[0.1em]">
           {role}
         </p>
 
@@ -65,9 +65,9 @@ export const ArtistCard: React.FC<ArtistCardProps> = ({
             isActive ? 'mt-3 max-h-40 opacity-100' : 'mt-0 max-h-0 opacity-0'
           }`}
         >
-          <span className="mr-1 text-[#C40505]">&laquo;</span>
+          <span className="mr-1 text-[#FF0000]">&laquo;</span>
           {quote}
-          <span className="ml-1 text-[#C40505]">&raquo;</span>
+          <span className="ml-1 text-[#FF0000]">&raquo;</span>
         </p>
       </div>
     </article>

@@ -64,7 +64,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
               {t(lang.labelKey)}
             </span>
             {currentCode === lang.code && (
-              <Check className="h-4 w-4 text-[#C40505]" aria-hidden="true" />
+              <Check className="h-4 w-4 text-[#FF0000]" aria-hidden="true" />
             )}
           </DropdownMenuItem>
         ))}

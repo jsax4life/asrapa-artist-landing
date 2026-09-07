@@ -31,7 +31,7 @@ const AboutHeroSection: React.FC = () => {
               {t('about.tagline')}
             </p>
             <div className="flex items-center gap-2.5 text-white/80">
-              <Music2 className="size-5 shrink-0 text-[#C40505]" />
+              <Music2 className="size-5 shrink-0 text-[#FF0000]" />
               <span className="text-sm font-medium">{t('about.highlight', { brand })}</span>
             </div>
             <DownloadButtons />

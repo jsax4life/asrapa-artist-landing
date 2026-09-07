@@ -41,7 +41,7 @@ const Header = () => {
                 to={item.href}
                 className={`self-stretch flex items-center gap-2.5 my-auto p-2.5 text-xl font-bold transition-colors hover:text-[#F6C874] ${
                   isActiveRoute(item.href)
-                    ? 'border-b-2 border-b-[#C40505] border-solid text-white'
+                    ? 'border-b-2 border-b-[#FF0000] border-solid text-white'
                     : ''
                 }`}
               >
@@ -74,7 +74,7 @@ const Header = () => {
                       key={item.labelKey}
                       to={item.href}
                       className={`block p-3 text-xl font-bold text-white transition-colors hover:text-[#F6C874] ${
-                        isActiveRoute(item.href) ? 'border-l-4 border-[#C40505] bg-white/5' : ''
+                        isActiveRoute(item.href) ? 'border-l-4 border-[#FF0000] bg-white/5' : ''
                       }`}
                     >
                       {t(item.labelKey)}

@@ -22,7 +22,7 @@ export const HeroSection: React.FC = () => {
             <span className="font-normal text-2xl xs:text-xl sm:text-3xl md:text-5xl text-white">
               {t('artistHome.whyChoose')}{' '}
             </span>
-            <span className="font-normal text-2xl xs:text-xl sm:text-3xl md:text-5xl text-[rgba(196,5,5,1)]">
+            <span className="font-normal text-2xl xs:text-xl sm:text-3xl md:text-5xl text-[rgba(255,0,0,1)]">
               {brand}
             </span>
             <span className="font-normal text-2xl xs:text-xl sm:text-3xl md:text-5xl text-white">

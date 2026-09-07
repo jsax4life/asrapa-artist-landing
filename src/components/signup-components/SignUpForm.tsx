@@ -395,7 +395,7 @@ export const SignUpForm: React.FC = () => {
       <header className="flex flex-col items-center text-center mb-8">
         <h1 className="text-white text-2xl sm:text-3xl lg:text-[40px] font-bold leading-[1.1]">
           <span style={{ color: 'rgba(210,216,218,1)' }}>{t('signup.join')}</span>{' '}
-          <span style={{ color: 'rgba(196,5,5,1)' }}>{brand}</span>
+          <span style={{ color: 'rgba(255,0,0,1)' }}>{brand}</span>
         </h1>
         <p className="text-[#D2D8DA] text-sm sm:text-base font-medium mt-4 px-4">
           {t('signup.tagline')}
@@ -549,7 +549,7 @@ export const SignUpForm: React.FC = () => {
                     onClick={() => updateFormData('artistType')(type)}
                     className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
                       formData.artistType === type
-                        ? 'bg-[#C40505] text-white'
+                        ? 'bg-[#FF0000] text-white'
                         : 'text-[#D2D8DA] hover:text-white'
                     }`}
                   >
@@ -607,7 +607,7 @@ export const SignUpForm: React.FC = () => {
             form="artist-signup-form"
             className={`w-full sm:w-auto min-w-[280px] max-w-[328px] min-h-12 px-8 py-3 text-sm sm:text-base text-white font-semibold rounded-full transition-all duration-300 ${
               isSigningUp
-                ? 'bg-[#C40505]/30 text-white/50 cursor-not-allowed'
+                ? 'bg-[#FF0000]/30 text-white/50 cursor-not-allowed'
                 : formData.agreeToTerms && 
                   formData.fullName && 
                   formData.stageName && 
@@ -622,7 +622,7 @@ export const SignUpForm: React.FC = () => {
                   formData.password === formData.confirmPassword &&
                   validatePassword(formData.password)
                 ? 'bg-green-600 hover:bg-green-700 shadow-lg'
-                : 'bg-[#C40505] hover:bg-[#E60606] disabled:opacity-50 disabled:cursor-not-allowed'
+                : 'bg-[#FF0000] hover:bg-[#E60000] disabled:opacity-50 disabled:cursor-not-allowed'
             }`}
             disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !cityOk || !labelInfoOk || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
           >

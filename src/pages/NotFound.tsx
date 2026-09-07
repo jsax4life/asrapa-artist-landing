@@ -18,7 +18,7 @@ const NotFound = () => {
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4 text-white">{t('notFoundPage.title')}</h1>
         <p className="text-xl text-white/60 mb-4">{t('notFoundPage.message')}</p>
-        <a href="/" className="text-[#C40505] hover:underline">
+        <a href="/" className="text-[#FF0000] hover:underline">
           {t('notFoundPage.backHome')}
         </a>
       </div>

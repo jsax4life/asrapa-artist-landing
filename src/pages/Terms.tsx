@@ -24,7 +24,7 @@ const Terms = () => {
       <div className="max-w-3xl mx-auto">
         <Link
           to={ROUTES.REGISTRATION}
-          className="inline-block text-sm text-[#C40505] hover:underline mb-8"
+          className="inline-block text-sm text-[#FF0000] hover:underline mb-8"
         >
           {t('terms.backToRegistration')}
         </Link>

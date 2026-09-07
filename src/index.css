@@ -21,10 +21,10 @@ All colors MUST be HSL.
   --popover: 0 0% 3%;
   --popover-foreground: 0 0% 96%;
 
-  /* Primary - Vibrant Red */
-  --primary: 0 85% 60%;
+  /* Primary - AsraPa brand red (#FF0000, sampled from the logo) */
+  --primary: 0 100% 50%;
   --primary-foreground: 0 0% 96%;
-  --primary-glow: 0 100% 70%;
+  --primary-glow: 0 100% 65%;
 
   /* Secondary - Near Black */
   --secondary: 0 0% 6%;
@@ -39,7 +39,7 @@ All colors MUST be HSL.
   --accent-foreground: 0 0% 96%;
 
   /* Success - Brand Red (kept distinct from destructive via lighter tone) */
-  --success: 0 85% 60%;
+  --success: 0 100% 50%;
   --success-foreground: 0 0% 96%;
 
   /* Warning - Gold */
@@ -51,10 +51,10 @@ All colors MUST be HSL.
 
   --border: 0 0% 12%;
   --input: 0 0% 12%;
-  --ring: 0 85% 60%;
+  --ring: 0 100% 50%;
 
   /* Shadows with Black & Red Theme */
-  --shadow-glow: 0 0 40px hsl(0 85% 60% / 0.4);
+  --shadow-glow: 0 0 40px hsl(0 100% 50% / 0.4);
   --shadow-card: 0 10px 30px -10px hsl(0 0% 4% / 0.6);
   --shadow-accent: 0 0 20px hsl(355 75% 42% / 0.4);
 
@@ -63,12 +63,12 @@ All colors MUST be HSL.
   /* Sidebar Colors */
   --sidebar-background: 0 0% 2%;
   --sidebar-foreground: 0 0% 90%;
-  --sidebar-primary: 0 85% 60%;
+  --sidebar-primary: 0 100% 50%;
   --sidebar-primary-foreground: 0 0% 96%;
   --sidebar-accent: 0 0% 6%;
   --sidebar-accent-foreground: 0 0% 90%;
   --sidebar-border: 0 0% 12%;
-  --sidebar-ring: 0 85% 60%;
+  --sidebar-ring: 0 100% 50%;
 
   
 
