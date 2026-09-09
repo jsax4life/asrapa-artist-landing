@@ -50,6 +50,10 @@ interface ContentFormData {
 
 type UploadType = 'single' | 'album' | 'podcast' | 'sketch';
 
+const openDatePicker = (event: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
+  event.currentTarget.showPicker?.();
+};
+
 const Upload = () => {
   const { t } = useTranslation();
   const [uploadType, setUploadType] = useState<UploadType>('single');
@@ -864,7 +868,10 @@ const Upload = () => {
                           <Input
                             id="release-date"
                             type="date"
+                            className="w-full cursor-pointer"
                             value={albumFormData.releaseDate}
+                            onClick={openDatePicker}
+                            onFocus={openDatePicker}
                             onChange={(e) => setAlbumFormData(prev => ({ ...prev, releaseDate: e.target.value }))}
                             required
                           />

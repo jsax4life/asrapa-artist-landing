@@ -183,6 +183,7 @@ export interface UploadedSong {
     title: string;
   };
   genre: {
+    _id?: string;
     name: string;
   };
   songUrl: string;
@@ -190,6 +191,7 @@ export interface UploadedSong {
   downloads: number;
   streams: number;
   explicit: boolean;
+  lyrics?: string;
   createdAt: string;
 }
 
@@ -215,8 +217,10 @@ export interface UploadedAlbum {
   releaseDate: string;
   coverPhotoUrl: string;
   genre: {
+    _id?: string;
     name: string;
   };
+  explicit?: boolean;
   caption: string;
   status: string;
   scheduling: {
@@ -225,6 +229,7 @@ export interface UploadedAlbum {
   isDeleted: boolean;
   moderation: {
     moderationStatus: string;
+    isExplicit?: boolean;
   };
   likesCount: number;
   songsCount: number;
@@ -1034,12 +1039,46 @@ export const api = {
 
   async updateSong(songId: string, data: {
     title?: string;
-    isExplicit?: boolean;
-    releaseYear?: number;
+    duration?: number;
     genreId?: string;
+    explicit?: boolean;
+    lyrics?: string;
+    collaborators?: string[];
+    coverPhoto?: File;
   }): Promise<ApiResponse<{ message: string }>> {
     try {
-      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(`/artist/songs/${songId}`, data);
+      const hasFile = Boolean(data.coverPhoto);
+
+      if (hasFile) {
+        const formData = new FormData();
+        if (data.title !== undefined) formData.append('title', data.title);
+        if (data.duration !== undefined) formData.append('duration', String(data.duration));
+        if (data.genreId) formData.append('genreId', data.genreId);
+        if (data.explicit !== undefined) formData.append('explicit', String(data.explicit));
+        if (data.lyrics !== undefined) formData.append('lyrics', data.lyrics);
+        if (data.collaborators?.length) formData.append('collaborators', JSON.stringify(data.collaborators));
+        if (data.coverPhoto) formData.append('coverPhoto', data.coverPhoto);
+
+        const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
+          `/artist/songs/${songId}`,
+          formData,
+          { headers: { 'Content-Type': 'multipart/form-data' } }
+        );
+        return response.data;
+      }
+
+      const payload: Record<string, unknown> = {};
+      if (data.title !== undefined) payload.title = data.title;
+      if (data.duration !== undefined) payload.duration = data.duration;
+      if (data.genreId) payload.genreId = data.genreId;
+      if (data.explicit !== undefined) payload.explicit = data.explicit;
+      if (data.lyrics !== undefined) payload.lyrics = data.lyrics;
+      if (data.collaborators?.length) payload.collaborators = data.collaborators;
+
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
+        `/artist/songs/${songId}`,
+        payload
+      );
       return response.data;
     } catch (error) {
       if (error instanceof ApiError) {
@@ -1047,6 +1086,57 @@ export const api = {
       }
       throw new ApiError(
         'Erreur réseau lors de la modification du titre. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  async updateAlbum(albumId: string, data: {
+    title?: string;
+    releaseDate?: string;
+    genreId?: string;
+    explicit?: boolean;
+    caption?: string;
+    coverPhoto?: File;
+  }): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const hasFile = Boolean(data.coverPhoto);
+
+      if (hasFile) {
+        const formData = new FormData();
+        if (data.title !== undefined) formData.append('title', data.title);
+        if (data.releaseDate) formData.append('releaseDate', data.releaseDate);
+        if (data.genreId) formData.append('genreId', data.genreId);
+        if (data.explicit !== undefined) formData.append('explicit', String(data.explicit));
+        if (data.caption !== undefined) formData.append('caption', data.caption);
+        if (data.coverPhoto) formData.append('coverPhoto', data.coverPhoto);
+
+        const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
+          `/artist/albums/${albumId}`,
+          formData,
+          { headers: { 'Content-Type': 'multipart/form-data' } }
+        );
+        return response.data;
+      }
+
+      const payload: Record<string, unknown> = {};
+      if (data.title !== undefined) payload.title = data.title;
+      if (data.releaseDate) payload.releaseDate = data.releaseDate;
+      if (data.genreId) payload.genreId = data.genreId;
+      if (data.explicit !== undefined) payload.explicit = data.explicit;
+      if (data.caption !== undefined) payload.caption = data.caption;
+
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
+        `/artist/albums/${albumId}`,
+        payload
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau lors de la modification de l\'album. Vérifiez votre connexion.',
         0
       );
     }

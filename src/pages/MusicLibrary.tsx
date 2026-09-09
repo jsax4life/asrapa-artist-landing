@@ -14,9 +14,31 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { api, ApiError, UploadedSong, UploadedAlbum } from "@/lib/api";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { api, ApiError, Genre, extractGenreId, getGenreId } from "@/lib/api";
 import { ROUTES } from "@/constants/routes";
+
+const toDateInputValue = (dateString: string) => {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return '';
+  return date.toISOString().split('T')[0];
+};
+
+const openDatePicker = (event: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
+  event.currentTarget.showPicker?.();
+};
+
+const resolveGenreId = (genre: { _id?: string; name: string } | undefined, genres: Genre[]) => {
+  const fromObject = extractGenreId(genre);
+  if (fromObject) return fromObject;
+  if (genre?.name) {
+    const match = genres.find((g) => g.name === genre.name);
+    if (match) return getGenreId(match);
+  }
+  return '';
+};
 
 // Combined release data for display
 interface CombinedRelease {
@@ -36,7 +58,22 @@ interface CombinedRelease {
   duration?: number;
   explicit?: boolean;
   releaseYear?: number;
+  genreId?: string;
+  lyrics?: string;
+  caption?: string;
 }
+
+type EditForm = {
+  title: string;
+  genreId: string;
+  explicit: boolean;
+  duration: number;
+  lyrics: string;
+  releaseDate: string;
+  caption: string;
+  coverPhoto: File | null;
+  coverPreview: string | null;
+};
 
 const MusicLibrary = () => {
   const { t, i18n } = useTranslation();
@@ -47,7 +84,18 @@ const MusicLibrary = () => {
   const [selectedRelease, setSelectedRelease] = useState<CombinedRelease | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editingRelease, setEditingRelease] = useState<CombinedRelease | null>(null);
-  const [editForm, setEditForm] = useState({ title: '', releaseYear: new Date().getFullYear(), explicit: false });
+  const [genres, setGenres] = useState<Genre[]>([]);
+  const [editForm, setEditForm] = useState<EditForm>({
+    title: '',
+    genreId: '',
+    explicit: false,
+    duration: 0,
+    lyrics: '',
+    releaseDate: '',
+    caption: '',
+    coverPhoto: null,
+    coverPreview: null,
+  });
   const [isSaving, setIsSaving] = useState(false);
   const [analyticsRelease, setAnalyticsRelease] = useState<CombinedRelease | null>(null);
   const { toast } = useToast();
@@ -57,10 +105,16 @@ const MusicLibrary = () => {
       setIsLoading(true);
       setError(null);
       
-      const [songsResponse, albumsResponse] = await Promise.all([
+      const [songsResponse, albumsResponse, genresResponse] = await Promise.all([
         api.getUploadedSongs(1, 50),
-        api.getUploadedAlbums(1, 50)
+        api.getUploadedAlbums(1, 50),
+        api.getPlatformGenres(),
       ]);
+
+      const genreList = genresResponse.status === 'success' && genresResponse.data
+        ? genresResponse.data.genres
+        : [];
+      setGenres(genreList);
 
       const singlesData: CombinedRelease[] = [];
       const albumsData: CombinedRelease[] = [];
@@ -74,11 +128,13 @@ const MusicLibrary = () => {
           status: 'Active',
           artwork: song.coverPhotoUrl,
           genre: song.genre.name,
+          genreId: resolveGenreId(song.genre, genreList),
           downloads: song.downloads,
           streams: song.streams,
           isFromAlbum: false,
           duration: song.duration,
           explicit: song.explicit,
+          lyrics: song.lyrics,
           releaseYear: song.releaseYear
         }));
         singlesData.push(...songReleases);
@@ -93,7 +149,9 @@ const MusicLibrary = () => {
           status: album.status,
           artwork: album.coverPhotoUrl,
           genre: album.genre.name,
+          genreId: resolveGenreId(album.genre, genreList),
           caption: album.caption,
+          explicit: album.explicit ?? album.moderation?.isExplicit ?? false,
           songsCount: album.songsCount,
           likesCount: album.likesCount,
           isFromAlbum: true
@@ -181,20 +239,67 @@ const MusicLibrary = () => {
     setEditingRelease(release);
     setEditForm({
       title: release.title,
-      releaseYear: release.releaseYear || new Date(release.releaseDate).getFullYear(),
+      genreId: release.genreId || resolveGenreId({ name: release.genre }, genres),
       explicit: release.explicit || false,
+      duration: release.duration || 0,
+      lyrics: release.lyrics || '',
+      releaseDate: toDateInputValue(release.releaseDate),
+      caption: release.caption || '',
+      coverPhoto: null,
+      coverPreview: release.artwork || null,
     });
+  };
+
+  const handleCoverPhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: t('musicLibraryPage.editDialog.invalidCoverTitle'),
+        description: t('musicLibraryPage.editDialog.invalidCoverDescription'),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setEditForm((prev) => ({
+      ...prev,
+      coverPhoto: file,
+      coverPreview: URL.createObjectURL(file),
+    }));
   };
 
   const handleSaveEdit = async () => {
     if (!editingRelease) return;
     try {
       setIsSaving(true);
-      await api.updateSong(editingRelease.id, {
-        title: editForm.title,
-        releaseYear: editForm.releaseYear,
-        isExplicit: editForm.explicit,
-      });
+
+      if (editingRelease.type === 'Single') {
+        await api.updateSong(editingRelease.id, {
+          title: editForm.title.trim(),
+          duration: editForm.duration,
+          genreId: editForm.genreId || undefined,
+          explicit: editForm.explicit,
+          lyrics: editForm.lyrics,
+          coverPhoto: editForm.coverPhoto || undefined,
+        });
+      } else {
+        const releaseDate = editForm.releaseDate
+          ? new Date(`${editForm.releaseDate}T00:00:00.000Z`).toISOString()
+          : undefined;
+
+        await api.updateAlbum(editingRelease.id, {
+          title: editForm.title.trim(),
+          releaseDate,
+          genreId: editForm.genreId || undefined,
+          explicit: editForm.explicit,
+          caption: editForm.caption,
+          coverPhoto: editForm.coverPhoto || undefined,
+        });
+      }
+
       toast({
         title: t('musicLibraryPage.toast.editSuccessTitle'),
         description: t('musicLibraryPage.toast.editSuccessDescription', { title: editForm.title }),
@@ -399,8 +504,6 @@ const MusicLibrary = () => {
                   size="icon"
                   className="text-muted-foreground hover:text-foreground"
                   onClick={() => handleEditRelease(release)}
-                  disabled={release.type === 'Album'}
-                  title={release.type === 'Album' ? t('musicLibraryPage.toast.editComingSoonDescription') : undefined}
                 >
                   <Edit className="h-4 w-4" />
                 </Button>
@@ -611,14 +714,44 @@ const MusicLibrary = () => {
 
       {/* Edit Dialog */}
       <Dialog open={!!editingRelease} onOpenChange={(open) => !open && setEditingRelease(null)}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{t('musicLibraryPage.editDialog.title')}</DialogTitle>
+            <DialogTitle>
+              {editingRelease?.type === 'Album'
+                ? t('musicLibraryPage.editDialog.titleAlbum')
+                : t('musicLibraryPage.editDialog.titleSingle')}
+            </DialogTitle>
             <DialogDescription>
               {t('musicLibraryPage.editDialog.description', { title: editingRelease?.title })}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="edit-cover">{t('musicLibraryPage.editDialog.coverLabel')}</Label>
+              <div className="flex items-center gap-4">
+                {editForm.coverPreview ? (
+                  <img
+                    src={editForm.coverPreview}
+                    alt={editForm.title}
+                    className="h-20 w-20 rounded-md object-cover border border-border"
+                  />
+                ) : (
+                  <div className="h-20 w-20 rounded-md border border-dashed border-border bg-muted" />
+                )}
+                <div>
+                  <Input
+                    id="edit-cover"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={handleCoverPhotoChange}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {t('musicLibraryPage.editDialog.coverHint')}
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="edit-title">{t('musicLibraryPage.editDialog.titleLabel')}</Label>
               <Input
@@ -627,17 +760,78 @@ const MusicLibrary = () => {
                 onChange={(e) => setEditForm(prev => ({ ...prev, title: e.target.value }))}
               />
             </div>
+
             <div className="space-y-2">
-              <Label htmlFor="edit-releaseYear">{t('musicLibraryPage.editDialog.releaseYearLabel')}</Label>
-              <Input
-                id="edit-releaseYear"
-                type="number"
-                min="1900"
-                max="2100"
-                value={editForm.releaseYear}
-                onChange={(e) => setEditForm(prev => ({ ...prev, releaseYear: Number(e.target.value) }))}
-              />
+              <Label htmlFor="edit-genre">{t('musicLibraryPage.editDialog.genreLabel')}</Label>
+              <Select
+                value={editForm.genreId}
+                onValueChange={(value) => setEditForm(prev => ({ ...prev, genreId: value }))}
+              >
+                <SelectTrigger id="edit-genre">
+                  <SelectValue placeholder={t('musicLibraryPage.editDialog.genrePlaceholder')} />
+                </SelectTrigger>
+                <SelectContent className="max-h-72">
+                  {genres.map((genre) => (
+                    <SelectItem key={getGenreId(genre)} value={getGenreId(genre)}>
+                      {genre.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
+
+            {editingRelease?.type === 'Single' ? (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-duration">{t('musicLibraryPage.editDialog.durationLabel')}</Label>
+                  <Input
+                    id="edit-duration"
+                    type="number"
+                    min="1"
+                    value={editForm.duration || ''}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, duration: Number(e.target.value) }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-lyrics">{t('musicLibraryPage.editDialog.lyricsLabel')}</Label>
+                  <Textarea
+                    id="edit-lyrics"
+                    value={editForm.lyrics}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, lyrics: e.target.value }))}
+                    rows={4}
+                    placeholder={t('musicLibraryPage.editDialog.lyricsPlaceholder')}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-release-date">{t('musicLibraryPage.editDialog.releaseDateLabel')}</Label>
+                  <Input
+                    id="edit-release-date"
+                    type="date"
+                    className="w-full cursor-pointer"
+                    value={editForm.releaseDate}
+                    onClick={openDatePicker}
+                    onFocus={openDatePicker}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, releaseDate: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-caption">{t('musicLibraryPage.editDialog.captionLabel')}</Label>
+                  <Textarea
+                    id="edit-caption"
+                    value={editForm.caption}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, caption: e.target.value }))}
+                    rows={3}
+                    maxLength={500}
+                    placeholder={t('musicLibraryPage.editDialog.captionPlaceholder')}
+                  />
+                  <p className="text-xs text-muted-foreground text-right">{editForm.caption.length}/500</p>
+                </div>
+              </>
+            )}
+
             <div className="flex items-center justify-between">
               <Label htmlFor="edit-explicit">{t('musicLibraryPage.editDialog.explicitLabel')}</Label>
               <Switch
@@ -651,7 +845,10 @@ const MusicLibrary = () => {
             <Button variant="outline" onClick={() => setEditingRelease(null)} disabled={isSaving}>
               {t('musicLibraryPage.editDialog.cancel')}
             </Button>
-            <Button onClick={handleSaveEdit} disabled={isSaving || !editForm.title.trim()}>
+            <Button
+              onClick={handleSaveEdit}
+              disabled={isSaving || !editForm.title.trim() || (editingRelease?.type === 'Album' && !editForm.releaseDate)}
+            >
               {isSaving ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
