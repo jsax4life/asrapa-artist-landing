@@ -974,11 +974,11 @@
           },
           {
             "label": "EP",
-            "price": "30,000 FCFA"
+            "price": "30,000 FCFA / year"
           },
           {
             "label": "Album",
-            "price": "50,000 FCFA"
+            "price": "50,000 FCFA / year"
           }
         ],
         "steps": [
@@ -997,7 +997,7 @@
           },
           {
             "label": "EP",
-            "price": "15,000 FCFA"
+            "price": "15,000 FCFA / year"
           },
           {
             "label": "Album",
