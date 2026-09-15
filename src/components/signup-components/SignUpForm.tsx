@@ -164,7 +164,7 @@ export const SignUpForm: React.FC = () => {
       newErrors.country = t('signup.errors.countryRequired');
     }
 
-    if (formData.country === 'Tchad' && !formData.city) {
+    if (formData.country && !formData.city.trim()) {
       newErrors.city = t('signup.errors.cityRequired');
     }
 
@@ -207,8 +207,8 @@ export const SignUpForm: React.FC = () => {
         termsAccepted: agreeToTerms,
         // Le statut indépendant/labellisé ne concerne que la musique, pas les créateurs de podcast/sketch.
         ...(isContentCreator ? {} : { artistType }),
-        // On ne joint la ville que pour le Tchad, elle n'a pas de sens ailleurs.
-        ...(country === 'Tchad' && city ? { city } : {}),
+        // La ville est requise quel que soit le pays (Tchadiens de la diaspora inclus).
+        ...(city ? { city } : {}),
         // Les informations du label ne sont envoyées que pour les artistes labellisés.
         ...(!isContentCreator && artistType === 'labelled' ? { labelName, labelManagerName, labelManagerContact } : {}),
       };
@@ -220,8 +220,8 @@ export const SignUpForm: React.FC = () => {
     setFormData(prev => ({
       ...prev,
       [field]: value,
-      // Une ville choisie pour le Tchad ne veut plus rien dire si on change de pays.
-      ...(field === 'country' && value !== 'Tchad' ? { city: '' } : {}),
+      // Une ville choisie pour un pays ne veut plus rien dire si on change de pays.
+      ...(field === 'country' ? { city: '' } : {}),
       // Les infos de label n'ont plus de sens si on repasse en indépendant.
       ...(field === 'artistType' && value === 'independent'
         ? { labelName: '', labelManagerName: '', labelManagerContact: '' }
@@ -387,8 +387,8 @@ export const SignUpForm: React.FC = () => {
     }
   };
 
-  // La ville n'est exigée que pour le Tchad ; pour tout autre pays, elle est sans objet.
-  const cityOk = formData.country !== 'Tchad' || Boolean(formData.city);
+  // La ville est exigée dès qu'un pays est choisi (Tchadiens de la diaspora inclus).
+  const cityOk = !formData.country || Boolean(formData.city.trim());
   // Les infos de label ne sont exigées que pour les artistes labellisés.
   const labelInfoOk = formData.artistType !== 'labelled' || (Boolean(formData.labelName) && Boolean(formData.labelManagerContact));
 
@@ -533,6 +533,17 @@ export const SignUpForm: React.FC = () => {
           <CitySelect
             value={formData.city}
             onChange={updateFormData('city')}
+            error={errors.city}
+          />
+        )}
+
+        {formData.country && formData.country !== 'Tchad' && (
+          <FormField
+            label={t('signup.form.city')}
+            placeholder={t('signup.form.cityFreeTextPlaceholder')}
+            value={formData.city}
+            onChange={updateFormData('city')}
+            required
             error={errors.city}
           />
         )}

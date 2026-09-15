@@ -227,6 +227,7 @@
       "countryNoResults": "No country found.",
       "city": "City",
       "cityPlaceholder": "Choose your city",
+      "cityFreeTextPlaceholder": "Your city",
       "artistTypeLabel": "Artist status",
       "artistType": {
         "independent": "Independent",
@@ -257,7 +258,7 @@
       "passwordRequirements": "Password does not meet the requirements",
       "confirmPasswordRequired": "Please confirm your password",
       "countryRequired": "Please select a country",
-      "cityRequired": "Please select your city",
+      "cityRequired": "Please enter your city",
       "agreeToTermsRequired": "You must agree to the terms and conditions",
       "labelNameRequired": "The label name is required",
       "labelManagerContactRequired": "The label manager's contact is required",
