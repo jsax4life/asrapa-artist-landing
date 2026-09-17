@@ -5,11 +5,13 @@ import { FormField } from './FormField';
 import { PasswordField } from './PasswordField';
 import { CountrySelect } from './CountrySelect';
 import { CitySelect } from './CitySelect';
+import { PhoneField } from './PhoneField';
 import { TermsCheckbox } from './TermsCheckbox';
 import { useArtistSignup } from '@/hooks/use-artist-signup';
 import { useToast } from '@/hooks/use-toast';
 import SocialAuthButtons from '@/components/auth/SocialAuthButtons';
 import citiesByCountry from '@/lib/citiesByCountry.json';
+import dialCodesByCountry from '@/lib/dialCodesByCountry.json';
 
 type ArtistType = 'independent' | 'labelled';
 
@@ -21,7 +23,8 @@ interface FormData {
   confirmPassword: string;
   country: string;
   city: string;
-  whatsappNumber: string;
+  whatsappDialCode: string;
+  whatsappLocalNumber: string;
   artistType: ArtistType;
   labelName: string;
   labelManagerName: string;
@@ -37,7 +40,7 @@ interface FormErrors {
   confirmPassword?: string;
   country?: string;
   city?: string;
-  whatsappNumber?: string;
+  whatsappLocalNumber?: string;
   labelName?: string;
   labelManagerContact?: string;
   agreeToTerms?: string;
@@ -59,7 +62,8 @@ export const SignUpForm: React.FC = () => {
     confirmPassword: '',
     country: '',
     city: '',
-    whatsappNumber: '',
+    whatsappDialCode: '',
+    whatsappLocalNumber: '',
     artistType: 'independent',
     labelName: '',
     labelManagerName: '',
@@ -172,10 +176,10 @@ export const SignUpForm: React.FC = () => {
       newErrors.city = t('signup.errors.cityRequired');
     }
 
-    if (!formData.whatsappNumber.trim()) {
-      newErrors.whatsappNumber = t('signup.errors.whatsappRequired');
-    } else if (!/^\+?[\d\s-]{8,}$/.test(formData.whatsappNumber.trim())) {
-      newErrors.whatsappNumber = t('signup.errors.whatsappInvalid');
+    if (!formData.whatsappLocalNumber.trim()) {
+      newErrors.whatsappLocalNumber = t('signup.errors.whatsappRequired');
+    } else if (!/^[\d\s-]{6,}$/.test(formData.whatsappLocalNumber.trim())) {
+      newErrors.whatsappLocalNumber = t('signup.errors.whatsappInvalid');
     }
 
     if (formData.artistType === 'labelled') {
@@ -209,11 +213,12 @@ export const SignUpForm: React.FC = () => {
     }
     
     if (await validateForm()) {
-      const { confirmPassword, city, country, whatsappNumber, artistType, labelName, labelManagerName, labelManagerContact, agreeToTerms, ...rest } = formData;
+      const { confirmPassword, city, country, whatsappDialCode, whatsappLocalNumber, artistType, labelName, labelManagerName, labelManagerContact, agreeToTerms, ...rest } = formData;
       const signupData = {
         ...rest,
         country,
-        whatsappNumber: whatsappNumber.trim(),
+        // Indicatif + numéro local, tels que saisis via le sélecteur de pays.
+        whatsappNumber: `${whatsappDialCode} ${whatsappLocalNumber.trim()}`.trim(),
         // Le backend attend ce champ sous le nom "termsAccepted", pas "agreeToTerms".
         termsAccepted: agreeToTerms,
         // Le statut indépendant/labellisé ne concerne que la musique, pas les créateurs de podcast/sketch.
@@ -233,6 +238,11 @@ export const SignUpForm: React.FC = () => {
       [field]: value,
       // Une ville choisie pour un pays ne veut plus rien dire si on change de pays.
       ...(field === 'country' ? { city: '' } : {}),
+      // On pré-remplit l'indicatif WhatsApp d'après le pays choisi, pour que l'artiste
+      // n'ait qu'à taper son numéro. Il reste libre de le changer ensuite (diaspora, etc.).
+      ...(field === 'country' && typeof value === 'string'
+        ? { whatsappDialCode: (dialCodesByCountry as Record<string, string>)[value] || prev.whatsappDialCode }
+        : {}),
       // Les infos de label n'ont plus de sens si on repasse en indépendant.
       ...(field === 'artistType' && value === 'independent'
         ? { labelName: '', labelManagerName: '', labelManagerContact: '' }
@@ -404,7 +414,7 @@ export const SignUpForm: React.FC = () => {
     (citiesByCountry as Record<string, string[]>)[formData.country] || [];
   // Les infos de label ne sont exigées que pour les artistes labellisés.
   const labelInfoOk = formData.artistType !== 'labelled' || (Boolean(formData.labelName) && Boolean(formData.labelManagerContact));
-  const whatsappOk = Boolean(formData.whatsappNumber.trim());
+  const whatsappOk = Boolean(formData.whatsappDialCode) && Boolean(formData.whatsappLocalNumber.trim());
 
   return (
     <div className="flex w-full flex-col items-center max-w-4xl mx-auto px-4 sm:px-6">
@@ -552,14 +562,12 @@ export const SignUpForm: React.FC = () => {
           />
         )}
 
-        <FormField
-          label={t('signup.form.whatsapp')}
-          type="tel"
-          placeholder={t('signup.form.whatsappPlaceholder')}
-          value={formData.whatsappNumber}
-          onChange={updateFormData('whatsappNumber')}
-          required
-          error={errors.whatsappNumber}
+        <PhoneField
+          dialCode={formData.whatsappDialCode}
+          localNumber={formData.whatsappLocalNumber}
+          onDialCodeChange={updateFormData('whatsappDialCode')}
+          onLocalNumberChange={updateFormData('whatsappLocalNumber')}
+          error={errors.whatsappLocalNumber}
         />
 
         {!isContentCreator && (

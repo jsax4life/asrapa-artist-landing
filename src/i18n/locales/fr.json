@@ -233,7 +233,9 @@
       "cityBackToList": "Revenir à la liste",
       "cityFreeTextPlaceholder": "Saisissez le nom de votre ville",
       "whatsapp": "Numéro WhatsApp",
-      "whatsappPlaceholder": "Ex. +235 90 00 00 00",
+      "whatsappPlaceholder": "Ex. 90 00 00 00",
+      "whatsappDialCode": "Indicatif",
+      "whatsappDialCodeSearch": "Rechercher un pays ou un indicatif...",
       "artistTypeLabel": "Statut de l'artiste",
       "artistType": {
         "independent": "Indépendant",
