@@ -21,6 +21,7 @@ interface FormData {
   confirmPassword: string;
   country: string;
   city: string;
+  whatsappNumber: string;
   artistType: ArtistType;
   labelName: string;
   labelManagerName: string;
@@ -36,6 +37,7 @@ interface FormErrors {
   confirmPassword?: string;
   country?: string;
   city?: string;
+  whatsappNumber?: string;
   labelName?: string;
   labelManagerContact?: string;
   agreeToTerms?: string;
@@ -57,6 +59,7 @@ export const SignUpForm: React.FC = () => {
     confirmPassword: '',
     country: '',
     city: '',
+    whatsappNumber: '',
     artistType: 'independent',
     labelName: '',
     labelManagerName: '',
@@ -169,6 +172,12 @@ export const SignUpForm: React.FC = () => {
       newErrors.city = t('signup.errors.cityRequired');
     }
 
+    if (!formData.whatsappNumber.trim()) {
+      newErrors.whatsappNumber = t('signup.errors.whatsappRequired');
+    } else if (!/^\+?[\d\s-]{8,}$/.test(formData.whatsappNumber.trim())) {
+      newErrors.whatsappNumber = t('signup.errors.whatsappInvalid');
+    }
+
     if (formData.artistType === 'labelled') {
       if (!formData.labelName.trim()) {
         newErrors.labelName = t('signup.errors.labelNameRequired');
@@ -200,10 +209,11 @@ export const SignUpForm: React.FC = () => {
     }
     
     if (await validateForm()) {
-      const { confirmPassword, city, country, artistType, labelName, labelManagerName, labelManagerContact, agreeToTerms, ...rest } = formData;
+      const { confirmPassword, city, country, whatsappNumber, artistType, labelName, labelManagerName, labelManagerContact, agreeToTerms, ...rest } = formData;
       const signupData = {
         ...rest,
         country,
+        whatsappNumber: whatsappNumber.trim(),
         // Le backend attend ce champ sous le nom "termsAccepted", pas "agreeToTerms".
         termsAccepted: agreeToTerms,
         // Le statut indépendant/labellisé ne concerne que la musique, pas les créateurs de podcast/sketch.
@@ -394,6 +404,7 @@ export const SignUpForm: React.FC = () => {
     (citiesByCountry as Record<string, string[]>)[formData.country] || [];
   // Les infos de label ne sont exigées que pour les artistes labellisés.
   const labelInfoOk = formData.artistType !== 'labelled' || (Boolean(formData.labelName) && Boolean(formData.labelManagerContact));
+  const whatsappOk = Boolean(formData.whatsappNumber.trim());
 
   return (
     <div className="flex w-full flex-col items-center max-w-4xl mx-auto px-4 sm:px-6">
@@ -541,6 +552,16 @@ export const SignUpForm: React.FC = () => {
           />
         )}
 
+        <FormField
+          label={t('signup.form.whatsapp')}
+          type="tel"
+          placeholder={t('signup.form.whatsappPlaceholder')}
+          value={formData.whatsappNumber}
+          onChange={updateFormData('whatsappNumber')}
+          required
+          error={errors.whatsappNumber}
+        />
+
         {!isContentCreator && (
           <>
             <div className="flex flex-col w-full md:col-span-2">
@@ -622,6 +643,7 @@ export const SignUpForm: React.FC = () => {
                   formData.confirmPassword && 
                   formData.country &&
                   cityOk &&
+                  whatsappOk &&
                   labelInfoOk &&
                   emailStatus === 'available' &&
                   stageNameStatus === 'available' &&
@@ -630,7 +652,7 @@ export const SignUpForm: React.FC = () => {
                 ? 'bg-green-600 hover:bg-green-700 shadow-lg'
                 : 'bg-[#FF0000] hover:bg-[#E60000] disabled:opacity-50 disabled:cursor-not-allowed'
             }`}
-            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !cityOk || !labelInfoOk || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
+            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !cityOk || !whatsappOk || !labelInfoOk || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
           >
             {isSigningUp ? (
               <div className="flex items-center gap-2">
@@ -645,6 +667,7 @@ export const SignUpForm: React.FC = () => {
                 formData.confirmPassword && 
                 formData.country &&
                   cityOk &&
+                  whatsappOk &&
                 emailStatus === 'available' &&
                 stageNameStatus === 'available' &&
                 formData.password === formData.confirmPassword &&
