@@ -57,7 +57,6 @@ interface CombinedRelease {
   isFromAlbum: boolean;
   duration?: number;
   explicit?: boolean;
-  releaseYear?: number;
   genreId?: string;
   lyrics?: string;
   caption?: string;
@@ -70,6 +69,7 @@ type EditForm = {
   duration: number;
   lyrics: string;
   releaseDate: string;
+  releaseYear: number;
   caption: string;
   coverPhoto: File | null;
   coverPreview: string | null;
@@ -92,6 +92,7 @@ const MusicLibrary = () => {
     duration: 0,
     lyrics: '',
     releaseDate: '',
+    releaseYear: new Date().getFullYear(),
     caption: '',
     coverPhoto: null,
     coverPreview: null,
@@ -124,7 +125,7 @@ const MusicLibrary = () => {
           id: song._id,
           title: song.title,
           type: 'Single' as const,
-          releaseDate: song.createdAt,
+          releaseDate: song.releaseDate,
           status: 'Active',
           artwork: song.coverPhotoUrl,
           genre: song.genre.name,
@@ -135,7 +136,6 @@ const MusicLibrary = () => {
           duration: song.duration,
           explicit: song.explicit,
           lyrics: song.lyrics,
-          releaseYear: song.releaseYear
         }));
         singlesData.push(...songReleases);
       }
@@ -230,12 +230,11 @@ const MusicLibrary = () => {
     });
   };
 
-  // Pour un single, seule l'année de sortie est saisie par l'artiste — "releaseDate" ne
-  // contient que la date de mise en ligne. On affiche donc l'année plutôt qu'une date
-  // complète trompeuse (ex. "17 sept. 2026" pour une chanson en fait sortie en 2023).
+  // Pour un single, seule l'année de sortie est saisie par l'artiste — on affiche donc
+  // l'année plutôt qu'une date complète (jour/mois) qui n'a pas de sens pour lui.
   const formatReleaseInfo = (release: CombinedRelease) => {
-    if (release.type === 'Single' && release.releaseYear) {
-      return String(release.releaseYear);
+    if (release.type === 'Single') {
+      return String(new Date(release.releaseDate).getFullYear());
     }
     return formatDate(release.releaseDate);
   };
@@ -254,6 +253,7 @@ const MusicLibrary = () => {
       duration: release.duration || 0,
       lyrics: release.lyrics || '',
       releaseDate: toDateInputValue(release.releaseDate),
+      releaseYear: release.releaseDate ? new Date(release.releaseDate).getFullYear() : new Date().getFullYear(),
       caption: release.caption || '',
       coverPhoto: null,
       coverPreview: release.artwork || null,
@@ -293,6 +293,7 @@ const MusicLibrary = () => {
           genreId: editForm.genreId || undefined,
           explicit: editForm.explicit,
           lyrics: editForm.lyrics,
+          releaseYear: editForm.releaseYear,
           coverPhoto: editForm.coverPhoto || undefined,
         });
       } else {
@@ -803,6 +804,17 @@ const MusicLibrary = () => {
                   />
                 </div>
                 <div className="space-y-2">
+                  <Label htmlFor="edit-release-year">{t('musicLibraryPage.editDialog.releaseYearLabel')}</Label>
+                  <Input
+                    id="edit-release-year"
+                    type="number"
+                    min="1900"
+                    max={new Date().getFullYear() + 1}
+                    value={editForm.releaseYear || ''}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, releaseYear: Number(e.target.value) }))}
+                  />
+                </div>
+                <div className="space-y-2">
                   <Label htmlFor="edit-lyrics">{t('musicLibraryPage.editDialog.lyricsLabel')}</Label>
                   <Textarea
                     id="edit-lyrics"
@@ -857,7 +869,12 @@ const MusicLibrary = () => {
             </Button>
             <Button
               onClick={handleSaveEdit}
-              disabled={isSaving || !editForm.title.trim() || (editingRelease?.type === 'Album' && !editForm.releaseDate)}
+              disabled={
+                isSaving ||
+                !editForm.title.trim() ||
+                (editingRelease?.type === 'Album' && !editForm.releaseDate) ||
+                (editingRelease?.type === 'Single' && !editForm.releaseYear)
+              }
             >
               {isSaving ? (
                 <>
