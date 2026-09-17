@@ -678,6 +678,7 @@
       "genreLabel": "Genre",
       "genrePlaceholder": "Sélectionnez un genre",
       "durationLabel": "Durée (secondes)",
+      "releaseYearLabel": "Année de sortie",
       "lyricsLabel": "Paroles",
       "lyricsPlaceholder": "Paroles du titre (optionnel)",
       "releaseDateLabel": "Date de sortie",

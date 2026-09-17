@@ -180,7 +180,7 @@ export interface UploadedSong {
   _id: string;
   title: string;
   duration: number;
-  releaseYear?: number;
+  releaseDate: string;
   album?: {
     title: string;
   };
@@ -1045,6 +1045,7 @@ export const api = {
     genreId?: string;
     explicit?: boolean;
     lyrics?: string;
+    releaseYear?: number;
     collaborators?: string[];
     coverPhoto?: File;
   }): Promise<ApiResponse<{ message: string }>> {
@@ -1058,6 +1059,7 @@ export const api = {
         if (data.genreId) formData.append('genreId', data.genreId);
         if (data.explicit !== undefined) formData.append('explicit', String(data.explicit));
         if (data.lyrics !== undefined) formData.append('lyrics', data.lyrics);
+        if (data.releaseYear !== undefined) formData.append('releaseYear', String(data.releaseYear));
         if (data.collaborators?.length) formData.append('collaborators', JSON.stringify(data.collaborators));
         if (data.coverPhoto) formData.append('coverPhoto', data.coverPhoto);
 
@@ -1075,6 +1077,7 @@ export const api = {
       if (data.genreId) payload.genreId = data.genreId;
       if (data.explicit !== undefined) payload.explicit = data.explicit;
       if (data.lyrics !== undefined) payload.lyrics = data.lyrics;
+      if (data.releaseYear !== undefined) payload.releaseYear = data.releaseYear;
       if (data.collaborators?.length) payload.collaborators = data.collaborators;
 
       const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
