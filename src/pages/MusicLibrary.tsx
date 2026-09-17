@@ -230,6 +230,16 @@ const MusicLibrary = () => {
     });
   };
 
+  // Pour un single, seule l'année de sortie est saisie par l'artiste — "releaseDate" ne
+  // contient que la date de mise en ligne. On affiche donc l'année plutôt qu'une date
+  // complète trompeuse (ex. "17 sept. 2026" pour une chanson en fait sortie en 2023).
+  const formatReleaseInfo = (release: CombinedRelease) => {
+    if (release.type === 'Single' && release.releaseYear) {
+      return String(release.releaseYear);
+    }
+    return formatDate(release.releaseDate);
+  };
+
   // Action handlers
   const handleViewRelease = (release: CombinedRelease) => {
     setSelectedRelease(release);
@@ -386,7 +396,7 @@ const MusicLibrary = () => {
                   <span className="text-sm text-muted-foreground ml-1">({release.type})</span>
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  {t('musicLibraryPage.list.releaseInfo', { genre: release.genre, date: formatDate(release.releaseDate) })}
+                  {t('musicLibraryPage.list.releaseInfo', { genre: release.genre, date: formatReleaseInfo(release) })}
                 </p>
                 {release.caption && (
                   <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
@@ -445,7 +455,7 @@ const MusicLibrary = () => {
                         {t('musicLibraryPage.dialog.subtitle', {
                           type: release.type === 'Single' ? t('musicLibraryPage.dialog.single') : t('musicLibraryPage.dialog.album'),
                           genre: release.genre,
-                          date: formatDate(release.releaseDate),
+                          date: formatReleaseInfo(release),
                         })}
                       </DialogDescription>
                     </DialogHeader>
@@ -893,7 +903,7 @@ const MusicLibrary = () => {
             )}
             <div>
               <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.analyticsDialog.releaseDate')}</h4>
-              <p className="text-lg font-semibold">{analyticsRelease && formatDate(analyticsRelease.releaseDate)}</p>
+              <p className="text-lg font-semibold">{analyticsRelease && formatReleaseInfo(analyticsRelease)}</p>
             </div>
           </div>
           <p className="text-xs text-muted-foreground">{t('musicLibraryPage.analyticsDialog.moreComingSoon')}</p>
