@@ -232,6 +232,8 @@
       "cityNotListed": "Ma ville n'est pas dans la liste",
       "cityBackToList": "Revenir à la liste",
       "cityFreeTextPlaceholder": "Saisissez le nom de votre ville",
+      "whatsapp": "Numéro WhatsApp",
+      "whatsappPlaceholder": "Ex. +235 90 00 00 00",
       "artistTypeLabel": "Statut de l'artiste",
       "artistType": {
         "independent": "Indépendant",
@@ -263,6 +265,8 @@
       "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
       "countryRequired": "Veuillez sélectionner un pays",
       "cityRequired": "Veuillez indiquer votre ville",
+      "whatsappRequired": "Veuillez indiquer votre numéro WhatsApp",
+      "whatsappInvalid": "Veuillez entrer un numéro WhatsApp valide",
       "agreeToTermsRequired": "Vous devez accepter les conditions générales",
       "labelNameRequired": "Le nom du label est requis",
       "labelManagerContactRequired": "Le contact du responsable du label est requis",

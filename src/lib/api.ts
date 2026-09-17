@@ -92,6 +92,8 @@ export interface ArtistSignupData {
   country: string;
   /** Ville au Tchad, pour le ciblage marketing local (Moundou, Sarh, Bongor, etc.). */
   city?: string;
+  /** Numéro WhatsApp de l'artiste, affiché côté admin pour le contacter facilement. */
+  whatsappNumber: string;
   /** Le backend attend ce champ sous le nom "termsAccepted", pas "agreeToTerms". */
   termsAccepted: boolean;
   /** Statut de l'artiste, détermine le tarif appliqué (indépendant vs labellisé). */
