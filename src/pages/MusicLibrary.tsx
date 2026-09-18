@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { api, ApiError, Genre, extractGenreId, getGenreId } from "@/lib/api";
+import { api, ApiError, Genre, extractGenreId, getGenreId, UploadedSong } from "@/lib/api";
 import { ROUTES } from "@/constants/routes";
 
 const toDateInputValue = (dateString: string) => {
@@ -58,7 +58,6 @@ interface CombinedRelease {
   isFromAlbum: boolean;
   duration?: number;
   explicit?: boolean;
-  releaseYear?: number;
   genreId?: string;
   lyrics?: string;
   caption?: string;
@@ -74,12 +73,19 @@ type EditForm = {
   caption: string;
   coverPhoto: File | null;
   coverPreview: string | null;
+  existingSongIds: string[];
+  newSongFiles: File[];
 };
+
+/** Nombre max. de titres qu'on peut ajouter à un album existant en une fois — même
+ * limite que celle imposée par le backend à la création (voir Upload.tsx). */
+const MAX_NEW_SONGS_PER_ALBUM = 10;
 
 const MusicLibrary = () => {
   const { t, i18n } = useTranslation();
   const [singles, setSingles] = useState<CombinedRelease[]>([]);
   const [albums, setAlbums] = useState<CombinedRelease[]>([]);
+  const [standaloneSongs, setStandaloneSongs] = useState<UploadedSong[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedRelease, setSelectedRelease] = useState<CombinedRelease | null>(null);
@@ -96,6 +102,8 @@ const MusicLibrary = () => {
     caption: '',
     coverPhoto: null,
     coverPreview: null,
+    existingSongIds: [],
+    newSongFiles: [],
   });
   const [isSaving, setIsSaving] = useState(false);
   const [analyticsRelease, setAnalyticsRelease] = useState<CombinedRelease | null>(null);
@@ -122,11 +130,12 @@ const MusicLibrary = () => {
       const albumsData: CombinedRelease[] = [];
 
       if (songsResponse.status === 'success' && songsResponse.data) {
+        setStandaloneSongs(songsResponse.data.songs.filter(song => !song.album));
         const songReleases: CombinedRelease[] = songsResponse.data.songs.map(song => ({
           id: song._id,
           title: song.title,
           type: 'Single' as const,
-          releaseDate: song.createdAt,
+          releaseDate: song.releaseDate,
           status: 'Active',
           artwork: song.coverPhotoUrl,
           songUrl: song.songUrl,
@@ -138,7 +147,6 @@ const MusicLibrary = () => {
           duration: song.duration,
           explicit: song.explicit,
           lyrics: song.lyrics,
-          releaseYear: song.releaseYear
         }));
         singlesData.push(...songReleases);
       }
@@ -250,6 +258,35 @@ const MusicLibrary = () => {
       caption: release.caption || '',
       coverPhoto: null,
       coverPreview: release.artwork || null,
+      existingSongIds: [],
+      newSongFiles: [],
+    });
+  };
+
+  const handleNewSongFilesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files ? Array.from(event.target.files) : [];
+    event.target.value = '';
+    if (files.length === 0) return;
+
+    const validFiles = files.filter(file => file.type.startsWith('audio/'));
+    if (validFiles.length !== files.length) {
+      toast({
+        title: t('uploadPage.toast.invalidFileTypeTitle'),
+        description: t('uploadPage.toast.someFilesIgnoredDescription'),
+        variant: "destructive",
+      });
+    }
+
+    setEditForm((prev) => {
+      const combined = [...prev.newSongFiles, ...validFiles];
+      if (combined.length > MAX_NEW_SONGS_PER_ALBUM) {
+        toast({
+          title: t('uploadPage.toast.tooManySongsTitle'),
+          description: t('uploadPage.toast.tooManySongsDescription', { max: MAX_NEW_SONGS_PER_ALBUM, count: combined.length }),
+          variant: "destructive",
+        });
+      }
+      return { ...prev, newSongFiles: combined.slice(0, MAX_NEW_SONGS_PER_ALBUM) };
     });
   };
 
@@ -279,6 +316,10 @@ const MusicLibrary = () => {
     try {
       setIsSaving(true);
 
+      const releaseDate = editForm.releaseDate
+        ? new Date(`${editForm.releaseDate}T00:00:00.000Z`).toISOString()
+        : undefined;
+
       if (editingRelease.type === 'Single') {
         await api.updateSong(editingRelease.id, {
           title: editForm.title.trim(),
@@ -286,13 +327,10 @@ const MusicLibrary = () => {
           genreId: editForm.genreId || undefined,
           explicit: editForm.explicit,
           lyrics: editForm.lyrics,
+          releaseDate,
           coverPhoto: editForm.coverPhoto || undefined,
         });
       } else {
-        const releaseDate = editForm.releaseDate
-          ? new Date(`${editForm.releaseDate}T00:00:00.000Z`).toISOString()
-          : undefined;
-
         await api.updateAlbum(editingRelease.id, {
           title: editForm.title.trim(),
           releaseDate,
@@ -300,6 +338,8 @@ const MusicLibrary = () => {
           explicit: editForm.explicit,
           caption: editForm.caption,
           coverPhoto: editForm.coverPhoto || undefined,
+          existingSongIds: editForm.existingSongIds.length ? editForm.existingSongIds : undefined,
+          newSongFiles: editForm.newSongFiles.length ? editForm.newSongFiles : undefined,
         });
       }
 
@@ -818,6 +858,18 @@ const MusicLibrary = () => {
                   />
                 </div>
                 <div className="space-y-2">
+                  <Label htmlFor="edit-release-date">{t('musicLibraryPage.editDialog.releaseDateLabel')}</Label>
+                  <Input
+                    id="edit-release-date"
+                    type="date"
+                    className="w-full cursor-pointer"
+                    value={editForm.releaseDate}
+                    onClick={openDatePicker}
+                    onFocus={openDatePicker}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, releaseDate: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
                   <Label htmlFor="edit-lyrics">{t('musicLibraryPage.editDialog.lyricsLabel')}</Label>
                   <Textarea
                     id="edit-lyrics"
@@ -854,6 +906,68 @@ const MusicLibrary = () => {
                   />
                   <p className="text-xs text-muted-foreground text-right">{editForm.caption.length}/500</p>
                 </div>
+
+                <div className="space-y-2 border-t border-border pt-4">
+                  <Label>{t('musicLibraryPage.editDialog.addTracksLabel')}</Label>
+                  <p className="text-xs text-muted-foreground">{t('musicLibraryPage.editDialog.addTracksHint')}</p>
+
+                  {standaloneSongs.length > 0 && (
+                    <div className="space-y-1">
+                      <p className="text-xs font-medium text-muted-foreground mt-2">{t('musicLibraryPage.editDialog.existingSongsLabel')}</p>
+                      <div className="max-h-40 overflow-y-auto rounded-md border border-border divide-y divide-border">
+                        {standaloneSongs.map((song) => {
+                          const isSelected = editForm.existingSongIds.includes(song._id);
+                          return (
+                            <label key={song._id} className="flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-accent/50">
+                              <input
+                                type="checkbox"
+                                checked={isSelected}
+                                onChange={() => setEditForm(prev => ({
+                                  ...prev,
+                                  existingSongIds: isSelected
+                                    ? prev.existingSongIds.filter(id => id !== song._id)
+                                    : [...prev.existingSongIds, song._id],
+                                }))}
+                              />
+                              <span className="flex-1">{song.title}</span>
+                              <span className="text-xs text-muted-foreground">{song.genre.name}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="space-y-1 mt-3">
+                    <p className="text-xs font-medium text-muted-foreground">{t('musicLibraryPage.editDialog.newSongsLabel')}</p>
+                    <Input
+                      id="edit-new-songs"
+                      type="file"
+                      accept=".mp3,.wav,.flac"
+                      multiple
+                      onChange={handleNewSongFilesChange}
+                    />
+                    {editForm.newSongFiles.length > 0 && (
+                      <ul className="text-xs text-muted-foreground mt-1 space-y-0.5">
+                        {editForm.newSongFiles.map((file, index) => (
+                          <li key={`${file.name}-${index}`} className="flex items-center justify-between">
+                            <span className="truncate">{file.name}</span>
+                            <button
+                              type="button"
+                              className="text-destructive hover:underline ml-2 shrink-0"
+                              onClick={() => setEditForm(prev => ({
+                                ...prev,
+                                newSongFiles: prev.newSongFiles.filter((_, i) => i !== index),
+                              }))}
+                            >
+                              {t('musicLibraryPage.editDialog.removeFile')}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
               </>
             )}
 
@@ -872,7 +986,7 @@ const MusicLibrary = () => {
             </Button>
             <Button
               onClick={handleSaveEdit}
-              disabled={isSaving || !editForm.title.trim() || (editingRelease?.type === 'Album' && !editForm.releaseDate)}
+              disabled={isSaving || !editForm.title.trim() || !editForm.releaseDate}
             >
               {isSaving ? (
                 <>

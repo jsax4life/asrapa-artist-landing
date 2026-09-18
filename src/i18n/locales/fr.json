@@ -227,6 +227,15 @@
       "countryNoResults": "Aucun pays trouvé.",
       "city": "Ville",
       "cityPlaceholder": "Choisissez votre ville",
+      "citySearch": "Rechercher une ville...",
+      "cityNoResults": "Aucune ville trouvée.",
+      "cityNotListed": "Ma ville n'est pas dans la liste",
+      "cityBackToList": "Revenir à la liste",
+      "cityFreeTextPlaceholder": "Saisissez le nom de votre ville",
+      "whatsapp": "Numéro WhatsApp",
+      "whatsappPlaceholder": "Ex. 90 00 00 00",
+      "whatsappDialCode": "Indicatif",
+      "whatsappDialCodeSearch": "Rechercher un pays ou un indicatif...",
       "artistTypeLabel": "Statut de l'artiste",
       "artistType": {
         "independent": "Indépendant",
@@ -257,7 +266,9 @@
       "passwordRequirements": "Le mot de passe ne respecte pas les exigences",
       "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
       "countryRequired": "Veuillez sélectionner un pays",
-      "cityRequired": "Veuillez sélectionner votre ville",
+      "cityRequired": "Veuillez indiquer votre ville",
+      "whatsappRequired": "Veuillez indiquer votre numéro WhatsApp",
+      "whatsappInvalid": "Veuillez entrer un numéro WhatsApp valide",
       "agreeToTermsRequired": "Vous devez accepter les conditions générales",
       "labelNameRequired": "Le nom du label est requis",
       "labelManagerContactRequired": "Le contact du responsable du label est requis",
@@ -672,6 +683,11 @@
       "releaseDateLabel": "Date de sortie",
       "captionLabel": "Description",
       "captionPlaceholder": "Décrivez cet album...",
+      "addTracksLabel": "Ajouter des titres",
+      "addTracksHint": "Complétez cet album avec des titres déjà téléversés ou de nouveaux fichiers audio.",
+      "existingSongsLabel": "Titres déjà téléversés",
+      "newSongsLabel": "Nouveaux fichiers audio",
+      "removeFile": "Retirer",
       "coverLabel": "Pochette",
       "coverHint": "JPEG, PNG ou WebP — max. 5 Mo. Laissez vide pour conserver la pochette actuelle.",
       "invalidCoverTitle": "Type de fichier invalide",
@@ -756,8 +772,7 @@
       "titlePlaceholder": "Titre du morceau",
       "durationLabel": "Durée (secondes)",
       "durationPlaceholder": "ex. 233",
-      "releaseYearLabel": "Année de sortie",
-      "releaseYearPlaceholder": "ex. 2026",
+      "releaseDateLabel": "Date de sortie",
       "albumLabel": "Album (optionnel)",
       "albumPlaceholder": "Sélectionner un album",
       "genreLabel": "Genre",
@@ -841,6 +856,8 @@
       "missingCoverPhotoAlbumDescription": "Sélectionnez une photo de couverture pour votre album.",
       "missingRequiredFieldsTitle": "Champs obligatoires manquants",
       "missingRequiredFieldsDescription": "Remplissez tous les champs requis (titre, date de sortie, genre).",
+      "tooManySongsTitle": "Trop de titres sélectionnés",
+      "tooManySongsDescription": "Un album ne peut pas contenir plus de {{max}} nouveaux titres à la fois ({{count}} sélectionnés). Téléversez le reste dans un second temps, ou ajoutez-les à l'album ensuite depuis votre bibliothèque.",
       "uploadSuccessTitle": "Téléversement réussi",
       "uploadSuccessDescription": "Votre titre a été téléversé avec succès !",
       "unexpectedUploadErrorDescription": "Une erreur inattendue s'est produite pendant le téléversement.",
@@ -888,7 +905,7 @@
     "tiktokLabel": "TikTok",
     "tiktokPlaceholder": "https://tiktok.com/@votre-compte",
     "locationTitle": "Localisation",
-    "locationDescription": "Les artistes Asrapa sont basés au Tchad.",
+    "locationDescription": "Où vous trouvez-vous ? Utile pour vos fans et pour vous contacter.",
     "saving": "Enregistrement...",
     "saveChanges": "Enregistrer les modifications",
     "bioTitle": "Biographie",
@@ -977,11 +994,11 @@
           },
           {
             "label": "EP",
-            "price": "30 000 FCFA"
+            "price": "30 000 FCFA / an"
           },
           {
             "label": "Album",
-            "price": "100 000 FCFA"
+            "price": "50 000 FCFA / an"
           }
         ],
         "steps": [
@@ -1000,7 +1017,7 @@
           },
           {
             "label": "EP",
-            "price": "15 000 FCFA"
+            "price": "15 000 FCFA / an"
           },
           {
             "label": "Album",

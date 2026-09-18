@@ -24,7 +24,7 @@ interface UploadFormData {
   collaborators: string[]; // Array of artist IDs
   isExplicit: boolean;
   lyrics?: string;
-  releaseYear: number;
+  releaseDate: string;
 }
 
 interface AlbumFormData {
@@ -49,6 +49,10 @@ interface ContentFormData {
 }
 
 type UploadType = 'single' | 'album' | 'podcast' | 'sketch';
+
+/** Limite dure côté backend (multer maxCount sur le champ "songFiles") — au-delà,
+ * la connexion est coupée en pleine réception au lieu d'un message d'erreur propre. */
+const MAX_NEW_SONGS_PER_ALBUM = 10;
 
 const openDatePicker = (event: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
   event.currentTarget.showPicker?.();
@@ -82,7 +86,7 @@ const Upload = () => {
     isExplicit: false,
     collaborators: [],
     lyrics: '',
-    releaseYear: new Date().getFullYear(),
+    releaseDate: '',
   });
   const [albumFormData, setAlbumFormData] = useState<AlbumFormData>({
     title: '',
@@ -198,7 +202,7 @@ const Upload = () => {
 
   const handleFormChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: (name === 'duration' || name === 'releaseYear') ? Number(value) : value }));
+    setFormData(prev => ({ ...prev, [name]: name === 'duration' ? Number(value) : value }));
   }, []);
 
   const handleSelectChange = useCallback((name: keyof UploadFormData, value: string | boolean) => {
@@ -230,7 +234,7 @@ const Upload = () => {
     const formDataToSend = new FormData();
     formDataToSend.append('title', formData.title);
     formDataToSend.append('duration', formData.duration.toString());
-    formDataToSend.append('releaseYear', formData.releaseYear.toString());
+    formDataToSend.append('releaseDate', formData.releaseDate);
     formDataToSend.append('genreId', formData.genreId);
     formDataToSend.append('isExplicit', formData.isExplicit.toString());
     if (formData.albumId) formDataToSend.append('albumId', formData.albumId);
@@ -256,7 +260,7 @@ const Upload = () => {
         isExplicit: false,
         collaborators: [],
         lyrics: '',
-        releaseYear: new Date().getFullYear(),
+        releaseDate: '',
       });
     } catch (error) {
       console.error("Upload error:", error);
@@ -286,6 +290,18 @@ const Upload = () => {
       toast({
         title: t('uploadPage.toast.missingRequiredFieldsTitle'),
         description: t('uploadPage.toast.missingRequiredFieldsDescription'),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Le backend n'accepte que 10 nouveaux fichiers audio par album — au-delà, il
+    // coupe la connexion en pleine réception, ce qui remonte comme une fausse
+    // "erreur réseau" côté artiste. On bloque donc avant d'envoyer quoi que ce soit.
+    if (newSongFiles.length > MAX_NEW_SONGS_PER_ALBUM) {
+      toast({
+        title: t('uploadPage.toast.tooManySongsTitle'),
+        description: t('uploadPage.toast.tooManySongsDescription', { max: MAX_NEW_SONGS_PER_ALBUM, count: newSongFiles.length }),
         variant: "destructive",
       });
       return;
@@ -622,8 +638,18 @@ const Upload = () => {
                       <Input id="duration" name="duration" type="number" value={formData.duration === 0 ? '' : formData.duration} onChange={handleFormChange} placeholder={t('uploadPage.songDetails.durationPlaceholder')} required min="1" max="3600" />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="releaseYear">{t('uploadPage.songDetails.releaseYearLabel')}</Label>
-                      <Input id="releaseYear" name="releaseYear" type="number" value={formData.releaseYear} onChange={handleFormChange} placeholder={t('uploadPage.songDetails.releaseYearPlaceholder')} required min="1900" max="2100" />
+                      <Label htmlFor="releaseDate">{t('uploadPage.songDetails.releaseDateLabel')}</Label>
+                      <Input
+                        id="releaseDate"
+                        name="releaseDate"
+                        type="date"
+                        className="w-full cursor-pointer"
+                        value={formData.releaseDate}
+                        onClick={openDatePicker}
+                        onFocus={openDatePicker}
+                        onChange={handleFormChange}
+                        required
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="albumId">{t('uploadPage.songDetails.albumLabel')}</Label>
@@ -1071,7 +1097,14 @@ const Upload = () => {
                                   variant: "destructive",
                                 });
                               }
-                              setNewSongFiles(validFiles);
+                              if (validFiles.length > MAX_NEW_SONGS_PER_ALBUM) {
+                                toast({
+                                  title: t('uploadPage.toast.tooManySongsTitle'),
+                                  description: t('uploadPage.toast.tooManySongsDescription', { max: MAX_NEW_SONGS_PER_ALBUM, count: validFiles.length }),
+                                  variant: "destructive",
+                                });
+                              }
+                              setNewSongFiles(validFiles.slice(0, MAX_NEW_SONGS_PER_ALBUM));
                             }
                           }}
                         />

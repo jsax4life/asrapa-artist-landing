@@ -227,6 +227,15 @@
       "countryNoResults": "No country found.",
       "city": "City",
       "cityPlaceholder": "Choose your city",
+      "citySearch": "Search a city...",
+      "cityNoResults": "No city found.",
+      "cityNotListed": "My city isn't listed",
+      "cityBackToList": "Back to the list",
+      "cityFreeTextPlaceholder": "Enter your city's name",
+      "whatsapp": "WhatsApp number",
+      "whatsappPlaceholder": "e.g. 90 00 00 00",
+      "whatsappDialCode": "Country code",
+      "whatsappDialCodeSearch": "Search a country or code...",
       "artistTypeLabel": "Artist status",
       "artistType": {
         "independent": "Independent",
@@ -257,7 +266,9 @@
       "passwordRequirements": "Password does not meet the requirements",
       "confirmPasswordRequired": "Please confirm your password",
       "countryRequired": "Please select a country",
-      "cityRequired": "Please select your city",
+      "cityRequired": "Please enter your city",
+      "whatsappRequired": "Please enter your WhatsApp number",
+      "whatsappInvalid": "Please enter a valid WhatsApp number",
       "agreeToTermsRequired": "You must agree to the terms and conditions",
       "labelNameRequired": "The label name is required",
       "labelManagerContactRequired": "The label manager's contact is required",
@@ -672,6 +683,11 @@
       "releaseDateLabel": "Release date",
       "captionLabel": "Description",
       "captionPlaceholder": "Describe this album...",
+      "addTracksLabel": "Add tracks",
+      "addTracksHint": "Complete this album with tracks you've already uploaded or new audio files.",
+      "existingSongsLabel": "Already uploaded tracks",
+      "newSongsLabel": "New audio files",
+      "removeFile": "Remove",
       "coverLabel": "Cover art",
       "coverHint": "JPEG, PNG or WebP — max 5 MB. Leave empty to keep the current cover.",
       "invalidCoverTitle": "Invalid file type",
@@ -756,8 +772,7 @@
       "titlePlaceholder": "Track title",
       "durationLabel": "Duration (seconds)",
       "durationPlaceholder": "e.g. 233",
-      "releaseYearLabel": "Release year",
-      "releaseYearPlaceholder": "e.g. 2026",
+      "releaseDateLabel": "Release date",
       "albumLabel": "Album (optional)",
       "albumPlaceholder": "Select an album",
       "genreLabel": "Genre",
@@ -841,6 +856,8 @@
       "missingCoverPhotoAlbumDescription": "Select a cover photo for your album.",
       "missingRequiredFieldsTitle": "Missing required fields",
       "missingRequiredFieldsDescription": "Fill in all required fields (title, release date, genre).",
+      "tooManySongsTitle": "Too many tracks selected",
+      "tooManySongsDescription": "An album can't include more than {{max}} new tracks at once ({{count}} selected). Upload the rest separately, or add them to the album afterward from your library.",
       "uploadSuccessTitle": "Upload successful",
       "uploadSuccessDescription": "Your track was uploaded successfully!",
       "unexpectedUploadErrorDescription": "An unexpected error occurred during the upload.",
@@ -888,7 +905,7 @@
     "tiktokLabel": "TikTok",
     "tiktokPlaceholder": "https://tiktok.com/@your-handle",
     "locationTitle": "Location",
-    "locationDescription": "Asrapa artists are based in Chad.",
+    "locationDescription": "Where are you based? Helps your fans and makes it easy to reach you.",
     "saving": "Saving...",
     "saveChanges": "Save changes",
     "bioTitle": "Biography",
@@ -977,11 +994,11 @@
           },
           {
             "label": "EP",
-            "price": "30,000 FCFA"
+            "price": "30,000 FCFA / year"
           },
           {
             "label": "Album",
-            "price": "100,000 FCFA"
+            "price": "50,000 FCFA / year"
           }
         ],
         "steps": [
@@ -1000,7 +1017,7 @@
           },
           {
             "label": "EP",
-            "price": "15,000 FCFA"
+            "price": "15,000 FCFA / year"
           },
           {
             "label": "Album",

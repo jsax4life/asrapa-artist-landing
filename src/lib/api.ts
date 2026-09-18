@@ -94,6 +94,8 @@ export interface ArtistSignupData {
   country: string;
   /** Ville au Tchad, pour le ciblage marketing local (Moundou, Sarh, Bongor, etc.). */
   city?: string;
+  /** Numéro WhatsApp de l'artiste, affiché côté admin pour le contacter facilement. */
+  whatsappNumber: string;
   /** Le backend attend ce champ sous le nom "termsAccepted", pas "agreeToTerms". */
   termsAccepted: boolean;
   /** Statut de l'artiste, détermine le tarif appliqué (indépendant vs labellisé). */
@@ -180,7 +182,7 @@ export interface UploadedSong {
   _id: string;
   title: string;
   duration: number;
-  releaseYear?: number;
+  releaseDate: string;
   album?: {
     title: string;
   };
@@ -662,20 +664,45 @@ export const api = {
 
   async uploadSingleSong(formData: FormData): Promise<ApiResponse<SongUploadResponse>> {
     try {
+      // Un fichier audio peut largement dépasser le délai par défaut de l'API (60s)
+      // sur une connexion lente — d'où le délai plus long ici.
       const response: AxiosResponse<ApiResponse<SongUploadResponse>> = await apiClient.post('/artist/upload-songs', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 600000,
       });
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError(
-        'Erreur réseau pendant le téléversement du titre. Vérifiez votre connexion.',
-        0
-      );
+      // ECONNABORTED (timeout) doit être vérifié avant "error.request" : axios pose
+      // aussi error.request sur un timeout, donc l'ordre inverse masquerait le vrai
+      // message de dépassement de délai derrière un message réseau générique.
+      if (error.code === 'ECONNABORTED') {
+        console.error('Request timeout:', error.message);
+        throw new ApiError(
+          'Le téléversement du titre a expiré. Réessayez avec un fichier plus léger ou vérifiez votre connexion.',
+          0
+        );
+      } else if (error.response) {
+        console.error('Response error:', error.response.data);
+        throw new ApiError(
+          error.response.data?.message || 'Échec du téléversement du titre',
+          error.response.status
+        );
+      } else if (error.request) {
+        throw new ApiError(
+          'Erreur réseau pendant le téléversement du titre. Vérifiez votre connexion.',
+          0
+        );
+      } else {
+        throw new ApiError(
+          'Une erreur inattendue s\'est produite pendant le téléversement du titre.',
+          0
+        );
+      }
     }
   },
 
@@ -965,10 +992,13 @@ export const api = {
         console.log(`${key}:`, value);
       }
       
+      // Un album (plusieurs titres + pochette) peut largement dépasser le délai
+      // par défaut de l'API (60s) sur une connexion lente — d'où le délai plus long ici.
       const response: AxiosResponse<ApiResponse<AlbumUploadResponse>> = await apiClient.post('/artist/create-album', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 600000,
       });
       console.log('Album upload response:', response);
       return response.data;
@@ -977,7 +1007,16 @@ export const api = {
       if (error instanceof ApiError) {
         throw error;
       }
-      if (error.response) {
+      // ECONNABORTED (timeout) doit être vérifié avant "error.request" : axios pose
+      // aussi error.request sur un timeout, donc l'ordre inverse masquait toujours
+      // le vrai message de dépassement de délai derrière un message réseau générique.
+      if (error.code === 'ECONNABORTED') {
+        console.error('Request timeout:', error.message);
+        throw new ApiError(
+          'Le téléversement de l\'album a expiré. Réessayez avec des fichiers plus légers ou vérifiez votre connexion.',
+          0
+        );
+      } else if (error.response) {
         console.error('Response error:', error.response.data);
         throw new ApiError(
           error.response.data?.message || 'Échec du téléversement de l\'album',
@@ -987,12 +1026,6 @@ export const api = {
         console.error('Network error:', error.request);
         throw new ApiError(
           'Erreur réseau pendant le téléversement de l\'album. Vérifiez votre connexion.',
-          0
-        );
-      } else if (error.code === 'ECONNABORTED') {
-        console.error('Request timeout:', error.message);
-        throw new ApiError(
-          'Le téléversement de l\'album a expiré. Réessayez avec des fichiers plus légers ou vérifiez votre connexion.',
           0
         );
       } else {
@@ -1045,6 +1078,7 @@ export const api = {
     genreId?: string;
     explicit?: boolean;
     lyrics?: string;
+    releaseDate?: string;
     collaborators?: string[];
     coverPhoto?: File;
   }): Promise<ApiResponse<{ message: string }>> {
@@ -1058,6 +1092,7 @@ export const api = {
         if (data.genreId) formData.append('genreId', data.genreId);
         if (data.explicit !== undefined) formData.append('explicit', String(data.explicit));
         if (data.lyrics !== undefined) formData.append('lyrics', data.lyrics);
+        if (data.releaseDate !== undefined) formData.append('releaseDate', data.releaseDate);
         if (data.collaborators?.length) formData.append('collaborators', JSON.stringify(data.collaborators));
         if (data.coverPhoto) formData.append('coverPhoto', data.coverPhoto);
 
@@ -1075,6 +1110,7 @@ export const api = {
       if (data.genreId) payload.genreId = data.genreId;
       if (data.explicit !== undefined) payload.explicit = data.explicit;
       if (data.lyrics !== undefined) payload.lyrics = data.lyrics;
+      if (data.releaseDate !== undefined) payload.releaseDate = data.releaseDate;
       if (data.collaborators?.length) payload.collaborators = data.collaborators;
 
       const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
@@ -1100,11 +1136,15 @@ export const api = {
     explicit?: boolean;
     caption?: string;
     coverPhoto?: File;
+    /** Titres déjà téléversés (hors de cet album) à y rattacher. */
+    existingSongIds?: string[];
+    /** Nouveaux fichiers audio à ajouter directement à cet album. */
+    newSongFiles?: File[];
   }): Promise<ApiResponse<{ message: string }>> {
     try {
-      const hasFile = Boolean(data.coverPhoto);
+      const hasFiles = Boolean(data.coverPhoto) || Boolean(data.newSongFiles?.length);
 
-      if (hasFile) {
+      if (hasFiles) {
         const formData = new FormData();
         if (data.title !== undefined) formData.append('title', data.title);
         if (data.releaseDate) formData.append('releaseDate', data.releaseDate);
@@ -1112,11 +1152,24 @@ export const api = {
         if (data.explicit !== undefined) formData.append('explicit', String(data.explicit));
         if (data.caption !== undefined) formData.append('caption', data.caption);
         if (data.coverPhoto) formData.append('coverPhoto', data.coverPhoto);
+        if (data.existingSongIds?.length) formData.append('existingSongIds', data.existingSongIds.join(','));
+        if (data.newSongFiles?.length) {
+          const newSongsMetadata = data.newSongFiles.map((file) => ({
+            title: file.name.replace(/\.[^/.]+$/, ''),
+            duration: 0,
+            collaborators: [],
+            isExplicit: data.explicit ?? false,
+            lyrics: '',
+          }));
+          formData.append('newSongs', JSON.stringify(newSongsMetadata));
+          data.newSongFiles.forEach((file) => formData.append('songFiles', file));
+        }
 
+        // Un ajout de plusieurs titres peut dépasser le délai par défaut de l'API (60s).
         const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
           `/artist/albums/${albumId}`,
           formData,
-          { headers: { 'Content-Type': 'multipart/form-data' } }
+          { headers: { 'Content-Type': 'multipart/form-data' }, timeout: 600000 }
         );
         return response.data;
       }
@@ -1127,15 +1180,27 @@ export const api = {
       if (data.genreId) payload.genreId = data.genreId;
       if (data.explicit !== undefined) payload.explicit = data.explicit;
       if (data.caption !== undefined) payload.caption = data.caption;
+      if (data.existingSongIds?.length) payload.existingSongIds = data.existingSongIds;
 
       const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
         `/artist/albums/${albumId}`,
         payload
       );
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof ApiError) {
         throw error;
+      }
+      if (error.code === 'ECONNABORTED') {
+        throw new ApiError(
+          'La modification de l\'album a expiré. Réessayez avec moins de fichiers ou vérifiez votre connexion.',
+          0
+        );
+      } else if (error.response) {
+        throw new ApiError(
+          error.response.data?.message || 'Échec de la modification de l\'album',
+          error.response.status
+        );
       }
       throw new ApiError(
         'Erreur réseau lors de la modification de l\'album. Vérifiez votre connexion.',

@@ -7,14 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ProfilePhotoUploader } from "@/components/dashboard-components/ProfilePhotoUploader";
 import { BannerImageUploader } from "@/components/dashboard-components/BannerImageUploader";
+import { CountrySelect } from "@/components/signup-components/CountrySelect";
+import { CitySelect } from "@/components/signup-components/CitySelect";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { api, ApiError } from "@/lib/api";
 import { mapArtistToUserData } from "@/lib/auth-utils";
-import { CHAD_CITIES, CHAD_COUNTRY } from "@/lib/countries";
+import citiesByCountry from '@/lib/citiesByCountry.json';
 import artistProfile from "@/assets/images/artist-profile.jpg";
 
 type ProfileForm = {
@@ -22,6 +23,7 @@ type ProfileForm = {
   stageName: string;
   email: string;
   hometown: string;
+  country: string;
   city: string;
   website: string;
   bio: string;
@@ -37,6 +39,7 @@ const emptyProfileForm = (): ProfileForm => ({
   stageName: '',
   email: '',
   hometown: '',
+  country: '',
   city: '',
   website: '',
   bio: '',
@@ -52,6 +55,9 @@ const profileFormFromUser = (user: ReturnType<typeof mapArtistToUserData>): Prof
   stageName: user.stageName,
   email: user.email,
   hometown: user.hometown || '',
+  // D'anciens comptes ont "Chad" (valeur historique envoyée avant l'ouverture aux autres pays) ;
+  // on l'affiche avec le nom français utilisé partout ailleurs dans le sélecteur de pays.
+  country: user.country === 'Chad' ? 'Tchad' : (user.country || ''),
   city: user.city || '',
   website: user.website || '',
   bio: user.bio || '',
@@ -119,7 +125,7 @@ const Settings = () => {
       fullName: profileForm.fullName,
       stageName: profileForm.stageName,
       email: profileForm.email,
-      country: CHAD_COUNTRY,
+      country: profileForm.country,
       hometown: profileForm.hometown,
       city: profileForm.city,
       website: profileForm.website,
@@ -289,34 +295,24 @@ const Settings = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="country">{t('accountSettingsPage.countryLabel')}</Label>
-                      <Input
-                        id="country"
-                        value={t('accountSettingsPage.countryValue')}
-                        readOnly
-                        disabled
-                        className="bg-muted"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="city">{t('accountSettingsPage.cityLabel')}</Label>
-                      <Select
+                    <CountrySelect
+                      value={profileForm.country}
+                      onChange={(value) =>
+                        setProfileForm((prev) => ({
+                          ...prev,
+                          country: value,
+                          // Une ville choisie pour un pays ne veut plus rien dire si on en change.
+                          city: value === prev.country ? prev.city : '',
+                        }))
+                      }
+                    />
+                    {profileForm.country && (
+                      <CitySelect
                         value={profileForm.city}
-                        onValueChange={(value) => setProfileForm((prev) => ({ ...prev, city: value }))}
-                      >
-                        <SelectTrigger id="city">
-                          <SelectValue placeholder={t('accountSettingsPage.cityPlaceholder')} />
-                        </SelectTrigger>
-                        <SelectContent className="max-h-72">
-                          {CHAD_CITIES.map((city) => (
-                            <SelectItem key={city} value={city}>
-                              {city}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                        onChange={(value) => setProfileForm((prev) => ({ ...prev, city: value }))}
+                        cities={(citiesByCountry as Record<string, string[]>)[profileForm.country] || []}
+                      />
+                    )}
                     <div className="space-y-2 md:col-span-2">
                       <Label htmlFor="hometown">{t('accountSettingsPage.hometownLabel')}</Label>
                       <Input

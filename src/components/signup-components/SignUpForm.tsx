@@ -5,10 +5,13 @@ import { FormField } from './FormField';
 import { PasswordField } from './PasswordField';
 import { CountrySelect } from './CountrySelect';
 import { CitySelect } from './CitySelect';
+import { PhoneField } from './PhoneField';
 import { TermsCheckbox } from './TermsCheckbox';
 import { useArtistSignup } from '@/hooks/use-artist-signup';
 import { useToast } from '@/hooks/use-toast';
 import SocialAuthButtons from '@/components/auth/SocialAuthButtons';
+import citiesByCountry from '@/lib/citiesByCountry.json';
+import dialCodesByCountry from '@/lib/dialCodesByCountry.json';
 
 type ArtistType = 'independent' | 'labelled';
 
@@ -20,6 +23,8 @@ interface FormData {
   confirmPassword: string;
   country: string;
   city: string;
+  whatsappDialCode: string;
+  whatsappLocalNumber: string;
   artistType: ArtistType;
   labelName: string;
   labelManagerName: string;
@@ -35,6 +40,7 @@ interface FormErrors {
   confirmPassword?: string;
   country?: string;
   city?: string;
+  whatsappLocalNumber?: string;
   labelName?: string;
   labelManagerContact?: string;
   agreeToTerms?: string;
@@ -56,6 +62,8 @@ export const SignUpForm: React.FC = () => {
     confirmPassword: '',
     country: '',
     city: '',
+    whatsappDialCode: '',
+    whatsappLocalNumber: '',
     artistType: 'independent',
     labelName: '',
     labelManagerName: '',
@@ -164,8 +172,14 @@ export const SignUpForm: React.FC = () => {
       newErrors.country = t('signup.errors.countryRequired');
     }
 
-    if (formData.country === 'Tchad' && !formData.city) {
+    if (formData.country && !formData.city.trim()) {
       newErrors.city = t('signup.errors.cityRequired');
+    }
+
+    if (!formData.whatsappLocalNumber.trim()) {
+      newErrors.whatsappLocalNumber = t('signup.errors.whatsappRequired');
+    } else if (!/^[\d\s-]{6,}$/.test(formData.whatsappLocalNumber.trim())) {
+      newErrors.whatsappLocalNumber = t('signup.errors.whatsappInvalid');
     }
 
     if (formData.artistType === 'labelled') {
@@ -199,16 +213,18 @@ export const SignUpForm: React.FC = () => {
     }
     
     if (await validateForm()) {
-      const { confirmPassword, city, country, artistType, labelName, labelManagerName, labelManagerContact, agreeToTerms, ...rest } = formData;
+      const { confirmPassword, city, country, whatsappDialCode, whatsappLocalNumber, artistType, labelName, labelManagerName, labelManagerContact, agreeToTerms, ...rest } = formData;
       const signupData = {
         ...rest,
         country,
+        // Indicatif + numéro local, tels que saisis via le sélecteur de pays.
+        whatsappNumber: `${whatsappDialCode} ${whatsappLocalNumber.trim()}`.trim(),
         // Le backend attend ce champ sous le nom "termsAccepted", pas "agreeToTerms".
         termsAccepted: agreeToTerms,
         // Le statut indépendant/labellisé ne concerne que la musique, pas les créateurs de podcast/sketch.
         ...(isContentCreator ? {} : { artistType }),
-        // On ne joint la ville que pour le Tchad, elle n'a pas de sens ailleurs.
-        ...(country === 'Tchad' && city ? { city } : {}),
+        // La ville est requise quel que soit le pays (Tchadiens de la diaspora inclus).
+        ...(city ? { city } : {}),
         // Les informations du label ne sont envoyées que pour les artistes labellisés.
         ...(!isContentCreator && artistType === 'labelled' ? { labelName, labelManagerName, labelManagerContact } : {}),
       };
@@ -220,8 +236,13 @@ export const SignUpForm: React.FC = () => {
     setFormData(prev => ({
       ...prev,
       [field]: value,
-      // Une ville choisie pour le Tchad ne veut plus rien dire si on change de pays.
-      ...(field === 'country' && value !== 'Tchad' ? { city: '' } : {}),
+      // Une ville choisie pour un pays ne veut plus rien dire si on change de pays.
+      ...(field === 'country' ? { city: '' } : {}),
+      // On pré-remplit l'indicatif WhatsApp d'après le pays choisi, pour que l'artiste
+      // n'ait qu'à taper son numéro. Il reste libre de le changer ensuite (diaspora, etc.).
+      ...(field === 'country' && typeof value === 'string'
+        ? { whatsappDialCode: (dialCodesByCountry as Record<string, string>)[value] || prev.whatsappDialCode }
+        : {}),
       // Les infos de label n'ont plus de sens si on repasse en indépendant.
       ...(field === 'artistType' && value === 'independent'
         ? { labelName: '', labelManagerName: '', labelManagerContact: '' }
@@ -387,10 +408,13 @@ export const SignUpForm: React.FC = () => {
     }
   };
 
-  // La ville n'est exigée que pour le Tchad ; pour tout autre pays, elle est sans objet.
-  const cityOk = formData.country !== 'Tchad' || Boolean(formData.city);
+  // La ville est exigée dès qu'un pays est choisi (Tchadiens de la diaspora inclus).
+  const cityOk = !formData.country || Boolean(formData.city.trim());
+  const citiesForSelectedCountry: string[] =
+    (citiesByCountry as Record<string, string[]>)[formData.country] || [];
   // Les infos de label ne sont exigées que pour les artistes labellisés.
   const labelInfoOk = formData.artistType !== 'labelled' || (Boolean(formData.labelName) && Boolean(formData.labelManagerContact));
+  const whatsappOk = Boolean(formData.whatsappDialCode) && Boolean(formData.whatsappLocalNumber.trim());
 
   return (
     <div className="flex w-full flex-col items-center max-w-4xl mx-auto px-4 sm:px-6">
@@ -529,13 +553,22 @@ export const SignUpForm: React.FC = () => {
           error={errors.country}
         />
 
-        {formData.country === 'Tchad' && (
+        {formData.country && (
           <CitySelect
             value={formData.city}
             onChange={updateFormData('city')}
+            cities={citiesForSelectedCountry}
             error={errors.city}
           />
         )}
+
+        <PhoneField
+          dialCode={formData.whatsappDialCode}
+          localNumber={formData.whatsappLocalNumber}
+          onDialCodeChange={updateFormData('whatsappDialCode')}
+          onLocalNumberChange={updateFormData('whatsappLocalNumber')}
+          error={errors.whatsappLocalNumber}
+        />
 
         {!isContentCreator && (
           <>
@@ -618,6 +651,7 @@ export const SignUpForm: React.FC = () => {
                   formData.confirmPassword && 
                   formData.country &&
                   cityOk &&
+                  whatsappOk &&
                   labelInfoOk &&
                   emailStatus === 'available' &&
                   stageNameStatus === 'available' &&
@@ -626,7 +660,7 @@ export const SignUpForm: React.FC = () => {
                 ? 'bg-green-600 hover:bg-green-700 shadow-lg'
                 : 'bg-[#FF0000] hover:bg-[#E60000] disabled:opacity-50 disabled:cursor-not-allowed'
             }`}
-            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !cityOk || !labelInfoOk || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
+            disabled={!formData.agreeToTerms || isSigningUp || isCheckingEmail || isCheckingStageName || !cityOk || !whatsappOk || !labelInfoOk || !validatePassword(formData.password) || emailStatus === 'unavailable' || stageNameStatus === 'unavailable' || emailStatus === 'error' || stageNameStatus === 'error'}
           >
             {isSigningUp ? (
               <div className="flex items-center gap-2">
@@ -641,6 +675,7 @@ export const SignUpForm: React.FC = () => {
                 formData.confirmPassword && 
                 formData.country &&
                   cityOk &&
+                  whatsappOk &&
                 emailStatus === 'available' &&
                 stageNameStatus === 'available' &&
                 formData.password === formData.confirmPassword &&
