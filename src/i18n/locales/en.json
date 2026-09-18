@@ -848,6 +848,8 @@
       "missingCoverPhotoAlbumDescription": "Select a cover photo for your album.",
       "missingRequiredFieldsTitle": "Missing required fields",
       "missingRequiredFieldsDescription": "Fill in all required fields (title, release date, genre).",
+      "tooManySongsTitle": "Too many tracks selected",
+      "tooManySongsDescription": "An album can't include more than {{max}} new tracks at once ({{count}} selected). Upload the rest separately, or add them to the album afterward from your library.",
       "uploadSuccessTitle": "Upload successful",
       "uploadSuccessDescription": "Your track was uploaded successfully!",
       "unexpectedUploadErrorDescription": "An unexpected error occurred during the upload.",
