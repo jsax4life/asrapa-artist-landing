@@ -44,7 +44,7 @@ import {
   validateSyncedLines,
 } from '@/lib/lyrics/utils';
 import { buildLyricsSavePayload } from '@/lib/lyrics/payload';
-import { getLyricsApiErrorMessage } from '@/lib/lyrics/errors';
+import { getLyricsApiErrorMessage, isLyricsNotFound404 } from '@/lib/lyrics/errors';
 import { LyricPendingNotice, LyricStatusBadge } from '@/components/lyrics/LyricStatusBadge';
 import { useToast } from '@/hooks/use-toast';
 
@@ -109,11 +109,18 @@ const SongLyrics = () => {
       const list = await api.getSongLyrics(songId);
       setLyricsList(list);
     } catch (error) {
-      if (error instanceof ApiError && error.status === 404) {
+      if (isLyricsNotFound404(error)) {
         setLyricsList([]);
         return;
       }
-      const message = getLyricsApiErrorMessage(error, t('lyricsPage.toast.loadError'));
+      const apiMessage = getLyricsApiErrorMessage(error, '');
+      const lower = apiMessage.toLowerCase();
+      let message = getLyricsApiErrorMessage(error, t('lyricsPage.toast.loadError'));
+      if (lower.includes('been deleted')) {
+        message = t('lyricsPage.toast.songDeleted');
+      } else if (error instanceof ApiError && error.status === 404 && lower.includes('song not found')) {
+        message = t('lyricsPage.toast.songAccessError');
+      }
       toast({ title: t('lyricsPage.toast.errorTitle'), description: message, variant: 'destructive' });
     } finally {
       if (!options?.silent) setIsLoading(false);

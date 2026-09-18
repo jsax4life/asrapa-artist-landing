@@ -5,7 +5,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/d
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Upload, Music, Edit, Trash2, BarChart2, Loader2, AlertCircle, Disc3, Mic, Eye, ScrollText } from "lucide-react";
+import { Upload, Music, Edit, Trash2, BarChart2, Loader2, AlertCircle, Disc3, Mic, Eye, ScrollText, ArchiveRestore } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { api, ApiError, Genre, extractGenreId, getGenreId, UploadedSong } from "@/lib/api";
+import { api, ApiError, DeletedSong, Genre, extractGenreId, getGenreId, UploadedSong } from "@/lib/api";
 import { ROUTES } from "@/constants/routes";
 
 const toDateInputValue = (dateString: string) => {
@@ -60,7 +60,6 @@ interface CombinedRelease {
   explicit?: boolean;
   genreId?: string;
   lyrics?: string;
-  caption?: string;
 }
 
 type EditForm = {
@@ -81,10 +80,29 @@ type EditForm = {
  * limite que celle imposée par le backend à la création (voir Upload.tsx). */
 const MAX_NEW_SONGS_PER_ALBUM = 10;
 
+const getSongAlbumId = (album: UploadedSong['album']): string | null => {
+  if (!album) return null;
+  if (typeof album === 'string') return album;
+  if (typeof album === 'object' && album._id) return String(album._id);
+  return null;
+};
+
+/** Singles tab: true singles, orphans, and tracks not tied to an active album. */
+const shouldShowInSinglesTab = (song: UploadedSong, activeAlbumIds: Set<string>): boolean => {
+  if (!song.album) return true;
+  if (typeof song.album === 'object' && song.album.isDeleted) return true;
+  const albumId = getSongAlbumId(song.album);
+  if (!albumId) return true;
+  return !activeAlbumIds.has(albumId);
+};
+
 const MusicLibrary = () => {
   const { t, i18n } = useTranslation();
   const [singles, setSingles] = useState<CombinedRelease[]>([]);
   const [albums, setAlbums] = useState<CombinedRelease[]>([]);
+  const [deletedSongs, setDeletedSongs] = useState<DeletedSong[]>([]);
+  const [trashRetentionDays, setTrashRetentionDays] = useState(7);
+  const [trashActionId, setTrashActionId] = useState<string | null>(null);
   const [standaloneSongs, setStandaloneSongs] = useState<UploadedSong[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -115,10 +133,11 @@ const MusicLibrary = () => {
       setIsLoading(true);
       setError(null);
       
-      const [songsResponse, albumsResponse, genresResponse] = await Promise.all([
-        api.getUploadedSongs(1, 50),
+      const [songsResponse, albumsResponse, genresResponse, deletedResponse] = await Promise.all([
+        api.getUploadedSongs(1, 100),
         api.getUploadedAlbums(1, 50),
         api.getPlatformGenres(),
+        api.getDeletedSongs(1, 50).catch(() => null),
       ]);
 
       const genreList = genresResponse.status === 'success' && genresResponse.data
@@ -129,9 +148,36 @@ const MusicLibrary = () => {
       const singlesData: CombinedRelease[] = [];
       const albumsData: CombinedRelease[] = [];
 
+      let activeAlbumIdSet = new Set<string>();
+
+      if (albumsResponse.status === 'success' && albumsResponse.data) {
+        const activeAlbums = albumsResponse.data.albums.filter((album) => !album.isDeleted);
+        activeAlbumIdSet = new Set(activeAlbums.map((album) => album._id));
+        const albumReleases: CombinedRelease[] = activeAlbums.map((album) => ({
+          id: album._id,
+          title: album.title,
+          type: 'Album' as const,
+          releaseDate: album.releaseDate,
+          status: album.status,
+          artwork: album.coverPhotoUrl,
+          genre: album.genre.name,
+          genreId: resolveGenreId(album.genre, genreList),
+          caption: album.caption,
+          explicit: album.explicit ?? album.moderation?.isExplicit ?? false,
+          songsCount: album.songsCount,
+          likesCount: album.likesCount,
+          isFromAlbum: true
+        }));
+        albumsData.push(...albumReleases);
+      }
+
       if (songsResponse.status === 'success' && songsResponse.data) {
-        setStandaloneSongs(songsResponse.data.songs.filter(song => !song.album));
-        const songReleases: CombinedRelease[] = songsResponse.data.songs.map(song => ({
+        const activeSongs = songsResponse.data.songs.filter((song) => !song.isDeleted);
+        const librarySingles = activeSongs.filter((song) =>
+          shouldShowInSinglesTab(song, activeAlbumIdSet)
+        );
+        setStandaloneSongs(librarySingles);
+        const songReleases: CombinedRelease[] = librarySingles.map((song) => ({
           id: song._id,
           title: song.title,
           type: 'Single' as const,
@@ -151,30 +197,20 @@ const MusicLibrary = () => {
         singlesData.push(...songReleases);
       }
 
-      if (albumsResponse.status === 'success' && albumsResponse.data) {
-        const albumReleases: CombinedRelease[] = albumsResponse.data.albums.map(album => ({
-          id: album._id,
-          title: album.title,
-          type: 'Album' as const,
-          releaseDate: album.releaseDate,
-          status: album.status,
-          artwork: album.coverPhotoUrl,
-          genre: album.genre.name,
-          genreId: resolveGenreId(album.genre, genreList),
-          caption: album.caption,
-          explicit: album.explicit ?? album.moderation?.isExplicit ?? false,
-          songsCount: album.songsCount,
-          likesCount: album.likesCount,
-          isFromAlbum: true
-        }));
-        albumsData.push(...albumReleases);
-      }
-
       singlesData.sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime());
       albumsData.sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime());
       
       setSingles(singlesData);
       setAlbums(albumsData);
+
+      if (deletedResponse?.status === 'success' && deletedResponse.data) {
+        setDeletedSongs(deletedResponse.data.songs);
+        if (deletedResponse.retentionDays) {
+          setTrashRetentionDays(deletedResponse.retentionDays);
+        }
+      } else {
+        setDeletedSongs([]);
+      }
     } catch (error) {
       console.error('Error refreshing data:', error);
       const errorMessage = error instanceof ApiError ? error.message : t('musicLibraryPage.toast.loadErrorDescription');
@@ -371,17 +407,28 @@ const MusicLibrary = () => {
       setIsDeleting(true);
       
       if (release.type === 'Single') {
-        await api.deleteSong(release.id);
-        setSingles(prev => prev.filter(s => s.id !== release.id));
+        const result = await api.deleteSong(release.id);
+        toast({
+          title: t('musicLibraryPage.toast.softDeleteSuccessTitle'),
+          description:
+            result.message ||
+            t('musicLibraryPage.toast.softDeleteSuccessDescription', {
+              title: release.title,
+              days: result.retentionDays ?? trashRetentionDays,
+            }),
+        });
       } else {
         await api.deleteAlbum(release.id);
-        setAlbums(prev => prev.filter(a => a.id !== release.id));
+        toast({
+          title: t('musicLibraryPage.toast.softDeleteSuccessTitle'),
+          description: t('musicLibraryPage.toast.softDeleteAlbumDescription', {
+            title: release.title,
+            days: trashRetentionDays,
+          }),
+        });
       }
 
-      toast({
-        title: t('musicLibraryPage.toast.deleteSuccessTitle'),
-        description: t('musicLibraryPage.toast.deleteSuccessDescription', { title: release.title }),
-      });
+      await refreshData();
     } catch (error) {
       console.error('Error deleting release:', error);
       const errorMessage = error instanceof ApiError ? error.message : t('musicLibraryPage.toast.deleteErrorDescription');
@@ -393,6 +440,163 @@ const MusicLibrary = () => {
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const handleRestoreSong = async (song: DeletedSong) => {
+    try {
+      setTrashActionId(song._id);
+      const result = await api.restoreSong(song._id);
+      const albumTitle =
+        song.album && typeof song.album === 'object' && song.album.title ? song.album.title : null;
+      toast({
+        title: t('musicLibraryPage.toast.restoreSuccessTitle'),
+        description:
+          result.message ||
+          (albumTitle
+            ? t('musicLibraryPage.toast.restoreSuccessAlbumTrack', {
+                title: song.title,
+                album: albumTitle,
+              })
+            : t('musicLibraryPage.toast.restoreSuccessDescription', { title: song.title })),
+      });
+      await refreshData();
+    } catch (error) {
+      const errorMessage =
+        error instanceof ApiError ? error.message : t('musicLibraryPage.toast.restoreErrorDescription');
+      toast({
+        title: t('musicLibraryPage.toast.restoreErrorTitle'),
+        description: errorMessage,
+        variant: 'destructive',
+      });
+    } finally {
+      setTrashActionId(null);
+    }
+  };
+
+  const handlePermanentDeleteSong = async (song: DeletedSong) => {
+    try {
+      setTrashActionId(song._id);
+      const result = await api.permanentlyDeleteSong(song._id);
+      toast({
+        title: t('musicLibraryPage.toast.permanentDeleteSuccessTitle'),
+        description:
+          result.message ||
+          t('musicLibraryPage.toast.permanentDeleteSuccessDescription', { title: song.title }),
+      });
+      await refreshData();
+    } catch (error) {
+      const errorMessage =
+        error instanceof ApiError ? error.message : t('musicLibraryPage.toast.permanentDeleteErrorDescription');
+      toast({
+        title: t('musicLibraryPage.toast.permanentDeleteErrorTitle'),
+        description: errorMessage,
+        variant: 'destructive',
+      });
+    } finally {
+      setTrashActionId(null);
+    }
+  };
+
+  const formatTrashDate = (iso?: string | null) => {
+    if (!iso) return '—';
+    const date = new Date(iso);
+    if (Number.isNaN(date.getTime())) return '—';
+    return date.toLocaleDateString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric' });
+  };
+
+  const renderTrashList = () => {
+    if (deletedSongs.length === 0) {
+      return (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <Trash2 className="h-12 w-12 text-muted-foreground" />
+          <h3 className="text-lg font-medium text-foreground mb-2 mt-4">{t('musicLibraryPage.trash.emptyTitle')}</h3>
+          <p className="text-muted-foreground max-w-md">{t('musicLibraryPage.trash.emptyDescription')}</p>
+        </div>
+      );
+    }
+
+    return (
+      <ScrollArea className="h-[500px]">
+        <div className="grid gap-4">
+          {deletedSongs.map((song) => {
+            const busy = trashActionId === song._id;
+            return (
+              <div
+                key={song._id}
+                className="flex flex-col sm:flex-row sm:items-center gap-4 p-3 rounded-md border border-border bg-muted/20"
+              >
+                <Avatar className="h-16 w-16 rounded-md shrink-0">
+                  <AvatarImage src={song.coverPhotoUrl} alt={song.title} />
+                  <AvatarFallback>{song.title.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-foreground truncate">{song.title}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {song.genre?.name} • {t('musicLibraryPage.trash.deletedOn', { date: formatTrashDate(song.deletedAt) })}
+                  </p>
+                  {song.album?.title && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {t('musicLibraryPage.trash.fromAlbum', { album: song.album.title })}
+                    </p>
+                  )}
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {song.restoreAllowed
+                      ? t('musicLibraryPage.trash.permanentOn', {
+                          date: formatTrashDate(song.permanentDeletionAt),
+                        })
+                      : t('musicLibraryPage.trash.restoreExpired')}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2 shrink-0">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    disabled={busy || !song.restoreAllowed}
+                    onClick={() => handleRestoreSong(song)}
+                  >
+                    {busy ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <>
+                        <ArchiveRestore className="h-4 w-4 mr-1" />
+                        {t('musicLibraryPage.trash.restore')}
+                      </>
+                    )}
+                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button type="button" variant="destructive" size="sm" disabled={busy}>
+                        {t('musicLibraryPage.trash.deleteForever')}
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          {t('musicLibraryPage.trash.permanentDialog.title', { title: song.title })}
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          {t('musicLibraryPage.trash.permanentDialog.description')}
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>{t('musicLibraryPage.trash.permanentDialog.cancel')}</AlertDialogCancel>
+                        <AlertDialogAction
+                          className="bg-destructive hover:bg-destructive/90"
+                          onClick={() => handlePermanentDeleteSong(song)}
+                        >
+                          {t('musicLibraryPage.trash.permanentDialog.confirm')}
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </ScrollArea>
+    );
   };
 
   const renderReleaseList = (releases: CombinedRelease[], emptyMessage: string, emptyIcon: React.ReactNode) => {
@@ -541,7 +745,7 @@ const MusicLibrary = () => {
                   </DialogContent>
                 </Dialog>
 
-                {release.type === 'Single' && release.songUrl ? (
+                {release.type === 'Single' ? (
                   <Button
                     variant="ghost"
                     size="icon"
@@ -601,12 +805,20 @@ const MusicLibrary = () => {
                         {release.type === 'Single' ? t('musicLibraryPage.deleteDialog.titleSingle') : t('musicLibraryPage.deleteDialog.titleAlbum')}
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        {t('musicLibraryPage.deleteDialog.description', { title: release.title })}
-                        {release.type === 'Album' && release.songsCount && (
+                        {release.type === 'Single'
+                          ? t('musicLibraryPage.deleteDialog.descriptionSingle', {
+                              title: release.title,
+                              days: trashRetentionDays,
+                            })
+                          : t('musicLibraryPage.deleteDialog.descriptionAlbum', {
+                              title: release.title,
+                              days: trashRetentionDays,
+                            })}
+                        {release.type === 'Album' && release.songsCount ? (
                           <span className="block mt-2 text-primary font-medium">
                             {t('musicLibraryPage.deleteDialog.albumWarning', { count: release.songsCount })}
                           </span>
-                        )}
+                        ) : null}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -622,7 +834,7 @@ const MusicLibrary = () => {
                             {t('musicLibraryPage.deleteDialog.deleting')}
                           </>
                         ) : (
-                          t('musicLibraryPage.deleteDialog.confirm')
+                          t('musicLibraryPage.deleteDialog.confirmMoveToTrash')
                         )}
                       </AlertDialogAction>
                     </AlertDialogFooter>
@@ -722,7 +934,7 @@ const MusicLibrary = () => {
                 </CardHeader>
                 <CardContent>
                   <Tabs defaultValue="singles" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2">
+                    <TabsList className="grid w-full grid-cols-3">
                       <TabsTrigger value="singles" className="flex items-center gap-2">
                         <Mic className="h-4 w-4" />
                         {t('musicLibraryPage.tabs.singles', { count: singles.length })}
@@ -730,6 +942,10 @@ const MusicLibrary = () => {
                       <TabsTrigger value="albums" className="flex items-center gap-2">
                         <Disc3 className="h-4 w-4" />
                         {t('musicLibraryPage.tabs.albums', { count: albums.length })}
+                      </TabsTrigger>
+                      <TabsTrigger value="trash" className="flex items-center gap-2">
+                        <Trash2 className="h-4 w-4" />
+                        {t('musicLibraryPage.tabs.trash', { count: deletedSongs.length })}
                       </TabsTrigger>
                     </TabsList>
 
@@ -766,6 +982,20 @@ const MusicLibrary = () => {
                             <Disc3 className="h-12 w-12 text-muted-foreground" />
                           )}
                         </CardContent>
+                      </Card>
+                    </TabsContent>
+
+                    <TabsContent value="trash" className="mt-6">
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-lg font-semibold text-foreground">
+                            {t('musicLibraryPage.trash.title')}
+                          </CardTitle>
+                          <CardDescription className="text-muted-foreground">
+                            {t('musicLibraryPage.trash.description', { days: trashRetentionDays })}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>{renderTrashList()}</CardContent>
                       </Card>
                     </TabsContent>
                   </Tabs>

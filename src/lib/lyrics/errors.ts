@@ -1,5 +1,12 @@
 import { ApiError } from '@/lib/api';
 
+/** 404 when no lyrics doc exists yet — safe to treat as an empty list for owners. */
+export const isLyricsNotFound404 = (error: unknown): boolean => {
+  if (!(error instanceof ApiError) || error.status !== 404) return false;
+  const message = getLyricsApiErrorMessage(error, '').toLowerCase();
+  return message.includes('lyrics not found');
+};
+
 export const getLyricsApiErrorMessage = (error: unknown, fallback: string): string => {
   if (error instanceof ApiError) {
     const data = error.data;

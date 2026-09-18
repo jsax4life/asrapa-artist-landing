@@ -630,6 +630,18 @@
       "analyticsComingSoonDescription": "Les statistiques détaillées par titre seront bientôt disponibles.",
       "deleteSuccessTitle": "Sortie supprimée",
       "deleteSuccessDescription": "« {{title}} » a été supprimé avec succès.",
+      "softDeleteSuccessTitle": "Déplacé vers la corbeille",
+      "softDeleteSuccessDescription": "« {{title}} » a été déplacé vers la corbeille. Vous pouvez le restaurer sous {{days}} jours.",
+      "softDeleteAlbumDescription": "« {{title}} » et ses titres ont été déplacés vers la corbeille. Restaurez-les depuis l'onglet Corbeille sous {{days}} jours.",
+      "restoreSuccessTitle": "Titre restauré",
+      "restoreSuccessDescription": "« {{title}} » est de retour dans vos Singles.",
+      "restoreSuccessAlbumTrack": "« {{title}} » a été restauré dans l'album « {{album}} ». Consultez l'onglet Albums (ou modifiez l'album pour voir les titres).",
+      "restoreErrorTitle": "Échec de la restauration",
+      "restoreErrorDescription": "Impossible de restaurer ce titre.",
+      "permanentDeleteSuccessTitle": "Suppression définitive",
+      "permanentDeleteSuccessDescription": "« {{title}} » a été supprimé définitivement.",
+      "permanentDeleteErrorTitle": "Échec de la suppression définitive",
+      "permanentDeleteErrorDescription": "Impossible de supprimer définitivement ce titre.",
       "deleteErrorTitle": "Échec de la suppression",
       "deleteErrorDescription": "Échec de la suppression",
       "editSuccessTitle": "Titre modifié",
@@ -707,14 +719,34 @@
       "manage": "Gérer les paroles"
     },
     "deleteDialog": {
-      "titleSingle": "Supprimer ce single",
-      "titleAlbum": "Supprimer cet album",
-      "description": "Êtes-vous sûr de vouloir supprimer « {{title}} » ? Cette action est irréversible.",
-      "albumWarning_one": "Cela supprimera également les {{count}} titre de cet album.",
-      "albumWarning_other": "Cela supprimera également les {{count}} titres de cet album.",
+      "titleSingle": "Mettre ce single à la corbeille",
+      "titleAlbum": "Mettre cet album à la corbeille",
+      "descriptionSingle": "Mettre « {{title}} » à la corbeille ? Vous pourrez le restaurer sous {{days}} jours avant suppression définitive.",
+      "descriptionAlbum": "Mettre « {{title}} » à la corbeille ? Ses titres apparaîtront dans la Corbeille et pourront être restaurés sous {{days}} jours.",
+      "albumWarning_one": "Cela mettra également le {{count}} titre de cet album à la corbeille.",
+      "albumWarning_other": "Cela mettra également les {{count}} titres de cet album à la corbeille.",
       "cancel": "Annuler",
       "confirm": "Supprimer",
-      "deleting": "Suppression..."
+      "confirmMoveToTrash": "Mettre à la corbeille",
+      "deleting": "Déplacement..."
+    },
+    "trash": {
+      "title": "Corbeille",
+      "description": "Les titres supprimés restent ici {{days}} jours, puis sont supprimés définitivement sauf restauration.",
+      "emptyTitle": "Corbeille vide",
+      "emptyDescription": "Les singles et titres d'album supprimés apparaissent ici. Restaurez-les ou supprimez-les définitivement.",
+      "deletedOn": "Supprimé le {{date}}",
+      "fromAlbum": "Album : {{album}}",
+      "permanentOn": "Suppression définitive le {{date}} si non restauré",
+      "restoreExpired": "Délai de restauration expiré — suppression définitive imminente",
+      "restore": "Restaurer",
+      "deleteForever": "Supprimer définitivement",
+      "permanentDialog": {
+        "title": "Supprimer « {{title}} » définitivement ?",
+        "description": "Cela supprime immédiatement le titre, les paroles et les fichiers média. Action irréversible.",
+        "cancel": "Annuler",
+        "confirm": "Supprimer définitivement"
+      }
     },
     "cta": {
       "title": "Prêt à partager de la nouvelle musique ?",
@@ -731,7 +763,10 @@
       "singlesTitle": "Singles",
       "singlesDescription": "Vos titres publiés individuellement.",
       "albumsTitle": "Albums",
-      "albumsDescription": "Vos albums et collections publiés."
+      "albumsDescription": "Vos albums et collections publiés.",
+      "trash": "Corbeille ({{count}})",
+      "trashTitle": "Corbeille",
+      "trashDescription": "Restaurer ou supprimer définitivement les titres mis à la corbeille."
     }
   },
   "uploadPage": {
@@ -1319,6 +1354,8 @@
     "toast": {
       "errorTitle": "Erreur paroles",
       "loadError": "Impossible de charger les paroles.",
+      "songAccessError": "Impossible de charger les paroles de ce titre. Connectez-vous en tant qu'artiste propriétaire ou collaborateur.",
+      "songDeleted": "Ce titre a été supprimé. Ouvrez les paroles depuis un morceau actuel de votre bibliothèque.",
       "saveError": "Impossible d'enregistrer les paroles.",
       "deleteError": "Impossible de supprimer les paroles.",
       "savedTitle": "Paroles enregistrées",

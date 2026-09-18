@@ -630,6 +630,18 @@
       "analyticsComingSoonDescription": "Detailed per-track statistics will be available soon.",
       "deleteSuccessTitle": "Release deleted",
       "deleteSuccessDescription": "\"{{title}}\" was successfully deleted.",
+      "softDeleteSuccessTitle": "Moved to trash",
+      "softDeleteSuccessDescription": "\"{{title}}\" was moved to trash. You can restore it within {{days}} days.",
+      "softDeleteAlbumDescription": "\"{{title}}\" and its tracks were moved to trash. Restore tracks from the Trash tab within {{days}} days.",
+      "restoreSuccessTitle": "Track restored",
+      "restoreSuccessDescription": "\"{{title}}\" is back in your Singles library.",
+      "restoreSuccessAlbumTrack": "\"{{title}}\" was restored to album \"{{album}}\". Check the Albums tab (or edit the album to see its tracks).",
+      "restoreErrorTitle": "Restore failed",
+      "restoreErrorDescription": "Unable to restore this track.",
+      "permanentDeleteSuccessTitle": "Permanently deleted",
+      "permanentDeleteSuccessDescription": "\"{{title}}\" was permanently deleted.",
+      "permanentDeleteErrorTitle": "Permanent delete failed",
+      "permanentDeleteErrorDescription": "Unable to permanently delete this track.",
       "deleteErrorTitle": "Deletion failed",
       "deleteErrorDescription": "Deletion failed",
       "editSuccessTitle": "Track updated",
@@ -707,14 +719,34 @@
       "manage": "Manage lyrics"
     },
     "deleteDialog": {
-      "titleSingle": "Delete this single",
-      "titleAlbum": "Delete this album",
-      "description": "Are you sure you want to delete \"{{title}}\"? This action cannot be undone.",
-      "albumWarning_one": "This will also delete the {{count}} track in this album.",
-      "albumWarning_other": "This will also delete the {{count}} tracks in this album.",
+      "titleSingle": "Move this single to trash",
+      "titleAlbum": "Move this album to trash",
+      "descriptionSingle": "Move \"{{title}}\" to trash? You can restore it within {{days}} days before it is permanently removed.",
+      "descriptionAlbum": "Move \"{{title}}\" to trash? Its tracks will appear in Trash and can be restored within {{days}} days.",
+      "albumWarning_one": "This will also move the {{count}} track in this album to trash.",
+      "albumWarning_other": "This will also move the {{count}} tracks in this album to trash.",
       "cancel": "Cancel",
       "confirm": "Delete",
-      "deleting": "Deleting..."
+      "confirmMoveToTrash": "Move to trash",
+      "deleting": "Moving to trash..."
+    },
+    "trash": {
+      "title": "Trash",
+      "description": "Soft-deleted tracks stay here for {{days}} days, then are permanently removed unless you restore them.",
+      "emptyTitle": "Trash is empty",
+      "emptyDescription": "Deleted singles and album tracks appear here. You can restore them or delete them permanently.",
+      "deletedOn": "Deleted on {{date}}",
+      "fromAlbum": "From album: {{album}}",
+      "permanentOn": "Permanent deletion on {{date}} if not restored",
+      "restoreExpired": "Restore period ended — permanent deletion pending",
+      "restore": "Restore",
+      "deleteForever": "Delete forever",
+      "permanentDialog": {
+        "title": "Delete \"{{title}}\" forever?",
+        "description": "This removes the track, lyrics, and media files immediately. This cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Delete forever"
+      }
     },
     "cta": {
       "title": "Ready to share new music?",
@@ -731,7 +763,10 @@
       "singlesTitle": "Singles",
       "singlesDescription": "Your individually released tracks.",
       "albumsTitle": "Albums",
-      "albumsDescription": "Your released albums and collections."
+      "albumsDescription": "Your released albums and collections.",
+      "trash": "Trash ({{count}})",
+      "trashTitle": "Trash",
+      "trashDescription": "Restore or permanently delete soft-deleted tracks."
     }
   },
   "uploadPage": {
@@ -1319,6 +1354,8 @@
     "toast": {
       "errorTitle": "Lyrics error",
       "loadError": "Unable to load lyrics.",
+      "songAccessError": "Could not load this track's lyrics. Make sure you are signed in as the artist who owns this song (or is a collaborator).",
+      "songDeleted": "This track has been deleted. Open lyrics from a current track in your music library.",
       "saveError": "Unable to save lyrics.",
       "deleteError": "Unable to delete lyrics.",
       "savedTitle": "Lyrics saved",

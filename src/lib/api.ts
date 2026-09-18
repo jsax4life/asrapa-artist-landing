@@ -184,8 +184,10 @@ export interface UploadedSong {
   duration: number;
   releaseDate: string;
   album?: {
+    _id?: string;
     title: string;
-  };
+    isDeleted?: boolean;
+  } | string;
   genre: {
     _id?: string;
     name: string;
@@ -196,6 +198,7 @@ export interface UploadedSong {
   streams: number;
   explicit: boolean;
   lyrics?: string;
+  isDeleted?: boolean;
   createdAt: string;
 }
 
@@ -212,6 +215,44 @@ export interface UploadedSongsResponse {
   };
   data: {
     songs: UploadedSong[];
+  };
+}
+
+export interface DeletedSong extends UploadedSong {
+  deletedAt?: string;
+  permanentDeletionAt: string | null;
+  restoreAllowed: boolean;
+  retentionDays?: number;
+  album?: {
+    title: string;
+    isDeleted?: boolean;
+  };
+}
+
+export interface DeletedSongsResponse {
+  status: string;
+  results: number;
+  retentionDays: number;
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalSongs: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+    limit: number;
+  };
+  data: {
+    songs: DeletedSong[];
+  };
+}
+
+export interface SoftDeleteSongResponse {
+  status: string;
+  message: string;
+  retentionDays?: number;
+  data?: {
+    songId: string;
+    permanentDeletionAt: string | null;
   };
 }
 
@@ -1209,9 +1250,62 @@ export const api = {
     }
   },
 
-  async deleteSong(songId: string): Promise<ApiResponse<{ message: string }>> {
+  async getDeletedSongs(page: number = 1, limit: number = 50): Promise<DeletedSongsResponse> {
     try {
-      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.delete(`/artist/songs/${songId}`);
+      const response: AxiosResponse<DeletedSongsResponse> = await apiClient.get('/artist/deleted-songs', {
+        params: { page, limit },
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau lors du chargement de la corbeille. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  async restoreSong(songId: string): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
+        `/artist/songs/${songId}/restore`
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau lors de la restauration du titre. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  async permanentlyDeleteSong(songId: string): Promise<ApiResponse<{ message: string }>> {
+    try {
+      const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.delete(
+        `/artist/songs/${songId}/permanent`
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau lors de la suppression définitive. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  async deleteSong(songId: string): Promise<SoftDeleteSongResponse> {
+    try {
+      const response: AxiosResponse<SoftDeleteSongResponse> = await apiClient.delete(
+        `/artist/songs/${songId}`
+      );
       return response.data;
     } catch (error) {
       if (error instanceof ApiError) {
@@ -1240,11 +1334,29 @@ export const api = {
   },
 
   async getSongLyrics(songId: string, language?: string): Promise<Lyric[]> {
+    const params = language ? { language } : undefined;
+    const artistLyricsUrl = `/artist/songs/${songId}/lyrics`;
+
+    const isExpressRouteMissing404 = (err: unknown): boolean => {
+      if (!(err instanceof ApiError) || err.status !== 404) return false;
+      const data = err.data as Record<string, unknown> | undefined;
+      const message = String(data?.message ?? err.message ?? '');
+      return message.includes("Can't find") && message.includes('on this server');
+    };
+
     try {
-      const response: AxiosResponse<unknown> = await apiClient.get(`/songs/${songId}/lyrics`, {
-        params: language ? { language } : undefined,
-      });
-      return mapLyricsList(response.data, songId);
+      try {
+        const response: AxiosResponse<unknown> = await apiClient.get(artistLyricsUrl, { params });
+        return mapLyricsList(response.data, songId);
+      } catch (artistRouteError) {
+        if (!isExpressRouteMissing404(artistRouteError)) {
+          throw artistRouteError;
+        }
+        const response: AxiosResponse<unknown> = await apiClient.get(`/songs/${songId}/lyrics`, {
+          params,
+        });
+        return mapLyricsList(response.data, songId);
+      }
     } catch (error) {
       if (error instanceof ApiError) {
         throw error;
@@ -1258,7 +1370,10 @@ export const api = {
 
   async createSongLyrics(songId: string, payload: CreateLyricPayload): Promise<Lyric[]> {
     try {
-      const response: AxiosResponse<unknown> = await apiClient.post(`/songs/${songId}/lyrics`, payload);
+      const response: AxiosResponse<unknown> = await apiClient.post(
+        `/artist/songs/${songId}/lyrics`,
+        payload
+      );
       return mapLyricsList(response.data, songId);
     } catch (error) {
       if (error instanceof ApiError) {
@@ -1273,9 +1388,11 @@ export const api = {
 
   async updateSongLyrics(songId: string, language: string, payload: UpdateLyricPayload): Promise<Lyric[]> {
     try {
-      const response: AxiosResponse<unknown> = await apiClient.patch(`/songs/${songId}/lyrics`, payload, {
-        params: { language },
-      });
+      const response: AxiosResponse<unknown> = await apiClient.patch(
+        `/artist/songs/${songId}/lyrics`,
+        payload,
+        { params: { language } }
+      );
       return mapLyricsList(response.data, songId);
     } catch (error) {
       if (error instanceof ApiError) {
@@ -1290,7 +1407,7 @@ export const api = {
 
   async deleteSongLyrics(songId: string, language: string): Promise<void> {
     try {
-      await apiClient.delete(`/songs/${songId}/lyrics`, {
+      await apiClient.delete(`/artist/songs/${songId}/lyrics`, {
         params: { language },
       });
     } catch (error) {
