@@ -69,7 +69,6 @@ type EditForm = {
   duration: number;
   lyrics: string;
   releaseDate: string;
-  releaseYear: number;
   caption: string;
   coverPhoto: File | null;
   coverPreview: string | null;
@@ -92,7 +91,6 @@ const MusicLibrary = () => {
     duration: 0,
     lyrics: '',
     releaseDate: '',
-    releaseYear: new Date().getFullYear(),
     caption: '',
     coverPhoto: null,
     coverPreview: null,
@@ -230,15 +228,6 @@ const MusicLibrary = () => {
     });
   };
 
-  // Pour un single, seule l'année de sortie est saisie par l'artiste — on affiche donc
-  // l'année plutôt qu'une date complète (jour/mois) qui n'a pas de sens pour lui.
-  const formatReleaseInfo = (release: CombinedRelease) => {
-    if (release.type === 'Single') {
-      return String(new Date(release.releaseDate).getFullYear());
-    }
-    return formatDate(release.releaseDate);
-  };
-
   // Action handlers
   const handleViewRelease = (release: CombinedRelease) => {
     setSelectedRelease(release);
@@ -253,7 +242,6 @@ const MusicLibrary = () => {
       duration: release.duration || 0,
       lyrics: release.lyrics || '',
       releaseDate: toDateInputValue(release.releaseDate),
-      releaseYear: release.releaseDate ? new Date(release.releaseDate).getFullYear() : new Date().getFullYear(),
       caption: release.caption || '',
       coverPhoto: null,
       coverPreview: release.artwork || null,
@@ -286,6 +274,10 @@ const MusicLibrary = () => {
     try {
       setIsSaving(true);
 
+      const releaseDate = editForm.releaseDate
+        ? new Date(`${editForm.releaseDate}T00:00:00.000Z`).toISOString()
+        : undefined;
+
       if (editingRelease.type === 'Single') {
         await api.updateSong(editingRelease.id, {
           title: editForm.title.trim(),
@@ -293,14 +285,10 @@ const MusicLibrary = () => {
           genreId: editForm.genreId || undefined,
           explicit: editForm.explicit,
           lyrics: editForm.lyrics,
-          releaseYear: editForm.releaseYear,
+          releaseDate,
           coverPhoto: editForm.coverPhoto || undefined,
         });
       } else {
-        const releaseDate = editForm.releaseDate
-          ? new Date(`${editForm.releaseDate}T00:00:00.000Z`).toISOString()
-          : undefined;
-
         await api.updateAlbum(editingRelease.id, {
           title: editForm.title.trim(),
           releaseDate,
@@ -397,7 +385,7 @@ const MusicLibrary = () => {
                   <span className="text-sm text-muted-foreground ml-1">({release.type})</span>
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  {t('musicLibraryPage.list.releaseInfo', { genre: release.genre, date: formatReleaseInfo(release) })}
+                  {t('musicLibraryPage.list.releaseInfo', { genre: release.genre, date: formatDate(release.releaseDate) })}
                 </p>
                 {release.caption && (
                   <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
@@ -456,7 +444,7 @@ const MusicLibrary = () => {
                         {t('musicLibraryPage.dialog.subtitle', {
                           type: release.type === 'Single' ? t('musicLibraryPage.dialog.single') : t('musicLibraryPage.dialog.album'),
                           genre: release.genre,
-                          date: formatReleaseInfo(release),
+                          date: formatDate(release.releaseDate),
                         })}
                       </DialogDescription>
                     </DialogHeader>
@@ -804,14 +792,15 @@ const MusicLibrary = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="edit-release-year">{t('musicLibraryPage.editDialog.releaseYearLabel')}</Label>
+                  <Label htmlFor="edit-release-date">{t('musicLibraryPage.editDialog.releaseDateLabel')}</Label>
                   <Input
-                    id="edit-release-year"
-                    type="number"
-                    min="1900"
-                    max={new Date().getFullYear() + 1}
-                    value={editForm.releaseYear || ''}
-                    onChange={(e) => setEditForm(prev => ({ ...prev, releaseYear: Number(e.target.value) }))}
+                    id="edit-release-date"
+                    type="date"
+                    className="w-full cursor-pointer"
+                    value={editForm.releaseDate}
+                    onClick={openDatePicker}
+                    onFocus={openDatePicker}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, releaseDate: e.target.value }))}
                   />
                 </div>
                 <div className="space-y-2">
@@ -869,12 +858,7 @@ const MusicLibrary = () => {
             </Button>
             <Button
               onClick={handleSaveEdit}
-              disabled={
-                isSaving ||
-                !editForm.title.trim() ||
-                (editingRelease?.type === 'Album' && !editForm.releaseDate) ||
-                (editingRelease?.type === 'Single' && !editForm.releaseYear)
-              }
+              disabled={isSaving || !editForm.title.trim() || !editForm.releaseDate}
             >
               {isSaving ? (
                 <>
@@ -920,7 +904,7 @@ const MusicLibrary = () => {
             )}
             <div>
               <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.analyticsDialog.releaseDate')}</h4>
-              <p className="text-lg font-semibold">{analyticsRelease && formatReleaseInfo(analyticsRelease)}</p>
+              <p className="text-lg font-semibold">{analyticsRelease && formatDate(analyticsRelease.releaseDate)}</p>
             </div>
           </div>
           <p className="text-xs text-muted-foreground">{t('musicLibraryPage.analyticsDialog.moreComingSoon')}</p>

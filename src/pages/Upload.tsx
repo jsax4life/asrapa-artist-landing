@@ -24,7 +24,7 @@ interface UploadFormData {
   collaborators: string[]; // Array of artist IDs
   isExplicit: boolean;
   lyrics?: string;
-  releaseYear: number;
+  releaseDate: string;
 }
 
 interface AlbumFormData {
@@ -82,7 +82,7 @@ const Upload = () => {
     isExplicit: false,
     collaborators: [],
     lyrics: '',
-    releaseYear: new Date().getFullYear(),
+    releaseDate: '',
   });
   const [albumFormData, setAlbumFormData] = useState<AlbumFormData>({
     title: '',
@@ -198,7 +198,7 @@ const Upload = () => {
 
   const handleFormChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: (name === 'duration' || name === 'releaseYear') ? Number(value) : value }));
+    setFormData(prev => ({ ...prev, [name]: name === 'duration' ? Number(value) : value }));
   }, []);
 
   const handleSelectChange = useCallback((name: keyof UploadFormData, value: string | boolean) => {
@@ -230,7 +230,7 @@ const Upload = () => {
     const formDataToSend = new FormData();
     formDataToSend.append('title', formData.title);
     formDataToSend.append('duration', formData.duration.toString());
-    formDataToSend.append('releaseYear', formData.releaseYear.toString());
+    formDataToSend.append('releaseDate', formData.releaseDate);
     formDataToSend.append('genreId', formData.genreId);
     formDataToSend.append('isExplicit', formData.isExplicit.toString());
     if (formData.albumId) formDataToSend.append('albumId', formData.albumId);
@@ -256,7 +256,7 @@ const Upload = () => {
         isExplicit: false,
         collaborators: [],
         lyrics: '',
-        releaseYear: new Date().getFullYear(),
+        releaseDate: '',
       });
     } catch (error) {
       console.error("Upload error:", error);
@@ -622,8 +622,18 @@ const Upload = () => {
                       <Input id="duration" name="duration" type="number" value={formData.duration === 0 ? '' : formData.duration} onChange={handleFormChange} placeholder={t('uploadPage.songDetails.durationPlaceholder')} required min="1" max="3600" />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="releaseYear">{t('uploadPage.songDetails.releaseYearLabel')}</Label>
-                      <Input id="releaseYear" name="releaseYear" type="number" value={formData.releaseYear} onChange={handleFormChange} placeholder={t('uploadPage.songDetails.releaseYearPlaceholder')} required min="1900" max="2100" />
+                      <Label htmlFor="releaseDate">{t('uploadPage.songDetails.releaseDateLabel')}</Label>
+                      <Input
+                        id="releaseDate"
+                        name="releaseDate"
+                        type="date"
+                        className="w-full cursor-pointer"
+                        value={formData.releaseDate}
+                        onClick={openDatePicker}
+                        onFocus={openDatePicker}
+                        onChange={handleFormChange}
+                        required
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="albumId">{t('uploadPage.songDetails.albumLabel')}</Label>
