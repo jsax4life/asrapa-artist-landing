@@ -687,6 +687,9 @@
       "releaseDate": "Date de sortie",
       "moreComingSoon": "Des statistiques plus détaillées (auditeurs uniques, données géographiques) arriveront dans une prochaine mise à jour."
     },
+    "lyrics": {
+      "manage": "Gérer les paroles"
+    },
     "deleteDialog": {
       "titleSingle": "Supprimer ce single",
       "titleAlbum": "Supprimer cet album",
@@ -1226,6 +1229,87 @@
         "Pour le public, AsraPa permet de retrouver plus facilement les artistes, les chansons et les sonorités qui représentent le Tchad. Pour les créateurs, la plateforme constitue une nouvelle vitrine numérique capable d'accompagner leur visibilité et le développement de leur carrière.",
         "En choisissant AsraPa, artistes et auditeurs participent ensemble à la construction d'un écosystème musical plus fort. Notre musique mérite d'être écoutée, valorisée et transmise. AsraPa lui offre un espace pour rayonner."
       ]
+    }
+  },
+  "lyricsPage": {
+    "headerTitle": "Paroles",
+    "loading": "Chargement des paroles…",
+    "cancel": "Annuler",
+    "saving": "Enregistrement…",
+    "backToList": "Retour à la liste des paroles",
+    "status": {
+      "pending": "En attente d'approbation",
+      "approved": "Approuvé",
+      "rejected": "Refusé"
+    },
+    "rejectedReason": "Motif : {{reason}}",
+    "pendingNotice": "Les paroles que vous soumettez ici vous sont visibles en attente. Elles ne sont pas affichées aux auditeurs tant qu'elles ne sont pas approuvées.",
+    "player": {
+      "play": "Lire le titre",
+      "pause": "Mettre en pause",
+      "seek": "Position de lecture"
+    },
+    "list": {
+      "title": "Paroles",
+      "description": "Gérez les paroles simples et synchronisées par langue.",
+      "empty": "Aucune parole pour ce titre pour le moment.",
+      "synced": "Synchronisé",
+      "plain": "Texte seul",
+      "edit": "Modifier",
+      "sync": "Synchroniser",
+      "delete": "Supprimer",
+      "addLanguage": "Ajouter une langue",
+      "notPublicYet": "Non public tant qu'elles ne sont pas approuvées"
+    },
+    "edit": {
+      "title": "Ajouter ou modifier les paroles",
+      "description": "Chaque langue est enregistrée séparément. Toute modification repasse en attente d'approbation.",
+      "language": "Langue",
+      "languagePlaceholder": "Choisir un code langue",
+      "customLanguagePlaceholder": "ex. en, fr, ar",
+      "plainText": "Paroles",
+      "plainTextPlaceholder": "Une ligne par rangée…",
+      "saveLyrics": "Enregistrer les paroles",
+      "syncLyrics": "Synchroniser les paroles"
+    },
+    "sync": {
+      "subtitle": "Lancez la lecture et synchronisez chaque ligne au bon moment.",
+      "currentTime": "Temps actuel",
+      "currentLyric": "Ligne actuelle",
+      "syncCurrentLine": "Synchroniser la ligne actuelle",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "lineProgress": "Ligne {{current}} sur {{total}}",
+      "startTime": "Début",
+      "minusTenth": "-0,1 s",
+      "plusTenth": "+0,1 s",
+      "preview": "Aperçu",
+      "save": "Enregistrer",
+      "noLines": "Ajoutez du texte avant de synchroniser.",
+      "lineStart": "Heure de début"
+    },
+    "preview": {
+      "title": "Aperçu des paroles synchronisées",
+      "description": "La position de lecture met en surbrillance la ligne active.",
+      "backToSync": "Retour à la synchronisation"
+    },
+    "delete": {
+      "title": "Supprimer les paroles {{language}} ?",
+      "description": "Cela supprime uniquement les paroles pour cette langue. Le titre, l'audio et la pochette ne sont pas affectés.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer"
+    },
+    "toast": {
+      "errorTitle": "Erreur paroles",
+      "loadError": "Impossible de charger les paroles.",
+      "saveError": "Impossible d'enregistrer les paroles.",
+      "deleteError": "Impossible de supprimer les paroles.",
+      "savedTitle": "Paroles enregistrées",
+      "pendingApproval": "Vos modifications sont en attente d'approbation.",
+      "deletedTitle": "Paroles supprimées",
+      "deletedDescription": "Les paroles pour cette langue ont été supprimées.",
+      "languageRequired": "Veuillez choisir un code langue.",
+      "plainTextRequired": "Veuillez saisir le texte des paroles."
     }
   }
 }

@@ -15,6 +15,7 @@ export const ROUTES = {
   RESET_PASSWORD: '/reset-password',
   ANALYTICS: '/analytics',
   MUSIC_LIBRARY: '/dashboard/music',
+  SONG_LYRICS: '/dashboard/music/:songId/lyrics',
   AUDIENCE: '/dashboard/audience',
   UPLOAD: '/dashboard/upload',
   TRENDS: '/dashboard/trends',

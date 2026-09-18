@@ -5,8 +5,8 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/d
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Upload, Music, Edit, Trash2, BarChart2, Loader2, AlertCircle, Disc3, Mic, Eye, Archive, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Upload, Music, Edit, Trash2, BarChart2, Loader2, AlertCircle, Disc3, Mic, Eye, ScrollText } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from "@/components/ui/use-toast";
@@ -50,6 +50,7 @@ interface CombinedRelease {
   artwork: string;
   genre: string;
   caption?: string;
+  songUrl?: string;
   songsCount?: number;
   likesCount?: number;
   downloads?: number;
@@ -99,6 +100,7 @@ const MusicLibrary = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [analyticsRelease, setAnalyticsRelease] = useState<CombinedRelease | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const refreshData = useCallback(async () => {
     try {
@@ -127,6 +129,7 @@ const MusicLibrary = () => {
           releaseDate: song.createdAt,
           status: 'Active',
           artwork: song.coverPhotoUrl,
+          songUrl: song.songUrl,
           genre: song.genre.name,
           genreId: resolveGenreId(song.genre, genreList),
           downloads: song.downloads,
@@ -497,6 +500,28 @@ const MusicLibrary = () => {
                     </div>
                   </DialogContent>
                 </Dialog>
+
+                {release.type === 'Single' && release.songUrl ? (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-muted-foreground hover:text-primary"
+                    title={t('musicLibraryPage.lyrics.manage')}
+                    onClick={() =>
+                      navigate(`/dashboard/music/${release.id}/lyrics`, {
+                        state: {
+                          songId: release.id,
+                          title: release.title,
+                          songUrl: release.songUrl,
+                          durationSec: release.duration,
+                          artwork: release.artwork,
+                        },
+                      })
+                    }
+                  >
+                    <ScrollText className="h-4 w-4" />
+                  </Button>
+                ) : null}
 
                 {/* Edit Button */}
                 <Button

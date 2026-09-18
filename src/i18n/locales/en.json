@@ -687,6 +687,9 @@
       "releaseDate": "Release date",
       "moreComingSoon": "More detailed statistics (unique listeners, geographic data) are coming in a future update."
     },
+    "lyrics": {
+      "manage": "Manage lyrics"
+    },
     "deleteDialog": {
       "titleSingle": "Delete this single",
       "titleAlbum": "Delete this album",
@@ -1226,6 +1229,87 @@
         "For the public, AsraPa makes it easier to find the artists, songs and sounds that represent Chad. For creators, the platform is a new digital showcase that can support their visibility and career growth.",
         "By choosing AsraPa, artists and listeners together help build a stronger music ecosystem. Our music deserves to be heard, valued and passed on. AsraPa gives it a space to shine."
       ]
+    }
+  },
+  "lyricsPage": {
+    "headerTitle": "Lyrics",
+    "loading": "Loading lyrics…",
+    "cancel": "Cancel",
+    "saving": "Saving…",
+    "backToList": "Back to lyrics list",
+    "status": {
+      "pending": "Pending approval",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "rejectedReason": "Reason: {{reason}}",
+    "pendingNotice": "Lyrics you submit here are visible to you while pending. They are not shown to listeners until approved.",
+    "player": {
+      "play": "Play song",
+      "pause": "Pause song",
+      "seek": "Seek playback position"
+    },
+    "list": {
+      "title": "Lyrics",
+      "description": "Manage plain and synchronized lyrics per language.",
+      "empty": "No lyrics yet for this track.",
+      "synced": "Synchronized",
+      "plain": "Plain text",
+      "edit": "Edit",
+      "sync": "Sync",
+      "delete": "Delete",
+      "addLanguage": "Add language",
+      "notPublicYet": "Not public until approved"
+    },
+    "edit": {
+      "title": "Add or edit lyrics",
+      "description": "Each language is stored separately. Edits require approval again.",
+      "language": "Language",
+      "languagePlaceholder": "Select a language code",
+      "customLanguagePlaceholder": "e.g. en, fr, ar",
+      "plainText": "Lyrics",
+      "plainTextPlaceholder": "Enter one line per row…",
+      "saveLyrics": "Save lyrics",
+      "syncLyrics": "Sync lyrics"
+    },
+    "sync": {
+      "subtitle": "Tap sync while the track plays to timestamp each line.",
+      "currentTime": "Current time",
+      "currentLyric": "Current lyric",
+      "syncCurrentLine": "Sync current line",
+      "previous": "Previous",
+      "next": "Next",
+      "lineProgress": "Line {{current}} of {{total}}",
+      "startTime": "Start",
+      "minusTenth": "-0.1s",
+      "plusTenth": "+0.1s",
+      "preview": "Preview",
+      "save": "Save",
+      "noLines": "Add lyrics text before synchronizing.",
+      "lineStart": "Start time"
+    },
+    "preview": {
+      "title": "Preview synchronized lyrics",
+      "description": "Playback position highlights the active line.",
+      "backToSync": "Back to sync editor"
+    },
+    "delete": {
+      "title": "Delete {{language}} lyrics?",
+      "description": "This removes lyrics for this language only. The track, audio, and cover are not affected.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    },
+    "toast": {
+      "errorTitle": "Lyrics error",
+      "loadError": "Unable to load lyrics.",
+      "saveError": "Unable to save lyrics.",
+      "deleteError": "Unable to delete lyrics.",
+      "savedTitle": "Lyrics saved",
+      "pendingApproval": "Your changes are awaiting approval.",
+      "deletedTitle": "Lyrics deleted",
+      "deletedDescription": "Lyrics for this language were removed.",
+      "languageRequired": "Please choose a language code.",
+      "plainTextRequired": "Please enter lyrics text."
     }
   }
 }

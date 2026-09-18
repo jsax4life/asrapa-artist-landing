@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { authService } from './auth';
+import { mapLyricsList } from './lyrics/mappers';
+import type { CreateLyricPayload, Lyric, UpdateLyricPayload } from './lyrics/types';
 
 // API service for AsraPa backend
 // For production, set VITE_API_BASE_URL in your environment to 'https://api.asrapa.com/api/v1'
@@ -1167,6 +1169,71 @@ export const api = {
       }
       throw new ApiError(
         'Erreur réseau lors de la suppression de l\'album. Vérifiez votre connexion et réessayez.',
+        0
+      );
+    }
+  },
+
+  async getSongLyrics(songId: string, language?: string): Promise<Lyric[]> {
+    try {
+      const response: AxiosResponse<unknown> = await apiClient.get(`/songs/${songId}/lyrics`, {
+        params: language ? { language } : undefined,
+      });
+      return mapLyricsList(response.data, songId);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau lors du chargement des paroles. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  async createSongLyrics(songId: string, payload: CreateLyricPayload): Promise<Lyric[]> {
+    try {
+      const response: AxiosResponse<unknown> = await apiClient.post(`/songs/${songId}/lyrics`, payload);
+      return mapLyricsList(response.data, songId);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau lors de l\'enregistrement des paroles. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  async updateSongLyrics(songId: string, language: string, payload: UpdateLyricPayload): Promise<Lyric[]> {
+    try {
+      const response: AxiosResponse<unknown> = await apiClient.patch(`/songs/${songId}/lyrics`, payload, {
+        params: { language },
+      });
+      return mapLyricsList(response.data, songId);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau lors de la mise à jour des paroles. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  async deleteSongLyrics(songId: string, language: string): Promise<void> {
+    try {
+      await apiClient.delete(`/songs/${songId}/lyrics`, {
+        params: { language },
+      });
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau lors de la suppression des paroles. Vérifiez votre connexion.',
         0
       );
     }

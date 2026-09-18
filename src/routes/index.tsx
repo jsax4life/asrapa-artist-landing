@@ -26,6 +26,7 @@ const Upload = lazy(() => import('@/pages/Upload')); // Added Upload page
 const Trends = lazy(() => import('@/pages/Trends')); // Added Trends page
 const Events = lazy(() => import('@/pages/Events')); // Added Events page
 const Settings = lazy(() => import('@/pages/Settings'));
+const SongLyrics = lazy(() => import('@/pages/SongLyrics'));
 
 // Route configuration with proper typing
 export interface RouteConfig {
@@ -108,6 +109,10 @@ const routes: RouteConfig[] = [
   {
     path: ROUTES.SETTINGS,
     element: Settings,
+  },
+  {
+    path: ROUTES.SONG_LYRICS,
+    element: SongLyrics,
   },
   {
     path: ROUTES.NOT_FOUND,
@@ -303,6 +308,16 @@ export const router = createBrowserRouter([
       <Suspense fallback={<LoadingSpinner />}>
         <RequireAuth>
           <Settings />
+        </RequireAuth>
+      </Suspense>
+    ),
+  },
+  {
+    path: ROUTES.SONG_LYRICS,
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <RequireAuth>
+          <SongLyrics />
         </RequireAuth>
       </Suspense>
     ),
