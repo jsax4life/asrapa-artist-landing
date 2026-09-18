@@ -50,6 +50,10 @@ interface ContentFormData {
 
 type UploadType = 'single' | 'album' | 'podcast' | 'sketch';
 
+/** Limite dure côté backend (multer maxCount sur le champ "songFiles") — au-delà,
+ * la connexion est coupée en pleine réception au lieu d'un message d'erreur propre. */
+const MAX_NEW_SONGS_PER_ALBUM = 10;
+
 const openDatePicker = (event: React.FocusEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
   event.currentTarget.showPicker?.();
 };
@@ -286,6 +290,18 @@ const Upload = () => {
       toast({
         title: t('uploadPage.toast.missingRequiredFieldsTitle'),
         description: t('uploadPage.toast.missingRequiredFieldsDescription'),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Le backend n'accepte que 10 nouveaux fichiers audio par album — au-delà, il
+    // coupe la connexion en pleine réception, ce qui remonte comme une fausse
+    // "erreur réseau" côté artiste. On bloque donc avant d'envoyer quoi que ce soit.
+    if (newSongFiles.length > MAX_NEW_SONGS_PER_ALBUM) {
+      toast({
+        title: t('uploadPage.toast.tooManySongsTitle'),
+        description: t('uploadPage.toast.tooManySongsDescription', { max: MAX_NEW_SONGS_PER_ALBUM, count: newSongFiles.length }),
         variant: "destructive",
       });
       return;
@@ -1081,7 +1097,14 @@ const Upload = () => {
                                   variant: "destructive",
                                 });
                               }
-                              setNewSongFiles(validFiles);
+                              if (validFiles.length > MAX_NEW_SONGS_PER_ALBUM) {
+                                toast({
+                                  title: t('uploadPage.toast.tooManySongsTitle'),
+                                  description: t('uploadPage.toast.tooManySongsDescription', { max: MAX_NEW_SONGS_PER_ALBUM, count: validFiles.length }),
+                                  variant: "destructive",
+                                });
+                              }
+                              setNewSongFiles(validFiles.slice(0, MAX_NEW_SONGS_PER_ALBUM));
                             }
                           }}
                         />

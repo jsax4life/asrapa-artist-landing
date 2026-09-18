@@ -848,6 +848,8 @@
       "missingCoverPhotoAlbumDescription": "Sélectionnez une photo de couverture pour votre album.",
       "missingRequiredFieldsTitle": "Champs obligatoires manquants",
       "missingRequiredFieldsDescription": "Remplissez tous les champs requis (titre, date de sortie, genre).",
+      "tooManySongsTitle": "Trop de titres sélectionnés",
+      "tooManySongsDescription": "Un album ne peut pas contenir plus de {{max}} nouveaux titres à la fois ({{count}} sélectionnés). Téléversez le reste dans un second temps, ou ajoutez-les à l'album ensuite depuis votre bibliothèque.",
       "uploadSuccessTitle": "Téléversement réussi",
       "uploadSuccessDescription": "Votre titre a été téléversé avec succès !",
       "unexpectedUploadErrorDescription": "Une erreur inattendue s'est produite pendant le téléversement.",
