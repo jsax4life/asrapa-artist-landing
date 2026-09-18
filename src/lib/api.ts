@@ -1134,11 +1134,15 @@ export const api = {
     explicit?: boolean;
     caption?: string;
     coverPhoto?: File;
+    /** Titres déjà téléversés (hors de cet album) à y rattacher. */
+    existingSongIds?: string[];
+    /** Nouveaux fichiers audio à ajouter directement à cet album. */
+    newSongFiles?: File[];
   }): Promise<ApiResponse<{ message: string }>> {
     try {
-      const hasFile = Boolean(data.coverPhoto);
+      const hasFiles = Boolean(data.coverPhoto) || Boolean(data.newSongFiles?.length);
 
-      if (hasFile) {
+      if (hasFiles) {
         const formData = new FormData();
         if (data.title !== undefined) formData.append('title', data.title);
         if (data.releaseDate) formData.append('releaseDate', data.releaseDate);
@@ -1146,11 +1150,24 @@ export const api = {
         if (data.explicit !== undefined) formData.append('explicit', String(data.explicit));
         if (data.caption !== undefined) formData.append('caption', data.caption);
         if (data.coverPhoto) formData.append('coverPhoto', data.coverPhoto);
+        if (data.existingSongIds?.length) formData.append('existingSongIds', data.existingSongIds.join(','));
+        if (data.newSongFiles?.length) {
+          const newSongsMetadata = data.newSongFiles.map((file) => ({
+            title: file.name.replace(/\.[^/.]+$/, ''),
+            duration: 0,
+            collaborators: [],
+            isExplicit: data.explicit ?? false,
+            lyrics: '',
+          }));
+          formData.append('newSongs', JSON.stringify(newSongsMetadata));
+          data.newSongFiles.forEach((file) => formData.append('songFiles', file));
+        }
 
+        // Un ajout de plusieurs titres peut dépasser le délai par défaut de l'API (60s).
         const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
           `/artist/albums/${albumId}`,
           formData,
-          { headers: { 'Content-Type': 'multipart/form-data' } }
+          { headers: { 'Content-Type': 'multipart/form-data' }, timeout: 600000 }
         );
         return response.data;
       }
@@ -1161,15 +1178,27 @@ export const api = {
       if (data.genreId) payload.genreId = data.genreId;
       if (data.explicit !== undefined) payload.explicit = data.explicit;
       if (data.caption !== undefined) payload.caption = data.caption;
+      if (data.existingSongIds?.length) payload.existingSongIds = data.existingSongIds;
 
       const response: AxiosResponse<ApiResponse<{ message: string }>> = await apiClient.patch(
         `/artist/albums/${albumId}`,
         payload
       );
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof ApiError) {
         throw error;
+      }
+      if (error.code === 'ECONNABORTED') {
+        throw new ApiError(
+          'La modification de l\'album a expiré. Réessayez avec moins de fichiers ou vérifiez votre connexion.',
+          0
+        );
+      } else if (error.response) {
+        throw new ApiError(
+          error.response.data?.message || 'Échec de la modification de l\'album',
+          error.response.status
+        );
       }
       throw new ApiError(
         'Erreur réseau lors de la modification de l\'album. Vérifiez votre connexion.',
