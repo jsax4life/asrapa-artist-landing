@@ -662,20 +662,45 @@ export const api = {
 
   async uploadSingleSong(formData: FormData): Promise<ApiResponse<SongUploadResponse>> {
     try {
+      // Un fichier audio peut largement dépasser le délai par défaut de l'API (60s)
+      // sur une connexion lente — d'où le délai plus long ici.
       const response: AxiosResponse<ApiResponse<SongUploadResponse>> = await apiClient.post('/artist/upload-songs', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 600000,
       });
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError(
-        'Erreur réseau pendant le téléversement du titre. Vérifiez votre connexion.',
-        0
-      );
+      // ECONNABORTED (timeout) doit être vérifié avant "error.request" : axios pose
+      // aussi error.request sur un timeout, donc l'ordre inverse masquerait le vrai
+      // message de dépassement de délai derrière un message réseau générique.
+      if (error.code === 'ECONNABORTED') {
+        console.error('Request timeout:', error.message);
+        throw new ApiError(
+          'Le téléversement du titre a expiré. Réessayez avec un fichier plus léger ou vérifiez votre connexion.',
+          0
+        );
+      } else if (error.response) {
+        console.error('Response error:', error.response.data);
+        throw new ApiError(
+          error.response.data?.message || 'Échec du téléversement du titre',
+          error.response.status
+        );
+      } else if (error.request) {
+        throw new ApiError(
+          'Erreur réseau pendant le téléversement du titre. Vérifiez votre connexion.',
+          0
+        );
+      } else {
+        throw new ApiError(
+          'Une erreur inattendue s\'est produite pendant le téléversement du titre.',
+          0
+        );
+      }
     }
   },
 
@@ -965,10 +990,13 @@ export const api = {
         console.log(`${key}:`, value);
       }
       
+      // Un album (plusieurs titres + pochette) peut largement dépasser le délai
+      // par défaut de l'API (60s) sur une connexion lente — d'où le délai plus long ici.
       const response: AxiosResponse<ApiResponse<AlbumUploadResponse>> = await apiClient.post('/artist/create-album', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 600000,
       });
       console.log('Album upload response:', response);
       return response.data;
@@ -977,7 +1005,16 @@ export const api = {
       if (error instanceof ApiError) {
         throw error;
       }
-      if (error.response) {
+      // ECONNABORTED (timeout) doit être vérifié avant "error.request" : axios pose
+      // aussi error.request sur un timeout, donc l'ordre inverse masquait toujours
+      // le vrai message de dépassement de délai derrière un message réseau générique.
+      if (error.code === 'ECONNABORTED') {
+        console.error('Request timeout:', error.message);
+        throw new ApiError(
+          'Le téléversement de l\'album a expiré. Réessayez avec des fichiers plus légers ou vérifiez votre connexion.',
+          0
+        );
+      } else if (error.response) {
         console.error('Response error:', error.response.data);
         throw new ApiError(
           error.response.data?.message || 'Échec du téléversement de l\'album',
@@ -987,12 +1024,6 @@ export const api = {
         console.error('Network error:', error.request);
         throw new ApiError(
           'Erreur réseau pendant le téléversement de l\'album. Vérifiez votre connexion.',
-          0
-        );
-      } else if (error.code === 'ECONNABORTED') {
-        console.error('Request timeout:', error.message);
-        throw new ApiError(
-          'Le téléversement de l\'album a expiré. Réessayez avec des fichiers plus légers ou vérifiez votre connexion.',
           0
         );
       } else {
