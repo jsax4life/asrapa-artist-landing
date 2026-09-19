@@ -633,6 +633,7 @@
       "softDeleteSuccessTitle": "Moved to trash",
       "softDeleteSuccessDescription": "\"{{title}}\" was moved to trash. You can restore it within {{days}} days.",
       "softDeleteAlbumDescription": "\"{{title}}\" and its tracks were moved to trash. Restore tracks from the Trash tab within {{days}} days.",
+      "softDeleteAlbumTrackDescription": "\"{{title}}\" was removed from this album and moved to trash. Restore it within {{days}} days from here or the Trash tab.",
       "restoreSuccessTitle": "Track restored",
       "restoreSuccessDescription": "\"{{title}}\" is back in your Singles library.",
       "restoreSuccessAlbumTrack": "\"{{title}}\" was restored to album \"{{album}}\". Check the Albums tab (or edit the album to see its tracks).",
@@ -680,7 +681,15 @@
       "likes": "Likes",
       "single": "Single",
       "album": "Album",
-      "subtitle": "{{type}} • {{genre}} • Released on {{date}}"
+      "subtitle": "{{type}} • {{genre}} • Released on {{date}}",
+      "trackListTitle": "Tracks on this album",
+      "trackListLoading": "Loading tracks…",
+      "trackListEmpty": "No tracks found for this album.",
+      "trackListError": "Could not load album tracks.",
+      "trackListCount": "{{shown}} of {{total}} shown",
+      "viewTracks": "View album tracks",
+      "tracksInTrashTitle": "Tracks in trash for this album",
+      "tracksInTrashHint": "Restore within {{days}} days or delete forever. Restored tracks reappear in the list above."
     },
     "editDialog": {
       "titleSingle": "Edit single",
@@ -721,8 +730,10 @@
     "deleteDialog": {
       "titleSingle": "Move this single to trash",
       "titleAlbum": "Move this album to trash",
+      "titleAlbumTrack": "Move this track to trash",
       "descriptionSingle": "Move \"{{title}}\" to trash? You can restore it within {{days}} days before it is permanently removed.",
       "descriptionAlbum": "Move \"{{title}}\" to trash? Its tracks will appear in Trash and can be restored within {{days}} days.",
+      "descriptionAlbumTrack": "Move \"{{title}}\" from album \"{{album}}\" to trash? It will leave this album’s track list. You can restore it within {{days}} days.",
       "albumWarning_one": "This will also move the {{count}} track in this album to trash.",
       "albumWarning_other": "This will also move the {{count}} tracks in this album to trash.",
       "cancel": "Cancel",

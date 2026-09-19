@@ -1,32 +1,34 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
+import { Suspense } from 'react';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import { ROUTES } from '@/constants/routes';
 import RequireAuth from '@/components/RequireAuth';
+import { lazyWithRetry } from '@/lib/lazyWithRetry';
+import { ErrorFallback } from '@/components/ErrorBoundary';
 
-// Lazy load pages for better performance
-const Index = lazy(() => import('@/pages/Index'));
-const NotFound = lazy(() => import('@/pages/NotFound'));
-const AboutUs = lazy(() => import('@/pages/AboutUs'));
-const ArtistHome = lazy(() => import('@/pages/ArtistHome'));
-const Prices = lazy(() => import('@/pages/Prices'));
-const Registration = lazy(() => import('@/pages/Registration'));
-const ArtistGuide = lazy(() => import('@/pages/ArtistGuide'));
-const Advertising = lazy(() => import('@/pages/Advertising'));
-const Terms = lazy(() => import('@/pages/Terms'));
-const Dashboard = lazy(() => import('@/pages/Dashboard'));
-const Login = lazy(() => import('@/pages/Login'));
-const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
-const ResetPassword = lazy(() => import('@/pages/ResetPassword'));
-const Analytics = lazy(() => import('@/pages/Analytics')); // Added Analytics page
-const MusicLibrary = lazy(() => import('@/pages/MusicLibrary')); // Added MusicLibrary page
-const Audience = lazy(() => import('@/pages/Audience')); // Added Audience page
-const Upload = lazy(() => import('@/pages/Upload')); // Added Upload page
-const Trends = lazy(() => import('@/pages/Trends')); // Added Trends page
-const Events = lazy(() => import('@/pages/Events')); // Added Events page
-const Settings = lazy(() => import('@/pages/Settings'));
-const SongLyrics = lazy(() => import('@/pages/SongLyrics'));
+// Lazy load pages (retry once on stale chunk after deploy)
+const Index = lazyWithRetry(() => import('@/pages/Index'));
+const NotFound = lazyWithRetry(() => import('@/pages/NotFound'));
+const AboutUs = lazyWithRetry(() => import('@/pages/AboutUs'));
+const ArtistHome = lazyWithRetry(() => import('@/pages/ArtistHome'));
+const Prices = lazyWithRetry(() => import('@/pages/Prices'));
+const Registration = lazyWithRetry(() => import('@/pages/Registration'));
+const ArtistGuide = lazyWithRetry(() => import('@/pages/ArtistGuide'));
+const Advertising = lazyWithRetry(() => import('@/pages/Advertising'));
+const Terms = lazyWithRetry(() => import('@/pages/Terms'));
+const Dashboard = lazyWithRetry(() => import('@/pages/Dashboard'));
+const Login = lazyWithRetry(() => import('@/pages/Login'));
+const ForgotPassword = lazyWithRetry(() => import('@/pages/ForgotPassword'));
+const ResetPassword = lazyWithRetry(() => import('@/pages/ResetPassword'));
+const Analytics = lazyWithRetry(() => import('@/pages/Analytics'));
+const MusicLibrary = lazyWithRetry(() => import('@/pages/MusicLibrary'));
+const Audience = lazyWithRetry(() => import('@/pages/Audience'));
+const Upload = lazyWithRetry(() => import('@/pages/Upload'));
+const Trends = lazyWithRetry(() => import('@/pages/Trends'));
+const Events = lazyWithRetry(() => import('@/pages/Events'));
+const Settings = lazyWithRetry(() => import('@/pages/Settings'));
+const SongLyrics = lazyWithRetry(() => import('@/pages/SongLyrics'));
 
 // Route configuration with proper typing
 export interface RouteConfig {
@@ -122,6 +124,9 @@ const routes: RouteConfig[] = [
 
 // Create the router with error boundary and loading states
 export const router = createBrowserRouter([
+  {
+    errorElement: <ErrorFallback />,
+    children: [
   {
     path: ROUTES.HOME,
     element: (
@@ -335,6 +340,8 @@ export const router = createBrowserRouter([
   {
     path: '*',
     element: <Navigate to={ROUTES.NOT_FOUND} replace />,
+  },
+    ],
   },
 ]);
 

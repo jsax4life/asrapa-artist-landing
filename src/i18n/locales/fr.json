@@ -633,6 +633,7 @@
       "softDeleteSuccessTitle": "Déplacé vers la corbeille",
       "softDeleteSuccessDescription": "« {{title}} » a été déplacé vers la corbeille. Vous pouvez le restaurer sous {{days}} jours.",
       "softDeleteAlbumDescription": "« {{title}} » et ses titres ont été déplacés vers la corbeille. Restaurez-les depuis l'onglet Corbeille sous {{days}} jours.",
+      "softDeleteAlbumTrackDescription": "« {{title}} » a été retiré de cet album et déplacé vers la corbeille. Restaurez-le sous {{days}} jours ici ou depuis l'onglet Corbeille.",
       "restoreSuccessTitle": "Titre restauré",
       "restoreSuccessDescription": "« {{title}} » est de retour dans vos Singles.",
       "restoreSuccessAlbumTrack": "« {{title}} » a été restauré dans l'album « {{album}} ». Consultez l'onglet Albums (ou modifiez l'album pour voir les titres).",
@@ -680,7 +681,15 @@
       "likes": "Mentions J'aime",
       "single": "Single",
       "album": "Album",
-      "subtitle": "{{type}} • {{genre}} • Sorti le {{date}}"
+      "subtitle": "{{type}} • {{genre}} • Sorti le {{date}}",
+      "trackListTitle": "Titres de cet album",
+      "trackListLoading": "Chargement des titres…",
+      "trackListEmpty": "Aucun titre trouvé pour cet album.",
+      "trackListError": "Impossible de charger les titres de l'album.",
+      "trackListCount": "{{shown}} sur {{total}} affichés",
+      "viewTracks": "Voir les titres de l'album",
+      "tracksInTrashTitle": "Titres en corbeille pour cet album",
+      "tracksInTrashHint": "Restaurez sous {{days}} jours ou supprimez définitivement. Les titres restaurés réapparaissent dans la liste ci-dessus."
     },
     "editDialog": {
       "titleSingle": "Modifier le single",
@@ -721,8 +730,10 @@
     "deleteDialog": {
       "titleSingle": "Mettre ce single à la corbeille",
       "titleAlbum": "Mettre cet album à la corbeille",
+      "titleAlbumTrack": "Mettre ce titre à la corbeille",
       "descriptionSingle": "Mettre « {{title}} » à la corbeille ? Vous pourrez le restaurer sous {{days}} jours avant suppression définitive.",
       "descriptionAlbum": "Mettre « {{title}} » à la corbeille ? Ses titres apparaîtront dans la Corbeille et pourront être restaurés sous {{days}} jours.",
+      "descriptionAlbumTrack": "Mettre « {{title}} » de l'album « {{album}} » à la corbeille ? Il disparaîtra de la liste des titres. Vous pourrez le restaurer sous {{days}} jours.",
       "albumWarning_one": "Cela mettra également le {{count}} titre de cet album à la corbeille.",
       "albumWarning_other": "Cela mettra également les {{count}} titres de cet album à la corbeille.",
       "cancel": "Annuler",

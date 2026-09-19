@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { api, ApiError, DeletedSong, Genre, extractGenreId, getGenreId, UploadedSong } from "@/lib/api";
+import { api, ApiError, AlbumDetailTrack, DeletedSong, Genre, extractGenreId, getGenreId, UploadedSong } from "@/lib/api";
 import { ROUTES } from "@/constants/routes";
 
 const toDateInputValue = (dateString: string) => {
@@ -87,13 +87,21 @@ const getSongAlbumId = (album: UploadedSong['album']): string | null => {
   return null;
 };
 
-/** Singles tab: true singles, orphans, and tracks not tied to an active album. */
+/** Singles tab: API isSingle when present; else orphans / deleted album / no active album. */
 const shouldShowInSinglesTab = (song: UploadedSong, activeAlbumIds: Set<string>): boolean => {
+  if (song.isSingle === true) return true;
+  if (song.isSingle === false) return false;
   if (!song.album) return true;
   if (typeof song.album === 'object' && song.album.isDeleted) return true;
   const albumId = getSongAlbumId(song.album);
   if (!albumId) return true;
   return !activeAlbumIds.has(albumId);
+};
+
+const formatDurationMmSs = (seconds: number) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
 };
 
 const MusicLibrary = () => {
@@ -125,13 +133,100 @@ const MusicLibrary = () => {
   });
   const [isSaving, setIsSaving] = useState(false);
   const [analyticsRelease, setAnalyticsRelease] = useState<CombinedRelease | null>(null);
+  const [albumTracksById, setAlbumTracksById] = useState<Record<string, AlbumDetailTrack[]>>({});
+  const [loadingAlbumTracksId, setLoadingAlbumTracksId] = useState<string | null>(null);
+  const [albumTracksErrorId, setAlbumTracksErrorId] = useState<string | null>(null);
+  const [deletingTrackId, setDeletingTrackId] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  const getTrashedTracksForAlbum = useCallback(
+    (albumId: string, albumTitle: string) =>
+      deletedSongs.filter((song) => {
+        const songAlbumId = getSongAlbumId(song.album as UploadedSong['album']);
+        if (songAlbumId) return songAlbumId === albumId;
+        return (
+          typeof song.album === 'object' &&
+          song.album?.title != null &&
+          song.album.title === albumTitle
+        );
+      }),
+    [deletedSongs]
+  );
+
+  const loadAlbumTracks = useCallback(async (albumId: string) => {
+    setLoadingAlbumTracksId(albumId);
+    setAlbumTracksErrorId(null);
+
+    const catalogSongToTrack = (song: UploadedSong): AlbumDetailTrack => ({
+      _id: song._id,
+      title: song.title,
+      duration: song.duration,
+      songUrl: song.songUrl,
+      coverPhotoUrl: song.coverPhotoUrl,
+      downloads: song.downloads,
+      streams: song.streams,
+    });
+
+    try {
+      const [detailResult, catalogResult] = await Promise.allSettled([
+        api.getAlbumById(albumId),
+        api.getUploadedSongsForAlbum(albumId),
+      ]);
+
+      const byId = new Map<string, AlbumDetailTrack>();
+      let albumOrder: string[] = [];
+
+      if (detailResult.status === 'fulfilled') {
+        albumOrder = (detailResult.value.data?.album?.songs ?? []).map((t) => String(t._id));
+        for (const track of detailResult.value.data?.album?.songs ?? []) {
+          if (track?._id) {
+            byId.set(String(track._id), track);
+          }
+        }
+      }
+
+      if (catalogResult.status === 'fulfilled') {
+        for (const song of catalogResult.value) {
+          byId.set(String(song._id), catalogSongToTrack(song));
+        }
+      }
+
+      const tracks = Array.from(byId.values());
+      tracks.sort((a, b) => {
+        const indexA = albumOrder.indexOf(String(a._id));
+        const indexB = albumOrder.indexOf(String(b._id));
+        if (indexA === -1 && indexB === -1) {
+          return a.title.localeCompare(b.title);
+        }
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+        return indexA - indexB;
+      });
+
+      if (
+        tracks.length === 0 &&
+        detailResult.status === 'rejected' &&
+        catalogResult.status === 'rejected'
+      ) {
+        setAlbumTracksErrorId(albumId);
+      } else {
+        setAlbumTracksById((prev) => ({ ...prev, [albumId]: tracks }));
+      }
+    } catch (err) {
+      console.error('Failed to load album tracks:', err);
+      setAlbumTracksErrorId(albumId);
+    } finally {
+      setLoadingAlbumTracksId(null);
+    }
+  }, []);
 
   const refreshData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
+      setAlbumTracksById({});
+      setAlbumTracksErrorId(null);
       
       const [songsResponse, albumsResponse, genresResponse, deletedResponse] = await Promise.all([
         api.getUploadedSongs(1, 100),
@@ -280,6 +375,30 @@ const MusicLibrary = () => {
   // Action handlers
   const handleViewRelease = (release: CombinedRelease) => {
     setSelectedRelease(release);
+    if (release.type === 'Album') {
+      void loadAlbumTracks(release.id);
+    }
+  };
+
+  const navigateToLyrics = (track: {
+    _id: string;
+    title: string;
+    songUrl?: string;
+    duration?: number;
+    coverPhotoUrl?: string;
+  }) => {
+    navigate(
+      ROUTES.SONG_LYRICS.replace(':songId', track._id),
+      {
+        state: {
+          songId: track._id,
+          title: track.title,
+          songUrl: track.songUrl,
+          durationSec: track.duration,
+          artwork: track.coverPhotoUrl,
+        },
+      }
+    );
   };
 
   const handleEditRelease = (release: CombinedRelease) => {
@@ -402,6 +521,35 @@ const MusicLibrary = () => {
     setAnalyticsRelease(release);
   };
 
+  const handleDeleteAlbumTrack = async (albumId: string, track: AlbumDetailTrack) => {
+    try {
+      setDeletingTrackId(track._id);
+      const result = await api.deleteSong(track._id);
+      toast({
+        title: t('musicLibraryPage.toast.softDeleteSuccessTitle'),
+        description:
+          result.message ||
+          t('musicLibraryPage.toast.softDeleteAlbumTrackDescription', {
+            title: track.title,
+            days: result.retentionDays ?? trashRetentionDays,
+          }),
+      });
+      await refreshData();
+      await loadAlbumTracks(albumId);
+    } catch (error) {
+      console.error('Error deleting album track:', error);
+      const errorMessage =
+        error instanceof ApiError ? error.message : t('musicLibraryPage.toast.deleteErrorDescription');
+      toast({
+        title: t('musicLibraryPage.toast.deleteErrorTitle'),
+        description: errorMessage,
+        variant: 'destructive',
+      });
+    } finally {
+      setDeletingTrackId(null);
+    }
+  };
+
   const handleDeleteRelease = async (release: CombinedRelease) => {
     try {
       setIsDeleting(true);
@@ -442,7 +590,7 @@ const MusicLibrary = () => {
     }
   };
 
-  const handleRestoreSong = async (song: DeletedSong) => {
+  const handleRestoreSong = async (song: DeletedSong, albumIdToReload?: string) => {
     try {
       setTrashActionId(song._id);
       const result = await api.restoreSong(song._id);
@@ -460,6 +608,9 @@ const MusicLibrary = () => {
             : t('musicLibraryPage.toast.restoreSuccessDescription', { title: song.title })),
       });
       await refreshData();
+      if (albumIdToReload) {
+        await loadAlbumTracks(albumIdToReload);
+      }
     } catch (error) {
       const errorMessage =
         error instanceof ApiError ? error.message : t('musicLibraryPage.toast.restoreErrorDescription');
@@ -473,7 +624,7 @@ const MusicLibrary = () => {
     }
   };
 
-  const handlePermanentDeleteSong = async (song: DeletedSong) => {
+  const handlePermanentDeleteSong = async (song: DeletedSong, albumIdToReload?: string) => {
     try {
       setTrashActionId(song._id);
       const result = await api.permanentlyDeleteSong(song._id);
@@ -484,6 +635,9 @@ const MusicLibrary = () => {
           t('musicLibraryPage.toast.permanentDeleteSuccessDescription', { title: song.title }),
       });
       await refreshData();
+      if (albumIdToReload) {
+        await loadAlbumTracks(albumIdToReload);
+      }
     } catch (error) {
       const errorMessage =
         error instanceof ApiError ? error.message : t('musicLibraryPage.toast.permanentDeleteErrorDescription');
@@ -679,7 +833,7 @@ const MusicLibrary = () => {
                       <Eye className="h-4 w-4" />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-2xl">
+                  <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col gap-4 overflow-hidden">
                     <DialogHeader>
                       <DialogTitle className="flex items-center gap-2">
                         <Avatar className="h-8 w-8">
@@ -696,7 +850,7 @@ const MusicLibrary = () => {
                         })}
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="space-y-4">
+                    <div className="space-y-4 min-h-0 flex-1 overflow-y-auto pr-1">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <h4 className="font-medium text-sm text-muted-foreground">{t('musicLibraryPage.dialog.status')}</h4>
@@ -741,6 +895,219 @@ const MusicLibrary = () => {
                           </div>
                         )}
                       </div>
+                      {release.type === 'Album' ? (
+                        <div className="border-t border-white/10 pt-4">
+                          <h4 className="font-medium text-sm text-muted-foreground mb-3">
+                            {t('musicLibraryPage.dialog.trackListTitle')}
+                            {' '}
+                            <span className="text-white/70">
+                              ({t('musicLibraryPage.dialog.trackListCount', {
+                                shown: albumTracksById[release.id]?.length ?? 0,
+                                total: release.songsCount ?? albumTracksById[release.id]?.length ?? 0,
+                              })})
+                            </span>
+                          </h4>
+                          {loadingAlbumTracksId === release.id ? (
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground py-4">
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                              {t('musicLibraryPage.dialog.trackListLoading')}
+                            </div>
+                          ) : albumTracksErrorId === release.id ? (
+                            <div className="flex flex-col gap-2 py-2">
+                              <p className="text-sm text-destructive">
+                                {t('musicLibraryPage.dialog.trackListError')}
+                              </p>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="w-fit"
+                                onClick={() => void loadAlbumTracks(release.id)}
+                              >
+                                {t('musicLibraryPage.error.retry')}
+                              </Button>
+                            </div>
+                          ) : (albumTracksById[release.id]?.length ?? 0) === 0 ? (
+                            <p className="text-sm text-muted-foreground">
+                              {t('musicLibraryPage.dialog.trackListEmpty')}
+                            </p>
+                          ) : (
+                            <div
+                              className="max-h-[min(320px,45vh)] overflow-y-auto overscroll-contain rounded-md border border-white/10 pr-1"
+                              role="region"
+                              aria-label={t('musicLibraryPage.dialog.trackListTitle')}
+                            >
+                              <ul className="space-y-2 p-1">
+                                {(albumTracksById[release.id] ?? []).map((track, index) => (
+                                  <li
+                                    key={track._id}
+                                    className="flex items-center justify-between gap-2 rounded-md bg-white/5 px-3 py-2"
+                                  >
+                                    <div className="min-w-0 flex-1">
+                                      <p className="text-sm font-medium truncate">
+                                        {index + 1}. {track.title}
+                                      </p>
+                                      <p className="text-xs text-muted-foreground">
+                                        {formatDurationMmSs(track.duration || 0)}
+                                        {track.streams != null
+                                          ? ` • ${t('musicLibraryPage.list.streams', { count: track.streams })}`
+                                          : null}
+                                      </p>
+                                    </div>
+                                    <div className="flex shrink-0 items-center gap-0.5">
+                                      <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="text-muted-foreground hover:text-primary"
+                                        title={t('musicLibraryPage.lyrics.manage')}
+                                        onClick={() => navigateToLyrics(track)}
+                                      >
+                                        <ScrollText className="h-4 w-4" />
+                                      </Button>
+                                      <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                          <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon"
+                                            className="text-muted-foreground hover:text-red-500"
+                                            disabled={deletingTrackId === track._id}
+                                            title={t('musicLibraryPage.deleteDialog.confirmMoveToTrash')}
+                                          >
+                                            {deletingTrackId === track._id ? (
+                                              <Loader2 className="h-4 w-4 animate-spin" />
+                                            ) : (
+                                              <Trash2 className="h-4 w-4" />
+                                            )}
+                                          </Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                          <AlertDialogHeader>
+                                            <AlertDialogTitle>
+                                              {t('musicLibraryPage.deleteDialog.titleAlbumTrack')}
+                                            </AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                              {t('musicLibraryPage.deleteDialog.descriptionAlbumTrack', {
+                                                title: track.title,
+                                                album: release.title,
+                                                days: trashRetentionDays,
+                                              })}
+                                            </AlertDialogDescription>
+                                          </AlertDialogHeader>
+                                          <AlertDialogFooter>
+                                            <AlertDialogCancel>
+                                              {t('musicLibraryPage.deleteDialog.cancel')}
+                                            </AlertDialogCancel>
+                                            <AlertDialogAction
+                                              className="bg-destructive hover:bg-destructive/90"
+                                              disabled={deletingTrackId === track._id}
+                                              onClick={() => handleDeleteAlbumTrack(release.id, track)}
+                                            >
+                                              {t('musicLibraryPage.deleteDialog.confirmMoveToTrash')}
+                                            </AlertDialogAction>
+                                          </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                      </AlertDialog>
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          {(() => {
+                            const trashed = getTrashedTracksForAlbum(release.id, release.title);
+                            if (trashed.length === 0) return null;
+                            return (
+                              <div className="border-t border-white/10 pt-4 mt-4">
+                                <h4 className="font-medium text-sm text-muted-foreground mb-1">
+                                  {t('musicLibraryPage.dialog.tracksInTrashTitle')}
+                                </h4>
+                                <p className="text-xs text-muted-foreground mb-3">
+                                  {t('musicLibraryPage.dialog.tracksInTrashHint', {
+                                    days: trashRetentionDays,
+                                  })}
+                                </p>
+                                <ul className="space-y-2">
+                                  {trashed.map((song) => {
+                                    const busy = trashActionId === song._id;
+                                    return (
+                                      <li
+                                        key={song._id}
+                                        className="flex flex-col sm:flex-row sm:items-center gap-2 rounded-md border border-border/60 bg-muted/20 px-3 py-2"
+                                      >
+                                        <div className="min-w-0 flex-1">
+                                          <p className="text-sm font-medium truncate">{song.title}</p>
+                                          <p className="text-xs text-muted-foreground">
+                                            {t('musicLibraryPage.trash.deletedOn', {
+                                              date: formatTrashDate(song.deletedAt),
+                                            })}
+                                          </p>
+                                        </div>
+                                        <div className="flex flex-wrap gap-2 shrink-0">
+                                          <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            disabled={busy || !song.restoreAllowed}
+                                            onClick={() => handleRestoreSong(song, release.id)}
+                                          >
+                                            {busy ? (
+                                              <Loader2 className="h-4 w-4 animate-spin" />
+                                            ) : (
+                                              <>
+                                                <ArchiveRestore className="h-4 w-4 mr-1" />
+                                                {t('musicLibraryPage.trash.restore')}
+                                              </>
+                                            )}
+                                          </Button>
+                                          <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                              <Button
+                                                type="button"
+                                                variant="destructive"
+                                                size="sm"
+                                                disabled={busy}
+                                              >
+                                                {t('musicLibraryPage.trash.deleteForever')}
+                                              </Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                              <AlertDialogHeader>
+                                                <AlertDialogTitle>
+                                                  {t('musicLibraryPage.trash.permanentDialog.title', {
+                                                    title: song.title,
+                                                  })}
+                                                </AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                  {t('musicLibraryPage.trash.permanentDialog.description')}
+                                                </AlertDialogDescription>
+                                              </AlertDialogHeader>
+                                              <AlertDialogFooter>
+                                                <AlertDialogCancel>
+                                                  {t('musicLibraryPage.trash.permanentDialog.cancel')}
+                                                </AlertDialogCancel>
+                                                <AlertDialogAction
+                                                  className="bg-destructive hover:bg-destructive/90"
+                                                  onClick={() =>
+                                                    handlePermanentDeleteSong(song, release.id)
+                                                  }
+                                                >
+                                                  {t('musicLibraryPage.trash.permanentDialog.confirm')}
+                                                </AlertDialogAction>
+                                              </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                          </AlertDialog>
+                                        </div>
+                                      </li>
+                                    );
+                                  })}
+                                </ul>
+                              </div>
+                            );
+                          })()}
+                        </div>
+                      ) : null}
                     </div>
                   </DialogContent>
                 </Dialog>
@@ -752,14 +1119,12 @@ const MusicLibrary = () => {
                     className="text-muted-foreground hover:text-primary"
                     title={t('musicLibraryPage.lyrics.manage')}
                     onClick={() =>
-                      navigate(`/dashboard/music/${release.id}/lyrics`, {
-                        state: {
-                          songId: release.id,
-                          title: release.title,
-                          songUrl: release.songUrl,
-                          durationSec: release.duration,
-                          artwork: release.artwork,
-                        },
+                      navigateToLyrics({
+                        _id: release.id,
+                        title: release.title,
+                        songUrl: release.songUrl,
+                        duration: release.duration,
+                        coverPhotoUrl: release.artwork,
                       })
                     }
                   >

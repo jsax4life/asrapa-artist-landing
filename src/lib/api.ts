@@ -198,6 +198,7 @@ export interface UploadedSong {
   streams: number;
   explicit: boolean;
   lyrics?: string;
+  isSingle?: boolean;
   isDeleted?: boolean;
   createdAt: string;
 }
@@ -224,6 +225,7 @@ export interface DeletedSong extends UploadedSong {
   restoreAllowed: boolean;
   retentionDays?: number;
   album?: {
+    _id?: string;
     title: string;
     isDeleted?: boolean;
   };
@@ -294,6 +296,40 @@ export interface UploadedAlbumsResponse {
   };
   data: {
     albums: UploadedAlbum[];
+  };
+}
+
+export interface AlbumDetailTrack {
+  _id: string;
+  title: string;
+  duration: number;
+  songUrl?: string;
+  coverPhotoUrl?: string;
+  downloads?: number;
+  streams?: number;
+  status?: string;
+}
+
+export interface AlbumDetail {
+  _id: string;
+  title: string;
+  releaseDate: string;
+  coverPhotoUrl: string;
+  caption?: string;
+  status: string;
+  genre?: { _id?: string; name: string };
+  songs: AlbumDetailTrack[];
+  analytics?: {
+    songsCount: number;
+    totalStreams?: number;
+    totalDownloads?: number;
+  };
+}
+
+export interface AlbumDetailResponse {
+  status: string;
+  data: {
+    album: AlbumDetail;
   };
 }
 
@@ -1079,10 +1115,22 @@ export const api = {
     }
   },
 
-  async getUploadedSongs(page: number = 1, limit: number = 20, sort: string = 'createdAt', order: string = 'desc'): Promise<UploadedSongsResponse> {
+  async getUploadedSongs(
+    page: number = 1,
+    limit: number = 20,
+    sort: string = 'createdAt',
+    order: string = 'desc',
+    albumId?: string
+  ): Promise<UploadedSongsResponse> {
     try {
       const response: AxiosResponse<UploadedSongsResponse> = await apiClient.get('/artist/uploaded-songs', {
-        params: { page, limit, sort, order }
+        params: {
+          page,
+          limit,
+          sort,
+          order,
+          ...(albumId ? { album: albumId } : {}),
+        },
       });
       return response.data;
     } catch (error) {
@@ -1111,6 +1159,40 @@ export const api = {
         0
       );
     }
+  },
+
+  async getAlbumById(albumId: string): Promise<AlbumDetailResponse> {
+    try {
+      const response: AxiosResponse<AlbumDetailResponse> = await apiClient.get(
+        `/artist/albums/${albumId}`
+      );
+      return response.data;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError(
+        'Erreur réseau lors du chargement de l\'album. Vérifiez votre connexion.',
+        0
+      );
+    }
+  },
+
+  /** All catalog tracks for one album (paginates uploaded-songs?album=). */
+  async getUploadedSongsForAlbum(albumId: string): Promise<UploadedSong[]> {
+    const songs: UploadedSong[] = [];
+    let page = 1;
+    let hasNextPage = true;
+
+    while (hasNextPage) {
+      const response = await this.getUploadedSongs(page, 100, 'createdAt', 'asc', albumId);
+      songs.push(...(response.data?.songs ?? []));
+      hasNextPage = response.pagination?.hasNextPage ?? false;
+      page += 1;
+      if (page > 50) break;
+    }
+
+    return songs;
   },
 
   async updateSong(songId: string, data: {
