@@ -396,15 +396,15 @@
       },
       "labelledTitle": "a) Artistes labellisés (gérés par une maison de production)",
       "labelledRows": [
-        { "format": "Titre (single)", "price": "5 000 FCFA / titre / an" },
+        { "format": "Titre (single)", "price": "10 000 FCFA / titre / an" },
         { "format": "EP (maximum 5 chansons)", "price": "15 000 FCFA / EP / an" },
         { "format": "Album", "price": "25 000 FCFA / album / an" }
       ],
       "independentTitle": "b) Artistes indépendants",
       "independentRows": [
         { "format": "Titre (single)", "price": "10 000 FCFA / titre / an" },
-        { "format": "EP (maximum 5 chansons)", "price": "25 000 FCFA / EP / an" },
-        { "format": "Album", "price": "50 000 FCFA / album / an" }
+        { "format": "EP (maximum 5 chansons)", "price": "15 000 FCFA / EP / an" },
+        { "format": "Album", "price": "25 000 FCFA / album / an" }
       ],
       "pricingNote": "6.2 Ces montants correspondent à des frais de mise en ligne et de maintien des contenus sur la Plateforme pour une durée d'un (1) an, renouvelables. Ils sont dus indépendamment de la rémunération prévue à l'article 4.2 et sont payables préalablement à la mise en ligne des œuvres concernées."
     },
@@ -1040,11 +1040,11 @@
           },
           {
             "label": "EP",
-            "price": "30 000 FCFA / an"
+            "price": "15 000 FCFA / an"
           },
           {
             "label": "Album",
-            "price": "50 000 FCFA / an"
+            "price": "25 000 FCFA / an"
           }
         ],
         "steps": [
@@ -1059,7 +1059,7 @@
         "rows": [
           {
             "label": "Titre (single)",
-            "price": "5 000 FCFA / an"
+            "price": "10 000 FCFA / an"
           },
           {
             "label": "EP",
